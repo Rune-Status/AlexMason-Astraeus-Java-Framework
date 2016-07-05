@@ -5,6 +5,7 @@ import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.game.model.entity.mob.player.io.PlayerDeserializer;
+import astraeus.net.packet.Sendable;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -49,7 +50,7 @@ public class PlayerChannel {
       /**
        * The channel that will manage the connection for this player.
        */
-      private Optional<Channel> channel = Optional.empty();
+      private Channel channel;
 
       /**
        * The player that this operation will be executed for.
@@ -67,7 +68,7 @@ public class PlayerChannel {
        * @param channel the channel that data will be written to.
        */
       public PlayerChannel(SocketChannel channel) {
-            this.channel = Optional.of(channel);
+            this.channel = channel;
             this.player = new Player(this);
             this.hostAddress = channel.remoteAddress().getAddress().getHostAddress();
       }
@@ -188,10 +189,12 @@ public class PlayerChannel {
       /**
        * Queues {@code out} for this session to be encoded and sent to the client.
        */
-      public void queue(OutgoingPacket out) {
+      public void queue(Sendable out) {
             try {
-                  if (player != null) {
-                        channel.filter($it -> $it.isOpen()).ifPresent($it -> $it.writeAndFlush(out.toPacket(player)));
+                  if (player != null && channel != null) {
+                        Optional<OutgoingPacket> packet = out.writePacket(player);
+
+                        packet.ifPresent(channel::writeAndFlush);
                   }
             } catch (Exception ex) {
                   ex.printStackTrace();
@@ -210,7 +213,7 @@ public class PlayerChannel {
        * 
        * @return the channel for this player.
        */
-      public Optional<Channel> getChannel() {
+      public Channel getChannel() {
             return channel;
       }
 

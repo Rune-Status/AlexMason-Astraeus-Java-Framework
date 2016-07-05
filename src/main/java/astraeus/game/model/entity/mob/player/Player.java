@@ -16,6 +16,7 @@ import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.model.location.Area;
 import astraeus.net.PlayerChannel;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 import astraeus.net.packet.out.*;
 import astraeus.util.LoggerUtils;
 import astraeus.util.StringUtils;
@@ -119,7 +120,7 @@ public class Player extends Mob {
             send(new LogoutPlayerPacket());
             resetEntityInteraction();
             attr().toggle(Attribute.DISCONNECTED);
-            session.getChannel().ifPresent($it -> $it.close());
+            session.getChannel().close();
             World.deregister(this);
             LOGGER.info(String.format("[DEREGISTERED]: [host= %s]", session.getHostAddress()));
       }
@@ -484,7 +485,7 @@ public class Player extends Mob {
        * @param out
        *    The outgoing packet.
        */
-      public void send(final OutgoingPacket out) {
+      public void send(final Sendable out) {
             this.session.queue(out);
       }
 

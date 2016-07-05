@@ -3,24 +3,27 @@ package astraeus.net.packet.out;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class SetWidgetAnimationPacket extends OutgoingPacket {
+import java.util.Optional;
+
+public final class SetWidgetAnimationPacket implements Sendable {
 
 	private final int interfaceId;
 
 	private final int animationId;
 
 	public SetWidgetAnimationPacket(int interfaceId, int animationId) {
-		super(200);
 		this.interfaceId = interfaceId;
 		this.animationId = animationId;
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(200);
 		builder.writeShort(interfaceId)
 		.writeShort(animationId);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

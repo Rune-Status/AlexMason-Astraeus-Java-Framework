@@ -6,13 +6,16 @@ import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
 import astraeus.net.packet.PacketHeader;
+import astraeus.net.packet.Sendable;
+
+import java.util.Optional;
 
 /**
  * Shows a context menu while right clicking another player.
  *
  * @author Seven
  */
-public final class SetPlayerOptionPacket extends OutgoingPacket {
+public final class SetPlayerOptionPacket implements Sendable {
 
 	/**
 	 * The option to display.
@@ -65,18 +68,19 @@ public final class SetPlayerOptionPacket extends OutgoingPacket {
 	 * 		The flag to remove this option.
 	 */
 	public SetPlayerOptionPacket(PlayerOption option, boolean top, boolean disable) {
-		super(104, PacketHeader.VARIABLE_BYTE);
 		this.option = option;
 		this.top = top;
 		this.disable = disable;
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(104, PacketHeader.VARIABLE_BYTE);
+
 		builder.write(option.getSlot(), ByteModification.NEGATION)
 				.write(top ? 1 : 0, ByteModification.ADDITION)
 				.writeString(disable ? "null" : option.getName());
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

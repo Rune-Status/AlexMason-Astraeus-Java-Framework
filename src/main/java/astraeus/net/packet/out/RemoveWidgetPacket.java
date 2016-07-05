@@ -3,16 +3,16 @@ package astraeus.net.packet.out;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class RemoveWidgetPacket extends OutgoingPacket {
+import java.util.Optional;
 
-    public RemoveWidgetPacket() {
-	    super(219);
-    }
+public final class RemoveWidgetPacket implements Sendable {
 
     @Override
-    public GamePacketBuilder writePacket(Player player) {
-	return builder;
+    public Optional<OutgoingPacket> writePacket(Player player) {
+        GamePacketBuilder builder = new GamePacketBuilder(219);
+        return builder.toOutgoingPacket();
     }
 
 }

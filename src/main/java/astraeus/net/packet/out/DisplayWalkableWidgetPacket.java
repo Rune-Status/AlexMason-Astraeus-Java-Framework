@@ -4,20 +4,23 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class DisplayWalkableWidgetPacket extends OutgoingPacket {
+import java.util.Optional;
+
+public final class DisplayWalkableWidgetPacket implements Sendable {
 
 	private final int id;
 
 	public DisplayWalkableWidgetPacket(int id) {
-		super(208);
 		this.id = id;
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(208);
 		builder.writeShort(id, ByteOrder.LITTLE);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

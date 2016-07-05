@@ -4,8 +4,11 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class SetWidgetTextPacket extends OutgoingPacket {
+import java.util.Optional;
+
+public final class SetWidgetTextPacket implements Sendable {
 
 	private final int id;
 
@@ -18,20 +21,18 @@ public final class SetWidgetTextPacket extends OutgoingPacket {
 	}
 
 	public SetWidgetTextPacket(int id, int level, int experience) {
-		super(134);
 		this.id = id;
 		this.level = level;
 		this.experience = experience;
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
-		synchronized (player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+			GamePacketBuilder builder = new GamePacketBuilder(134);
 			builder.write(id);
 			builder.writeInt(experience, ByteOrder.MIDDLE);
 			builder.write(level);
-			return builder;
-		}
+			return builder.toOutgoingPacket();
 	}
 
 }

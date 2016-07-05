@@ -143,7 +143,7 @@ public class PlayerRelation {
 		}
 
 		ignoreList.add(username);
-		player.send(new AddIgnorePacket(ignoreList.size()));
+		player.send(new AddIgnorePacket());
 		updateLists(true);
 
 		if (World.getPlayerByName(name).isPresent()) {

@@ -3,8 +3,11 @@ package astraeus.net.packet.out;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class SpinCameraPacket extends OutgoingPacket {
+import java.util.Optional;
+
+public final class SpinCameraPacket implements Sendable {
 
 	private final int x;
 
@@ -17,7 +20,6 @@ public final class SpinCameraPacket extends OutgoingPacket {
 	private final int angle;
 
 	public SpinCameraPacket(int x, int y, int z, int speed, int angle) {
-		super(177);
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -26,13 +28,14 @@ public final class SpinCameraPacket extends OutgoingPacket {
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(177);
 		builder.write(x)
 		.write(y)
 		.writeShort(z)
 		.write(speed)
 		.write(angle);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

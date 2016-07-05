@@ -8,7 +8,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
 /**
- * The {@link MessageToByteEncoder} implementation that encodes outgoing {@link IncomingPacket}s so they
+ * The {@link MessageToByteEncoder} implementation that encodes outgoing {@link OutgoingPacket}s so they
  * can be sent to a users client.
  * 
  * @author Seven
@@ -16,7 +16,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 public class GamePacketEncoder extends MessageToByteEncoder<OutgoingPacket> {
 
       /**
-       * The encryptor used to encrypt the {@link IncomingPacket}.
+       * The encryptor used to encrypt the {@link OutgoingPacket}.
        */
       private final IsaacCipher encryptor;
 
@@ -41,7 +41,7 @@ public class GamePacketEncoder extends MessageToByteEncoder<OutgoingPacket> {
             } else if (packet.getHeader() == PacketHeader.VARIABLE_SHORT) {
                   out.writeShort(packet.getSize());
             }
-            out.writeBytes(packet.getBuilder().buffer());
+            out.writeBytes(packet.getPayload());
       }
 
 }

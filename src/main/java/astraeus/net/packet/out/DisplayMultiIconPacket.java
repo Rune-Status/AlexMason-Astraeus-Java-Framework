@@ -3,20 +3,23 @@ package astraeus.net.packet.out;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class DisplayMultiIconPacket extends OutgoingPacket {
+import java.util.Optional;
+
+public final class DisplayMultiIconPacket implements Sendable {
 
 	private final boolean hide;
 
 	public DisplayMultiIconPacket(boolean hide) {
-		super(61);
 		this.hide = hide;
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(61);
 		builder.write(hide ? 0 : 1);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

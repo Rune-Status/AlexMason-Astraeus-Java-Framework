@@ -4,25 +4,28 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class SetWidgetOffsetPacket extends OutgoingPacket {
+import java.util.Optional;
+
+public final class SetWidgetOffsetPacket implements Sendable {
 
 	private final int id;
 	private final int x, y;
 
 	public SetWidgetOffsetPacket(int x, int y, int id) {
-		super(70);
 		this.x = x;
 		this.y = y;
 		this.id = id;
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(70);
 		builder.writeShort(x)
 		.writeShort(y, ByteOrder.LITTLE)
 		.writeShort(id, ByteOrder.LITTLE);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

@@ -213,17 +213,6 @@ public class ItemContainerActionPacket implements IncomingPacketListener {
 		int itemSlot = reader.readShort(ByteOrder.LITTLE);
 		int interfaceId = reader.readShort(ByteModification.ADDITION);		
 		int itemId = reader.readShort(ByteOrder.LITTLE);
-
-		synchronized (player) {
-			OutgoingPacket msg = new OutgoingPacket(27, PacketHeader.EMPTY) {
-
-				@Override
-				public GamePacketBuilder writePacket(Player player) {
-					return builder;
-				}
-			};
-			player.send(msg);
-		}
 	}
 
 	/**

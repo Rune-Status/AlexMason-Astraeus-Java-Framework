@@ -6,13 +6,16 @@ import astraeus.game.model.entity.object.GameObject;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
+
+import java.util.Optional;
 
 /**
  * The {@link OutgoingPacket} implementation that removes an object from a users client.
  *
  * @author Seven
  */
-public final class RemoveRegionalObjectPacket extends OutgoingPacket {
+public final class RemoveRegionalObjectPacket implements Sendable {
 
 	/**
 	 * The {@code object} that is being removed.
@@ -27,17 +30,17 @@ public final class RemoveRegionalObjectPacket extends OutgoingPacket {
 	 * @param object The object to remove.
 	 */
 	public RemoveRegionalObjectPacket(GameObject object, boolean normal) {
-		super(101);
 		this.object = object;
 		this.normal = normal;
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
 		player.send(new SetUpdateRegionPacket(object.getLocation()));
+		GamePacketBuilder builder = new GamePacketBuilder(101);
 		builder.write(object.getType() << 2 | (normal ? object.getOrientation() : Direction.getDoorOrientation(object.getEnumeratedOrientation()) & 3), ByteModification.NEGATION)
 				.write(0);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

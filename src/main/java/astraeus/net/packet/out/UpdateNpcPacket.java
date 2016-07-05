@@ -12,25 +12,21 @@ import astraeus.net.codec.AccessType;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
 import astraeus.net.packet.PacketHeader;
+import astraeus.net.packet.Sendable;
 
 import java.util.Iterator;
+import java.util.Optional;
 
 /**
  * The {@link OutgoingPacket} that updates a {@link Npc} in the game world.
  * 
  * @author SeVen
  */
-public final class UpdateNpcPacket extends OutgoingPacket {
-
-      /**
-       * Creates a new {@link UpdateNpcPacket}.
-       */
-      public UpdateNpcPacket() {
-            super(65, PacketHeader.VARIABLE_SHORT);
-      }
+public final class UpdateNpcPacket implements Sendable {
 
       @Override
-      public GamePacketBuilder writePacket(Player player) {
+      public Optional<OutgoingPacket> writePacket(Player player) {
+            GamePacketBuilder builder = new GamePacketBuilder(65, PacketHeader.VARIABLE_SHORT);
             GamePacketBuilder update = new GamePacketBuilder();
 
             builder.initializeAccess(AccessType.BIT);
@@ -84,7 +80,7 @@ public final class UpdateNpcPacket extends OutgoingPacket {
             } else {
                   builder.initializeAccess(AccessType.BYTE);
             }
-            return builder;
+            return builder.toOutgoingPacket();
       }
 
 

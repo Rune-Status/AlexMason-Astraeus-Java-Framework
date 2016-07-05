@@ -3,6 +3,9 @@ package astraeus.net.packet.out;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
+
+import java.util.Optional;
 
 /**
  * The {@link OutgoingPacket} that changes the state of the minimap.
@@ -20,19 +23,19 @@ import astraeus.net.packet.OutgoingPacket;
  * 
  * @author SeVen
  */
-public final class SetMinimapStatePacket extends OutgoingPacket {
+public final class SetMinimapStatePacket implements Sendable {
 
 	private final int state;
 
 	public SetMinimapStatePacket(int state) {
-		super(99);
 		this.state = state;
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(99);
 		builder.write(state);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

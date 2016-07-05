@@ -3,21 +3,15 @@ package astraeus.net.packet.out;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class ResetCameraPositionPacket extends OutgoingPacket {
+import java.util.Optional;
 
-    public ResetCameraPositionPacket() {
-	super(107);
-    }
-
-    @Override
-    public GamePacketBuilder writePacket(Player player) {
-	return builder;
-    }
+public final class ResetCameraPositionPacket implements Sendable {
 
     @Override
-    public int getOpcode() {
-	return 107;
+    public Optional<OutgoingPacket> writePacket(Player player) {
+	    return new GamePacketBuilder(107).toOutgoingPacket();
     }
 
 }

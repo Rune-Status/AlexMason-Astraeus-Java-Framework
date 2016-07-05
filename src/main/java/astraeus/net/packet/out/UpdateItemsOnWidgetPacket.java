@@ -7,21 +7,24 @@ import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
 import astraeus.net.packet.PacketHeader;
+import astraeus.net.packet.Sendable;
 
-public final class UpdateItemsOnWidgetPacket extends OutgoingPacket {
+import java.util.Optional;
+
+public final class UpdateItemsOnWidgetPacket implements Sendable {
 
 	private final int id;
 
 	private final Item[] items;
 
 	public UpdateItemsOnWidgetPacket(int id, Item... items) {
-		super(53, PacketHeader.VARIABLE_SHORT);
 		this.id = id;
 		this.items = items;
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(53, PacketHeader.VARIABLE_SHORT);
 		builder.writeShort(id).writeShort(items.length);
 		for (final Item item : items) {
 			if (item != null) {
@@ -35,7 +38,7 @@ public final class UpdateItemsOnWidgetPacket extends OutgoingPacket {
 				builder.write(0).writeShort(0, ByteModification.ADDITION, ByteOrder.LITTLE);
 			}
 		}
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

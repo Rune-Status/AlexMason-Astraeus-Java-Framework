@@ -3,17 +3,17 @@ package astraeus.net.packet.out;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public class SetRunEnergyPacket extends OutgoingPacket {
+import java.util.Optional;
 
-	public SetRunEnergyPacket() {
-		super(110);
-	}
+public class SetRunEnergyPacket implements Sendable {
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(110);
             builder.write(player.getRunEnergy());
-            return builder;
+            return builder.toOutgoingPacket();
 	}
 
 }

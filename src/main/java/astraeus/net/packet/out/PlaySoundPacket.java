@@ -4,42 +4,45 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class PlaySoundPacket extends OutgoingPacket {
+import java.util.Optional;
 
-	private final int id;
+public final class PlaySoundPacket implements Sendable {
 
-	private final int volume;
+    private final int id;
 
-	private final int delay;
+    private final int volume;
 
-	public PlaySoundPacket(int id) {
-		this(id, 50, 0);
-	}
+    private final int delay;
 
-	public PlaySoundPacket(int id, int volume) {
-		this(id, volume, 0);
-	}
+    public PlaySoundPacket(int id) {
+        this(id, 50, 0);
+    }
 
-	public PlaySoundPacket(int id, int volume, int delay) {
-		super(174);
-		this.id = id;
-		this.volume = volume;
-		this.delay = delay;
-	}
+    public PlaySoundPacket(int id, int volume) {
+        this(id, volume, 0);
+    }
 
-	@Override
-	public GamePacketBuilder writePacket(Player player) {
-		if (!(Boolean) player.attr().get(Attribute.SOUND)) {
-			return builder;
-		}
-		if (id > 0) {
-			builder.writeShort(id)
-			.write(volume)
-			.writeShort(delay);
+    public PlaySoundPacket(int id, int volume, int delay) {
+        this.id = id;
+        this.volume = volume;
+        this.delay = delay;
+    }
 
-		}
-		return builder;
-	}
+    @Override
+    public Optional<OutgoingPacket> writePacket(Player player) {
+        GamePacketBuilder builder = new GamePacketBuilder(174);
 
-}
+        if (!(Boolean) player.attr().get(Attribute.SOUND) || id <= 0) {
+            return Optional.empty();
+        }
+
+            builder.writeShort(id)
+                    .write(volume)
+                    .writeShort(delay);
+
+            return builder.toOutgoingPacket();
+        }
+
+    }

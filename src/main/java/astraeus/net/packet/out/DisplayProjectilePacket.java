@@ -5,8 +5,11 @@ import astraeus.game.model.Projectile;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class DisplayProjectilePacket extends OutgoingPacket {
+import java.util.Optional;
+
+public final class DisplayProjectilePacket implements Sendable {
 
 	private final Projectile projectile;
 	private final int lock;
@@ -15,7 +18,6 @@ public final class DisplayProjectilePacket extends OutgoingPacket {
 	//private final SendAltCoordinates sendAlt;
 
 	public DisplayProjectilePacket(Player player, Projectile projectile, Location location, int lock, byte offsetX, byte offsetY) {
-		super(117);
 		this.projectile = projectile;
 		this.lock = lock;
 		this.offsetX = offsetX;
@@ -28,8 +30,9 @@ public final class DisplayProjectilePacket extends OutgoingPacket {
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
 		//player.send(sendAlt);
+		GamePacketBuilder builder = new GamePacketBuilder(117);
 		builder.write(50)
 		.write(offsetX)
 		.write(offsetY)
@@ -41,7 +44,7 @@ public final class DisplayProjectilePacket extends OutgoingPacket {
 		.writeShort(projectile.getDuration())
 		.write(projectile.getCurve())
 		.write(64);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

@@ -4,13 +4,16 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
+
+import java.util.Optional;
 
 /**
  * The {@link OutgoingPacket} responsible for changing settings on a client.
  * 
  * @author SeVen
  */
-public final class SetWidgetConfigPacket extends OutgoingPacket {
+public final class SetWidgetConfigPacket implements Sendable {
 
 	/**
 	 * The configuration id.
@@ -32,7 +35,6 @@ public final class SetWidgetConfigPacket extends OutgoingPacket {
 	 *            The value to change.
 	 */
 	public SetWidgetConfigPacket(int id, int value) {
-		super(36);
 		this.id = id;
 		this.value = value;
 	}
@@ -48,10 +50,11 @@ public final class SetWidgetConfigPacket extends OutgoingPacket {
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(36);
 		builder.writeShort(id, ByteOrder.LITTLE)
 		.write(value);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

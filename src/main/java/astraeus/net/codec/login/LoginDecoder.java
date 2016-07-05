@@ -1,5 +1,6 @@
 package astraeus.net.codec.login;
 
+import astraeus.net.codec.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
@@ -230,12 +231,12 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 				@SuppressWarnings("unused")
 				int uid = rsaBuffer.readInt();
 
-				GamePacketBuilder builder = new GamePacketBuilder(rsaBuffer);
+				ByteBuf buf = Unpooled.wrappedBuffer(rsaBuffer);
 
 				// universal unique identifier, rate of collision is so low its said to be unique.
-				String uuid = builder.getString();
-				String username = builder.getString();
-				String password = builder.getString();
+				String uuid = ByteBufUtils.readString(buf);
+				String username = ByteBufUtils.readString(buf);
+				String password = ByteBufUtils.readString(buf);
 
 				if (password.length() < 6 || password.length() > 20 || username.isEmpty() || username.length() > 12) {
 					sendResponseCode(ctx, LoginResponse.INVALID_CREDENTIALS);

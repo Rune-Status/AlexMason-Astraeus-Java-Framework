@@ -5,13 +5,16 @@ import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
+
+import java.util.Optional;
 
 /**
  * The {@link OutgoingPacket} that plays a song.
  * 
  * @author SeVen
  */
-public final class PlaySongPacket extends OutgoingPacket {
+public final class PlaySongPacket implements Sendable {
 
 	/**
 	 * The id of the song.
@@ -25,17 +28,17 @@ public final class PlaySongPacket extends OutgoingPacket {
 	 *            The id of the song.
 	 */
 	public PlaySongPacket(int id) {
-		super(74);
 		this.id = id;
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(74);
 		if (!(Boolean) player.attr().get(Attribute.MUSIC) || id == -1) {
-			return builder;
+			return Optional.empty();
 		}
 		builder.writeShort(id, ByteOrder.LITTLE);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

@@ -3,8 +3,11 @@ package astraeus.net.packet.out;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class DisplayLocationHintIconOutgoingPacket extends OutgoingPacket {
+import java.util.Optional;
+
+public final class DisplayLocationHintIconOutgoingPacket implements Sendable {
 
 	/**
 	 * The x coordinate for this location.
@@ -43,7 +46,6 @@ public final class DisplayLocationHintIconOutgoingPacket extends OutgoingPacket 
 	 * 
 	 */
 	public DisplayLocationHintIconOutgoingPacket(int x, int y, int height, int direction) {
-		super(254);
 		this.x = x;
 		this.y = y;
 		this.height = height;
@@ -51,12 +53,13 @@ public final class DisplayLocationHintIconOutgoingPacket extends OutgoingPacket 
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(254);
 		builder.write(direction)
 		.writeShort(x)
 		.writeShort(y)
 		.write(height);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

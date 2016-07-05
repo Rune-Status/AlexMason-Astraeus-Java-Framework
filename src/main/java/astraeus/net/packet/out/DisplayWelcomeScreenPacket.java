@@ -5,8 +5,11 @@ import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class DisplayWelcomeScreenPacket extends OutgoingPacket {
+import java.util.Optional;
+
+public final class DisplayWelcomeScreenPacket implements Sendable {
 
     private final int days;
 
@@ -19,23 +22,23 @@ public final class DisplayWelcomeScreenPacket extends OutgoingPacket {
     private final int daysSince;
 
     public DisplayWelcomeScreenPacket(int days, int unreadMessages, int member, int ip, int daysSince) {
-	super(176);
-	this.days = days;
-	this.unreadMessages = unreadMessages;
-	this.member = member;
-	this.ip = ip;
-	this.daysSince = daysSince;
+        this.days = days;
+        this.unreadMessages = unreadMessages;
+        this.member = member;
+        this.ip = ip;
+        this.daysSince = daysSince;
     }
 
     @Override
-    public GamePacketBuilder writePacket(Player player) {
-	builder.write(days, ByteModification.NEGATION)
-	.writeShort(unreadMessages, ByteModification.ADDITION)
-	.write(member)
-	.writeInt(ip, ByteOrder.MIDDLE)
-	.writeShort(daysSince);
-	
-	return builder;
+    public Optional<OutgoingPacket> writePacket(Player player) {
+        GamePacketBuilder builder = new GamePacketBuilder(176);
+        builder.write(days, ByteModification.NEGATION)
+                .writeShort(unreadMessages, ByteModification.ADDITION)
+                .write(member)
+                .writeInt(ip, ByteOrder.MIDDLE)
+                .writeShort(daysSince);
+
+        return builder.toOutgoingPacket();
     }
 
 }

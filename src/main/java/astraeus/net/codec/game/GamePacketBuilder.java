@@ -4,8 +4,12 @@ import astraeus.net.codec.AccessType;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.ProtocolConstants;
+import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.PacketHeader;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+
+import java.util.Optional;
 
 /**
  * Functions as a dynamic buffer wrapper backed by a {@link ByteBuf} that is used for reading and writing data.
@@ -28,23 +32,26 @@ public final class GamePacketBuilder {
 	/**
 	 * The buffer used to write the packet information.
 	 */
-	private ByteBuf buffer;
+	private ByteBuf buffer = Unpooled.buffer(DEFAULT_CAPACITY);
+
+	private int opcode;
+
+	private PacketHeader header;
 
 	/**
 	 * The GamePacketBuilder constructor.
 	 */
 	public GamePacketBuilder() {
-		this(Unpooled.buffer(DEFAULT_CAPACITY));
+		this(-1, PacketHeader.EMPTY);
 	}
 
-	/**
-	 * Creates a new {@link GamePacketBuilder} from an existing {@link ByteBuf}.
-	 *
-	 * @param buffer
-	 * 		The buffer to reference.
-	 */
-	public GamePacketBuilder(ByteBuf buffer) {
-		this.buffer = buffer;
+	public GamePacketBuilder(int opcode) {
+		this(opcode, PacketHeader.FIXED);
+	}
+
+	public GamePacketBuilder(int opcode, PacketHeader header) {
+		this.opcode = opcode;
+		this.header = header;
 	}
 
 	/**
@@ -496,4 +503,9 @@ public final class GamePacketBuilder {
 		buffer.writeBytes(bytes, offset, length);
 		return this;
 	}
+
+	public Optional<OutgoingPacket> toOutgoingPacket() {
+		return Optional.ofNullable(new OutgoingPacket(opcode, header, buffer));
+	}
+
 }

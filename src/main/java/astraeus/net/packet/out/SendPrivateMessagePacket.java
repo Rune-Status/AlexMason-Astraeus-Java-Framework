@@ -5,8 +5,11 @@ import astraeus.game.model.entity.mob.player.PlayerRights;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
 import astraeus.net.packet.PacketHeader;
+import astraeus.net.packet.Sendable;
 
-public final class SendPrivateMessagePacket extends OutgoingPacket {
+import java.util.Optional;
+
+public final class SendPrivateMessagePacket implements Sendable {
 
     private final long name;
 
@@ -17,20 +20,20 @@ public final class SendPrivateMessagePacket extends OutgoingPacket {
     private final int size;
 
     public SendPrivateMessagePacket(long name, PlayerRights rights, byte[] message, int size) {
-	super(196, PacketHeader.VARIABLE_BYTE);
-	this.name = name;
-	this.rights = rights;
-	this.message = message;
-	this.size = size;
+        this.name = name;
+        this.rights = rights;
+        this.message = message;
+        this.size = size;
     }
 
     @Override
-    public GamePacketBuilder writePacket(Player player) {
-	builder.writeLong(name)
-.writeInt(player.lastMessage++)
-	.write(rights.getProtocolValue())
-	.writeBytes(message, size);
-	return builder;
+    public Optional<OutgoingPacket> writePacket(Player player) {
+        GamePacketBuilder builder = new GamePacketBuilder(196, PacketHeader.VARIABLE_BYTE);
+        builder.writeLong(name)
+                .writeInt(player.lastMessage++)
+                .write(rights.getProtocolValue())
+                .writeBytes(message, size);
+        return builder.toOutgoingPacket();
     }
 
 }

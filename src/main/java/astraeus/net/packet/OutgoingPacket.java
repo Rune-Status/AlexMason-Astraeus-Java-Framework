@@ -1,40 +1,28 @@
 package astraeus.net.packet;
 
-import astraeus.game.model.entity.mob.player.Player;
-import astraeus.net.codec.game.GamePacketBuilder;
+import io.netty.buffer.ByteBuf;
 
 /**
  * Represents an outgoing packet that can be sent to the client.
  * 
  * @author Seven
  */
-public abstract class OutgoingPacket {
+public class OutgoingPacket {
 
 	/**
 	 * The opcode of this packet.
 	 */
-	protected final int opcode;
+	private final int opcode;
 
 	/**
 	 * The header for this packet.
 	 */
-	protected final PacketHeader header;
+	private final PacketHeader header;
 
 	/**
-	 * The builder to construct the packet.
+	 * The payload of this packet.
 	 */
-	protected final GamePacketBuilder builder;
-
-	/**
-	 * Creates a new {@link OutgoingPacket} with a standard {@link PacketHeader}
-	 * of {@code FIXED}.
-	 * 
-	 * @param opcode
-	 *            The opcode of this packet.
-	 */
-	public OutgoingPacket(int opcode) {
-		this(opcode, PacketHeader.FIXED);
-	}
+	private final ByteBuf payload;
 
 	/**
 	 * Creates a new {@link OutgoingPacket}.
@@ -45,32 +33,11 @@ public abstract class OutgoingPacket {
 	 * @param header
 	 * 		The header for this packet.
 	 */
-	public OutgoingPacket(int opcode, PacketHeader header) {
+	public OutgoingPacket(int opcode, PacketHeader header, ByteBuf payload) {
 		this.opcode = opcode;
 		this.header = header;
-		this.builder = new GamePacketBuilder();
+		this.payload = payload;
 	}
-
-	/**
-	 * Packs the data into the buffer and prepares this packet to be sent through a {@link Player}s channel.
-	 *
-	 * @param player
-	 * 		The player to send this packet for.
-	 *
-	 * 	@return The instance of this packet.
-	 */
-	public OutgoingPacket toPacket(Player player) {
-		writePacket(player);
-		return this;
-	}
-
-	/**
-	 * Encodes the packets to binary.
-	 *
-	 * @param player
-	 *            The player that is encoding this packet.
-	 */
-	public abstract GamePacketBuilder writePacket(Player player);
 
 	/**
 	 * Gets the header of this packet.
@@ -91,12 +58,12 @@ public abstract class OutgoingPacket {
 	}
 
 	/**
-	 * Gets the buffer for this packet.
+	 * The buffer that contains the data for this packet.
 	 *
-	 * @return The buffer.
+	 * @retunr The payload.
 	 */
-	public GamePacketBuilder getBuilder() {
-		return builder;
+	public ByteBuf getPayload() {
+		return payload;
 	}
 
 	/**
@@ -105,7 +72,7 @@ public abstract class OutgoingPacket {
 	 * @return The packet size.
 	 */
 	public int getSize() {
-		return builder.buffer().readableBytes();
+		return payload.readableBytes();
 	}
 
 }

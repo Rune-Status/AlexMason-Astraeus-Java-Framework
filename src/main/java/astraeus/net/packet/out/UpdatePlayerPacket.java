@@ -10,33 +10,30 @@ import astraeus.net.codec.AccessType;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
 import astraeus.net.packet.PacketHeader;
+import astraeus.net.packet.Sendable;
 
 import java.util.Iterator;
+import java.util.Optional;
 
 /**
  * The {@link OutgoingPacket} that will update a player in the game world.
  * 
  * @author SeVen
  */
-public final class UpdatePlayerPacket extends OutgoingPacket {
+public final class UpdatePlayerPacket implements Sendable {
 
       /**
        * The max amount of players that can be added per cycle.
        */
       private static final int MAX_NEW_PLAYERS_PER_CYCLE = 25;
 
-      /**
-       * Creates a new {@link UpdatePlayerPacket}.
-       */
-      public UpdatePlayerPacket() {
-            super(81, PacketHeader.VARIABLE_SHORT);
-      }
-
       @Override
-      public GamePacketBuilder writePacket(Player player) {
+      public Optional<OutgoingPacket> writePacket(Player player) {
             if (player.isRegionChange() || player.isTeleporting()) {
                   player.send(new UpdateMapRegion());
             }
+
+            GamePacketBuilder builder = new GamePacketBuilder(81, PacketHeader.VARIABLE_SHORT);
             
             GamePacketBuilder update = new GamePacketBuilder();
 
@@ -100,7 +97,7 @@ public final class UpdatePlayerPacket extends OutgoingPacket {
             } else {
                   builder.initializeAccess(AccessType.BYTE);
             }
-            return builder;
+            return builder.toOutgoingPacket();
       }
 
       /**

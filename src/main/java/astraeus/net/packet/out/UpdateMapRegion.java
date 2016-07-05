@@ -4,19 +4,19 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class UpdateMapRegion extends OutgoingPacket {
+import java.util.Optional;
 
-	public UpdateMapRegion() {
-		super(73);
-	}
+public final class UpdateMapRegion implements Sendable {
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(73);
 		player.getLastLocation().setLocation(player.getLocation());
 		builder.writeShort(player.getLocation().getRegionalX() + 6, ByteModification.ADDITION)
 		.writeShort(player.getLocation().getRegionalY() + 6);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

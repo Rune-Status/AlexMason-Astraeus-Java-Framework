@@ -4,20 +4,23 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class DisplayChatBoxWidgetPacket extends OutgoingPacket {
+import java.util.Optional;
+
+public final class DisplayChatBoxWidgetPacket implements Sendable {
 
 	private final int interfaceId;
 
 	public DisplayChatBoxWidgetPacket(int interfaceId) {
-		super(164);
 		this.interfaceId = interfaceId;
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(164);
 		builder.writeShort(interfaceId, ByteOrder.LITTLE);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

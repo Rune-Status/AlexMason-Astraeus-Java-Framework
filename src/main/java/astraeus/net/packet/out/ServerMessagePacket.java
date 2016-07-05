@@ -4,13 +4,16 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
 import astraeus.net.packet.PacketHeader;
+import astraeus.net.packet.Sendable;
+
+import java.util.Optional;
 
 /**
  * The {@link OutgoingPacket} that sends a message to a {@link Player}s chatbox.
  * 
  * @author SeVen
  */
-public final class ServerMessagePacket extends OutgoingPacket {
+public final class ServerMessagePacket implements Sendable {
 
 	/**
 	 * The message to send.
@@ -21,14 +24,14 @@ public final class ServerMessagePacket extends OutgoingPacket {
 	 * Creates a new {@link ServerMessagePacket}.
 	 */
 	public ServerMessagePacket(String message) {
-		super(253, PacketHeader.VARIABLE_BYTE);
 		this.message = message;
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(253, PacketHeader.VARIABLE_BYTE);
 		builder.writeString(message);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

@@ -5,20 +5,23 @@ import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class SetPlayerHeadModelOnWidgetPacket extends OutgoingPacket {
+import java.util.Optional;
+
+public final class SetPlayerHeadModelOnWidgetPacket implements Sendable {
 
 	private final int interfaceId;
 
 	public SetPlayerHeadModelOnWidgetPacket(int interfaceId) {
-		super(185);
 		this.interfaceId = interfaceId;
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(185);
 		builder.writeShort(interfaceId, ByteModification.ADDITION, ByteOrder.LITTLE);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

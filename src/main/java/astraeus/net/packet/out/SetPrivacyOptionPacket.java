@@ -3,8 +3,11 @@ package astraeus.net.packet.out;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class SetPrivacyOptionPacket extends OutgoingPacket {
+import java.util.Optional;
+
+public final class SetPrivacyOptionPacket implements Sendable {
 
     private final int publicChat;
 
@@ -13,19 +16,20 @@ public final class SetPrivacyOptionPacket extends OutgoingPacket {
     private final int tradeChat;
 
     public SetPrivacyOptionPacket(int publicChat, int privateChat, int tradeChat) {
-	super(206);
-	this.publicChat = publicChat;
-	this.privateChat = privateChat;
-	this.tradeChat = tradeChat;
+        this.publicChat = publicChat;
+        this.privateChat = privateChat;
+        this.tradeChat = tradeChat;
     }
 
     @Override
-    public GamePacketBuilder writePacket(Player player) {
-	builder.write(publicChat)
-	.write(privateChat)
-	.write(tradeChat);
+    public Optional<OutgoingPacket> writePacket(Player player) {
+        GamePacketBuilder builder = new GamePacketBuilder(206);
 
-	return builder;
+        builder.write(publicChat)
+                .write(privateChat)
+                .write(tradeChat);
+
+        return builder.toOutgoingPacket();
     }
 
 }

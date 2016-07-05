@@ -5,18 +5,20 @@ import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
 
-public final class SetPlayerSlotPacket extends OutgoingPacket {
+import java.util.Optional;
 
-	public SetPlayerSlotPacket() {
-		super(249);
-	}
+public final class SetPlayerSlotPacket implements Sendable {
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+
+		GamePacketBuilder builder = new GamePacketBuilder(249);
+
 		builder.write(1, ByteModification.ADDITION)
 		.writeShort(player.getSlot(), ByteModification.ADDITION, ByteOrder.LITTLE);
-		return builder;
+		return builder.toOutgoingPacket();
 	}
 
 }

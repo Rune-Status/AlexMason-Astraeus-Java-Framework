@@ -4,6 +4,9 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
+import astraeus.net.packet.Sendable;
+
+import java.util.Optional;
 
 /**
  * The {@link OutgoingPacket} that changes the settings/toggle on a client. This packet is
@@ -11,7 +14,7 @@ import astraeus.net.packet.OutgoingPacket;
  * 
  * @author SeVen
  */
-public final class SetToggleOnWidgetPacket extends OutgoingPacket {
+public final class SetToggleOnWidgetPacket implements Sendable {
 
 	/**
 	 * The configuration id.
@@ -24,7 +27,7 @@ public final class SetToggleOnWidgetPacket extends OutgoingPacket {
 	private final int value;	
 
 	/**
-	 * Creates a new {@link SendToggle).
+	 * Creates a new {@link SetToggleOnWidgetPacket).
 	 * 
 	 * @param id
 	 * 		The configuration id.
@@ -33,16 +36,16 @@ public final class SetToggleOnWidgetPacket extends OutgoingPacket {
 	 * 		The value to change.
 	 */
 	public SetToggleOnWidgetPacket(int id, int value) {
-		super(87);
 		this.id = id;
 		this.value = value;		
 	}
 
 	@Override
-	public GamePacketBuilder writePacket(Player player) {
+	public Optional<OutgoingPacket> writePacket(Player player) {
+		GamePacketBuilder builder = new GamePacketBuilder(87);
 	    builder.writeShort(id, ByteOrder.LITTLE)
 	    .writeInt(value, ByteOrder.MIDDLE);
-	    return builder;
+	    return builder.toOutgoingPacket();
 	}
 
 }
