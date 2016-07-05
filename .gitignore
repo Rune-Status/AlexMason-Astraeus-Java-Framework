@@ -1,0 +1,10 @@
+/target/
+/.classpath
+/.project
+/.idea/
+/build/
+/bin/
+/Data/characters/containers/
+/Data/characters/details/
+/.settings/
+
