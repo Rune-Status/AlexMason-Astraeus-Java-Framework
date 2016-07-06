@@ -59,7 +59,14 @@ public final class PlayerContainer {
      * Serializes a {@code player}.
      */
     public void serialize(Player player) throws IOException {
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("./Data/characters/containers/" + player.getUsername() + ".json", false))) {
+    	
+    	final File dir = new File("./Data/characters/containers/");
+    	
+    	if (!dir.exists()) {
+    		dir.mkdirs();
+    	}
+    	
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(dir.toString() + File.separator + player.getUsername() + ".json", false))) {
             writer.write(PlayerSerializer.GSON.toJson(this));
         }
     }

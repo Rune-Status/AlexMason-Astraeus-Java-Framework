@@ -161,9 +161,16 @@ public final class PlayerDetails {
      */
     public void serialize() throws Exception {
         BufferedWriter writer = null;
+        
+        final File dir = new File("./Data/characters/details/");
+        
+        if (!dir.exists()) {
+        	dir.mkdirs();
+        }        
+        
         try {
             writer = new BufferedWriter(new FileWriter(
-                    "./Data/characters/details/" + username + ".json", false));
+                    dir.toString() + File.separator + username + ".json", false));
             writer.write(PlayerSerializer.GSON.toJson(this));
             writer.flush();
         } finally {
