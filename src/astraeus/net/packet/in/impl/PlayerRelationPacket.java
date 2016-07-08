@@ -2,7 +2,7 @@ package astraeus.net.packet.in.impl;
 
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.in.IncomingPacketListener;
+import astraeus.net.packet.Receivable;
 import astraeus.net.codec.game.GamePacketReader;
 import astraeus.net.packet.out.ServerMessagePacket;
 
@@ -12,7 +12,7 @@ import astraeus.net.packet.out.ServerMessagePacket;
  * @author Seven
  */
 @IncomingPacket.IncomingPacketOpcode({ IncomingPacket.ADD_FRIEND, IncomingPacket.PRIVATE_MESSAGE, IncomingPacket.REMOVE_FRIEND, IncomingPacket.REMOVE_IGNORE, IncomingPacket.PRIVACY_OPTIONS, IncomingPacket.ADD_IGNORE })
-public class PlayerRelationPacket implements IncomingPacketListener {
+public class PlayerRelationPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {

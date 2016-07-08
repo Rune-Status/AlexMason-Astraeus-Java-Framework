@@ -7,7 +7,7 @@ import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
 import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.in.IncomingPacketListener;
+import astraeus.net.packet.Receivable;
 
 /**
  * The {@link IncomingPacket}'s responsible for player movement.
@@ -15,7 +15,7 @@ import astraeus.net.packet.in.IncomingPacketListener;
  * @author SeVen
  */
 @IncomingPacket.IncomingPacketOpcode({ IncomingPacket.WALK_ON_COMMAND, IncomingPacket.REGULAR_WALK, IncomingPacket.MAP_WALK })
-public class MovementPacket implements IncomingPacketListener {
+public class MovementPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {

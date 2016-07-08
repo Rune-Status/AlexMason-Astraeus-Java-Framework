@@ -3,7 +3,7 @@ package astraeus.net.packet.in.impl;
 import astraeus.game.event.impl.MagicOnItemEvent;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.in.IncomingPacketListener;
+import astraeus.net.packet.Receivable;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.game.GamePacketReader;
 
@@ -13,7 +13,7 @@ import astraeus.net.codec.game.GamePacketReader;
  * @author SeVen
  */
 @IncomingPacket.IncomingPacketOpcode(IncomingPacket.MAGIC_ON_ITEMS)
-public final class MagicOnItemPacket implements IncomingPacketListener {
+public final class MagicOnItemPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {

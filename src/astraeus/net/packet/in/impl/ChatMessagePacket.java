@@ -6,7 +6,7 @@ import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.game.GamePacketReader;
 import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.in.IncomingPacketListener;
+import astraeus.net.packet.Receivable;
 
 import java.util.logging.Logger;
 
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author SeVen
  */
 @IncomingPacket.IncomingPacketOpcode(IncomingPacket.CHAT)
-public class ChatMessagePacket implements IncomingPacketListener {
+public class ChatMessagePacket implements Receivable {
 
 	public static final Logger logger = Logger.getLogger(ChatMessagePacket.class.getName());
 

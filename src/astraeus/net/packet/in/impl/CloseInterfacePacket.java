@@ -4,8 +4,8 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
 import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.packet.IncomingPacket;
+import astraeus.net.packet.Receivable;
 import astraeus.net.packet.IncomingPacket.IncomingPacketOpcode;
-import astraeus.net.packet.in.IncomingPacketListener;
 import astraeus.net.packet.out.ServerMessagePacket;
 
 /**
@@ -14,7 +14,7 @@ import astraeus.net.packet.out.ServerMessagePacket;
  * @author SeVen
  */
 @IncomingPacketOpcode(IncomingPacket.CLOSE_WINDOW)
-public class CloseInterfacePacket implements IncomingPacketListener {
+public class CloseInterfacePacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {

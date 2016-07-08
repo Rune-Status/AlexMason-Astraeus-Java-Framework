@@ -1,7 +1,6 @@
-package astraeus.net.packet.in;
+package astraeus.net.packet;
 
 import astraeus.game.model.entity.mob.player.Player;
-import astraeus.net.packet.IncomingPacket;
 
 /**
  * The interface that allows any implementing {@Packet}s. The ability to be
@@ -9,7 +8,8 @@ import astraeus.net.packet.IncomingPacket;
  * 
  * @author SeVen
  */
-public interface IncomingPacketListener {
+@FunctionalInterface
+public interface Receivable {
 
     /**
      * Handles the packet that has just been received.

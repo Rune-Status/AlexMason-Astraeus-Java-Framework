@@ -5,7 +5,7 @@ import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.game.model.entity.object.GameObjects;
 import astraeus.game.model.entity.object.impl.DoorUtils;
 import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.in.IncomingPacketListener;
+import astraeus.net.packet.Receivable;
 
 /**
  * The {@link IncomingPacket}'s responsible for changing a players region. Used
@@ -15,7 +15,7 @@ import astraeus.net.packet.in.IncomingPacketListener;
  * @author SeVen
  */
 @IncomingPacket.IncomingPacketOpcode({IncomingPacket.LOADED_REGION, IncomingPacket.ENTER_REGION})
-public class RegionChangePacket implements IncomingPacketListener {
+public class RegionChangePacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {

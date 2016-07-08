@@ -10,7 +10,7 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
 import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.in.IncomingPacketListener;
+import astraeus.net.packet.Receivable;
 import astraeus.net.packet.out.ServerMessagePacket;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
@@ -24,7 +24,7 @@ import astraeus.net.codec.game.GamePacketReader;
 @IncomingPacket.IncomingPacketOpcode({IncomingPacket.ATTACK_NPC, IncomingPacket.MAGIC_ON_NPC,
         IncomingPacket.NPC_ACTION_1, IncomingPacket.NPC_ACTION_2,
         IncomingPacket.NPC_ACTION_3})
-public class NpcInteractionPacket implements IncomingPacketListener {
+public class NpcInteractionPacket implements Receivable {
 
       @Override
       public void handlePacket(final Player player, IncomingPacket packet) {

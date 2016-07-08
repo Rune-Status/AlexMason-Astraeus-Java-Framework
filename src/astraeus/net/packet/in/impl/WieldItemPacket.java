@@ -10,7 +10,7 @@ import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.game.GamePacketReader;
 import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.in.IncomingPacketListener;
+import astraeus.net.packet.Receivable;
 import astraeus.net.packet.out.ServerMessagePacket;
 
 /**
@@ -19,7 +19,7 @@ import astraeus.net.packet.out.ServerMessagePacket;
  * @author SeVen
  */
 @IncomingPacket.IncomingPacketOpcode(41)
-public class WieldItemPacket implements IncomingPacketListener {
+public class WieldItemPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {

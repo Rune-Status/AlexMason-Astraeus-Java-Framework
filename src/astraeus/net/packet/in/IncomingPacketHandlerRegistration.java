@@ -3,6 +3,7 @@ package astraeus.net.packet.in;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.packet.IncomingPacket;
+import astraeus.net.packet.Receivable;
 import astraeus.net.packet.in.impl.*;
 
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public final class IncomingPacketHandlerRegistration {
       /**
        * The map of {@IncomingPacket} opcodes mapped to their listener.
        */
-      private final static Map<Integer, IncomingPacketListener> INCOMING_PACKETS = new HashMap<>();
+      private final static Map<Integer, Receivable> INCOMING_PACKETS = new HashMap<>();
 
       /**
        * Intercepts an {@link IncomingPacket} for a {@code player} and dispatches the packet to the
@@ -37,7 +38,7 @@ public final class IncomingPacketHandlerRegistration {
        * @param packet The incoming packet to intervene.
        */
       public static final void dispatchToHandler(Player player, IncomingPacket packet) {
-            Optional<IncomingPacketListener> listener =
+            Optional<Receivable> listener =
                         Optional.ofNullable(INCOMING_PACKETS.get(packet.getOpcode()));
 
             if ((boolean) player.attr().get(Attribute.DEBUG_NETWORK)) {
@@ -52,7 +53,7 @@ public final class IncomingPacketHandlerRegistration {
        * 
        * @param listener The handler to register.
        */
-      private static final void registerHandler(IncomingPacketListener listener) {
+      private static final void registerHandler(Receivable listener) {
             final IncomingPacket.IncomingPacketOpcode annotation =
                         listener.getClass().getAnnotation(IncomingPacket.IncomingPacketOpcode.class);
             if (annotation != null) {

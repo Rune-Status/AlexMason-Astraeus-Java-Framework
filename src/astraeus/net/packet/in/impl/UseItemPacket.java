@@ -7,7 +7,7 @@ import astraeus.game.model.entity.mob.player.PlayerRights;
 import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.game.model.entity.object.GameObject;
 import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.in.IncomingPacketListener;
+import astraeus.net.packet.Receivable;
 import astraeus.net.packet.out.ServerMessagePacket;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
@@ -19,7 +19,7 @@ import astraeus.net.codec.game.GamePacketReader;
  * @author SeVen
  */
 @IncomingPacket.IncomingPacketOpcode({ IncomingPacket.ITEM_ON_NPC, IncomingPacket.ITEM_ON_ITEM, IncomingPacket.ITEM_ON_OBJECT, IncomingPacket.ITEM_ON_GROUND_ITEM, IncomingPacket.ITEM_ON_PLAYER })
-public class UseItemPacket implements IncomingPacketListener {
+public class UseItemPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {

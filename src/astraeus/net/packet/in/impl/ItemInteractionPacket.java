@@ -8,7 +8,7 @@ import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
 import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.in.IncomingPacketListener;
+import astraeus.net.packet.Receivable;
 
 /**
  * The {@link IncomingPacket} responsible for clicking the actions of an
@@ -17,7 +17,7 @@ import astraeus.net.packet.in.IncomingPacketListener;
  * @author SeVen
  */
 @IncomingPacket.IncomingPacketOpcode({ 16, 75, 122 })
-public class ItemInteractionPacket implements IncomingPacketListener {
+public class ItemInteractionPacket implements Receivable {
 
 	/**
 	 * The opcode for an items first action.

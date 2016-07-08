@@ -8,9 +8,9 @@ import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.packet.IncomingPacket;
+import astraeus.net.packet.Receivable;
 import astraeus.net.packet.IncomingPacket.IncomingPacketOpcode;
 import astraeus.net.codec.game.GamePacketReader;
-import astraeus.net.packet.in.IncomingPacketListener;
 import astraeus.net.packet.out.ServerMessagePacket;
 
 /**
@@ -23,7 +23,7 @@ import astraeus.net.packet.out.ServerMessagePacket;
  * @author Seven
  */
 @IncomingPacketOpcode({ 145, 117, 43, 129, 135, 208 })
-public class ItemContainerActionPacket implements IncomingPacketListener {
+public class ItemContainerActionPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {

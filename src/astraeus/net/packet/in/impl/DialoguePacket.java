@@ -2,8 +2,8 @@ package astraeus.net.packet.in.impl;
 
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.packet.IncomingPacket;
+import astraeus.net.packet.Receivable;
 import astraeus.net.packet.IncomingPacket.IncomingPacketOpcode;
-import astraeus.net.packet.in.IncomingPacketListener;
 
 /**
  * The {@link IncomingPacket} responsible for dialogues.
@@ -11,7 +11,7 @@ import astraeus.net.packet.in.IncomingPacketListener;
  * @author SeVen
  */
 @IncomingPacketOpcode(40)
-public class DialoguePacket implements IncomingPacketListener {
+public class DialoguePacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {

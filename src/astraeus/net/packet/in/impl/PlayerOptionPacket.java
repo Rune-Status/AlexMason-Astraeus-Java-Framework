@@ -7,7 +7,7 @@ import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
 import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.in.IncomingPacketListener;
+import astraeus.net.packet.Receivable;
 import astraeus.net.packet.out.ServerMessagePacket;
 
 /**
@@ -16,7 +16,7 @@ import astraeus.net.packet.out.ServerMessagePacket;
  * @author SeVen
  */
 @IncomingPacket.IncomingPacketOpcode({ IncomingPacket.TRADE_REQUEST, IncomingPacket.TRADE_ANSWER, IncomingPacket.CHALLENGE_PLAYER, IncomingPacket.FOLLOW_PLAYER, IncomingPacket.MAGIC_ON_PLAYER, IncomingPacket.ATTACK_PLAYER })
-public class PlayerOptionPacket implements IncomingPacketListener {
+public class PlayerOptionPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {

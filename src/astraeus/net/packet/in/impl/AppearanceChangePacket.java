@@ -6,7 +6,7 @@ import astraeus.game.model.entity.mob.player.PlayerRights;
 import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.codec.game.GamePacketReader;
 import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.in.IncomingPacketListener;
+import astraeus.net.packet.Receivable;
 import astraeus.net.packet.out.RemoveWidgetPacket;
 import astraeus.net.packet.out.ServerMessagePacket;
 
@@ -16,7 +16,7 @@ import astraeus.net.packet.out.ServerMessagePacket;
  * @author SeVen
  */
 @IncomingPacket.IncomingPacketOpcode(IncomingPacket.CHARACTER_DESIGN)
-public class AppearanceChangePacket implements IncomingPacketListener {
+public class AppearanceChangePacket implements Receivable {
 
 	/**
 	 * Determines if a player chose valid appearance values.

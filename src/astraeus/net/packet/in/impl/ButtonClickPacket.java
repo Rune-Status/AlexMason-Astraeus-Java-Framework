@@ -3,7 +3,7 @@ package astraeus.net.packet.in.impl;
 import astraeus.game.event.impl.ButtonActionEvent;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.in.IncomingPacketListener;
+import astraeus.net.packet.Receivable;
 import astraeus.net.codec.game.GamePacketReader;
 
 /**
@@ -12,7 +12,7 @@ import astraeus.net.codec.game.GamePacketReader;
  * @author SeVen
  */
 @IncomingPacket.IncomingPacketOpcode(IncomingPacket.BUTTON_CLICK)
-public class ButtonClickPacket implements IncomingPacketListener {
+public class ButtonClickPacket implements Receivable {
 
 	@Override
 	public void handlePacket(final Player player, IncomingPacket packet) {

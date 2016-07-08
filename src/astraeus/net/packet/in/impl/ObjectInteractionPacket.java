@@ -7,7 +7,7 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.task.Task;
 import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.in.IncomingPacketListener;
+import astraeus.net.packet.Receivable;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
@@ -19,7 +19,7 @@ import astraeus.net.codec.game.GamePacketReader;
  * @author SeVen
  */
 @IncomingPacket.IncomingPacketOpcode({ IncomingPacket.FIRST_CLICK_OBJECT, IncomingPacket.SECOND_CLICK_OBJECT, IncomingPacket.THIRD_CLICK_OBJECT })
-public class ObjectInteractionPacket implements IncomingPacketListener {
+public class ObjectInteractionPacket implements Receivable {
 
 	@Override
 	public void handlePacket(final Player player, IncomingPacket packet) {

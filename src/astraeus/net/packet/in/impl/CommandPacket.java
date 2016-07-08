@@ -3,8 +3,8 @@ package astraeus.net.packet.in.impl;
 import astraeus.game.event.impl.CommandEvent;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.packet.IncomingPacket;
+import astraeus.net.packet.Receivable;
 import astraeus.net.packet.IncomingPacket.IncomingPacketOpcode;
-import astraeus.net.packet.in.IncomingPacketListener;
 import plugin.commands.CommandParser;
 
 /**
@@ -13,7 +13,7 @@ import plugin.commands.CommandParser;
  * @author Vult-R
  */
 @IncomingPacketOpcode(IncomingPacket.PLAYER_COMMAND)
-public final class CommandPacket implements IncomingPacketListener {
+public final class CommandPacket implements Receivable {
 
       @Override
       public void handlePacket(Player player, IncomingPacket packet) {

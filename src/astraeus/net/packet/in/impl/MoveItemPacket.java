@@ -5,7 +5,7 @@ import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
 import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.in.IncomingPacketListener;
+import astraeus.net.packet.Receivable;
 
 /**
  * The {@link IncomingPacket} responsible for moving player items in inventory.
@@ -13,7 +13,7 @@ import astraeus.net.packet.in.IncomingPacketListener;
  * @author SeVen
  */
 @IncomingPacket.IncomingPacketOpcode(IncomingPacket.MOVE_ITEM)
-public class MoveItemPacket implements IncomingPacketListener {
+public class MoveItemPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
