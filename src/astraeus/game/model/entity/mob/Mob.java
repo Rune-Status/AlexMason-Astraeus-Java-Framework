@@ -215,11 +215,11 @@ public abstract class Mob extends Entity {
       }
 
       public Npc getNpc() {
-            return World.getMobs()[slot];
+            return World.WORLD.getMobs()[slot];
       }
 
       public Player getPlayer() {
-            return (Player) World.getPlayers().get(slot);
+            return (Player) World.WORLD.getPlayers().get(slot);
       }
 
       public int getRunningDirection() {

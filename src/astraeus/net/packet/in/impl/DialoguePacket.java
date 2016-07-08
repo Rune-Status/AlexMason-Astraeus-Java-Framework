@@ -16,7 +16,7 @@ public class DialoguePacket implements IncomingPacketListener {
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
 
-		player.getDialogueFactory().execute();
+		//player.getDialogueFactory().execute();
 
 	}
 }

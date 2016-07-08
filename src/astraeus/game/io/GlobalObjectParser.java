@@ -16,7 +16,7 @@ import astraeus.util.GsonParser;
 public final class GlobalObjectParser extends GsonParser {
 
     public GlobalObjectParser() {
-		super("/object/global_objects");
+		super("./Data/object/global_objects");
     }
 
 	@Override

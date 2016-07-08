@@ -15,7 +15,7 @@ public final class PacketSizeParser extends GsonParser {
 	 * Creates a new {@link PacketSizeParser}.
 	 */
 	public PacketSizeParser() {
-		super("io/packet_sizes");
+		super("./Data/io/packet_sizes");
 	}
 
 	@Override

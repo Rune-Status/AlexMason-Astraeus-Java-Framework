@@ -24,7 +24,7 @@ public final class GameSequencer implements Runnable {
       public void run() {
             try {
                   TaskManager.sequence();
-                  World.process();
+                  World.WORLD.process();
                   Npc.process();
             } catch (final Throwable t) {
                   LOGGER.log(Level.SEVERE, "An error has occured during the main game sequence!", t);

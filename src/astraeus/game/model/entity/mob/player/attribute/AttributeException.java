@@ -18,8 +18,8 @@ public final class AttributeException extends RuntimeException {
      * @param value
      *    The value for this attribute.
      */
-    public AttributeException(Attribute key, AttributeValue<?> value) {
-        super(String.format("Invalid value type: %s for [key=%s], only accepts type of %s", value.getType().getSimpleName(), key.name().toLowerCase(), key.getDefaultValue().getClass().getSimpleName()));
+    public AttributeException(Attribute key, Object value) {
+        super(String.format("Invalid value type: %s for [key=%s], only accepts type of %s", value.getClass().getSimpleName(), key.name().toLowerCase(), key.getDefaultValue().getClass().getSimpleName()));
     }
 
 }

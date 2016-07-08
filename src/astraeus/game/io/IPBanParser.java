@@ -17,13 +17,13 @@ public final class IPBanParser extends TextFileParser {
 	 * Creates a new {@link IPBanParser}.
 	 */
 	public IPBanParser() {
-		super("punishment/ip_bans");
+		super("./Data/punishment/ip_bans");
 	}
 
 	@Override
 	public void parse(Scanner reader) throws IOException {
 		String ip_bans = reader.nextLine();
-		World.getIpBans().add(ip_bans);
+		World.WORLD.getIpBans().add(ip_bans);
 	}
 
 }

@@ -1,7 +1,5 @@
 package astraeus.util;
 
-import astraeus.Configuration;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
@@ -48,7 +46,7 @@ public abstract class GenericParser implements Runnable {
      * 		The flag that denotes to log messages.
      */
     public GenericParser(String path, String extension , boolean log) {
-        this.path = Paths.get(Configuration.DATA_DIR, path + extension);
+        this.path = Paths.get(path + extension);
         this.extension = extension;
         this.log = log;
     }

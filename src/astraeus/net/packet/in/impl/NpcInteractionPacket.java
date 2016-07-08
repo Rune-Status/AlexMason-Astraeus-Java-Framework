@@ -1,5 +1,8 @@
 package astraeus.net.packet.in.impl;
 
+import astraeus.game.event.impl.NpcFirstClickEvent;
+import astraeus.game.event.impl.NpcSecondClickEvent;
+import astraeus.game.event.impl.NpcThirdClickEvent;
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.npc.NpcDefinition;
@@ -9,9 +12,6 @@ import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.in.IncomingPacketListener;
 import astraeus.net.packet.out.ServerMessagePacket;
-import astraeus.plugins.clicking.npcs.NpcFirstClick;
-import astraeus.plugins.clicking.npcs.NpcSecondClick;
-import astraeus.plugins.clicking.npcs.NpcThirdClick;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
@@ -68,7 +68,7 @@ public class NpcInteractionPacket implements IncomingPacketListener {
                   return;
             }
 
-            final Npc npc = World.getMobs()[npcIndex];
+            final Npc npc = World.WORLD.getMobs()[npcIndex];
 
             if (npc == null) {
                   return;
@@ -94,7 +94,7 @@ public class NpcInteractionPacket implements IncomingPacketListener {
        */
       private void handleMagicOnMob(Player player, IncomingPacket packet, GamePacketReader reader) {
             final int slot = reader.readShort(ByteOrder.LITTLE, ByteModification.ADDITION);
-            final Npc mobMagic = World.getMobs()[slot];
+            final Npc mobMagic = World.WORLD.getMobs()[slot];
             @SuppressWarnings("unused")
             final int spell = reader.readShort(ByteModification.ADDITION);
 
@@ -120,7 +120,7 @@ public class NpcInteractionPacket implements IncomingPacketListener {
        * @param packet The packet for this action.
        */
       private void handleFirstClickNpc(Player player, IncomingPacket packet, GamePacketReader reader) {
-            final Npc npc = World.getMobs()[reader.readShort(ByteOrder.LITTLE)];
+            final Npc npc = World.WORLD.getMobs()[reader.readShort(ByteOrder.LITTLE)];
 
             if (npc == null) {
                   return;
@@ -131,7 +131,8 @@ public class NpcInteractionPacket implements IncomingPacketListener {
                   if (player.getLocation().isWithinDistance(npc.getLocation().copy(), 1)) {
                         player.setInteractingEntity(npc);
                         npc.setInteractingEntity(player);
-                        new NpcFirstClick(player, npc).handleAction();
+                        
+                        player.post(new NpcFirstClickEvent(npc));
                   }
             });
 
@@ -145,7 +146,7 @@ public class NpcInteractionPacket implements IncomingPacketListener {
        * @param packet The packet for this action.
        */
       private void handleSecondClickNpc(Player player, IncomingPacket packet, GamePacketReader reader) {
-            final Npc npc = World.getMobs()[reader.readShort(ByteOrder.LITTLE,
+            final Npc npc = World.WORLD.getMobs()[reader.readShort(ByteOrder.LITTLE,
                         ByteModification.ADDITION)];
 
             if (npc == null) {
@@ -156,7 +157,8 @@ public class NpcInteractionPacket implements IncomingPacketListener {
                   if (player.getLocation().isWithinDistance(npc.getLocation().copy(), 1)) {
                         player.setInteractingEntity(npc);
                         npc.setInteractingEntity(player);
-                        new NpcSecondClick(player, npc).handleAction();
+
+                        player.post(new NpcSecondClickEvent(npc));
                   }
             });
 
@@ -170,7 +172,7 @@ public class NpcInteractionPacket implements IncomingPacketListener {
        * @param packet The packet for this action.
        */
       private void handleThirdClickNpc(Player player, IncomingPacket packet, GamePacketReader reader) {
-            final Npc npc = World.getMobs()[reader.readShort()];
+            final Npc npc = World.WORLD.getMobs()[reader.readShort()];
 
             if (npc == null) {
                   return;
@@ -180,7 +182,8 @@ public class NpcInteractionPacket implements IncomingPacketListener {
                   if (player.getLocation().isWithinDistance(npc.getLocation().copy(), 1)) {
                         player.setInteractingEntity(npc);
                         npc.setInteractingEntity(player);
-                        new NpcThirdClick(player, npc).handleAction();
+
+                        player.post(new NpcThirdClickEvent(npc));
                   }
             });
 

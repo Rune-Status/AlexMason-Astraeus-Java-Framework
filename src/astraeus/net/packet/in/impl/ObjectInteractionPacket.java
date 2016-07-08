@@ -1,5 +1,6 @@
 package astraeus.net.packet.in.impl;
 
+import astraeus.game.event.impl.ObjectFirstClickEvent;
 import astraeus.game.model.Location;
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.player.Player;
@@ -7,9 +8,6 @@ import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.task.Task;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.in.IncomingPacketListener;
-import astraeus.plugins.clicking.objects.ObjectFirstClick;
-import astraeus.plugins.clicking.objects.ObjectSecondClick;
-import astraeus.plugins.clicking.objects.ObjectThirdClick;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
@@ -65,7 +63,7 @@ public class ObjectInteractionPacket implements IncomingPacketListener {
 			return;
 		}
 		
-		World.submit(new Task(0, false) {
+		World.WORLD.submit(new Task(0, false) {
 
 			@Override
 			public void execute() {
@@ -77,7 +75,7 @@ public class ObjectInteractionPacket implements IncomingPacketListener {
 			
 			@Override
 			public void onCancel() {
-				new ObjectFirstClick(player, object).handleAction();
+				player.post(new ObjectFirstClickEvent(object));
 			}
 			
 		});
@@ -105,7 +103,7 @@ public class ObjectInteractionPacket implements IncomingPacketListener {
 			return;
 		}
 		
-		World.submit(new Task(0, false) {
+		World.WORLD.submit(new Task(0, false) {
 
 			@Override
 			public void execute() {
@@ -117,7 +115,7 @@ public class ObjectInteractionPacket implements IncomingPacketListener {
 			
 			@Override
 			public void onCancel() {
-				new ObjectSecondClick(player, object).handleAction();
+				player.post(new ObjectFirstClickEvent(object));
 			}
 			
 		});
@@ -146,7 +144,7 @@ public class ObjectInteractionPacket implements IncomingPacketListener {
 			return;
 		}
 		
-		World.submit(new Task(0, false) {
+		World.WORLD.submit(new Task(0, false) {
 
 			@Override
 			public void execute() {
@@ -158,7 +156,7 @@ public class ObjectInteractionPacket implements IncomingPacketListener {
 			
 			@Override
 			public void onCancel() {
-				new ObjectThirdClick(player, object).handleAction();
+				player.post(new ObjectFirstClickEvent(object));
 			}
 			
 		});	

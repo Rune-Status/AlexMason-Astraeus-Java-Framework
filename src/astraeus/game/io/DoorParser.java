@@ -11,7 +11,7 @@ import astraeus.util.GsonParser;
 public final class DoorParser extends GsonParser {
 
     public DoorParser() {
-		super("/object/doors");
+		super("./Data/object/doors");
 	}
 
 	@Override

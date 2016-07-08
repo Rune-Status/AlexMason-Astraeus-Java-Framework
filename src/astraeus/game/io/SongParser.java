@@ -14,7 +14,7 @@ public final class SongParser extends GsonParser {
 	 * Creates a new {@link SongParser}.
 	 */
 	public SongParser() {
-		super("music/songs");
+		super("./Data/music/songs");
 	}
 
 	@SuppressWarnings("unused")

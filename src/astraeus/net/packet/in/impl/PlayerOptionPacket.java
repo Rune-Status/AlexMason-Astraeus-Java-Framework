@@ -60,7 +60,7 @@ public class PlayerOptionPacket implements IncomingPacketListener {
 		
 		final int otherPlayerIndex = reader.readShort(ByteOrder.LITTLE);
 		
-		if (World.getPlayers().get(otherPlayerIndex) == null) {
+		if (World.WORLD.getPlayers().get(otherPlayerIndex) == null) {
 			return;
 		}
 
@@ -71,12 +71,12 @@ public class PlayerOptionPacket implements IncomingPacketListener {
 		
 		final int otherPlayerIndex = reader.readShort(ByteOrder.LITTLE);
 
-		if (World.getPlayers().get(otherPlayerIndex) == null) {
+		if (World.WORLD.getPlayers().get(otherPlayerIndex) == null) {
 			return;
 		}
 
 		@SuppressWarnings("unused")
-            final Player leader = (Player) World.getPlayers().get(otherPlayerIndex);
+            final Player leader = (Player) World.WORLD.getPlayers().get(otherPlayerIndex);
 		
 	}
 
@@ -93,7 +93,7 @@ public class PlayerOptionPacket implements IncomingPacketListener {
 		GamePacketReader reader = packet.getReader();
 		
 		int otherPlayerIndex = reader.readShort(ByteOrder.LITTLE);
-		Player other = (Player) World.getPlayers().get(otherPlayerIndex);
+		Player other = (Player) World.WORLD.getPlayers().get(otherPlayerIndex);
 
 		if (other == null) {
 			player.send(new ServerMessagePacket("You tried to attack a player that doesn't exist."));
@@ -116,7 +116,7 @@ public class PlayerOptionPacket implements IncomingPacketListener {
 		GamePacketReader reader = packet.getReader();
 		
 		int otherPlayerIndex = reader.readShort(ByteModification.ADDITION);
-		Player other = (Player) World.getPlayers().get(otherPlayerIndex);
+		Player other = (Player) World.WORLD.getPlayers().get(otherPlayerIndex);
 		@SuppressWarnings("unused")
 		final int spell = reader.readShort(ByteOrder.LITTLE);
 
@@ -145,11 +145,11 @@ public class PlayerOptionPacket implements IncomingPacketListener {
 			return;
 		}
 
-		if (World.getPlayers().get(otherPlayerTradeIndex) == null) {
+		if (World.WORLD.getPlayers().get(otherPlayerTradeIndex) == null) {
 			return;
 		}
 
-		Player other = (Player) World.getPlayers().get(otherPlayerTradeIndex);
+		Player other = (Player) World.WORLD.getPlayers().get(otherPlayerTradeIndex);
 
 		if (other == null || !other.isRegistered() || other.isTeleporting() || other.isDead()) {
 			return;

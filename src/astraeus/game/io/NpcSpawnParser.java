@@ -15,7 +15,7 @@ import astraeus.util.GsonParser;
 public final class NpcSpawnParser extends GsonParser {
 
 	public NpcSpawnParser() {
-		super("npc/npc_spawns");
+		super("./Data/npc/npc_spawns");
 	}
 
 	@Override

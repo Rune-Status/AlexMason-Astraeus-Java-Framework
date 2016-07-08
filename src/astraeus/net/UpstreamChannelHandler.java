@@ -46,7 +46,7 @@ public final class UpstreamChannelHandler extends SimpleChannelInboundHandler<Ob
                   return;
             }
             
-            World.queueLogout(player);
+            World.WORLD.queueLogout(player);
       }
 
       @Override

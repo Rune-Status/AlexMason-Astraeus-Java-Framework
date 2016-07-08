@@ -300,11 +300,6 @@ public final class Location {
 		this.height += z;
 	}
 
-	@Override
-	public String toString() {
-		return "[" + x + ", " + y + (height > 0 ? ", " + height : "") + "]";
-	}
-
 	public Location transform(int x, int y, int h) {
 		this.x += x;
 		this.y += y;
@@ -314,6 +309,11 @@ public final class Location {
 
 	public Location add(Direction direction) {
 		return new Location(x + direction.getDirectionX(), y + direction.getDirectionY(), height);
+	}
+	
+	@Override
+	public String toString() {
+		return height > 0 ? String.format("[x= %d y= %d h= %d]", x, y, height) : String.format("[x= %d y= %d]", x, y);
 	}
 
 }

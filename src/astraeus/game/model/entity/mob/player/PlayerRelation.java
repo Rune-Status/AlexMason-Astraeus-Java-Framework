@@ -117,8 +117,8 @@ public class PlayerRelation {
 		friendList.add(username);
 		updateLists(true);
 
-		if (World.getPlayerByName(name).isPresent()) {
-			final Optional<Player> friend = Optional.ofNullable(World.getPlayerByName(name).get());
+		if (World.WORLD.getPlayerByName(name).isPresent()) {
+			final Optional<Player> friend = Optional.ofNullable(World.WORLD.getPlayerByName(name).get());
 			friend.ifPresent($it -> $it.getRelation().updateLists(true));
 		}
 
@@ -146,8 +146,8 @@ public class PlayerRelation {
 		player.send(new AddIgnorePacket());
 		updateLists(true);
 
-		if (World.getPlayerByName(name).isPresent()) {
-			final Player ignored = World.getPlayerByName(name).get();
+		if (World.WORLD.getPlayerByName(name).isPresent()) {
+			final Player ignored = World.WORLD.getPlayerByName(name).get();
 			ignored.getRelation().updateLists(false);
 		}
 
@@ -173,8 +173,8 @@ public class PlayerRelation {
 		if (friendList.contains(username)) {
 			friendList.remove(username);
 
-			if (World.getPlayerByName(StringUtils.longToString(username)).isPresent()) {
-				final Optional<Player> unfriend = Optional.ofNullable(World.getPlayerByName(StringUtils.longToString(username)).get());
+			if (World.WORLD.getPlayerByName(StringUtils.longToString(username)).isPresent()) {
+				final Optional<Player> unfriend = Optional.ofNullable(World.WORLD.getPlayerByName(StringUtils.longToString(username)).get());
 
 				unfriend.ifPresent($it -> $it.getRelation().updateLists($it.attr().get(Attribute.ACTIVE)));
 
@@ -194,8 +194,8 @@ public class PlayerRelation {
 			updateLists(true);
 
 			if (status == PrivateMessagePolicy.ALLOW) {
-				if (World.getPlayerByName(StringUtils.longToString(username)).isPresent()) {
-					final Player ignored = World.getPlayerByName(StringUtils.longToString(username)).get();
+				if (World.WORLD.getPlayerByName(StringUtils.longToString(username)).isPresent()) {
+					final Player ignored = World.WORLD.getPlayerByName(StringUtils.longToString(username)).get();
 					ignored.getRelation().updateLists(true);
 				}
 			}
@@ -211,7 +211,7 @@ public class PlayerRelation {
 	}
 
 	public void sendPrivateMessage(long to, byte[] message, int size) {
-		Optional<Player> search = World.getPlayerByName(StringUtils.longToString(to).replaceAll("_",  " "));
+		Optional<Player> search = World.WORLD.getPlayerByName(StringUtils.longToString(to).replaceAll("_",  " "));
 
 		if (!search.isPresent()) {
 			player.send(new ServerMessagePacket("This player is currently offline."));
@@ -251,7 +251,7 @@ public class PlayerRelation {
 
 		player.send(new SetFriendListStatusPacket(PrivateMessageListStatus.LOADED));
 
-		for (final Player other : World.getPlayers()) {
+		for (final Player other : World.WORLD.getPlayers()) {
 
 			if (other == null) {
 				continue;

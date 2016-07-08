@@ -63,7 +63,7 @@ public class Npc extends Mob {
       }
 
       public static void process() {
-            for (final Npc mob : World.getMobs()) {
+            for (final Npc mob : World.WORLD.getMobs()) {
 
                   if (mob == null) {
                         continue;

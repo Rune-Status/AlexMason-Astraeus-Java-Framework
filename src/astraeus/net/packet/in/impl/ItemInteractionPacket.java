@@ -1,14 +1,14 @@
 package astraeus.net.packet.in.impl;
 
+import astraeus.game.event.impl.ItemFirstClickEvent;
+import astraeus.game.event.impl.ItemSecondClickEvent;
+import astraeus.game.event.impl.ItemThirdClickEvent;
 import astraeus.game.model.entity.mob.player.Player;
-import astraeus.game.model.entity.mob.player.PlayerRights;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.in.IncomingPacketListener;
-import astraeus.net.packet.out.ServerMessagePacket;
 
 /**
  * The {@link IncomingPacket} responsible for clicking the actions of an
@@ -70,16 +70,13 @@ public class ItemInteractionPacket implements IncomingPacketListener {
 	 * @param reader
 	 *            The read-only buffer used to read the packet payload.
 	 */
-	@SuppressWarnings("unused")
 	private void handleFirstAction(Player player, IncomingPacket packet, GamePacketReader reader) {
 
-		final int interfaceId = reader.readShort(ByteOrder.LITTLE, ByteModification.ADDITION);
+		final int widgetId = reader.readShort(ByteOrder.LITTLE, ByteModification.ADDITION);
 		final int slot = reader.readShort(false, ByteModification.ADDITION);
 		final int id = reader.readShort(ByteOrder.LITTLE);
 
-		switch (interfaceId) {
-
-		}
+		player.post(new ItemFirstClickEvent(id, slot, widgetId));
 	}
 
 	/**
@@ -97,10 +94,7 @@ public class ItemInteractionPacket implements IncomingPacketListener {
 	private void handleSecondAction(Player player, IncomingPacket packet, GamePacketReader reader) {
 		final int itemId = reader.readShort(ByteModification.ADDITION);	
 
-		if (player.getRights().equal(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
-			player.send(new ServerMessagePacket("ItemAction - 2: itemId - " + itemId));
-		}
-
+		player.post(new ItemSecondClickEvent(itemId, -1));
 	}
 
 	/**
@@ -120,9 +114,7 @@ public class ItemInteractionPacket implements IncomingPacketListener {
 		final int itemId1 = reader.readShort(ByteModification.ADDITION);	
 		final int itemId = reader.readShort(ByteModification.ADDITION);	
 
-		if (player.getRights().equal(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
-			player.send(new ServerMessagePacket("ItemAction - 3: itemId - " + itemId + " itemId1: " + itemId1 + " itemId11: " + itemId11));
-		}
+		player.post(new ItemThirdClickEvent(itemId, itemId11, itemId1));
 	}
 
 }

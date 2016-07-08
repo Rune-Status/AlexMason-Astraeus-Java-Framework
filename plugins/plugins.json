@@ -1,0 +1,155 @@
+[
+{
+  "name": "Button Click",
+  "description": "The plugin for clicking various buttons on the client.",
+  "base": "plugin.click.ButtonClick",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Npc First Click",
+  "description": "The plugin for handling the first option of an npc.",
+  "base": "plugin.click.npc.NpcFirstClick",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Npc Second Click",
+  "description": "The plugin for handling the second option of an npc.",
+  "base": "plugin.click.npc.NpcSecondClick",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Npc Third Click",
+  "description": "The plugin for handling the third option of an npc.",
+  "base": "plugin.click.npc.NpcThirdClick",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Object First Click",
+  "description": "The plugin for handling the first option of an object.",
+  "base": "plugin.click.obj.ObjectFirstClick",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Object Second Click",
+  "description": "The plugin for handling the second option of an object.",
+  "base": "plugin.click.obj.ObjectSecondClick",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Object Third Click",
+  "description": "The plugin for handling the third option of an object.",
+  "base": "plugin.click.obj.ObjectThirdClick",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Item First Click",
+  "description": "The plugin for handling the first option of an item.",
+  "base": "plugin.click.item.ItemFirstClick",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Item Second Click",
+  "description": "The plugin for handling the second option of an item.",
+  "base": "plugin.click.item.ItemSecondClick",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Item Third Click",
+  "description": "The plugin for handling the third option of an item.",
+  "base": "plugin.click.item.ItemThirdClick",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Item On Item",
+  "description": "The plugin for handling using an item on another item.",
+  "base": "plugin.click.item.ItemOnItem",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Item On Npc",
+  "description": "The plugin for handling using an item on an npc.",
+  "base": "plugin.click.item.ItemOnNpc",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Item On Object",
+  "description": "The plugin for handling using an item on a game object.",
+  "base": "plugin.click.item.ItemOnObject",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Magic On Item",
+  "description": "The plugin for handling using spells on items.",
+  "base": "plugin.click.magic.MagicOnItem",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Test Command",
+  "description": "The plugin to demonstrate or to test commands.",
+  "base": "plugin.commands.impl.TestCommand",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Reload Plugin Command",
+  "description": "The command for reloading plugins.",
+  "base": "plugin.commands.impl.ReloadPluginCommand",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Position Command",
+  "description": "The command for telling a player his/her coordinates.",
+  "base": "plugin.commands.impl.PositionCommand",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+}
+]

@@ -9,13 +9,13 @@ import java.util.Scanner;
 public class UUIDBanParser extends TextFileParser {
 
     public UUIDBanParser() {
-        super("punishment/uuid_bans");
+        super("./Data/punishment/uuid_bans");
     }
 
     @Override
     public void parse(Scanner reader) throws IOException {
         String uuid = reader.nextLine();
-        World.getBannedUUIDs().add(uuid);
+        World.WORLD.getBannedUUIDs().add(uuid);
     }
 
 }

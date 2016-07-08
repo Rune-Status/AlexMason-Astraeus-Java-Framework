@@ -1,6 +1,7 @@
 package astraeus;
 
 import astraeus.game.io.*;
+import astraeus.game.model.World;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
@@ -102,7 +103,12 @@ public final class Bootstrap {
                   new IPBanParser().run();
                   new UUIDBanParser().run();
             });
-            LOGGER.info("Loading content...");
+            
+            LOGGER.info("Loading plugins");
+            serviceLoader.execute(() -> {
+            	new PluginMetaDataParser().run();
+            	World.WORLD.getPluginService().load();
+            });
 
             serviceLoader.execute(() -> new DoorParser().run());
       }

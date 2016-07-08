@@ -23,7 +23,7 @@ public class Npcs {
 	 *            The mob to spawn.
 	 */
 	public static void createSpawn(NpcSpawn spawn) {
-		final int slot = IntUtils.findFreeIndex(World.getMobs());
+		final int slot = IntUtils.findFreeIndex(World.WORLD.getMobs());
 
 		if (slot == -1) {
 			return;
@@ -38,7 +38,7 @@ public class Npcs {
 		mob.setRegistered(true);
 		mob.setVisible(true);
 		mob.getUpdateFlags().add(UpdateFlag.APPEARANCE);
-		World.getMobs()[slot] = mob;
+		World.WORLD.getMobs()[slot] = mob;
 	}
 
 	/**

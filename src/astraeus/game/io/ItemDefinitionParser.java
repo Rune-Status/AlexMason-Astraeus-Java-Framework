@@ -13,7 +13,7 @@ import astraeus.util.GsonParser;
 public final class ItemDefinitionParser extends GsonParser {
 
     public ItemDefinitionParser() {
-		super("item/item_definitions");
+		super("./Data/item/item_definitions");
     }
 
 	@Override

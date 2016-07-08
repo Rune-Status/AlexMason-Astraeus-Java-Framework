@@ -2,7 +2,6 @@ package astraeus.net.packet.in.impl;
 
 import astraeus.game.model.Location;
 import astraeus.game.model.World;
-import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
 import astraeus.game.model.entity.mob.player.attribute.Attribute;
@@ -10,7 +9,6 @@ import astraeus.game.model.entity.object.GameObject;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.in.IncomingPacketListener;
 import astraeus.net.packet.out.ServerMessagePacket;
-import main.astraeus.content.clicking.items.ItemOnNpc;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
@@ -112,17 +110,18 @@ public class UseItemPacket implements IncomingPacketListener {
 		final int npcSlot = reader.readShort(false, ByteModification.ADDITION);
 		final int itemSlot = reader.readShort(ByteOrder.LITTLE);
 
-		final int npcId = World.getMobs()[npcSlot].getId();
+		@SuppressWarnings("unused")
+		final int npcId = World.WORLD.getMobs()[npcSlot].getId();
 
 		if (!player.getInventory().contains(itemSlot)) {
 			return;
 		}
 
-		if (World.getMobs()[npcSlot] == null) {
+		if (World.WORLD.getMobs()[npcSlot] == null) {
 			return;
 		}
 
-		new ItemOnNpc(player, player.getInventory().getItem(itemSlot), new Npc(npcId, World.getMobs()[npcSlot].getSlot())).handleAction();
+		//new ItemOnNpc(player, player.getInventory().getItem(itemSlot), new Npc(npcId, World.getMobs()[npcSlot].getSlot())).handleAction();
 	}
 
 	/**

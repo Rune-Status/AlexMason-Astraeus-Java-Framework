@@ -52,7 +52,7 @@ public final class UpdatePlayerPacket implements Sendable {
 
                   final Player other = iterator.next();
 
-                  if (World.getPlayers().get(other.getSlot()) != null && other.isRegistered()
+                  if (World.WORLD.getPlayers().get(other.getSlot()) != null && other.isRegistered()
                               && !other.isTeleporting() && other.getLocation().isWithinDistance(
                                           player.getLocation(), Location.VIEWING_DISTANCE)) {
 
@@ -70,7 +70,7 @@ public final class UpdatePlayerPacket implements Sendable {
 
             int playersAdded = 0;
 
-            for (final Player other : World.getPlayers()) {
+            for (final Player other : World.WORLD.getPlayers()) {
                   if (other == null || !other.isRegistered() || other == player
                               || player.getLocalPlayers().contains(other)) {
                         continue;

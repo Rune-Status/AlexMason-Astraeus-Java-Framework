@@ -1,9 +1,9 @@
 package astraeus.net.packet.in.impl;
 
+import astraeus.game.event.impl.ButtonActionEvent;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.in.IncomingPacketListener;
-import astraeus.plugins.clicking.ButtonClick;
 import astraeus.net.codec.game.GamePacketReader;
 
 /**
@@ -18,9 +18,9 @@ public class ButtonClickPacket implements IncomingPacketListener {
 	public void handlePacket(final Player player, IncomingPacket packet) {
 		GamePacketReader reader = packet.getReader();
 		
-		final int buttonId = reader.readShort();
-
-		new ButtonClick(player, buttonId).handleAction();
+		final int button = reader.readShort();
+		
+		player.post(new ButtonActionEvent(button));
 	}
 
 }

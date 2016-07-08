@@ -53,7 +53,7 @@ public final class MovementQueueListener {
         listener.ifPresent(t -> t.cancel());
         listener = Optional.of(new MovementQueueListenerTask(mob, task));
         mob.setFollowing(false);
-        World.submit(listener.get());
+        World.WORLD.submit(listener.get());
     }
 
     /**

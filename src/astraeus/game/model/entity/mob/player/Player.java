@@ -1,6 +1,7 @@
 package astraeus.game.model.entity.mob.player;
 
 import astraeus.Configuration;
+import astraeus.game.event.Event;
 import astraeus.game.model.*;
 import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.item.container.ItemContainer;
@@ -20,13 +21,9 @@ import astraeus.net.packet.Sendable;
 import astraeus.net.packet.out.*;
 import astraeus.util.LoggerUtils;
 import astraeus.util.StringUtils;
-import astraeus.plugins.dialogue.Dialogue;
-import astraeus.plugins.dialogue.DialogueFactory;
-import astraeus.plugins.dialogue.OptionDialogue;
 
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 public class Player extends Mob {
@@ -50,8 +47,6 @@ public class Player extends Mob {
        * The default location a player will spawn if they died.
        */
       public static final Location DEFAULT_RESPAWN = new Location(3087, 3502);
-
-      private final DialogueFactory dialogueFactory = new DialogueFactory(this);
       
       private ChatMessage chatMessage = new ChatMessage();
       private final PlayerRelation playerRelation = new PlayerRelation(this);
@@ -66,11 +61,7 @@ public class Player extends Mob {
       private Appearance appearance = Player.DEFAULT_APPEARANCE;
       private PlayerRights rights = PlayerRights.PLAYER;
 
-
       private PlayerChannel session;
-
-      private Optional<Dialogue> dialogue = Optional.empty();
-      private Optional<OptionDialogue> optionDialogue = Optional.empty();
 
       private String username;
       private String password;
@@ -104,7 +95,7 @@ public class Player extends Mob {
 
       @Override
       public void onRegister() {
-            World.register(this);
+            World.WORLD.register(this);
             setRegionChange(true);
             getUpdateFlags().add(UpdateFlag.APPEARANCE);
             onStartup();
@@ -121,7 +112,7 @@ public class Player extends Mob {
             resetEntityInteraction();
             attr().toggle(Attribute.DISCONNECTED);
             session.getChannel().close();
-            World.deregister(this);
+            World.WORLD.deregister(this);
             LOGGER.info(String.format("[DEREGISTERED]: [host= %s]", session.getHostAddress()));
       }
       
@@ -393,6 +384,15 @@ public class Player extends Mob {
                   send(new SetRunEnergyPacket());
             }
       }
+      
+  	/**
+  	 * Posts an event to this world's event provider.
+  	 *
+  	 * @param event The event to post.
+  	 */
+  	public <E extends Event> void post(E event) {
+  		World.WORLD.post(this, event);
+  	}
 
       @Override
       public int hashCode() {
@@ -455,18 +455,6 @@ public class Player extends Mob {
             return combatLevel;
       }
 
-      public Optional<Dialogue> getDialogue() {
-            return dialogue;
-      }
-
-      public Optional<OptionDialogue> getOptionDialogue() {
-            return optionDialogue;
-      }
-
-      public void setOptionDialogue(Optional<OptionDialogue> optionDialogue) {
-            this.optionDialogue = optionDialogue;
-      }
-
       public PlayerRelation getRelation() {
             return playerRelation;
       }
@@ -498,10 +486,6 @@ public class Player extends Mob {
             this.chatMessage = chatMessage;
       }
 
-      public void setDialogue(final Optional<Dialogue> dialogue) {
-            this.dialogue = dialogue;
-      }
-
       public void setRights(final PlayerRights rights) {
             this.rights = rights;
       }
@@ -516,10 +500,6 @@ public class Player extends Mob {
 
       public Bank getBank() {
             return bank;
-      }
-
-      public DialogueFactory getDialogueFactory() {
-            return dialogueFactory;
       }
 
       public int getRunEnergy() {

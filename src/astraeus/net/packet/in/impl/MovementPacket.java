@@ -8,7 +8,6 @@ import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.in.IncomingPacketListener;
-import astraeus.net.packet.out.RemoveWidgetPacket;
 
 /**
  * The {@link IncomingPacket}'s responsible for player movement.
@@ -34,10 +33,10 @@ public class MovementPacket implements IncomingPacketListener {
 			player.setInteractingEntity(null);
 		}
 		
-		if (player.getDialogue().isPresent()) {
-			player.send(new RemoveWidgetPacket());
-			player.getDialogueFactory().clear();
-		}
+//		if (player.getDialogue().isPresent()) {
+//			player.send(new RemoveWidgetPacket());
+//			player.getDialogueFactory().clear();
+//		}
 		
 		GamePacketReader reader = packet.getReader();
 

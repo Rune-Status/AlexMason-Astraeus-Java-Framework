@@ -9,7 +9,7 @@ import java.util.Objects;
 public final class NpcDefinitionParser extends GsonParser {
 
 	public NpcDefinitionParser() {
-		super("npc/npc_definitions");
+		super("./Data/npc/npc_definitions");
 	}
 
 	@Override
