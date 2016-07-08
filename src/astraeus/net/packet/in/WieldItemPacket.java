@@ -1,4 +1,4 @@
-package astraeus.net.packet.in.impl;
+package astraeus.net.packet.in;
 
 import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.item.ItemDefinition;

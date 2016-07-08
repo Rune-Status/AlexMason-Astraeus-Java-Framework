@@ -1,4 +1,4 @@
-package astraeus.net.packet.in.impl;
+package astraeus.net.packet.in;
 
 import astraeus.game.model.Location;
 import astraeus.game.model.World;

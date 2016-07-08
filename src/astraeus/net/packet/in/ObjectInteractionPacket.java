@@ -1,4 +1,4 @@
-package astraeus.net.packet.in.impl;
+package astraeus.net.packet.in;
 
 import astraeus.game.event.impl.ObjectFirstClickEvent;
 import astraeus.game.model.Location;

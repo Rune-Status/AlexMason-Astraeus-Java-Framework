@@ -2,7 +2,7 @@ package astraeus.net.packet;
 
 import io.netty.buffer.ByteBuf;
 import astraeus.net.codec.game.GamePacketReader;
-import astraeus.net.packet.in.impl.ItemInteractionPacket;
+import astraeus.net.packet.in.ItemInteractionPacket;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

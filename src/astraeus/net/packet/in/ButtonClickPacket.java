@@ -1,4 +1,4 @@
-package astraeus.net.packet.in.impl;
+package astraeus.net.packet.in;
 
 import astraeus.game.event.impl.ButtonActionEvent;
 import astraeus.game.model.entity.mob.player.Player;

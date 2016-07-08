@@ -11,7 +11,7 @@ import io.netty.util.ResourceLeakDetector;
 import io.netty.util.ResourceLeakDetector.Level;
 import astraeus.game.service.GameEngine;
 import astraeus.net.ChannelPiplineInitializer;
-import astraeus.net.packet.in.IncomingPacketHandlerRegistration;
+import astraeus.net.packet.IncomingPacketHandlerRegistration;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

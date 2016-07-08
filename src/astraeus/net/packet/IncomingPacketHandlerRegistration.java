@@ -1,10 +1,8 @@
-package astraeus.net.packet.in;
+package astraeus.net.packet;
 
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.attribute.Attribute;
-import astraeus.net.packet.IncomingPacket;
-import astraeus.net.packet.Receivable;
-import astraeus.net.packet.in.impl.*;
+import astraeus.net.packet.in.*;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -15,8 +15,8 @@ import astraeus.net.codec.login.LoginDetailsPacket;
 import astraeus.net.codec.login.LoginResponse;
 import astraeus.net.codec.login.LoginResponsePacket;
 import astraeus.net.packet.IncomingPacket;
+import astraeus.net.packet.IncomingPacketHandlerRegistration;
 import astraeus.net.packet.OutgoingPacket;
-import astraeus.net.packet.in.IncomingPacketHandlerRegistration;
 import astraeus.net.packet.out.SetPlayerSlotPacket;
 import io.netty.channel.socket.SocketChannel;
 

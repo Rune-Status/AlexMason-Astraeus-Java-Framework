@@ -1,4 +1,4 @@
-package astraeus.net.packet.in.impl;
+package astraeus.net.packet.in;
 
 import astraeus.game.event.impl.NpcFirstClickEvent;
 import astraeus.game.event.impl.NpcSecondClickEvent;
