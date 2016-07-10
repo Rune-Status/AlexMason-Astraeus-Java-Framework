@@ -5,7 +5,6 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 import astraeus.net.packet.IncomingPacket.IncomingPacketOpcode;
-import plugin.commands.CommandParser;
 
 /**
  * The {@link IncomingPacket} responsible for handling user commands send from the client.
@@ -20,7 +19,7 @@ public final class CommandPacket implements Receivable {
 
 			final String input = packet.getReader().getRS2String().trim().toLowerCase();
 			
-			player.post(new CommandEvent(new CommandParser(input)));
+			player.post(new CommandEvent(input.split(" ")[0], input));
 			
       }
 

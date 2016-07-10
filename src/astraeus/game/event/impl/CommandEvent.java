@@ -1,7 +1,6 @@
 package astraeus.game.event.impl;
 
 import astraeus.game.event.Event;
-import plugin.commands.CommandParser;
 
 /**
  * Represents a command event.
@@ -11,32 +10,37 @@ import plugin.commands.CommandParser;
 public final class CommandEvent implements Event {
 
 	/**
-	 * The parser that will parse the command.
+	 * The name for this command.
 	 */
-	private final CommandParser parser;	
-
+	private final String name;
+	
+	/**
+	 * The input for this command.
+	 */
+	private final String input;
+	
 	/**
 	 * Creates the command.
 	 *
 	 * @param parser
 	 * 		The parser that will parse the command input.
 	 */
-	public CommandEvent(CommandParser parser) {
-		this.parser = parser;
+	public CommandEvent(String name, String input) {
+		this.name = name;
+		this.input = input;
 	}	
 	
 	/**
 	 * Gets the name of this command.
 	 */
 	public String getName() {
-		return parser.getCommand();
+		return name;
 	}
 
 	/**
-	 * Gets the parser for this command.
+	 * Gets the input for this command.
 	 */
-	public CommandParser getParser() {
-		return parser;
+	public String getInput() {
+		return input;
 	}
-
 }
