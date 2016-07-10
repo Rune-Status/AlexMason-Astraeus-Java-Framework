@@ -5,7 +5,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
-import astraeus.net.codec.login.LoginDecoder;
+import astraeus.net.codec.login.LoginRequestDecoder;
 import astraeus.net.codec.login.LoginResponseEncoder;
 
 /**
@@ -33,7 +33,7 @@ public class ChannelPiplineInitializer extends ChannelInitializer<SocketChannel>
           ch.attr(NetworkConstants.SESSION_KEY).setIfAbsent(new PlayerChannel(ch));
 
           pipeline.addLast("channel-filter", FILTER);
-          pipeline.addLast("login-decoder", new LoginDecoder());
+          pipeline.addLast("login-request-decoder", new LoginRequestDecoder());
           pipeline.addLast("login-encoder", new LoginResponseEncoder());
           pipeline.addLast("timeout", new IdleStateHandler(NetworkConstants.INPUT_TIMEOUT, 0, 0));
           pipeline.addLast("channel-handler", HANDLER);

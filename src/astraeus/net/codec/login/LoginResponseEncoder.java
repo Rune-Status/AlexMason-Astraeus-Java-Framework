@@ -9,6 +9,9 @@ public class LoginResponseEncoder extends MessageToByteEncoder<LoginResponsePack
     @Override
     protected void encode(ChannelHandlerContext ctx, LoginResponsePacket msg, ByteBuf out)
                 throws Exception {
+    	
+    	System.out.println("encoding login response");    	
+    	
           out.writeByte(msg.getResponse().getOpcode());
 
           if (msg.getResponse() == LoginResponse.NORMAL) {
