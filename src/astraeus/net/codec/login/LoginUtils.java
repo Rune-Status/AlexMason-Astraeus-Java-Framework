@@ -5,7 +5,16 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 
+/**
+ * The class that contains login-related methods.
+ * 
+ * @author Vult-R
+ */
 public final class LoginUtils {
+	
+	private LoginUtils() {
+		
+	}
 	
 	/**
 	 * Sends a response code to the client to notify the user logging in.

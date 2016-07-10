@@ -7,7 +7,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import astraeus.net.NetworkConstants;
 import astraeus.net.codec.IsaacCipher;
-import astraeus.net.codec.ProtocolConstants;
 import astraeus.util.LoggerUtils;
 
 import java.math.BigInteger;
@@ -15,9 +14,11 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * The class that handles a connection through the login protocol.
+ * The class that handles a connection through the last part of the login protocol.
  * 
- * @author Seven
+ * This is also called the login packet, which contains a header and a payload.
+ * 
+ * @author Vult-R
  */
 public final class LoginDecoder extends ByteToMessageDecoder {
 
@@ -34,49 +35,21 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 	/**
 	 * The current state of this connection through the login protocol.
 	 */
-	private LoginDecoderState state = LoginDecoderState.CONNECTION_TYPE;
+	private LoginDecoderState state = LoginDecoderState.HEADER;
 
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
 
 		switch (state) {
 
-		case CONNECTION_TYPE:
-			decodeConnectionType(ctx, in);
+		case HEADER:
+			decodeHeader(ctx, in);
 			break;
 
-		case PRECRYPTED:
-			decodePreCrypted(ctx, in);
+		case PAYLOAD:
+			decodePayload(ctx, in, out);			
 			break;
 
-		case CRYPTED:
-			decodeCrypted(ctx, in, out);
-			break;
-
-		}
-	}
-
-	/**
-	 * The stage that decodes the type of connection.
-	 * 
-	 * {@code 16} denotes a new connection
-	 * 
-	 * {@code 18} denotes a reconnection.
-	 * 
-	 * @param in
-	 *            The incoming data.
-	 */
-	private void decodeConnectionType(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
-		if (in.readableBytes() >= 2) {
-			int connectionType = in.readUnsignedByte();
-
-			if (connectionType != ProtocolConstants.NEW_CONNECTION_OPCODE && connectionType != ProtocolConstants.RECONNECTION_OPCODE) {
-				LOGGER.info(String.format("[host= %s] was rejected for having the wrong connection type.", ctx.channel().remoteAddress()));
-				LoginUtils.sendResponseCode(ctx, LoginResponse.LOGIN_SERVER_REJECTED_SESSION);
-				return;
-			}
-
-			state = LoginDecoderState.PRECRYPTED;
 		}
 	}
 
@@ -85,8 +58,8 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 	 * 
 	 * @param in
 	 *            The incoming data.
-	 */
-	private void decodePreCrypted(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
+	 */	
+	private void decodeHeader(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
 		// 78 is the amount of readable bytes as of now, after the size of the encrypted data is read then the readable bytes
 		// become 77, when the value is read to indicate the size of the encrypted login block it should read the same.
 		// so if the readable bytes is 77 at this point, then it will read 77.
@@ -100,7 +73,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 				LoginUtils.sendResponseCode(ctx, LoginResponse.LOGIN_SERVER_REJECTED_SESSION);
 			}
 
-			state = LoginDecoderState.CRYPTED;
+			state = LoginDecoderState.PAYLOAD;
 		}
 	}
 
@@ -110,7 +83,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 	 * @param in
 	 *            The incoming data.
 	 */
-	private void decodeCrypted(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+	private void decodePayload(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
 		if (in.isReadable(encryptedLoginBlockSize)) {
 			int magicValue = in.readUnsignedByte();
 

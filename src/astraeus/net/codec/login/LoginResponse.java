@@ -3,7 +3,7 @@ package astraeus.net.codec.login;
 /**
  * Represents the enumerated login response codes.
  * 
- * @author SeVen
+ * @author Vult-R
  */
 public enum LoginResponse {
 	EXCHANGE_DATA(0),

@@ -12,6 +12,11 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
+/**
+ * The class that will handle the login request.
+ * 
+ * @author Vult-R
+ */
 public final class LoginRequestDecoder extends ByteToMessageDecoder {
 	
 	/**
@@ -45,7 +50,7 @@ public final class LoginRequestDecoder extends ByteToMessageDecoder {
 			buf.writeLong(RANDOM.nextLong());
 			ctx.writeAndFlush(buf);
 			
-			ctx.pipeline().replace("login-request-decoder", "login-decoder", new LoginDecoder());
+			ctx.pipeline().replace("login-request-decoder", "login-type-decoder", new LoginTypeDecoder());
 		}
 	}
 
