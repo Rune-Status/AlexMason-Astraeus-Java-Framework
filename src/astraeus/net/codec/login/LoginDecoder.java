@@ -34,7 +34,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 	/**
 	 * The current state of this connection through the login protocol.
 	 */
-	private LoginState state = LoginState.CONNECTION_TYPE;
+	private LoginDecoderState state = LoginDecoderState.CONNECTION_TYPE;
 
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
@@ -76,7 +76,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 				return;
 			}
 
-			state = LoginState.PRECRYPTED;
+			state = LoginDecoderState.PRECRYPTED;
 		}
 	}
 
@@ -100,7 +100,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 				LoginUtils.sendResponseCode(ctx, LoginResponse.LOGIN_SERVER_REJECTED_SESSION);
 			}
 
-			state = LoginState.CRYPTED;
+			state = LoginDecoderState.CRYPTED;
 		}
 	}
 

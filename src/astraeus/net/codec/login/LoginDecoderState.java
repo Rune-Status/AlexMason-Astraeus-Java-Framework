@@ -3,9 +3,9 @@ package astraeus.net.codec.login;
 /**
  * Represents the enumerated states of the login protocol
  * 
- * @author SeVen
+ * @author Vult-R
  */
-public enum LoginState {
+public enum LoginDecoderState {
 
 		/**
 		 * The state that where the type of login connection is indicated.
