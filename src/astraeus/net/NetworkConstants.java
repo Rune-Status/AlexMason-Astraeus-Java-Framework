@@ -2,6 +2,9 @@ package astraeus.net;
 
 import com.google.common.collect.ImmutableList;
 import com.moandjiezana.toml.Toml;
+
+import astraeus.net.channel.PlayerChannel;
+import astraeus.net.channel.UpstreamChannelHandler;
 import io.netty.util.AttributeKey;
 
 import java.io.File;

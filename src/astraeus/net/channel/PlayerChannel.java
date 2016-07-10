@@ -1,4 +1,4 @@
-package astraeus.net;
+package astraeus.net.channel;
 
 import astraeus.Server;
 import astraeus.game.model.World;
@@ -9,6 +9,7 @@ import astraeus.net.packet.Sendable;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
+import astraeus.net.NetworkConstants;
 import astraeus.net.codec.game.GamePacketDecoder;
 import astraeus.net.codec.game.GamePacketEncoder;
 import astraeus.net.codec.login.LoginDetailsPacket;

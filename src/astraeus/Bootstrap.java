@@ -10,7 +10,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.ResourceLeakDetector;
 import io.netty.util.ResourceLeakDetector.Level;
 import astraeus.game.service.GameEngine;
-import astraeus.net.ChannelPiplineInitializer;
+import astraeus.net.channel.ChannelPiplineInitializer;
 import astraeus.net.packet.IncomingPacketHandlerRegistration;
 
 import java.util.concurrent.ExecutorService;

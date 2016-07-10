@@ -1,4 +1,4 @@
-package astraeus.net;
+package astraeus.net.channel;
 
 import com.google.common.collect.ConcurrentHashMultiset;
 import com.google.common.collect.Multiset;
@@ -8,6 +8,7 @@ import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import astraeus.game.model.World;
+import astraeus.net.NetworkConstants;
 import astraeus.net.codec.login.LoginResponse;
 import astraeus.net.codec.login.LoginResponsePacket;
 

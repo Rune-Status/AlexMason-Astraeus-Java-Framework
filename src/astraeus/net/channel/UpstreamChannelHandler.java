@@ -1,4 +1,4 @@
-package astraeus.net;
+package astraeus.net.channel;
 
 import com.google.common.base.Objects;
 import io.netty.channel.ChannelHandler.Sharable;
@@ -9,6 +9,7 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.player.Player;
+import astraeus.net.NetworkConstants;
 
 /**
  * A {@link ChannelInboundHandlerAdapter} implementation that explicitly handles {@link Object} type messages.

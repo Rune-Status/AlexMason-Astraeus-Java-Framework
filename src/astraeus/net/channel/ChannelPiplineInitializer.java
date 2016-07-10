@@ -1,10 +1,11 @@
-package astraeus.net;
+package astraeus.net.channel;
 
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
+import astraeus.net.NetworkConstants;
 import astraeus.net.codec.login.LoginRequestDecoder;
 import astraeus.net.codec.login.LoginResponseEncoder;
 
