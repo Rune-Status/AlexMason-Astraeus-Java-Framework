@@ -31,6 +31,9 @@ public abstract class GenericParser implements Runnable {
      */
     private final String extension;
 
+    /**
+     * The flag that denotes to log this parser to the output stream.
+     */
     private final boolean log;
 
     /**
