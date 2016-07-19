@@ -22,6 +22,8 @@ class NpcSecondClick : EventSubscriber<NpcSecondClickEvent> {
 		
 		when(event.npc.id) {
 			
+			494 -> player.bank.open()
+			
 		}
 		
 	}

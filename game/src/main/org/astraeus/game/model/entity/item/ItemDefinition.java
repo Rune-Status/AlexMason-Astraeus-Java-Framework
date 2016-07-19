@@ -1,53 +1,53 @@
 package astraeus.game.model.entity.item;
 
 /**
- * Represents all of an in-game Item's attributes.
+ * Defines an in game item.
  * 
- * @author Seven
+ * @author Vult-R
  */
-public class ItemDefinition {
+public final class ItemDefinition {
 
-	public static final int ITEM_LIMIT = 7956;
+	public static final int ITEM_LIMIT = 11791;
 
 	public static final ItemDefinition[] DEFINITIONS = new ItemDefinition[ITEM_LIMIT];
 
 	private final int id;
-
-	private final int notedId;
-
-	private final int storePrice;
-
-	private final int lowAlchValue;
-
-	private final int highAlchValue;
-
-	private final int equipmentSlot;
-
+	
 	private final String name;
-
-	private final String description;
-
-	private final boolean stackable;
-
+	
+	private final String examine;
+	
+	private final int lowAlch;
+	
+	private final int highAlch;
+	
+	private final int shopValue;
+	
+	private final boolean noteable;
+	
 	private final boolean noted;
+	
+	private final int unnotedId;
+	
+	private final int notedId;
+	
+	private final boolean stackable;
+	
+	private final double weight;
 
-	private final boolean twoHanded;
-
-	private final int[] bonus;
-
-	public ItemDefinition(int id, int notedId, int storePrice, int lowAlchValue, int highAlchValue, int equipmentSlot, String name, String description, boolean stackable, boolean noted, boolean twoHanded, int[] bonus) {
+	public ItemDefinition(int id, String name, String examine, int lowAlch, int highAlch, int shopValue, boolean noteable, boolean noted, int unnotedId, int notedId, boolean stackable, double weight) {
 		this.id = id;
-		this.notedId = notedId;
-		this.storePrice = storePrice;
-		this.lowAlchValue = lowAlchValue;
-		this.highAlchValue = highAlchValue;
-		this.equipmentSlot = equipmentSlot;
 		this.name = name;
-		this.description = description;
-		this.stackable = stackable;
+		this.examine = examine;
+		this.lowAlch = lowAlch;
+		this.highAlch = highAlch;
+		this.shopValue = shopValue;
+		this.noteable = noteable;
 		this.noted = noted;
-		this.twoHanded = twoHanded;
-		this.bonus = bonus;
+		this.unnotedId = unnotedId;
+		this.notedId = notedId;
+		this.stackable = stackable;
+		this.weight = weight;
 	}
 
 	public static ItemDefinition[] getDefinitions() {
@@ -62,48 +62,48 @@ public class ItemDefinition {
 		return id;
 	}
 
-	public int getNotedId() {
-		return notedId;
-	}
-
-	public int getStorePrice() {
-		return storePrice;
-	}
-
-	public int getLowAlchValue() {
-		return lowAlchValue;
-	}
-
-	public int getHighAlchValue() {
-		return highAlchValue;
-	}
-
-	public int getEquipmentSlot() {
-		return equipmentSlot;
-	}
-
 	public String getName() {
 		return name;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getExamine() {
+		return examine;
 	}
 
-	public boolean isStackable() {
-		return stackable;
+	public int getLowAlch() {
+		return lowAlch;
+	}
+
+	public int getHighAlch() {
+		return highAlch;
+	}
+
+	public int getShopValue() {
+		return shopValue;
+	}
+
+	public boolean isNoteable() {
+		return noteable;
 	}
 
 	public boolean isNoted() {
 		return noted;
 	}
 
-	public boolean isTwoHanded() {
-		return twoHanded;
+	public int getUnnotedId() {
+		return unnotedId;
 	}
 
-	public int[] getBonus() {
-		return bonus;
+	public int getNotedId() {
+		return notedId;
+	}
+
+	public boolean isStackable() {
+		return stackable;
+	}
+
+	public double getWeight() {
+		return weight;
 	}
 
 	@Override

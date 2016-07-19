@@ -1,6 +1,8 @@
 package astraeus.net.packet.in;
 
 import astraeus.game.event.impl.ObjectFirstClickEvent;
+import astraeus.game.event.impl.ObjectSecondClickEvent;
+import astraeus.game.event.impl.ObjectThirdClickEvent;
 import astraeus.game.model.Location;
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.player.Player;
@@ -115,7 +117,7 @@ public class ObjectInteractionPacket implements Receivable {
 			
 			@Override
 			public void onCancel() {
-				player.post(new ObjectFirstClickEvent(object));
+				player.post(new ObjectSecondClickEvent(object));
 			}
 			
 		});
@@ -156,7 +158,7 @@ public class ObjectInteractionPacket implements Receivable {
 			
 			@Override
 			public void onCancel() {
-				player.post(new ObjectFirstClickEvent(object));
+				player.post(new ObjectThirdClickEvent(object));
 			}
 			
 		});	

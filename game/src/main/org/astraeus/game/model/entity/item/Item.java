@@ -124,7 +124,7 @@ public class Item extends Entity {
                   return 0;
             }
 
-            return def.getHighAlchValue();
+            return def.getHighAlch();
       }
 
       /**
@@ -139,7 +139,7 @@ public class Item extends Entity {
                   return 0;
             }
 
-            return def.getLowAlchValue();
+            return def.getLowAlch();
       }
 
       /**
@@ -162,7 +162,7 @@ public class Item extends Entity {
                   return 0;
             }
 
-            return def.getStorePrice();
+            return def.getShopValue();
       }
 
       /**

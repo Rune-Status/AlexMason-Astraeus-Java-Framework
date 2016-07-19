@@ -20,7 +20,11 @@ class ObjectSecondClick : EventSubscriber<ObjectSecondClickEvent> {
             player.send(ServerMessagePacket("[click= object], [type= second], [id= ${event.gameObject.id}], [location= ${event.gameObject.location.toString()}]"));
         }
 		
+		println(event.gameObject.id)
+		
 		when (event.gameObject.id) {
+			
+			2213 -> player.bank.open()
 			
 		}
 		
