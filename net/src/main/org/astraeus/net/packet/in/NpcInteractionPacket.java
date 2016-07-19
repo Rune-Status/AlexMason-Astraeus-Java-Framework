@@ -127,7 +127,6 @@ public class NpcInteractionPacket implements Receivable {
             }
 
             player.getMovementListener().append(() -> {
-                  System.out.println("appending");
                   if (player.getPosition().isWithinDistance(npc.getPosition().copy(), 1)) {
                         player.setInteractingEntity(npc);
                         npc.setInteractingEntity(player);

@@ -12,8 +12,6 @@ public abstract class GsonParser<T> implements Runnable {
 
 	private final Logger logger = LoggerUtils.getLogger(GsonParser.class);
 
-	protected Gson gson;
-
 	protected String path;
 
 	private boolean log;
@@ -24,19 +22,21 @@ public abstract class GsonParser<T> implements Runnable {
 
 	public GsonParser(String path, boolean log) {
 		this.path = path;
-		this.gson = new GsonBuilder().create();
 		this.log = log;
 	}
 
-	public abstract T[] deserialize(FileReader reader) throws IOException;
+	public abstract T[] deserialize(Gson gson, FileReader reader) throws IOException;
 
 	public abstract void onRead(T[] array) throws IOException;
 
 	@Override
 	public void run() {
 		
+		final Gson gson = new GsonBuilder().create();
+		
 		try (FileReader reader = new FileReader(path + ".json")) {
-			T[] types = deserialize(reader);
+			
+			T[] types = deserialize(gson, reader);
 
 			onRead(types);
 

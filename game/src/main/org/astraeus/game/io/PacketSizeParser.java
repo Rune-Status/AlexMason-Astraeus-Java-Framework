@@ -4,6 +4,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
+import com.google.gson.Gson;
+
 import astraeus.net.NetworkConstants;
 import astraeus.util.GsonParser;
 
@@ -16,7 +18,7 @@ public final class PacketSizeParser extends GsonParser<PacketSize> {
 	}
 
 	@Override
-	public PacketSize[] deserialize(FileReader reader) throws IOException {
+	public PacketSize[] deserialize(Gson gson, FileReader reader) throws IOException {
 		return gson.fromJson(reader, PacketSize[].class);
 	}
 

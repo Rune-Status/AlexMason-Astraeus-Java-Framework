@@ -4,6 +4,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
+import com.google.gson.Gson;
+
 import astraeus.game.model.entity.mob.npc.NpcDefinition;
 import astraeus.util.GsonParser;
 
@@ -14,7 +16,7 @@ public final class NpcDefinitionParser extends GsonParser<NpcDefinition> {
 	}
 
 	@Override
-	public NpcDefinition[] deserialize(FileReader reader) throws IOException {
+	public NpcDefinition[] deserialize(Gson gson, FileReader reader) throws IOException {
 		return gson.fromJson(reader, NpcDefinition[].class);		
 	}
 

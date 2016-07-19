@@ -4,10 +4,8 @@ import astraeus.game.event.impl.ObjectFirstClickEvent;
 import astraeus.game.event.impl.ObjectSecondClickEvent;
 import astraeus.game.event.impl.ObjectThirdClickEvent;
 import astraeus.game.model.Position;
-import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.object.GameObject;
-import astraeus.game.task.Task;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 import astraeus.net.codec.ByteModification;
@@ -20,7 +18,8 @@ import astraeus.net.codec.game.GamePacketReader;
  * 
  * @author SeVen
  */
-@IncomingPacket.IncomingPacketOpcode({ IncomingPacket.FIRST_CLICK_OBJECT, IncomingPacket.SECOND_CLICK_OBJECT, IncomingPacket.THIRD_CLICK_OBJECT })
+@IncomingPacket.IncomingPacketOpcode({ IncomingPacket.FIRST_CLICK_OBJECT, IncomingPacket.SECOND_CLICK_OBJECT,
+		IncomingPacket.THIRD_CLICK_OBJECT })
 public class ObjectInteractionPacket implements Receivable {
 
 	@Override
@@ -54,33 +53,24 @@ public class ObjectInteractionPacket implements Receivable {
 	 */
 	private void handleFirstClickObject(Player player, IncomingPacket packet) {
 		GamePacketReader reader = packet.getReader();
-		
+
 		int x = reader.readShort(ByteOrder.LITTLE, ByteModification.ADDITION);
 		int id = reader.readShort(false);
 		int y = reader.readShort(false, ByteModification.ADDITION);
 
 		GameObject object = new GameObject(id, new Position(x, y));
-		
+
 		if (player == null || object == null) {
 			return;
 		}
-		
-		World.WORLD.submit(new Task(0, false) {
 
-			@Override
-			public void execute() {
-				if (player.getPosition().isWithinInteractionDistance(object.getPosition())) {
-					player.faceLocation(object.getPosition());
-					cancel();
-				}
-			}
-			
-			@Override
-			public void onCancel() {
+		player.getMovementListener().append(() -> {
+			if (player.getPosition().isWithinDistance(object.getPosition(), 1)) {
+				player.faceLocation(object.getPosition());
 				player.post(new ObjectFirstClickEvent(object));
 			}
-			
 		});
+
 	}
 
 	/**
@@ -94,7 +84,7 @@ public class ObjectInteractionPacket implements Receivable {
 	 */
 	private void handleSecondClickObject(Player player, IncomingPacket packet) {
 		GamePacketReader reader = packet.getReader();
-		
+
 		int id = reader.readShort(ByteOrder.LITTLE, ByteModification.ADDITION);
 		int y = reader.readShort(ByteOrder.LITTLE);
 		int x = reader.readShort(false, ByteModification.ADDITION);
@@ -104,22 +94,12 @@ public class ObjectInteractionPacket implements Receivable {
 		if (player == null || object == null || object.getId() != id) {
 			return;
 		}
-		
-		World.WORLD.submit(new Task(0, false) {
 
-			@Override
-			public void execute() {
-				if (player.getPosition().isWithinInteractionDistance(object.getPosition())) {
-					player.faceLocation(object.getPosition());
-					cancel();
-				}
-			}
-			
-			@Override
-			public void onCancel() {
+		player.getMovementListener().append(() -> {			
+			if (player.getPosition().isWithinDistance(object.getPosition(), 1)) {
+				player.faceLocation(object.getPosition());
 				player.post(new ObjectSecondClickEvent(object));
 			}
-			
 		});
 
 	}
@@ -135,7 +115,7 @@ public class ObjectInteractionPacket implements Receivable {
 	 */
 	private void handleThirdClickObject(Player player, IncomingPacket packet) {
 		GamePacketReader reader = packet.getReader();
-		
+
 		int x = reader.readShort(ByteOrder.LITTLE);
 		int y = reader.readShort(false);
 		int id = reader.readShort(ByteOrder.LITTLE, ByteModification.ADDITION);
@@ -145,23 +125,13 @@ public class ObjectInteractionPacket implements Receivable {
 		if (player == null || object == null || object.getId() != id) {
 			return;
 		}
-		
-		World.WORLD.submit(new Task(0, false) {
 
-			@Override
-			public void execute() {
-				if (player.getPosition().isWithinInteractionDistance(object.getPosition())) {
-					player.faceLocation(object.getPosition());
-					cancel();
-				}
-			}
-			
-			@Override
-			public void onCancel() {
+		player.getMovementListener().append(() -> {
+			if (player.getPosition().isWithinDistance(object.getPosition(), 1)) {
+				player.faceLocation(object.getPosition());
 				player.post(new ObjectThirdClickEvent(object));
 			}
-			
-		});	
+		});
 
 	}
 

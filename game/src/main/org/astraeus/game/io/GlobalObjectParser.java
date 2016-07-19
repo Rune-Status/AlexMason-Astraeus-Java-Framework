@@ -4,6 +4,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
+import com.google.gson.Gson;
+
 import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.model.entity.object.GameObjectType;
 import astraeus.game.model.entity.object.GameObjects;
@@ -17,7 +19,7 @@ public final class GlobalObjectParser extends GsonParser<GlobalObject> {
 	}
 
 	@Override
-	public GlobalObject[] deserialize(FileReader reader) throws IOException {
+	public GlobalObject[] deserialize(Gson gson, FileReader reader) throws IOException {
 		return gson.fromJson(reader, GlobalObject[].class);
 	}
 

@@ -4,6 +4,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
+import com.google.gson.Gson;
+
 import astraeus.game.model.World;
 import astraeus.game.plugin.PluginMetaData;
 import astraeus.util.GsonParser;
@@ -15,7 +17,7 @@ public final class PluginMetaDataParser extends GsonParser<PluginMetaData> {
 	}
 
 	@Override
-	public PluginMetaData[] deserialize(FileReader reader) throws IOException {
+	public PluginMetaData[] deserialize(Gson gson, FileReader reader) throws IOException {
 		return gson.fromJson(reader, PluginMetaData[].class);		
 	}
 

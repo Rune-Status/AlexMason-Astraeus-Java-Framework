@@ -4,6 +4,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
+import com.google.gson.Gson;
+
 import astraeus.game.model.entity.item.container.impl.Equipment.EquipmentDefinition;
 import astraeus.util.GsonParser;
 
@@ -14,7 +16,7 @@ public final class EquipmentDefinitionParser extends GsonParser<EquipmentDefinit
 	}
 
 	@Override
-	public EquipmentDefinition[] deserialize(FileReader reader) throws IOException {
+	public EquipmentDefinition[] deserialize(Gson gson, FileReader reader) throws IOException {
 		return gson.fromJson(reader, EquipmentDefinition[].class);
 	}
 
