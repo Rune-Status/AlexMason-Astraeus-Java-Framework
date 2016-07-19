@@ -31,14 +31,14 @@ package astraeus.game.model;
 public final class ForceMovement {
       
 	 /**
-   * The initial {@link Location} of the player.
+   * The initial {@link Position} of the player.
    */
-  private final Location startLocation; 
+  private final Position startLocation; 
 	
 	/**
-	 * The {@link Location} the player is being moved to.
+	 * The {@link Position} the player is being moved to.
 	 */
-	private final Location endLocation;
+	private final Position endLocation;
 
 	/**
 	 * The length of time (in game pulses) the player's movement along the
@@ -61,9 +61,9 @@ public final class ForceMovement {
 	 * Creates a new force movement block.
 	 *
 	 * @param initialLocation
-	 *            The initial {@link Location} of the player.
+	 *            The initial {@link Position} of the player.
 	 * @param finalLocation
-	 *            The final {@link Location} of the player
+	 *            The final {@link Position} of the player
 	 * @param travelDurationX
 	 *            The length of time (in game pulses) the player's movement
 	 *            along the X-axis will last.
@@ -73,7 +73,7 @@ public final class ForceMovement {
 	 * @param direction
 	 *            The direction the player should move.
 	 */
-	ForceMovement(Location initialLocation, Location finalLocation, int travelDurationX, int travelDurationY, Direction direction) {
+	ForceMovement(Position initialLocation, Position finalLocation, int travelDurationX, int travelDurationY, Direction direction) {
 		this.startLocation = initialLocation;
 		this.endLocation = finalLocation;
 		this.durationX = travelDurationX;
@@ -82,16 +82,16 @@ public final class ForceMovement {
 	}
 	
   /**
-  * Gets the coordinate of the initial {@link Location}.
+  * Gets the coordinate of the initial {@link Position}.
   *
   * @return The coordinate.
   */
-  public Location getStartLocation() {
+  public Position getStartLocation() {
         return startLocation;
   }
   
   /**
-   * Gets the X coordinate of the initial {@link Location}.
+   * Gets the X coordinate of the initial {@link Position}.
    *
    * @return The X coordinate.
    */
@@ -100,7 +100,7 @@ public final class ForceMovement {
   }
 	
   /**
-   * Gets the Y coordinate of the initial {@link Location}.
+   * Gets the Y coordinate of the initial {@link Position}.
    *
    * @return The Y coordinate.
    */
@@ -109,16 +109,16 @@ public final class ForceMovement {
   }
   
   /**
-  * Gets the coordinate of the final {@link Location}.
+  * Gets the coordinate of the final {@link Position}.
   *
   * @return The coordinate.
   */
-	public Location getEndLocation() {
+	public Position getEndLocation() {
 	      return endLocation;
 	}
 	
 	/**
-	 * Gets the X coordinate of the final {@link Location}.
+	 * Gets the X coordinate of the final {@link Position}.
 	 *
 	 * @return The X coordinate.
 	 */
@@ -127,7 +127,7 @@ public final class ForceMovement {
 	}
 
 	/**
-	 * Gets the Y coordinate of the final {@link Location}.
+	 * Gets the Y coordinate of the final {@link Position}.
 	 *
 	 * @return The Y coordinate.
 	 */

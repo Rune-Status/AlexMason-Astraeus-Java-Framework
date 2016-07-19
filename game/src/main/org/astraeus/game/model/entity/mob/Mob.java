@@ -33,9 +33,9 @@ public abstract class Mob extends Entity {
        */
       private final EnumSet<UpdateFlag> FLAGS = EnumSet.noneOf(UpdateFlag.class);
 
-      private Location lastLocation = new Location(0, 0, 0);
+      private Position lastLocation = new Position(0, 0, 0);
 
-      private Location facingLocation;
+      private Position facingLocation;
 
       private final Movement movement = new Movement(this);
 
@@ -70,7 +70,7 @@ public abstract class Mob extends Entity {
 
       private String forcedChat;
 
-      public Mob(Location location) {
+      public Mob(Position location) {
             super(location);
       }
 
@@ -301,7 +301,7 @@ public abstract class Mob extends Entity {
             FLAGS.add(UpdateFlag.ENTITY_INTERACTION);
       }
 
-      public void setLastLocation(Location lastLocation) {
+      public void setLastLocation(Position lastLocation) {
             this.lastLocation = lastLocation;
       }
 
@@ -384,7 +384,7 @@ public abstract class Mob extends Entity {
             return interactingEntity;
       }
 
-      public Location getLastLocation() {
+      public Position getLastLocation() {
             return lastLocation;
       }
 
@@ -412,11 +412,11 @@ public abstract class Mob extends Entity {
             this.antipoisonTimer = antipoisonTimer;
       }
 
-      public Location getFacingLocation() {
+      public Position getFacingLocation() {
             return facingLocation;
       }
 
-      public void faceLocation(Location facingLocation) {
+      public void faceLocation(Position facingLocation) {
             this.facingLocation = facingLocation;
             FLAGS.add(UpdateFlag.FACE_COORDINATE);
       }

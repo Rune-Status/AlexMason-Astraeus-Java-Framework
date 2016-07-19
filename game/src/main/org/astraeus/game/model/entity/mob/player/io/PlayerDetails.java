@@ -1,7 +1,7 @@
 package astraeus.game.model.entity.mob.player.io;
 
 import astraeus.game.model.Appearance;
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.entity.mob.player.Brightness;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
@@ -89,7 +89,7 @@ public final class PlayerDetails {
     @SuppressWarnings("unused")
 	private final String hostAddress;
     private final PlayerRights rights;
-    private final Location location;
+    private final Position location;
     private final Brightness brightness;
     private final Volume musicVolume;
     private final Volume soundEffectVolume;
@@ -120,7 +120,7 @@ public final class PlayerDetails {
         password = player.getPassword();
         hostAddress = player.getHostAddress();
         rights = player.getRights();
-        location = player.getLocation();
+        location = player.getPosition();
         brightness = player.attr().get(Attribute.BRIGHTNESS);
         musicVolume = player.attr().get(Attribute.MUSIC_VOLUME);
         soundEffectVolume = player.attr().get(Attribute.SOUND_EFFECT_VOLUME);
@@ -148,7 +148,7 @@ public final class PlayerDetails {
         return rights;
     }
 
-    public Location getLocation() {
+    public Position getLocation() {
         return location;
     }
 

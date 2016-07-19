@@ -1,7 +1,7 @@
 package astraeus.game.model.entity.object;
 
 import astraeus.game.model.Direction;
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.entity.Entity;
 
 /**
@@ -33,7 +33,7 @@ public class GameObject extends Entity {
        * 
        * @param location The location of this object.
        */
-      public GameObject(int id, Location location) {
+      public GameObject(int id, Position location) {
             this(id, GameObjectType.INTERACTABLE, location, Direction.SOUTH);
       }
 
@@ -46,7 +46,7 @@ public class GameObject extends Entity {
        * 
        * @param orientation The facing direction of this object.
        */
-      public GameObject(int id, Location location, Direction orientation) {
+      public GameObject(int id, Position location, Direction orientation) {
             this(id, GameObjectType.INTERACTABLE, location, orientation);
       }
 
@@ -61,7 +61,7 @@ public class GameObject extends Entity {
        * 
        * @param orientation The facing direction of this object.
        */
-      public GameObject(int id, GameObjectType type, Location location, Direction orientation) {
+      public GameObject(int id, GameObjectType type, Position location, Direction orientation) {
             super(location);
             packed = id << 8 | (type.getValue() & 0x3F) << 2 | orientation.getId() & 0x3;
             this.type = type;

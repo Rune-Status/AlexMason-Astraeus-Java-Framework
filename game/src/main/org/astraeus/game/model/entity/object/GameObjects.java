@@ -26,7 +26,7 @@ public final class GameObjects {
    *            The player to create the global objects for.
    */
   public static final void createGlobalObjects(Player player) {
-    GLOBAL_OBJECTS.stream().filter(Objects::nonNull).filter($it -> $it.getLocation().isWithinDistance(player.getLocation(), 32)).forEach( $it -> player.send(new AddObjectPacket($it, true)));
+    GLOBAL_OBJECTS.stream().filter(Objects::nonNull).filter($it -> $it.getPosition().isWithinDistance(player.getPosition(), 32)).forEach( $it -> player.send(new AddObjectPacket($it, true)));
   }
 
   /**

@@ -13,9 +13,9 @@ public final class UpdateMapRegion implements Sendable {
 	@Override
 	public Optional<OutgoingPacket> writePacket(Player player) {
 		GamePacketBuilder builder = new GamePacketBuilder(73);
-		player.getLastLocation().setLocation(player.getLocation());
-		builder.writeShort(player.getLocation().getRegionalX() + 6, ByteModification.ADDITION)
-		.writeShort(player.getLocation().getRegionalY() + 6);
+		player.getLastLocation().setLocation(player.getPosition());
+		builder.writeShort(player.getPosition().getRegionalX() + 6, ByteModification.ADDITION)
+		.writeShort(player.getPosition().getRegionalY() + 6);
 		return builder.toOutgoingPacket();
 	}
 

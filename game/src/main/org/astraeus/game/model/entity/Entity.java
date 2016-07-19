@@ -2,7 +2,7 @@ package astraeus.game.model.entity;
 
 import java.util.LinkedList;
 
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.entity.mob.Mob;
 import astraeus.game.task.Task;
 
@@ -21,15 +21,15 @@ public abstract class Entity {
 	/**
 	 * The position of this entity
 	 */
-	private transient Location location;
+	private transient Position position;
 
 	/**
 	 * The tasks this entity is performing.
 	 */
 	private transient final LinkedList<Task> tasks = new LinkedList<Task>();
 
-	public Entity(Location location) {
-		this.location = location;
+	public Entity(Position location) {
+		this.position = location;
 	}
 
 	public abstract int size();
@@ -53,8 +53,8 @@ public abstract class Entity {
 	/**
 	 * Gets an entities position
 	 */
-	public Location getLocation() {
-		return location;
+	public Position getPosition() {
+		return position;		
 	}
 
 	/**
@@ -77,14 +77,14 @@ public abstract class Entity {
 	 * The x coordinate of this entity.
 	 */
 	public int getX() {
-		return location.getX();
+		return position.getX();
 	}
 
 	/**
 	 * The y coordinate of this entity.
 	 */
 	public int getY() {
-		return location.getY();
+		return position.getY();
 	}
 
 	/**
@@ -92,8 +92,8 @@ public abstract class Entity {
 	 * 
 	 * @param location
 	 */
-	public void setLocation(Location location) {
-		this.location = location;
+	public void setLocation(Position location) {
+		this.position = location;
 	}
 
 	/**

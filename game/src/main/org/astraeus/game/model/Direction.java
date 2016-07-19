@@ -56,7 +56,7 @@ public enum Direction {
 	 * 
 	 * @return The direction of the other location.
 	 */
-	public static Direction getDirection(Location location, Location other) {
+	public static Direction getDirection(Position location, Position other) {
 
 		final int deltaX = other.getX() - location.getX();
 		final int deltaY = other.getY() - location.getY();
@@ -102,7 +102,7 @@ public enum Direction {
 	 * 
 	 * @return The direction of the other location.
 	 */
-	public static Direction getManhattanDirection(Location location, Location other) {
+	public static Direction getManhattanDirection(Position location, Position other) {
 
 		final int deltaX = other.getX() - location.getX();
 		final int deltaY = other.getY() - location.getY();

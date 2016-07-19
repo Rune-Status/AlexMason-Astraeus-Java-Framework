@@ -1,6 +1,6 @@
 package astraeus.game.model.entity.mob.player.update.mask;
 
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.update.PlayerUpdateBlock;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
@@ -25,7 +25,7 @@ public class PlayerFaceCoordinateUpdateBlock extends PlayerUpdateBlock {
 
 	@Override
 	public void encode(Player target, GamePacketBuilder builder) {
-		final Location location = target.getFacingLocation();
+		final Position location = target.getFacingLocation();
 		int x = location == null ? 0 : location.getX();
 		int y = location == null ? 0 : location.getY();
 		builder.writeShort(x * 2 + 1, ByteModification.ADDITION, ByteOrder.LITTLE)

@@ -3,7 +3,7 @@ package astraeus.net.packet.in;
 import astraeus.game.event.impl.ObjectFirstClickEvent;
 import astraeus.game.event.impl.ObjectSecondClickEvent;
 import astraeus.game.event.impl.ObjectThirdClickEvent;
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.object.GameObject;
@@ -59,7 +59,7 @@ public class ObjectInteractionPacket implements Receivable {
 		int id = reader.readShort(false);
 		int y = reader.readShort(false, ByteModification.ADDITION);
 
-		GameObject object = new GameObject(id, new Location(x, y));
+		GameObject object = new GameObject(id, new Position(x, y));
 		
 		if (player == null || object == null) {
 			return;
@@ -69,8 +69,8 @@ public class ObjectInteractionPacket implements Receivable {
 
 			@Override
 			public void execute() {
-				if (player.getLocation().isWithinInteractionDistance(object.getLocation())) {
-					player.faceLocation(object.getLocation());
+				if (player.getPosition().isWithinInteractionDistance(object.getPosition())) {
+					player.faceLocation(object.getPosition());
 					cancel();
 				}
 			}
@@ -99,7 +99,7 @@ public class ObjectInteractionPacket implements Receivable {
 		int y = reader.readShort(ByteOrder.LITTLE);
 		int x = reader.readShort(false, ByteModification.ADDITION);
 
-		GameObject object = new GameObject(id, new Location(x, y, player.getLocation().getHeight()));
+		GameObject object = new GameObject(id, new Position(x, y, player.getPosition().getHeight()));
 
 		if (player == null || object == null || object.getId() != id) {
 			return;
@@ -109,8 +109,8 @@ public class ObjectInteractionPacket implements Receivable {
 
 			@Override
 			public void execute() {
-				if (player.getLocation().isWithinInteractionDistance(object.getLocation())) {
-					player.faceLocation(object.getLocation());
+				if (player.getPosition().isWithinInteractionDistance(object.getPosition())) {
+					player.faceLocation(object.getPosition());
 					cancel();
 				}
 			}
@@ -140,7 +140,7 @@ public class ObjectInteractionPacket implements Receivable {
 		int y = reader.readShort(false);
 		int id = reader.readShort(ByteOrder.LITTLE, ByteModification.ADDITION);
 
-		GameObject object = new GameObject(id, new Location(x, y, player.getLocation().getHeight()));
+		GameObject object = new GameObject(id, new Position(x, y, player.getPosition().getHeight()));
 
 		if (player == null || object == null || object.getId() != id) {
 			return;
@@ -150,8 +150,8 @@ public class ObjectInteractionPacket implements Receivable {
 
 			@Override
 			public void execute() {
-				if (player.getLocation().isWithinInteractionDistance(object.getLocation())) {
-					player.faceLocation(object.getLocation());
+				if (player.getPosition().isWithinInteractionDistance(object.getPosition())) {
+					player.faceLocation(object.getPosition());
 					cancel();
 				}
 			}

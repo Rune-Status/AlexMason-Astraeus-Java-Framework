@@ -1,7 +1,7 @@
 package astraeus.game.model.entity.mob.npc;
 
 import astraeus.game.GameConstants;
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.util.IntUtils;
@@ -30,8 +30,8 @@ public class Npcs {
 		}
 
 		final Npc mob = new Npc(spawn.getId(), slot);
-		mob.setLocation(spawn.getLocation());
-		mob.setCreatedLocation(new Location(spawn.getLocation()));
+		mob.setLocation(spawn.getPosition());
+		mob.setCreatedLocation(new Position(spawn.getPosition()));
 
 		mob.setFacingDirection(spawn.getFacing());
 		mob.setRandomWalk(spawn.isRandomWalk());
@@ -55,9 +55,9 @@ public class Npcs {
 				int randomX = RandomUtils.random(-1, 1);
 				int randomY = RandomUtils.random(-1, 1);
 
-				Location nextLocation = new Location(mob.getLocation().getX() + randomX, mob.getLocation().getY() + randomY, mob.getLocation().getHeight());
+				Position nextLocation = new Position(mob.getPosition().getX() + randomX, mob.getPosition().getY() + randomY, mob.getPosition().getHeight());
 
-				int distance = Location.getDistance(mob.getCreatedLocation(), nextLocation);
+				int distance = Position.getDistance(mob.getCreatedLocation(), nextLocation);
 
 				if (mob.getInteractingEntity() == null && distance <= GameConstants.NPC_RANDOM_WALK_DISTANCE) {
 					mob.getMovement().walk(nextLocation);

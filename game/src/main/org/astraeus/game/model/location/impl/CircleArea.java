@@ -1,6 +1,6 @@
 package astraeus.game.model.location.impl;
 
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.location.Area;
 
 /**
@@ -125,7 +125,7 @@ public class CircleArea extends Area {
 	}
 
 	@Override
-	public boolean inArea(Location location) {
+	public boolean inArea(Position location) {
 		if (location.getHeight() != height) {
 			return false;
 		}		

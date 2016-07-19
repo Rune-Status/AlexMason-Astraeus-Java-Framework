@@ -1,6 +1,6 @@
 package astraeus.net.packet.in;
 
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
@@ -145,7 +145,7 @@ public class UseItemPacket implements Receivable {
 		final int objectX = reader.readShort(ByteOrder.LITTLE, ByteModification.ADDITION);
 		final int itemId = reader.readShort();
 
-		GameObject object = new GameObject(objectId, new Location(objectX, objectY));
+		GameObject object = new GameObject(objectId, new Position(objectX, objectY));
 
 		//ItemOnObject.handleAction(player, item, object, slot);
 	}

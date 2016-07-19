@@ -1,6 +1,6 @@
 package astraeus.net.packet.in;
 
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
@@ -29,13 +29,13 @@ public class PickupItemPacket implements Receivable {
 
 		Item item = new Item(id);
 
-		Location location = new Location(x, y, player.getLocation().getHeight());
+		Position location = new Position(x, y, player.getPosition().getHeight());
 
 		if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
 			player.send(new ServerMessagePacket(String.format("[PickupItem] - Item: %s Location: %s", item.toString(), location.toString())));
 		}
 
-		if (Math.abs(player.getLocation().getX() - x) > 25 || Math.abs(player.getLocation().getY() - y) > 25) {
+		if (Math.abs(player.getPosition().getX() - x) > 25 || Math.abs(player.getPosition().getY() - y) > 25) {
 			player.getMovement().reset();
 			return;
 		}

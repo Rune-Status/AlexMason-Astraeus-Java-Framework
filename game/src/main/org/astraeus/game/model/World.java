@@ -37,7 +37,7 @@ public final class World {
 	/**
 	 * The mobs registered in this world.
 	 */
-	private Npc mobs[] = new Npc[GameConstants.MAXIMUM_MOB_SPAWNS];
+	private Npc mobs[] = new Npc[GameConstants.MAXIMUM_NPC_SPAWNS];
 
 	/**
 	 * The {@link Set} of banned hosts.

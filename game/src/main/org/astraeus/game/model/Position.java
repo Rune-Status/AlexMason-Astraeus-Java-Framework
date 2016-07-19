@@ -4,7 +4,7 @@ import astraeus.game.model.entity.Entity;
 
 import java.util.Objects;
 
-public final class Location {
+public final class Position {
 
 	/**
 	 * The maximum distance a mobile entity can see.
@@ -32,7 +32,7 @@ public final class Location {
 	private int height;
 
 	/**
-	 * Creates a new {@link Location} with a default {@code height} of {@code 0}
+	 * Creates a new {@link Position} with a default {@code height} of {@code 0}
 	 * .
 	 * 
 	 * @param x
@@ -40,12 +40,12 @@ public final class Location {
 	 * @param y
 	 *            The y coordinate on a grid.
 	 */
-	public Location(int x, int y) {
+	public Position(int x, int y) {
 		this(x, y, 0);
 	}
 
 	/**
-	 * Creates a new {@link Location}.
+	 * Creates a new {@link Position}.
 	 * 
 	 * @param x
 	 *            The x coordinate on a grid.
@@ -54,34 +54,34 @@ public final class Location {
 	 * @param height
 	 *            The height or plane.
 	 */
-	public Location(int x, int y, int height) {
+	public Position(int x, int y, int height) {
 		this.x = x;
 		this.y = y;
 		this.height = height;
 	}
 
 	/**
-	 * Creates a new {@link Location} from an existing {@code location}.
+	 * Creates a new {@link Position} from an existing {@code location}.
 	 * 
 	 * @param location
 	 *            The location to create.
 	 */
-	public Location(Location location) {
+	public Position(Position location) {
 		this.x = location.getX();
 		this.y = location.getY();
 		this.height = location.getHeight();
 	}
 
-	public Location copy() {
-		return new Location(x, y, height);
+	public Position copy() {
+		return new Position(x, y, height);
 	}
 	
-	public Location climbUp() {
-	    return new Location(x, y, height + 1);
+	public Position climbUp() {
+	    return new Position(x, y, height + 1);
 	}
 	
-	public Location climbDown() {
-	    return new Location(x, y, height - 1);
+	public Position climbDown() {
+	    return new Position(x, y, height - 1);
 	}
 
 	/**
@@ -93,7 +93,7 @@ public final class Location {
 	 * 
 	 * @return The result of the operation.
 	 */
-	public final boolean coordinatesEqual(Location other) {
+	public final boolean coordinatesEqual(Position other) {
 		return other.getX() == this.getX() && other.getY() == this.getY() && other.getHeight() == this.getHeight();
 	}
 
@@ -103,7 +103,7 @@ public final class Location {
 			return false;
 		}
 
-		final Location location = (Location) other;
+		final Position location = (Position) other;
 
 		return coordinatesEqual(location);
 	}
@@ -136,31 +136,31 @@ public final class Location {
 	}
 
 	/**
-	 * Returns the local X coordinate of an {@link Location}.
+	 * Returns the local X coordinate of an {@link Position}.
 	 * 
 	 * @param location
-	 *            The {@link Location}.
+	 *            The {@link Position}.
 	 * 
 	 * @return The returned local coordinate.
 	 */
-	public final int getLocalX(Location location) {
+	public final int getLocalX(Position location) {
 		return x - 8 * location.getRegionalX();
 	}
 
 	/**
-	 * Returns the local Y coordinate of an {@link Location}.
+	 * Returns the local Y coordinate of an {@link Position}.
 	 * 
 	 * @param location
-	 *            The {@link Location}.
+	 *            The {@link Position}.
 	 * 
 	 * @return The returned local coordinate.
 	 */
-	public final int getLocalY(Location location) {
+	public final int getLocalY(Position location) {
 		return y - 8 * location.getRegionalY();
 	}
 
 	/**
-	 * Returns the local X coordinate of thid {@link Location}.
+	 * Returns the local X coordinate of thid {@link Position}.
 	 * 
 	 * @return The returned local coordinate.
 	 */
@@ -169,7 +169,7 @@ public final class Location {
 	}
 
 	/**
-	 * Returns the local Y coordinate of this {@link Location}.
+	 * Returns the local Y coordinate of this {@link Position}.
 	 * 
 	 * @return The returned local coordinate.
 	 */
@@ -231,7 +231,7 @@ public final class Location {
 	 * @return The result of the operation. <code> true </code> or
 	 *         <code> false </code>.
 	 */
-	public final boolean isWithinDistance(Location other, int distance) {
+	public final boolean isWithinDistance(Position other, int distance) {
 		if (this.getHeight() != other.getHeight()) {
 			return false;
 		}
@@ -239,30 +239,30 @@ public final class Location {
 	}
 	
 	/**
-	 * Gets the Euclidean (straight-line) distance between two {@link Location}
+	 * Gets the Euclidean (straight-line) distance between two {@link Position}
 	 * s.
 	 * 
 	 * @return The distance in tiles between the two locations.
 	 */
-	public static int getDistance(Location first, Location second) {
+	public static int getDistance(Position first, Position second) {
 		final int dx = second.getX() - first.getX();
 		final int dy = second.getY() - first.getY();
 		return (int) Math.sqrt(dx * dx + dy * dy);
 	}
 
 	/**
-	 * Gets the Euclidean (straight-line) distance between two {@link Location}
+	 * Gets the Euclidean (straight-line) distance between two {@link Position}
 	 * s.
 	 * 
 	 * @return The distance in tiles between the two locations.
 	 */
-	public static int getManhattanDistance(Location first, Location second) {
+	public static int getManhattanDistance(Position first, Position second) {
 		final int dx = Math.abs(second.getX() - first.getX());
 		final int dy = Math.abs(second.getY() - first.getY());
 		return dx + dy;
 	}
 
-	public boolean isWithinInteractionDistance(Location other) {
+	public boolean isWithinInteractionDistance(Position other) {
 		if (height != other.height) {
 			return false;
 		}
@@ -276,7 +276,7 @@ public final class Location {
 	 * @param other
 	 *            The new modification.
 	 */
-	public final void setLocation(Location other) {
+	public final void setLocation(Position other) {
 		this.x = other.getX();
 		this.y = other.getY();
 		this.height = other.getHeight();
@@ -300,15 +300,15 @@ public final class Location {
 		this.height += z;
 	}
 
-	public Location transform(int x, int y, int h) {
+	public Position transform(int x, int y, int h) {
 		this.x += x;
 		this.y += y;
 		this.height += h;
 		return this;
 	}
 
-	public Location add(Direction direction) {
-		return new Location(x + direction.getDirectionX(), y + direction.getDirectionY(), height);
+	public Position add(Direction direction) {
+		return new Position(x + direction.getDirectionX(), y + direction.getDirectionY(), height);
 	}
 	
 	@Override

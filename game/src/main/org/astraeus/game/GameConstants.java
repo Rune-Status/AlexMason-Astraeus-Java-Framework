@@ -2,14 +2,14 @@ package astraeus.game;
 
 import com.google.common.collect.ImmutableList;
 
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.location.Area;
 import astraeus.game.model.location.impl.SquareArea;
 
 /**
  * The class containing game-related constants.
  * 
- * @author SeVen
+ * @author Vult-R
  */
 public class GameConstants {
 
@@ -21,7 +21,7 @@ public class GameConstants {
       /**
        * The default spawn for entities.
        */
-      public static final Location DEFAULT_LOCATION = new Location(3159, 3485);
+      public static final Position DEFAULT_LOCATION = new Position(3159, 3485);
 
       /**
        * The collection of areas that resemble the wilderness area.
@@ -62,6 +62,6 @@ public class GameConstants {
       /**
        * The maximum amount of mobs that can be held within the game world.
        */
-      public static final int MAXIMUM_MOB_SPAWNS = 3000;
+      public static final int MAXIMUM_NPC_SPAWNS = 3000;
 
 }

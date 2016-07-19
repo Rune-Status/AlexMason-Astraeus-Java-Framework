@@ -1,6 +1,6 @@
 package astraeus.net.packet.out;
 
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.update.mask.*;
@@ -53,8 +53,8 @@ public final class UpdatePlayerPacket implements Sendable {
                   final Player other = iterator.next();
 
                   if (World.WORLD.getPlayers().get(other.getSlot()) != null && other.isRegistered()
-                              && !other.isTeleporting() && other.getLocation().isWithinDistance(
-                                          player.getLocation(), Location.VIEWING_DISTANCE)) {
+                              && !other.isTeleporting() && other.getPosition().isWithinDistance(
+                                          player.getPosition(), Position.VIEWING_DISTANCE)) {
 
                         updateOtherPlayerMovement(other, builder);
 
@@ -76,8 +76,8 @@ public final class UpdatePlayerPacket implements Sendable {
                         continue;
                   }
 
-                  if (other.getLocation().isWithinDistance(player.getLocation(),
-                              Location.VIEWING_DISTANCE)) {
+                  if (other.getPosition().isWithinDistance(player.getPosition(),
+                              Position.VIEWING_DISTANCE)) {
 
                         if (player.getLocalPlayers().size() >= 255
                                     || playersAdded > MAX_NEW_PLAYERS_PER_CYCLE) {
@@ -112,8 +112,8 @@ public final class UpdatePlayerPacket implements Sendable {
       private void addPlayer(Player player, Player other, GamePacketBuilder builder) {
             player.getLocalPlayers().add(other);
             builder.writeBits(11, other.getSlot()).writeBit(true).writeBit(true)
-                        .writeBits(5, player.getLocation().getDeltaY(other))
-                        .writeBits(5, player.getLocation().getDeltaX(other));
+                        .writeBits(5, player.getPosition().getDeltaY(other))
+                        .writeBits(5, player.getPosition().getDeltaX(other));
       }
 
       /**
@@ -267,7 +267,7 @@ public final class UpdatePlayerPacket implements Sendable {
                   /*
                    * This is the new player height.
                    */
-                  builder.writeBits(2, player.getLocation().getHeight());
+                  builder.writeBits(2, player.getPosition().getHeight());
 
                   /*
                    * This indicates that the client should discard the walking queue.
@@ -282,8 +282,8 @@ public final class UpdatePlayerPacket implements Sendable {
                   /*
                    * These are the positions.
                    */
-                  builder.writeBits(7, player.getLocation().getLocalY(player.getLastLocation()));
-                  builder.writeBits(7, player.getLocation().getLocalX(player.getLastLocation()));
+                  builder.writeBits(7, player.getPosition().getLocalY(player.getLastLocation()));
+                  builder.writeBits(7, player.getPosition().getLocalX(player.getLastLocation()));
                   return;
             } else {
 

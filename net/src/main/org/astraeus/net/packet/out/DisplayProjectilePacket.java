@@ -1,6 +1,6 @@
 package astraeus.net.packet.out;
 
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.Projectile;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.game.GamePacketBuilder;
@@ -17,7 +17,7 @@ public final class DisplayProjectilePacket implements Sendable {
 	private final byte offsetY;
 	//private final SendAltCoordinates sendAlt;
 
-	public DisplayProjectilePacket(Player player, Projectile projectile, Location location, int lock, byte offsetX, byte offsetY) {
+	public DisplayProjectilePacket(Player player, Projectile projectile, Position location, int lock, byte offsetX, byte offsetY) {
 		this.projectile = projectile;
 		this.lock = lock;
 		this.offsetX = offsetX;

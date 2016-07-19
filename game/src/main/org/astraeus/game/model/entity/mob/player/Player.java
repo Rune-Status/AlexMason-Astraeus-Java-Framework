@@ -41,12 +41,12 @@ public class Player extends Mob {
       /**
        * The default location a player will spawn.
        */
-      public static final Location DEFAULT_LOCATION = new Location(3086, 3499);
+      public static final Position DEFAULT_LOCATION = new Position(3086, 3499);
 
       /**
        * The default location a player will spawn if they died.
        */
-      public static final Location DEFAULT_RESPAWN = new Location(3087, 3502);
+      public static final Position DEFAULT_RESPAWN = new Position(3087, 3502);
       
       private ChatMessage chatMessage = new ChatMessage();
       private final PlayerRelation playerRelation = new PlayerRelation(this);
@@ -82,7 +82,7 @@ public class Player extends Mob {
             Arrays.stream(Attribute.values()).forEach($it -> attr().put($it, $it.getDefaultValue()));
       }
 
-      public Player(String username, Location location) {
+      public Player(String username, Position location) {
             super(location);
             this.username = username;
       }
@@ -100,7 +100,7 @@ public class Player extends Mob {
             getUpdateFlags().add(UpdateFlag.APPEARANCE);
             onStartup();
                   setLocation(attr().contains(Attribute.NEW_PLAYER, true) ? Player.DEFAULT_LOCATION
-                          : getLocation());
+                          : getPosition());
             onLogin();
             LOGGER.info(String.format("[REGISTERED]: [user= %s]", username));   
       }
@@ -315,7 +315,7 @@ public class Player extends Mob {
 
       public void displayWalkableInterfaces() {
             if (Area.inWilderness(this)) {
-                  int calculateY = this.getLocation().getY() > 6400 ? super.getLocation().getY() - 6400 : super.getLocation().getY();
+                  int calculateY = this.getPosition().getY() > 6400 ? super.getPosition().getY() - 6400 : super.getPosition().getY();
                   wildernessLevel = (((calculateY - 3520) / 8) + 1);
                   if (!inWilderness) {
                         send(new DisplayWalkableWidgetPacket(197));
@@ -349,9 +349,9 @@ public class Player extends Mob {
        * @param location
        *    The location the player will be sent to.
        */
-      public void move(Location location) {
-            setLastLocation(getLocation().copy());
-            setLocation(new Location(location.copy()));
+      public void move(Position location) {
+            setLastLocation(getPosition().copy());
+            setLocation(new Position(location.copy()));
             setTeleporting(true);
             getMovement().reset();
             getUpdateFlags().add(UpdateFlag.APPEARANCE);

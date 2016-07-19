@@ -1,7 +1,7 @@
 package astraeus.net.packet.out;
 
 import astraeus.Configuration;
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.npc.updating.NpcUpdateBlock;
@@ -39,8 +39,8 @@ public final class UpdateNpcPacket implements Sendable {
                   final Npc mob = iterator.next();
 
                   if (World.WORLD.getMobs()[mob.getSlot()] != null && mob.isRegistered()
-                              && player.getLocation().isWithinDistance(mob.getLocation(),
-                                          Location.VIEWING_DISTANCE)) {
+                              && player.getPosition().isWithinDistance(mob.getPosition(),
+                                          Position.VIEWING_DISTANCE)) {
                         updateMovement(mob, builder);
                         if (mob.isUpdateRequired()) {
                               appendUpdates(mob, update);
@@ -63,8 +63,8 @@ public final class UpdateNpcPacket implements Sendable {
                         continue;
                   }
 
-                  if (mob.getLocation().isWithinDistance(player.getLocation(),
-                              Location.VIEWING_DISTANCE)) {
+                  if (mob.getPosition().isWithinDistance(player.getPosition(),
+                              Position.VIEWING_DISTANCE)) {
 
                         addNPC(player, mob, builder);
 
@@ -95,8 +95,8 @@ public final class UpdateNpcPacket implements Sendable {
             final int slot = mob.getSlot();
             player.getLocalNpcs().add(mob);
             builder.writeBits(14, slot);
-            builder.writeBits(5, mob.getLocation().getY() - player.getLocation().getY());
-            builder.writeBits(5, mob.getLocation().getX() - player.getLocation().getX());
+            builder.writeBits(5, mob.getPosition().getY() - player.getPosition().getY());
+            builder.writeBits(5, mob.getPosition().getX() - player.getPosition().getX());
             builder.writeBits(1, mob.isUpdateRequired() ? 1 : 0);
             builder.writeBits(Configuration.NPC_BITS, mob.getId());
             builder.writeBit(true);

@@ -1,6 +1,6 @@
 package astraeus.net.packet.in;
 
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.entity.mob.Mob;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.ByteModification;
@@ -52,12 +52,12 @@ public class MovementPacket implements Receivable {
 		int firstStepY = reader.readShort(ByteOrder.LITTLE);
 		player.getMovement().reset();
 		player.getMovement().setRunningQueueEnabled(reader.readByte(ByteModification.NEGATION) == 1);
-		player.getMovement().addToPath(new Location(firstStepX, firstStepY));
+		player.getMovement().addToPath(new Position(firstStepX, firstStepY));
 
 		for (int i = 0; i < steps; i++) {
 			path[i][0] += firstStepX;
 			path[i][1] += firstStepY;
-			player.getMovement().addToPath(new Location(path[i][0], path[i][1]));
+			player.getMovement().addToPath(new Position(path[i][0], path[i][1]));
 		}
 		player.getMovement().finish();
 	}

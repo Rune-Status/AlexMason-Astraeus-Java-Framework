@@ -46,8 +46,8 @@ public final class AddObjectPacket implements Sendable {
   @Override
   public Optional<OutgoingPacket> writePacket(Player player) {
     GamePacketBuilder builder = new GamePacketBuilder(151);
-    player.send(new SetUpdateRegionPacket(object.getLocation()));
-    builder.write(object.getLocation().getHeight(), ByteModification.ADDITION)
+    player.send(new SetUpdateRegionPacket(object.getPosition()));
+    builder.write(object.getPosition().getHeight(), ByteModification.ADDITION)
     .writeShort(object.getId(), ByteOrder.LITTLE)
     .write(object.getType() << 2 | (normal ? object.getOrientation() : Direction.getDoorOrientation(object.getEnumeratedOrientation()) & 3), ByteModification.SUBTRACTION);
     return builder.toOutgoingPacket();

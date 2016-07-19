@@ -2,7 +2,7 @@ package astraeus.game.model.entity.mob.npc;
 
 import astraeus.game.GameConstants;
 import astraeus.game.model.Direction;
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.Mob;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
@@ -15,7 +15,7 @@ public class Npc extends Mob {
 
       private Direction facingDirection = Direction.SOUTH;
 
-      private Location createdLocation;
+      private Position createdLocation;
 
       private int maximumHealth;
 
@@ -108,7 +108,7 @@ public class Npc extends Mob {
       /**
        * @return the createdLocation
        */
-      public Location getCreatedLocation() {
+      public Position getCreatedLocation() {
             return createdLocation;
       }
 
@@ -161,7 +161,7 @@ public class Npc extends Mob {
       /**
        * @param createdLocation the createdLocation to set
        */
-      public void setCreatedLocation(Location createdLocation) {
+      public void setCreatedLocation(Position createdLocation) {
             this.createdLocation = createdLocation;
       }
 
@@ -223,16 +223,16 @@ public class Npc extends Mob {
        */
       public boolean isWalkToHome() {
             if (Area.inWilderness(this)) {
-                  return Math.abs(getLocation().getX() - createdLocation.getX()) + Math.abs(
-                              getLocation().getY() - createdLocation.getY()) > getSize() * 1 + 2;
+                  return Math.abs(getPosition().getX() - createdLocation.getX()) + Math.abs(
+                              getPosition().getY() - createdLocation.getY()) > getSize() * 1 + 2;
             }
 
             if (isNpc()) { // TODO: isAttackable
-                  return Math.abs(getLocation().getX() - createdLocation.getX()) + Math.abs(
-                              getLocation().getY() - createdLocation.getY()) > getSize() * 2 + 6;
+                  return Math.abs(getPosition().getX() - createdLocation.getX()) + Math.abs(
+                              getPosition().getY() - createdLocation.getY()) > getSize() * 2 + 6;
             }
 
-            return Location.getManhattanDistance(createdLocation, getLocation()) > 2;
+            return Position.getManhattanDistance(createdLocation, getPosition()) > 2;
       }
 
       public Mob getOwner() {
@@ -280,7 +280,7 @@ public class Npc extends Mob {
       }
 
       public String toString() {
-            return String.format("[MOB] - [name= %s] [id= %d] [slot= %d] [location= %s]", getName(), getId(), getSlot(), getLocation().toString());
+            return String.format("[MOB] - [name= %s] [id= %d] [slot= %d] [location= %s]", getName(), getId(), getSlot(), getPosition().toString());
       }
 
 }

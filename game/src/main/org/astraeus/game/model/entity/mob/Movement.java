@@ -1,6 +1,6 @@
 package astraeus.game.model.entity.mob;
 
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.net.packet.out.UpdateMapRegion;
 
 import java.util.Deque;
@@ -120,7 +120,7 @@ public final class Movement {
 	public final void reset() {
 		setRunningQueueEnabled(false);
 		focusPoints.clear();
-		focusPoints.add(new MovementPoint(getEntity().getLocation().getX(), getEntity().getLocation().getY(), -1));
+		focusPoints.add(new MovementPoint(getEntity().getPosition().getX(), getEntity().getPosition().getY(), -1));
 	}
 
 	/**
@@ -146,9 +146,9 @@ public final class Movement {
 
 		getEntity().setRunningDirection(runningPoint == null ? -1 : runningPoint.getDirection());
 
-		int deltaX = entity.getLocation().getX() - entity.getLastLocation().getRegionalX() * 8;
+		int deltaX = entity.getPosition().getX() - entity.getLastLocation().getRegionalX() * 8;
 
-		int deltaY = entity.getLocation().getY() - entity.getLastLocation().getRegionalY() * 8;
+		int deltaY = entity.getPosition().getY() - entity.getLastLocation().getRegionalY() * 8;
 		
 		if (entity.isPlayer()) {
 			if (deltaX < 16 || deltaX >= 88 || deltaY < 16 || deltaY > 88) {
@@ -173,18 +173,18 @@ public final class Movement {
 		if (availableFocusPoint == null || availableFocusPoint.getDirection() == -1) {
 			return null;
 		} else {
-			getEntity().getLocation().move(DIRECTION_DELTA_X[availableFocusPoint.getDirection()], DIRECTION_DELTA_Y[availableFocusPoint.getDirection()], getEntity().getLocation().getHeight());
+			getEntity().getPosition().move(DIRECTION_DELTA_X[availableFocusPoint.getDirection()], DIRECTION_DELTA_Y[availableFocusPoint.getDirection()], getEntity().getPosition().getHeight());
 			return availableFocusPoint;
 		}
 	}
 
-	public final void walk(Location location) {
+	public final void walk(Position location) {
 		reset();
 		addToPath(location);
 		finish();
 	}
 
-	public final void addToPath(Location location) {
+	public final void addToPath(Position location) {
 
 		if (focusPoints.isEmpty()) {
 			reset();

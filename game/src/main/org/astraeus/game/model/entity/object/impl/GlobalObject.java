@@ -1,7 +1,7 @@
 package astraeus.game.model.entity.object.impl;
 
 import astraeus.game.model.Direction;
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 
 public final class GlobalObject {
 	
@@ -11,11 +11,11 @@ public final class GlobalObject {
 	
 	private final int type;
 	
-	private final Location location;
+	private final Position location;
 	
 	private final Direction orientation;
 
-	public GlobalObject(int id, String name, int type, Location location, Direction orientation) {
+	public GlobalObject(int id, String name, int type, Position location, Direction orientation) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
@@ -35,7 +35,7 @@ public final class GlobalObject {
 		return type;
 	}
 
-	public Location getLocation() {
+	public Position getLocation() {
 		return location;
 	}
 

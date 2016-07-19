@@ -13,7 +13,7 @@ import plugin.commands.CommandParser
 class PositionCommand : Command() {
 
 	override fun execute(player: Player, parser: CommandParser) {
-		player.send(ServerMessagePacket("Your position is: ${player.location}"))		
+		player.send(ServerMessagePacket("Your position is: ${player.position}"))		
 	}
 
 	override fun test(event: CommandEvent): Boolean {		

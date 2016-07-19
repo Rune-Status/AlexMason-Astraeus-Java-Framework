@@ -17,7 +17,7 @@ class ObjectFirstClick : EventSubscriber<ObjectFirstClickEvent> {
 	override fun subscribe(context: EventContext, player: Player, event: ObjectFirstClickEvent) {
 		
 		if (player.rights.greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Attribute.DEBUG)) {
-            player.send(ServerMessagePacket("[click= object], [type= first], [id= ${event.gameObject.id}], [location= ${event.gameObject.location.toString()}]"));
+            player.send(ServerMessagePacket("[click= object], [type= first], [id= ${event.gameObject.id}], [location= ${event.gameObject.position.toString()}]"));
         }
 		
 		when (event.gameObject.id) {

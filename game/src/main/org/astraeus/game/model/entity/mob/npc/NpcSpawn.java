@@ -1,7 +1,7 @@
 package astraeus.game.model.entity.mob.npc;
 
 import astraeus.game.model.Direction;
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 
 /**
  * A class which represents a single Npc Spawn.
@@ -18,7 +18,7 @@ public final class NpcSpawn {
 	/**
 	 * The position of this npc.
 	 */
-	private final Location location;
+	private final Position position;	
 
 	/**
 	 * The ability of this mob to walk in random directions.
@@ -30,17 +30,17 @@ public final class NpcSpawn {
 	 */
 	private final Direction facing;
 
-	public NpcSpawn(int id, Location location) {
+	public NpcSpawn(int id, Position location) {
 		this(id, location, true, Direction.SOUTH);
 	}
 
-	public NpcSpawn(int id, Location location, Direction facing) {
+	public NpcSpawn(int id, Position location, Direction facing) {
 		this(id, location, true, facing);
 	}
 
-	public NpcSpawn(int id, Location location, boolean randomWalk, Direction facing) {
+	public NpcSpawn(int id, Position location, boolean randomWalk, Direction facing) {
 		this.id = id;
-		this.location = location;
+		this.position = location;
 		this.randomWalk = randomWalk;
 		this.facing = facing;
 	}
@@ -68,8 +68,8 @@ public final class NpcSpawn {
 	 *
 	 * @return The location of the npc.
 	 */
-	public Location getLocation() {
-		return location;
+	public Position getPosition() {
+		return position;
 	}
 
 	/**
@@ -84,7 +84,7 @@ public final class NpcSpawn {
 
 	@Override
 	public String toString() {
-		return "Id: " + id + " pos: " + getLocation().toString() + " randomWalk: " + randomWalk + " facing: "
+		return "Id: " + id + " pos: " + getPosition().toString() + " randomWalk: " + randomWalk + " facing: "
 				+ facing.name();
 	}
 

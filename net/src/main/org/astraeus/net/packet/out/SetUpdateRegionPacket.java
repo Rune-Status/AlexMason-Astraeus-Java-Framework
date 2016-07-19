@@ -1,6 +1,6 @@
 package astraeus.net.packet.out;
 
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.game.GamePacketBuilder;
@@ -11,9 +11,9 @@ import java.util.Optional;
 
 public final class SetUpdateRegionPacket implements Sendable {
 
-    private final Location position;
+    private final Position position;
 
-    public SetUpdateRegionPacket(Location position) {
+    public SetUpdateRegionPacket(Position position) {
         this.position = position;
     }
 

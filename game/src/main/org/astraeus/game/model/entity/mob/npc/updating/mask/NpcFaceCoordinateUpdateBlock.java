@@ -1,6 +1,6 @@
 package astraeus.game.model.entity.mob.npc.updating.mask;
 
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.npc.updating.NpcUpdateBlock;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
@@ -25,11 +25,11 @@ public class NpcFaceCoordinateUpdateBlock extends NpcUpdateBlock {
 		int y = 0;
 		
 		if (entity.getInteractingEntity() == null) {
-			final Location location = entity.getLocation();
+			final Position location = entity.getPosition();
 			x = location == null ? 0 : location.getX() + entity.getFacingDirection().getDirectionX();
 			y = location == null ? 0 : location.getY()  + entity.getFacingDirection().getDirectionY();
 		} else {
-			final Location location = entity.getFacingLocation();
+			final Position location = entity.getFacingLocation();
 			x = location == null ? 0 : location.getX();
 			y = location == null ? 0 : location.getY();
 		}

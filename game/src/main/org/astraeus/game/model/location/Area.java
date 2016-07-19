@@ -3,7 +3,7 @@ package astraeus.game.model.location;
 import java.util.Arrays;
 
 import astraeus.game.GameConstants;
-import astraeus.game.model.Location;
+import astraeus.game.model.Position;
 import astraeus.game.model.entity.Entity;
 
 /**
@@ -22,7 +22,7 @@ public abstract class Area {
 	 * @return {@code true} If the specified location is within an area.
 	 *         {@code false} otherwise.
 	 */
-	public abstract boolean inArea(Location location);
+	public abstract boolean inArea(Position location);
 
 	/**
 	 * Determines if an entity is in all of these areas.
@@ -37,7 +37,7 @@ public abstract class Area {
 	 *         otherwise.
 	 */
 	public static boolean inAllArea(Entity entity, Area... area) {
-		return Arrays.stream(area).allMatch(a -> a.inArea(entity.getLocation()));
+		return Arrays.stream(area).allMatch(a -> a.inArea(entity.getPosition()));
 	}
 
 	/**
@@ -53,7 +53,7 @@ public abstract class Area {
 	 *         otherwise.
 	 */
 	public static boolean inAnyArea(Entity entity, Area... area) {
-		return Arrays.stream(area).anyMatch(a -> a.inArea(entity.getLocation()));
+		return Arrays.stream(area).anyMatch(a -> a.inArea(entity.getPosition()));
 	}
 
 	/**
@@ -66,7 +66,7 @@ public abstract class Area {
 	 *         otherwise.
 	 */
 	public static boolean inWilderness(Entity entity) {
-		return GameConstants.WILDERNESS.stream().anyMatch($it -> $it.inArea(entity.getLocation()));
+		return GameConstants.WILDERNESS.stream().anyMatch($it -> $it.inArea(entity.getPosition()));
 	}
 
 	/**
@@ -79,7 +79,7 @@ public abstract class Area {
 	 *         otherwise.
 	 */
 	public static boolean inMultiCombat(Entity entity) {
-		return GameConstants.MULTIPLE_COMBAT.stream().anyMatch($it -> $it.inArea(entity.getLocation()));
+		return GameConstants.MULTIPLE_COMBAT.stream().anyMatch($it -> $it.inArea(entity.getPosition()));
 	}
 	
 }

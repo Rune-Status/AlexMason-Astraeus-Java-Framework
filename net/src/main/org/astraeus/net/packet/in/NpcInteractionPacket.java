@@ -128,7 +128,7 @@ public class NpcInteractionPacket implements Receivable {
 
             player.getMovementListener().append(() -> {
                   System.out.println("appending");
-                  if (player.getLocation().isWithinDistance(npc.getLocation().copy(), 1)) {
+                  if (player.getPosition().isWithinDistance(npc.getPosition().copy(), 1)) {
                         player.setInteractingEntity(npc);
                         npc.setInteractingEntity(player);
                         
@@ -154,7 +154,7 @@ public class NpcInteractionPacket implements Receivable {
             }
 
             player.getMovementListener().append(() -> {
-                  if (player.getLocation().isWithinDistance(npc.getLocation().copy(), 1)) {
+                  if (player.getPosition().isWithinDistance(npc.getPosition().copy(), 1)) {
                         player.setInteractingEntity(npc);
                         npc.setInteractingEntity(player);
 
@@ -179,7 +179,7 @@ public class NpcInteractionPacket implements Receivable {
             }
 
             player.getMovementListener().append(() -> {
-                  if (player.getLocation().isWithinDistance(npc.getLocation().copy(), 1)) {
+                  if (player.getPosition().isWithinDistance(npc.getPosition().copy(), 1)) {
                         player.setInteractingEntity(npc);
                         npc.setInteractingEntity(player);
 
