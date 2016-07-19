@@ -18,6 +18,7 @@ public class Configuration {
             SERVER_NAME = parser.getString("game.server_name");
             GAME_PORT = Math.toIntExact(parser.getLong("network.game_port"));
             ADMIN_CAN_TRADE = parser.getBoolean("game.admin_can_trade");
+            NPC_BITS = Math.toIntExact(parser.getLong("game.npc_bits"));
         } catch(Exception e){
             throw new ExceptionInInitializerError(e);
         }
@@ -36,20 +37,15 @@ public class Configuration {
     /**
      * The npc bits for the server which can handle 6755 npcs.
      */
-    public static final int NPC_BITS = 12;
+    public static final int NPC_BITS;
 
     /**
      * Location of the data directory.
      */
-    public static final String DATA_DIR = "./Data/";
+    public static final String DATA_DIR = "./data/";
 
     /**
      * Toggles the ability for admins to trade
      */
     public static final boolean ADMIN_CAN_TRADE;
-
-    /**
-     * Cheap hack for a worlds list fix
-     */
-    public static final boolean WORLD_LIST_FIX = false;
 }

@@ -151,5 +151,14 @@
     "Vult-R"
   ],
   "version": 1.0
+},
+{
+  "name": "Item Command",
+  "description": "The command for spawning items.",
+  "base": "plugin.commands.impl.ItemCommand",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
 }
 ]
