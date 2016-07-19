@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
+
 import astraeus.game.event.EventSubscriber;
 import astraeus.game.model.World;
+import astraeus.util.LoggerUtils;
 
 public final class PluginService {
+	
+	private static final Logger LOGGER = LoggerUtils.getLogger(PluginService.class);
 
 	private static final Map<String, PluginMetaData> META_DATA = new HashMap<>();
 
@@ -38,7 +43,7 @@ public final class PluginService {
 				}
 			}
 
-			System.out.println("Loaded: " + REGISTERED_SUBSCRIBERS.size() + " plugins.");
+			LOGGER.info("Loaded: " + REGISTERED_SUBSCRIBERS.size() + " plugins.");			
 
 		} catch (Exception e) {
 			e.printStackTrace();

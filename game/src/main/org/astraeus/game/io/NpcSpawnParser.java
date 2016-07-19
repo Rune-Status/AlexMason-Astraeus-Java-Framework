@@ -1,36 +1,27 @@
 package astraeus.game.io;
 
-import com.google.gson.JsonObject;
-import astraeus.game.model.Direction;
-import astraeus.game.model.Location;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+
 import astraeus.game.model.entity.mob.npc.NpcSpawn;
 import astraeus.game.model.entity.mob.npc.Npcs;
 import astraeus.util.GsonParser;
 
-/**
- * Parses through the mob spawn file and creates {@link NpcSpawn}s on startup.
- * 
- * @author Seven
- */
-public final class NpcSpawnParser extends GsonParser {
+public final class NpcSpawnParser extends GsonParser<NpcSpawn> {
 
 	public NpcSpawnParser() {
-		super("./Data/npc/npc_spawns");
+		super("./data/npc/npc_spawns");
 	}
 
 	@Override
-	public void parse(JsonObject data) {
-		final int id = data.get("id").getAsInt();
+	public NpcSpawn[] deserialize(FileReader reader) throws IOException {
+		return gson.fromJson(reader, NpcSpawn[].class);
+	}
 
-		final Location location = builder.fromJson(data.get("location"), Location.class);
-
-		final boolean randomWalk = data.get("randomWalk").getAsBoolean();
-
-		final String facing = data.get("facing").getAsString();
-
-		final NpcSpawn spawn = new NpcSpawn(id, location, randomWalk, Direction.valueOf(facing));
-
-		Npcs.createSpawn(spawn);
+	@Override
+	public void onRead(NpcSpawn[] array) throws IOException {
+		Arrays.stream(array).forEach($it -> Npcs.createSpawn($it));		
 	}
 
 }

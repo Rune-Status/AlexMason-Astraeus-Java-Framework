@@ -1,28 +1,49 @@
 package astraeus.game.io;
 
-import com.google.gson.JsonObject;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+
 import astraeus.net.NetworkConstants;
 import astraeus.util.GsonParser;
 
-/**
- * Parses through the packet sizes file and associates their opcode with a size.
- *
- * @author SeVen
- */
-public final class PacketSizeParser extends GsonParser {
+import astraeus.game.io.PacketSizeParser.PacketSize;
 
-	/**
-	 * Creates a new {@link PacketSizeParser}.
-	 */
+public final class PacketSizeParser extends GsonParser<PacketSize> {
+
 	public PacketSizeParser() {
-		super("./Data/io/packet_sizes");
+		super("./data/io/packet_sizes");
 	}
 
 	@Override
-	public void parse(JsonObject data) {
-		final int opcode = data.get("opcode").getAsInt();
-		final int size = data.get("size").getAsInt();
-		NetworkConstants.PACKET_SIZES[opcode] = size;
+	public PacketSize[] deserialize(FileReader reader) throws IOException {
+		return gson.fromJson(reader, PacketSize[].class);
+	}
+
+	@Override
+	public void onRead(PacketSize[] array) throws IOException {
+		Arrays.stream(array).forEach($it -> NetworkConstants.PACKET_SIZES[$it.getOpcode()] = $it.getSize());
+	}
+	
+	public static final class PacketSize {
+		
+		private int opcode;
+		
+		private final int size;
+		
+		public PacketSize(int opcode, int size) {
+			this.opcode = opcode;
+			this.size = size;
+		}
+
+		public int getOpcode() {
+			return opcode;
+		}
+
+		public int getSize() {
+			return size;
+		}	
+		
 	}
 
 }

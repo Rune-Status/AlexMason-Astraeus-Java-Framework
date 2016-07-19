@@ -11,16 +11,9 @@ import astraeus.net.packet.out.UpdateItemsOnWidgetPacket;
 import astraeus.net.packet.out.SetSideBarWidgetPacket;
 import astraeus.net.packet.out.SetWidgetStringPacket;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
 
 /**
  * Represents a {@link Player}s equipment.
@@ -96,23 +89,6 @@ public final class Equipment extends ItemContainer {
 			this.fullHat = fullHat;
 			this.fullMask = fullMask;
 			this.bonuses = bonuses;
-		}
-		
-		public static void load(String path) {
-			Gson gson = new Gson();
-			
-			try {
-				EquipmentDefinition[] defs = gson.fromJson(new FileReader(new File(path)), EquipmentDefinition[].class);
-
-				for(EquipmentDefinition def : defs) {
-					EquipmentDefinition.EQUIPMENT_DEFINITIONS.put(def.getId(), def);
-				}
-				
-				System.out.println("loaded: " + EquipmentDefinition.EQUIPMENT_DEFINITIONS.size() + " equipment definitions");
-			
-			} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e) {
-				e.printStackTrace();
-			}
 		}
 
 		public int[] getBonuses() {

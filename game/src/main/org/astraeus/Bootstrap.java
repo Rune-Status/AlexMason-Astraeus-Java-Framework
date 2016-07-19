@@ -2,8 +2,6 @@ package astraeus;
 
 import astraeus.game.io.*;
 import astraeus.game.model.World;
-import astraeus.game.model.entity.item.container.impl.Equipment.EquipmentDefinition;
-
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
@@ -91,20 +89,19 @@ public final class Bootstrap {
 
             LOGGER.info("Initializing packets...");
             serviceLoader.execute(() -> {
-                  new PacketSizeParser().run();
+            	new PacketSizeParser().run();
                   new IncomingPacketHandlerRegistration();
             });
 
             LOGGER.info("Loading startup files..");
             serviceLoader.execute(() -> {
-                  new GlobalObjectParser().run();
-                  new ItemDefinitionParser().run();
-                  new NpcDefinitionParser().run();
-                  new SongParser().run();
-                  new NpcSpawnParser().run();
-                  new IPBanParser().run();
-                  new UUIDBanParser().run();
-                  EquipmentDefinition.load("./data/equipment/equipment_definitions.json");
+                new GlobalObjectParser().run();
+                new ItemDefinitionParser().run();
+                new NpcDefinitionParser().run();
+                new NpcSpawnParser().run();
+                new IPBanParser().run();
+                new UUIDBanParser().run();
+                  new EquipmentDefinitionParser().run();
             });
             
             LOGGER.info("Loading plugins");
@@ -112,8 +109,6 @@ public final class Bootstrap {
             	new PluginMetaDataParser().run();
             	World.WORLD.getPluginService().load();
             });
-
-            serviceLoader.execute(() -> new DoorParser().run());
       }
 
 }

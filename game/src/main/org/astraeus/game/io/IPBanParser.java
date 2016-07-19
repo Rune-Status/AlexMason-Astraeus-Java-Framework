@@ -17,7 +17,7 @@ public final class IPBanParser extends TextFileParser {
 	 * Creates a new {@link IPBanParser}.
 	 */
 	public IPBanParser() {
-		super("./Data/punishment/ip_bans");
+		super("./data/punishment/ip_bans");
 	}
 
 	@Override

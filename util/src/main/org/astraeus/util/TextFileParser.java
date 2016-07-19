@@ -50,7 +50,6 @@ public abstract class TextFileParser extends GenericParser {
 				parse(reader);
 				index++;
 			}
-			reader.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -59,5 +58,3 @@ public abstract class TextFileParser extends GenericParser {
 	}
 
 }
-
-

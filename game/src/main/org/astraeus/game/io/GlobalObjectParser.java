@@ -1,31 +1,29 @@
 package astraeus.game.io;
 
-import com.google.gson.JsonObject;
-import astraeus.game.model.Direction;
-import astraeus.game.model.Location;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+
 import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.model.entity.object.GameObjectType;
 import astraeus.game.model.entity.object.GameObjects;
+import astraeus.game.model.entity.object.impl.GlobalObject;
 import astraeus.util.GsonParser;
 
-/**
- * The class that loads all global objects on startup.
- * 
- * @author SeVen
- */
-public final class GlobalObjectParser extends GsonParser {
+public final class GlobalObjectParser extends GsonParser<GlobalObject> {
 
-    public GlobalObjectParser() {
-		super("./Data/object/global_objects");
-    }
+	public GlobalObjectParser() {
+		super("./data/object/global_objects");
+	}
 
 	@Override
-	public void parse(JsonObject data) {
-		int id = data.get("id").getAsInt();
-		int type = Integer.parseInt(data.get("type").getAsString());
-		Location location = builder.fromJson(data.get("location"), Location.class);
-		Direction orientation = Direction.valueOf(data.get("orientation").getAsString());
-		GameObjects.getGlobalObjects().add(new GameObject(id, GameObjectType.lookup(type).get(), location, orientation));
+	public GlobalObject[] deserialize(FileReader reader) throws IOException {
+		return gson.fromJson(reader, GlobalObject[].class);
+	}
+
+	@Override
+	public void onRead(GlobalObject[] array) throws IOException {		
+		Arrays.stream(array).forEach($it -> GameObjects.getGlobalObjects().add(new GameObject($it.getId(), GameObjectType.lookup($it.getType()).get(), $it.getLocation(), $it.getOrientation())));
 	}
 
 }

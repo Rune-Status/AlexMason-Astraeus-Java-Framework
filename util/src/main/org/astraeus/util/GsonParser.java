@@ -1,66 +1,53 @@
 package astraeus.util;
 
-import com.google.gson.*;
-
 import java.io.FileReader;
+import java.io.IOException;
 
-/**
- * This class provides an easy to use google gson parser specifically designed for parsing JSON files.
- *
- * @author Seven
- */
-public abstract class GsonParser extends GenericParser {
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-	/**
-	 * The {@link Gson} object.
-	 */
-	protected Gson builder;
+import java.util.logging.Logger;
 
-	/**
-	 * Creates a new {@link GsonParser}.
-	 *
-	 * @param path
-	 * 		The specified path of the json file to parse.
-	 */
+public abstract class GsonParser<T> implements Runnable {
+
+	private final Logger logger = LoggerUtils.getLogger(GsonParser.class);
+
+	protected Gson gson;
+
+	protected String path;
+
+	private boolean log;
+
 	public GsonParser(String path) {
 		this(path, true);
 	}
 
-	/**
-	 * Creates a new {@link GsonParser}.
-	 *
-	 * @param path
-	 * 		The specified path of the json file to parse.
-	 *
-	 * @param log
-	 * 		The flag that denotes to log messages.
-	 */
 	public GsonParser(String path, boolean log) {
-		super(path, ".json", log);
-		this.builder = new GsonBuilder().create();
+		this.path = path;
+		this.gson = new GsonBuilder().create();
+		this.log = log;
 	}
 
-	/**
-	 * The method allows a user to modify the data as its being parsed.
-	 *
-	 * @param data
-	 * 		The {@link JsonObject} that contains all serialized information.
-	 */
-	protected abstract void parse(JsonObject data);
+	public abstract T[] deserialize(FileReader reader) throws IOException;
+
+	public abstract void onRead(T[] array) throws IOException;
 
 	@Override
-	public final void deserialize() {
-		try (FileReader reader = new FileReader(path.toFile())) {
-			JsonParser parser = new JsonParser();
-			JsonArray array = (JsonArray) parser.parse(reader);
+	public void run() {
+		
+		try (FileReader reader = new FileReader(path + ".json")) {
+			T[] types = deserialize(reader);
 
-			for (index = 0; index < array.size(); index++) {
-				JsonObject data = (JsonObject) array.get(index);
-				parse(data);
+			onRead(types);
+
+			if (log) {
+				logger.info("Loaded: " + types.length + " " + path.substring(path.lastIndexOf("/")  + 1).replaceAll("_", " "));
 			}
-		} catch (Exception e) {
+
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 }

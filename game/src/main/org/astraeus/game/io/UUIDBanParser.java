@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class UUIDBanParser extends TextFileParser {
 
     public UUIDBanParser() {
-        super("./Data/punishment/uuid_bans");
+        super("./data/punishment/uuid_bans");
     }
 
     @Override
