@@ -2,6 +2,8 @@ package astraeus;
 
 import astraeus.game.io.*;
 import astraeus.game.model.World;
+import astraeus.game.model.entity.item.container.impl.Equipment.EquipmentDefinition;
+
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
@@ -102,6 +104,7 @@ public final class Bootstrap {
                   new NpcSpawnParser().run();
                   new IPBanParser().run();
                   new UUIDBanParser().run();
+                  EquipmentDefinition.load("./data/equipment/equipment_definitions.json");
             });
             
             LOGGER.info("Loading plugins");

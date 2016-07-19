@@ -5,12 +5,22 @@ import astraeus.game.model.entity.item.ItemDefinition;
 import astraeus.game.model.entity.item.container.ItemContainer;
 import astraeus.game.model.entity.mob.MobAnimation;
 import astraeus.game.model.entity.mob.player.Player;
+import astraeus.game.model.entity.mob.player.skill.SkillRequirement;
 import astraeus.net.packet.out.SetItemModelOnWidgetPacket;
 import astraeus.net.packet.out.UpdateItemsOnWidgetPacket;
 import astraeus.net.packet.out.SetSideBarWidgetPacket;
 import astraeus.net.packet.out.SetWidgetStringPacket;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * Represents a {@link Player}s equipment.
@@ -18,6 +28,130 @@ import java.util.Arrays;
  * @author Seven
  */
 public final class Equipment extends ItemContainer {
+	
+	public static enum EquipmentType {
+		NONE(-1),
+		HAT(0),
+		CAPE(1),
+		SHIELD(5),
+		GLOVES(9),
+		BOOTS(10),
+		AMULET(2),
+		RING(12),
+		ARROWS(13),
+		BODY(4),
+		LEGS(7),
+		WEAPON(3);
+
+		private final int slot;
+		
+		private EquipmentType(final int slot) {
+			this.slot = slot;
+		}
+		
+		public int getSlot() {
+			return this.slot;
+		}
+		
+	}
+	
+	/**
+	 * Represents an in-game equipped item.
+	 * 
+	 * @author Vult-R
+	 */
+	public static final class EquipmentDefinition {
+
+		public static final Map<Integer, EquipmentDefinition> EQUIPMENT_DEFINITIONS = new HashMap<>();
+
+		public static EquipmentDefinition get(int id) {
+			return EQUIPMENT_DEFINITIONS.get(id);
+		}
+
+		private final int id;
+
+		private final String name;
+
+		private final EquipmentType type;
+
+		private final SkillRequirement[] requirements;
+		
+		private final boolean twoHanded;
+		
+		private final boolean fullBody;
+		
+		private final boolean fullHat;
+		
+		private final boolean fullMask;
+
+		private final int[] bonuses;
+
+		public EquipmentDefinition(int id, String name, EquipmentType type, SkillRequirement[] requirements, boolean twoHanded, boolean fullBody, boolean fullHat, boolean fullMask, int[] bonuses) {
+			this.id = id;
+			this.name = name;
+			this.type = type;
+			this.requirements = requirements;
+			this.twoHanded = twoHanded;
+			this.fullBody = fullBody;
+			this.fullHat = fullHat;
+			this.fullMask = fullMask;
+			this.bonuses = bonuses;
+		}
+		
+		public static void load(String path) {
+			Gson gson = new Gson();
+			
+			try {
+				EquipmentDefinition[] defs = gson.fromJson(new FileReader(new File(path)), EquipmentDefinition[].class);
+
+				for(EquipmentDefinition def : defs) {
+					EquipmentDefinition.EQUIPMENT_DEFINITIONS.put(def.getId(), def);
+				}
+				
+				System.out.println("loaded: " + EquipmentDefinition.EQUIPMENT_DEFINITIONS.size() + " equipment definitions");
+			
+			} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+
+		public int[] getBonuses() {
+			return bonuses;
+		}
+
+		public int getId() {
+			return id;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public SkillRequirement[] getRequirements() {
+			return requirements;
+		}	
+
+		public boolean isTwoHanded() {
+			return twoHanded;
+		}
+
+		public boolean isFullBody() {
+			return fullBody;
+		}
+
+		public boolean isFullHat() {
+			return fullHat;
+		}
+
+		public boolean isFullMask() {
+			return fullMask;
+		}
+
+		public EquipmentType getType() {
+			return type;
+		}
+		
+	}
 
 	private enum WeaponInterface {
 		WHIP(12290),
@@ -101,7 +235,7 @@ public final class Equipment extends ItemContainer {
 	public Equipment(Player player) {
 		super(14, player);
 	}
-
+	
 	@Override
 	public void add(Item item) {
 		refresh();
