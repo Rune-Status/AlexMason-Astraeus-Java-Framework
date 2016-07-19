@@ -16,7 +16,7 @@ public final class PluginService {
 
 	private static final Map<String, PluginMetaData> META_DATA = new HashMap<>();
 
-	private static final List<EventSubscriber<?>> REGISTERED_SUBSCRIBERS = new ArrayList<>();
+	private static final List<EventSubscriber<?>> SUBSCRIBERS = new ArrayList<>();	
 
 	public void load() {
 		try {
@@ -39,11 +39,11 @@ public final class PluginService {
 
 					World.WORLD.provideSubscriber(subscriber);
 
-					REGISTERED_SUBSCRIBERS.add(subscriber);
+					SUBSCRIBERS.add(subscriber);
 				}
 			}
 
-			LOGGER.info("Loaded: " + REGISTERED_SUBSCRIBERS.size() + " plugins.");			
+			LOGGER.info("Loaded: " + SUBSCRIBERS.size() + " plugins.");			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -57,7 +57,7 @@ public final class PluginService {
 	}
 
 	public List<EventSubscriber<?>> getSubscribers() {
-		return REGISTERED_SUBSCRIBERS;
+		return SUBSCRIBERS;
 	}
 
 	public Map<String, PluginMetaData> getPluginMetaData() {

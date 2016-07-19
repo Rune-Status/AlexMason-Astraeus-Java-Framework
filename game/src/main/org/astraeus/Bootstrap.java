@@ -1,5 +1,6 @@
 package astraeus;
 
+import astraeus.game.GameEngine;
 import astraeus.game.io.*;
 import astraeus.game.model.World;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -9,7 +10,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.ResourceLeakDetector;
 import io.netty.util.ResourceLeakDetector.Level;
-import astraeus.game.service.GameEngine;
 import astraeus.net.channel.ChannelPiplineInitializer;
 import astraeus.net.packet.IncomingPacketHandlerRegistration;
 
