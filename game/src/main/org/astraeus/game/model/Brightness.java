@@ -1,4 +1,4 @@
-package astraeus.game.model.entity.mob.player;
+package astraeus.game.model;
 
 /**
  * The enumeration of the brightness levels as seen by the client.

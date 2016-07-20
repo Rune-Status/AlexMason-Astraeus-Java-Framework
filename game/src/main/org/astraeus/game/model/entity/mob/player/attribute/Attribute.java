@@ -1,7 +1,7 @@
 package astraeus.game.model.entity.mob.player.attribute;
 
-import astraeus.game.model.entity.mob.player.Brightness;
-import astraeus.game.model.entity.mob.player.Volume;
+import astraeus.game.model.Brightness;
+import astraeus.game.model.sound.Volume;
 
 public enum Attribute {
       ACTIVE(false),

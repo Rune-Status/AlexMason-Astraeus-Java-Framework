@@ -1,7 +1,7 @@
 package astraeus.game.model.entity.mob.player.update.mask;
 
-import astraeus.game.model.Appearance;
 import astraeus.game.model.entity.item.container.impl.Equipment;
+import astraeus.game.model.entity.mob.player.Appearance;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.update.PlayerUpdateBlock;
 import astraeus.game.model.entity.mob.update.UpdateFlag;

@@ -1,12 +1,12 @@
 package astraeus.game.model.entity.mob.player.io;
 
-import astraeus.game.model.Appearance;
+import astraeus.game.model.Brightness;
 import astraeus.game.model.Position;
-import astraeus.game.model.entity.mob.player.Brightness;
+import astraeus.game.model.entity.mob.player.Appearance;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
-import astraeus.game.model.entity.mob.player.Volume;
 import astraeus.game.model.entity.mob.player.attribute.Attribute;
+import astraeus.game.model.sound.Volume;
 
 import java.io.*;
 import java.util.List;

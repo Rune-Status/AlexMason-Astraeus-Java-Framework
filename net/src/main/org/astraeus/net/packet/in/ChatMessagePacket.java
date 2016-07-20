@@ -1,6 +1,6 @@
 package astraeus.net.packet.in;
 
-import astraeus.game.model.ChatMessage;
+import astraeus.game.model.entity.mob.player.ChatMessage;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.net.codec.ByteModification;

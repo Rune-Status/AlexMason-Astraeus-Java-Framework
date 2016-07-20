@@ -1,7 +1,7 @@
 package astraeus.net.packet.out;
 
-import astraeus.game.model.PlayerOption;
 import astraeus.game.model.entity.mob.player.Player;
+import astraeus.game.model.entity.mob.player.PlayerOption;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;

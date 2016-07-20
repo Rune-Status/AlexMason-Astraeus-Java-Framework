@@ -1,4 +1,4 @@
-package astraeus.game.model;
+package astraeus.game.model.entity.mob.player;
 
 /**
  * The class that models a players chat message.

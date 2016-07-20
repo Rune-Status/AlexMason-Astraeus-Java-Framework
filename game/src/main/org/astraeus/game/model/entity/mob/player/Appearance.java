@@ -1,6 +1,4 @@
-package astraeus.game.model;
-
-import astraeus.game.model.entity.mob.player.Player;
+package astraeus.game.model.entity.mob.player;
 
 /**
  * Represents a {@link Player}s appearance.

@@ -16,6 +16,7 @@ import astraeus.game.model.entity.mob.player.io.PlayerSerializer;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.model.location.Area;
+import astraeus.game.model.sound.Volume;
 import astraeus.net.channel.PlayerChannel;
 import astraeus.net.packet.OutgoingPacket;
 import astraeus.net.packet.Sendable;

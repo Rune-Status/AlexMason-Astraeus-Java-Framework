@@ -1,4 +1,4 @@
-package astraeus.game.model;
+package astraeus.game.model.entity.mob.player;
 
 /**
  * Represents the options for right-clicking players.

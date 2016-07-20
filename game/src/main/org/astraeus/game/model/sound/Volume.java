@@ -1,4 +1,4 @@
-package astraeus.game.model.entity.mob.player;
+package astraeus.game.model.sound;
 
 /**
  * An enumeration of the volume levels in-game.
