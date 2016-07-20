@@ -1,6 +1,7 @@
 package astraeus.game.model.entity.item;
 
 import astraeus.game.model.entity.Entity;
+import astraeus.game.model.entity.EntityType;
 
 import java.util.Objects;
 
@@ -9,7 +10,7 @@ import java.util.Objects;
  * 
  * @author SeVen
  */
-public class Item extends Entity {
+public final class Item extends Entity {
 
       /**
        * The id of this item.
@@ -38,7 +39,6 @@ public class Item extends Entity {
        * @param quantity the quantity of the item.
        */
       public Item(int id, int quantity) {
-            super(null);
             this.id = id;
             this.amount = quantity;
       }
@@ -214,5 +214,10 @@ public class Item extends Entity {
       public String toString() {
             return "[name=" + getName() + ", id=" + id + ", amount=" + amount + "]";
       }
+
+	@Override
+	public EntityType type() {
+		return EntityType.ITEM;
+	}
 
 }

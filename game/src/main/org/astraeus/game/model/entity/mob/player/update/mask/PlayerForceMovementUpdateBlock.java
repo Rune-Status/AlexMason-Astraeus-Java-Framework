@@ -1,6 +1,6 @@
 package astraeus.game.model.entity.mob.player.update.mask;
 
-import astraeus.game.model.ForceMovement;
+import astraeus.game.model.entity.mob.player.ForceMovement;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.update.PlayerUpdateBlock;
 import astraeus.game.model.entity.mob.update.UpdateFlag;

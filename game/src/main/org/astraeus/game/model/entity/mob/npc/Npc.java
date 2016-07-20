@@ -4,6 +4,7 @@ import astraeus.game.GameConstants;
 import astraeus.game.model.Direction;
 import astraeus.game.model.Position;
 import astraeus.game.model.World;
+import astraeus.game.model.entity.EntityType;
 import astraeus.game.model.entity.mob.Mob;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.location.Area;
@@ -282,5 +283,10 @@ public class Npc extends Mob {
       public String toString() {
             return String.format("[MOB] - [name= %s] [id= %d] [slot= %d] [location= %s]", getName(), getId(), getSlot(), getPosition().toString());
       }
+
+	@Override
+	public EntityType type() {
+		return EntityType.NPC;
+	}
 
 }

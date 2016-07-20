@@ -1,4 +1,7 @@
-package astraeus.game.model;
+package astraeus.game.model.entity.mob.player;
+
+import astraeus.game.model.Direction;
+import astraeus.game.model.Position;
 
 /*
   Copyright (c) 2010-2011 Graham Edgecombe

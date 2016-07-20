@@ -30,7 +30,7 @@ public class Npcs {
 		}
 
 		final Npc mob = new Npc(spawn.getId(), slot);
-		mob.setLocation(spawn.getPosition());
+		mob.setPosition(spawn.getPosition());
 		mob.setCreatedLocation(new Position(spawn.getPosition()));
 
 		mob.setFacingDirection(spawn.getFacing());
