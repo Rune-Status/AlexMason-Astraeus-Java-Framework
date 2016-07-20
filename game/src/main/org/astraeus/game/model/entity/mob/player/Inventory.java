@@ -1,9 +1,8 @@
-package astraeus.game.model.entity.item.container.impl;
+package astraeus.game.model.entity.mob.player;
 
 import astraeus.game.model.entity.item.Item;
+import astraeus.game.model.entity.item.ItemContainer;
 import astraeus.game.model.entity.item.ItemDefinition;
-import astraeus.game.model.entity.item.container.ItemContainer;
-import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.packet.out.UpdateItemsOnWidgetPacket;
 import astraeus.net.packet.out.ServerMessagePacket;
 

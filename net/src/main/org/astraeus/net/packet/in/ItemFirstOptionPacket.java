@@ -1,6 +1,7 @@
 package astraeus.net.packet.in;
 
 import astraeus.game.event.impl.ItemFirstClickEvent;
+import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
@@ -17,8 +18,14 @@ public final class ItemFirstOptionPacket implements Receivable {
 		final int widgetId = reader.readShort(ByteOrder.LITTLE, ByteModification.ADDITION);
 		final int slot = reader.readShort(false, ByteModification.ADDITION);
 		final int id = reader.readShort(ByteOrder.LITTLE);
+		
+		final Item item = player.getInventory().getItem(slot);
+		
+		if (item.getId() != id) {
+			return;
+		}
 
-		player.post(new ItemFirstClickEvent(id, slot, widgetId));
+		player.post(new ItemFirstClickEvent(item, widgetId));
 	}
 
 }

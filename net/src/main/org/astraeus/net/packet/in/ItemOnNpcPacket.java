@@ -1,6 +1,9 @@
 package astraeus.net.packet.in;
 
+import astraeus.game.event.impl.ItemOnNpcEvent;
 import astraeus.game.model.World;
+import astraeus.game.model.entity.item.Item;
+import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
@@ -15,23 +18,25 @@ public final class ItemOnNpcPacket implements Receivable {
 	public void handlePacket(Player player, IncomingPacket packet) {
 		GamePacketReader reader = packet.getReader();
 		
-		@SuppressWarnings("unused")
 		final int itemId = reader.readShort(false, ByteModification.ADDITION);
 		final int npcSlot = reader.readShort(false, ByteModification.ADDITION);
 		final int itemSlot = reader.readShort(ByteOrder.LITTLE);
-
-		@SuppressWarnings("unused")
-		final int npcId = World.WORLD.getMobs()[npcSlot].getId();
-
-		if (!player.getInventory().contains(itemSlot)) {
+		
+		final Item item = player.getInventory().getItem(itemSlot);
+		
+		// validate the item is the correct item
+		if (item.getId() != itemId) {
 			return;
 		}
 
-		if (World.WORLD.getMobs()[npcSlot] == null) {
+		final Npc npc = World.WORLD.getMobs()[npcSlot];
+
+		// validate the npc actually exists
+		if (npc == null) {
 			return;
 		}
-
-		//new ItemOnNpc(player, player.getInventory().getItem(itemSlot), new Npc(npcId, World.getMobs()[npcSlot].getSlot())).handleAction();
+		
+		player.post(new ItemOnNpcEvent(item, npc));
 	}
 
 }

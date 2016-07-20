@@ -1,7 +1,5 @@
-package astraeus.game.model.entity.item.container;
+package astraeus.game.model.entity.item;
 
-import astraeus.game.model.entity.item.Item;
-import astraeus.game.model.entity.item.ItemDefinition;
 import astraeus.game.model.entity.mob.player.Player;
 
 import java.util.Arrays;

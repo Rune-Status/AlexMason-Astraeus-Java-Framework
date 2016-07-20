@@ -1,29 +1,23 @@
 package astraeus.game.event.impl;
 
 import astraeus.game.event.Event;
+import astraeus.game.model.entity.item.Item;
 
 public final class ItemFirstClickEvent implements Event {
 	
-	private final int id;
-	
-	private final int slot;
+	private final Item item;
 	
 	private final int widgetId;
 	
-	public ItemFirstClickEvent(int id, int slot, int widgetId) {
-		this.id = id;
-		this.slot = slot;
+	public ItemFirstClickEvent(Item item, int widgetId) {
+		this.item = item;
 		this.widgetId = widgetId;
 	}
 
-	public int getId() {
-		return id;
+	public Item getItem() {
+		return item;
 	}
-
-	public int getSlot() {
-		return slot;
-	}
-
+	
 	public int getWidgetId() {
 		return widgetId;
 	}	

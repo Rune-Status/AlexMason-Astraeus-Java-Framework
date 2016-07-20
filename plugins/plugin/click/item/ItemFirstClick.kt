@@ -17,10 +17,10 @@ class ItemFirstClick : EventSubscriber<ItemFirstClickEvent> {
 	override fun subscribe(context: EventContext, player: Player, event: ItemFirstClickEvent) {
 		
 		if (player.rights.greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Attribute.DEBUG)) {
-            player.send(ServerMessagePacket("[ItemClick#1] - ItemId: ${event.id} Slot: ${event.slot} WidgetId: ${event.widgetId}"))
+            player.send(ServerMessagePacket("[ItemClick#1] - Item: ${event.item} WidgetId: ${event.widgetId}"))
         }
 		
-		when(event.id) {
+		when(event.item.id) {
 
 		}
 		

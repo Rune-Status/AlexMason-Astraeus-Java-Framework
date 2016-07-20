@@ -7,11 +7,11 @@ public final class ItemOnItemEvent implements Event {
 	
 	private final Item used;
 	
-	private final Item usedWith;
+	private final Item with;	
 	
-	public ItemOnItemEvent(Item used, Item usedWith) {
+	public ItemOnItemEvent(Item used, Item with) {		
 		this.used = used;
-		this.usedWith = usedWith;
+		this.with = with;
 	}
 
 	public Item getUsed() {
@@ -19,7 +19,7 @@ public final class ItemOnItemEvent implements Event {
 	}
 
 	public Item getUsedWith() {
-		return usedWith;
+		return with;
 	}	
 
 }

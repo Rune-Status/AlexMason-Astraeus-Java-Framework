@@ -1,24 +1,22 @@
-package astraeus.game.model.entity.item.container.impl;
+package astraeus.game.model.entity.mob.player;
 
 import astraeus.game.model.entity.item.Item;
+import astraeus.game.model.entity.item.ItemContainer;
 import astraeus.game.model.entity.item.ItemDefinition;
-import astraeus.game.model.entity.item.container.ItemContainer;
 import astraeus.game.model.entity.mob.MobAnimation;
-import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.skill.SkillRequirement;
 import astraeus.net.packet.out.SetItemModelOnWidgetPacket;
 import astraeus.net.packet.out.UpdateItemsOnWidgetPacket;
 import astraeus.net.packet.out.SetSideBarWidgetPacket;
 import astraeus.net.packet.out.SetWidgetStringPacket;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Represents a {@link Player}s equipment.
  *
- * @author Seven
+ * @author Vult-R
  */
 public final class Equipment extends ItemContainer {
 	
@@ -178,18 +176,6 @@ public final class Equipment extends ItemContainer {
 
 	}
 
-	/**
-	 * Items which have complete head coverage.
-	 */
-	public static final int[] FULL_HEAD_GEAR = { 6109, 1153, 1155, 1157, 1159, 1161, 1163, 1165, 2587, 2595, 2605, 2613,
-			2619, 2627, 2657, 2673, 3486, 4745, 1053, 1055, 1057 };
-
-	/**
-	 * Items which have complete chest coverage.
-	 */
-	public static final int[] PLATE_BODY = { 6107, 3140, 1115, 1117, 1119, 1121, 1123, 1125, 1127, 2583, 2591, 2599,
-			2607, 2615, 2623, 2653, 2669, 3481, 4720, 4728, 4749, 4712 };
-
 	public static final int HEAD = 0;
 	public static final int CAPE = 1;
 	public static final int AMULET = 2;
@@ -294,28 +280,16 @@ public final class Equipment extends ItemContainer {
 		return 5855;
 	}
 
-	/**
-	 * If an item is considered to have complete head coverage.
-	 *
-	 * @param itemId
-	 *            The itemId of the item.
-	 *
-	 * @return The result of the operation.
-	 */
-	public static boolean isFullHeadGear(int itemId) {
-		return Arrays.binarySearch(Equipment.FULL_HEAD_GEAR, itemId) > 0;
+	public static boolean isFullHat(int itemId) {
+		return EquipmentDefinition.get(itemId) != null ? EquipmentDefinition.get(itemId).isFullHat() : false;
+	}
+	
+	public static boolean isFullMask(int itemId) {
+		return EquipmentDefinition.get(itemId) != null ? EquipmentDefinition.get(itemId).isFullMask() : false;
 	}
 
-	/**
-	 * If an item is considered to have complete chest coverage.
-	 *
-	 * @param itemId
-	 *            The itemId of the item.
-	 *
-	 * @return The result of the operation.
-	 */
-	public static boolean isFullChestGear(int itemId) {
-		return Arrays.binarySearch(Equipment.PLATE_BODY, itemId) > 0;
+	public static boolean isFullBody(int itemId) {
+		return EquipmentDefinition.get(itemId) != null ? EquipmentDefinition.get(itemId).isFullBody() : false;
 	}
 
 }

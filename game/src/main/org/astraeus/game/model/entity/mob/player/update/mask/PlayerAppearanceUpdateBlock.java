@@ -1,7 +1,7 @@
 package astraeus.game.model.entity.mob.player.update.mask;
 
-import astraeus.game.model.entity.item.container.impl.Equipment;
 import astraeus.game.model.entity.mob.player.Appearance;
+import astraeus.game.model.entity.mob.player.Equipment;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.update.PlayerUpdateBlock;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
@@ -90,7 +90,7 @@ public class PlayerAppearanceUpdateBlock extends PlayerUpdateBlock {
 				
 				// full body
 			if (player.getEquipment().getItem(Equipment.CHEST) != null) {
-				if (!Equipment.isFullChestGear(player.getEquipment().getItem(Equipment.CHEST).getId())) {
+				if (!Equipment.isFullBody(player.getEquipment().getItem(Equipment.CHEST).getId())) {
 					properties.writeShort(0x100 + player.getAppearance().getArms());
 				} else {
 					properties.write(0);
@@ -108,7 +108,7 @@ public class PlayerAppearanceUpdateBlock extends PlayerUpdateBlock {
 				
 				// full helm
 				if (player.getEquipment().getItem(Equipment.HEAD) != null) {
-					if (!Equipment.isFullHeadGear(player.getEquipment().getItem(Equipment.HEAD).getId())) {
+					if (!Equipment.isFullHat(player.getEquipment().getItem(Equipment.HEAD).getId())) {
 						properties.writeShort(0x100 + player.getAppearance().getHead());
 					} else {
 						properties.write(0);
@@ -133,7 +133,7 @@ public class PlayerAppearanceUpdateBlock extends PlayerUpdateBlock {
 
 				// beard
 			if (player.getEquipment().getItem(Equipment.HEAD) != null) {
-				if (Equipment.isFullHeadGear(player.getEquipment().getItem(Equipment.HEAD).getId())) {
+				if (Equipment.isFullHat(player.getEquipment().getItem(Equipment.HEAD).getId())) {
 					properties.writeShort(0x100 + player.getAppearance().getJaw());
 				} else {
 					properties.write(0);

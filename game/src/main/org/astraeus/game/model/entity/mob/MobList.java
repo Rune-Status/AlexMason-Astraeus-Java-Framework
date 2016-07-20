@@ -13,7 +13,7 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
       /**
        * The array of entities.
        */
-      private final Mob[] entities;
+      private final E[] entities;
 
       /**
        * The cached slots to prevent expensive lookups.
@@ -35,9 +35,10 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
        * 
        * @param capacity The amount of entities that can be in this container.
        */
-      public MobList(int capacity) {
+      @SuppressWarnings("unchecked")
+	public MobList(int capacity) {
             this.capacity = capacity;
-            this.entities = new Mob[capacity + 1];
+            this.entities = (E[]) new Mob[capacity + 1];
             IntStream.rangeClosed(1, capacity).forEach(slotQueue::add);
       }
 
@@ -79,7 +80,7 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
        * 
        * @throws IndexOutOfBoundsException If the index is out of bounds.
        */
-      public Mob get(int index) {
+      public E get(int index) {
             if (index <= 0 || index >= entities.length) {
                   throw new IndexOutOfBoundsException();
             }
@@ -93,7 +94,7 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
        * 
        * @return The index of this entity.
        */
-      public int indexOf(Mob entity) {
+      public int indexOf(E entity) {
             return entity.getSlot();
       }
 
@@ -107,7 +108,7 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
       /**
        * Gets the array of entities.
        */
-      public final Mob[] getEntities() {
+      public final E[] getEntities() {
             return entities;
       }
 
