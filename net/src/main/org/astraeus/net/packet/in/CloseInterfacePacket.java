@@ -18,23 +18,16 @@ public class CloseInterfacePacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
+		if ((Boolean) player.attr().get(Attribute.BANKING)) {
+			player.attr().put(Attribute.BANKING, false);
+		}
 
-		switch (packet.getOpcode()) {
+		if ((Boolean) player.attr().get(Attribute.SHOPPING)) {
+			player.attr().put(Attribute.SHOPPING, false);
+		}
 
-			case IncomingPacket.CLOSE_WINDOW:
-				if ((Boolean) player.attr().get(Attribute.BANKING)) {
-					player.attr().put(Attribute.BANKING, false);
-				}
-
-				if ((Boolean) player.attr().get(Attribute.SHOPPING)) {
-					player.attr().put(Attribute.SHOPPING, false);
-				}
-
-				if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
-					player.send(new ServerMessagePacket("[CloseInterface] - Closed Window"));
-				}
-
-				break;
+		if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
+			player.send(new ServerMessagePacket("[CloseInterface] - Closed Window"));
 		}
 	}
 }

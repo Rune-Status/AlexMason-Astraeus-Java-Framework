@@ -11,8 +11,8 @@ import astraeus.net.packet.IncomingPacket.IncomingPacketOpcode;
  * 
  * @author SeVen
  */
-@IncomingPacketOpcode(202)
-public class IdleLogoutPacket implements Receivable {
+@IncomingPacketOpcode(IncomingPacket.IDLE_LOGOUT)
+public final class IdleLogoutPacket implements Receivable {
 
     @Override
     public void handlePacket(Player player, IncomingPacket packet) {

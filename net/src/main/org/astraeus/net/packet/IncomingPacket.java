@@ -2,7 +2,6 @@ package astraeus.net.packet;
 
 import io.netty.buffer.ByteBuf;
 import astraeus.net.codec.game.GamePacketReader;
-import astraeus.net.packet.in.ItemInteractionPacket;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -52,11 +51,6 @@ public final class IncomingPacket {
 	public static final int ATTACK_NPC = 72;
 
 	/**
-	 * Send when a player uses the attack right-click option on another player.
-	 */
-	public static final int ATTACK_PLAYER = 73;
-
-	/**
 	 * Sent when a player requests to bank an X amount of items.
 	 */
 	public static final int BANK_X_PART_1 = 135;
@@ -75,12 +69,6 @@ public final class IncomingPacket {
 	 * Sent when a player moves the camera.
 	 */
 	public static final int CAMERA_MOVEMENT = 86;
-
-	/**
-	 * Sent when a player uses the right-click challenge option to challenge
-	 * another player.
-	 */
-	public static final int CHALLENGE_PLAYER = 128;
 
 	/**
 	 * Sent when the player enters a chat message.
@@ -113,11 +101,11 @@ public final class IncomingPacket {
 	 */
 	public static final int EQUIP_ITEM = 41;
 
-	public static final int FIRST_CLICK_OBJECT = 132;
+	public static final int OBJECT_OPTION_1 = 132;
 
-	public static final int SECOND_CLICK_OBJECT = 252;
+	public static final int OBJECT_OPTION_2 = 252;
 
-	public static final int THIRD_CLICK_OBJECT = 70;
+	public static final int OBJECT_OPTION_3 = 70;
 
 	/**
 	 * Sent when the game client window goes in and out of focus.
@@ -125,15 +113,39 @@ public final class IncomingPacket {
 	public static final int FOCUS_CHANGE = 3;
 
 	/**
-	 * Sent when a player uses the right-click follow option to follow another
-	 * player.
-	 */
-	public static final int FOLLOW_PLAYER = 139;
-
-	/**
 	 * Sent when a player remains idle for 5 minutes.
 	 */
 	public static final int IDLE_LOGOUT = 202;
+	
+	/**
+	 * Sent when a player uses the first option of a container type widget.
+	 */
+	public static final int WIDGET_CONTAINER_OPTION_1 = 145;
+	
+	/**
+	 * Sent when a player uses the second option of a container type widget.
+	 */
+	public static final int WIDGET_CONTAINER_OPTION_2 = 117;
+	
+	/**
+	 * Sent when a player uses the third option of a container type widget.
+	 */
+	public static final int WIDGET_CONTAINER_OPTION_3 = 43;
+	
+	/**
+	 * Sent when a player uses the fourth option of a container type widget.
+	 */
+	public static final int WIDGET_CONTAINER_OPTION_4 = 129;
+	
+	/**
+	 * Sent when a player uses the fifth option of a container type widget.
+	 */
+	public static final int WIDGET_CONTAINER_OPTION_5 = 135;
+	
+	/**
+	 * Sent when a player uses the sixth option of a container type widget.
+	 */
+	public static final int WIDGET_CONTAINER_OPTION_6 = 208;
 
 	/**
 	 * Sent when a player uses an item on another item thats on the floor.
@@ -159,6 +171,21 @@ public final class IncomingPacket {
 	 * Send when a player uses an item on an in-game npc.
 	 */
 	public static final int ITEM_ON_NPC = 57;
+	
+	/**
+	 * Send when a player uses the first option of an item.
+	 */
+	public static final int ITEM_OPTION_1 = 122;
+	
+	/**
+	 * Send when a player uses the second option of an item.
+	 */
+	public static final int ITEM_OPTION_2 = 16;	
+	
+	/**
+	 * Send when a player uses the third option of an item.
+	 */
+	public static final int ITEM_OPTION_3 = 75;
 
 	/**
 	 * Sent when the client finishes loading a map region.
@@ -194,17 +221,17 @@ public final class IncomingPacket {
 	/**
 	 * Sent when a player uses the first right-click option on an npc.
 	 */
-	public static final int NPC_ACTION_1 = 155;
+	public static final int NPC_OPTION_1 = 155;
 
 	/**
 	 * Sent when a player uses the second right-click option on an npc.
 	 */
-	public static final int NPC_ACTION_2 = 17;
+	public static final int NPC_OPTION_2 = 17;
 
 	/**
 	 * Sent when a player uses the third right-click option on an npc.
 	 */
-	public static final int NPC_ACTION_3 = 21;
+	public static final int NPC_OPTION_3 = 21;
 
 	/**
 	 * Sent when the player picks up an item from the ground.
@@ -220,6 +247,26 @@ public final class IncomingPacket {
 	 * Sent when a player changes their privacy options (i.e. public chat).
 	 */
 	public static final int PRIVACY_OPTIONS = 95;
+	
+	/**
+	 * Sent when a player uses the first option of a player. (challenge)
+	 */
+	public static final int PLAYER_OPTION_1 = 128;
+	
+	/**
+	 * Sent when a player uses the second option of a player. (attack)
+	 */
+	public static final int PLAYER_OPTION_2 = 73;
+	
+	/**
+	 * Sent when a player uses the third option of a player. (follow)
+	 */
+	public static final int PLAYER_OPTION_3 = 139;
+	
+	/**
+	 * Sent when a player uses the fourth option of a player. (trade)
+	 */
+	public static final int PLAYER_OPTION_4 = 39;
 
 	/**
 	 * Sent when a player sends another player a private message.
@@ -240,11 +287,11 @@ public final class IncomingPacket {
 	 * Sent when a player removes an ignored user from the ignore list.
 	 */
 	public static final int REMOVE_IGNORE = 59;
-
+	
 	/**
-	 * Sent when a player requests a trade with another player.
+	 * Sent when a player reports another player.
 	 */
-	public static final int TRADE_REQUEST = 39;
+	public static final int REPORT_PLAYER = 218;
 
 	/**
 	 * Sent when a player answers a trade request from another player.
@@ -252,9 +299,9 @@ public final class IncomingPacket {
 	public static final int TRADE_ANSWER = 153;
 
 	/**
-	 * Sent while typing onto an interface.
+	 * Sent while typing onto a widget.
 	 */
-	public static final int TYPING_ONTO_INTERFACE = 60;
+	public static final int TYPE_ON_WIDGET = 60;
 
 	/**
 	 * Sent when the player should walk somewhere according to a certain action
@@ -355,7 +402,7 @@ public final class IncomingPacket {
 	 *         otherwise.
 	 */
 	public boolean isPrioritized() {
-		return opcode == IncomingPacket.EQUIP_ITEM || opcode == ItemInteractionPacket.FIRST_ITEM_CLICK_OPCODE || opcode == IncomingPacket.BUTTON_CLICK;
+		return opcode == IncomingPacket.EQUIP_ITEM || opcode == IncomingPacket.ITEM_OPTION_1 || opcode == IncomingPacket.BUTTON_CLICK;
 	}
 
 	@Override

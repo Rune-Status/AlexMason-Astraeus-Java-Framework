@@ -9,8 +9,8 @@ import astraeus.net.packet.Receivable;
  * 
  * @author SeVen
  */
-@IncomingPacket.IncomingPacketOpcode(218)
-public class ReportPacket implements Receivable {
+@IncomingPacket.IncomingPacketOpcode(IncomingPacket.REPORT_PLAYER)
+public final class ReportPlayerPacket implements Receivable {
 
     @Override
     public void handlePacket(Player player, IncomingPacket packet) {

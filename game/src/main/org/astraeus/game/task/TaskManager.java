@@ -69,10 +69,15 @@ public final class TaskManager {
     public static void submit(Task task) {
         Preconditions.checkArgument(task.isRunning());
         task.onSubmit();
-        if (task.isInstant())
+        
+        if (task.isInstant()) {
             task.execute();
-        if (task.isRunning())
+        }
+        
+        if (task.isRunning()) {
             PENDING_LIST.add(task);
+        }
+        
     }
 
     /**

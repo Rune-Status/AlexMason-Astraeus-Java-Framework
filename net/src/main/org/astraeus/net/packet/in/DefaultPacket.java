@@ -9,7 +9,7 @@ import astraeus.net.packet.Receivable;
  * 
  * @author SeVen
  */
-@IncomingPacket.IncomingPacketOpcode({241, 3, 0, 77})
+@IncomingPacket.IncomingPacketOpcode({IncomingPacket.CAMERA_MOVEMENT, IncomingPacket.IDLE_LOGOUT, IncomingPacket.FOCUS_CHANGE})
 public class DefaultPacket implements Receivable {
 
     @Override

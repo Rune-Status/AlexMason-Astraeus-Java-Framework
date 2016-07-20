@@ -17,7 +17,7 @@ import astraeus.net.packet.out.ServerMessagePacket;
  * @author SeVen
  */
 @IncomingPacket.IncomingPacketOpcode(IncomingPacket.PICKUP_GROUND_ITEM)
-public class PickupItemPacket implements Receivable {
+public class PickupGroundItemPacket implements Receivable {
 
 	@Override
 	public void handlePacket(final Player player, IncomingPacket packet) {

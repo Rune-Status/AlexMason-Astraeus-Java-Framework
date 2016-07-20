@@ -10,12 +10,12 @@ import astraeus.net.packet.Receivable;
 import astraeus.net.packet.out.ServerMessagePacket;
 
 /**
- * The {@link IncomingPacket} responsible for wielding items.
+ * The {@link IncomingPacket} responsible for equipping items.
  * 
  * @author SeVen
  */
-@IncomingPacket.IncomingPacketOpcode(41)
-public class WieldItemPacket implements Receivable {
+@IncomingPacket.IncomingPacketOpcode(IncomingPacket.EQUIP_ITEM)
+public class EquipItemPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
@@ -26,7 +26,7 @@ public class WieldItemPacket implements Receivable {
 		final int interfaceId = reader.readShort(ByteModification.ADDITION);
 		
 		if (player.getRights().greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
-			player.send(new ServerMessagePacket(String.format("[WearItem] - [id= %d], [slot= %d], [interfaceId= %d]", id, slot, interfaceId)));
+			player.send(new ServerMessagePacket(String.format("[EquipItem] - [id= %d], [slot= %d], [interfaceId= %d]", id, slot, interfaceId)));
 		}
 		
 	}
