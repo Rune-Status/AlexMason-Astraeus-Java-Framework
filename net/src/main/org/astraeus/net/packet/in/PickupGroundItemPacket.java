@@ -5,10 +5,12 @@ import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
 import astraeus.game.model.entity.mob.player.attribute.Attribute;
+import astraeus.game.model.entity.object.GameObjects;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
+import astraeus.net.packet.out.RemoveGroundItemPacket;
 import astraeus.net.packet.out.ServerMessagePacket;
 
 /**
@@ -22,23 +24,39 @@ public class PickupGroundItemPacket implements Receivable {
 	@Override
 	public void handlePacket(final Player player, IncomingPacket packet) {
 		GamePacketReader reader = packet.getReader();
-		
+
 		final int y = reader.readShort(ByteOrder.LITTLE);
 		final int id = reader.readShort(false);
 		final int x = reader.readShort(ByteOrder.LITTLE);
 
-		Item item = new Item(id);
+		// create the position object
+		Position position = new Position(x, y, player.getPosition().getHeight());
 
-		Position location = new Position(x, y, player.getPosition().getHeight());
+		// get the item from the map
+		Item item = GameObjects.getGroundItems().get(position);
 
-		if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
-			player.send(new ServerMessagePacket(String.format("[PickupItem] - Item: %s Location: %s", item.toString(), location.toString())));
+		// validate it exists
+		if (item == null) {
+			return;
 		}
-
-		if (Math.abs(player.getPosition().getX() - x) > 25 || Math.abs(player.getPosition().getY() - y) > 25) {
-			player.getMovement().reset();
+		
+		// validate the item is the same item
+		if (item.getId() != id) {
 			return;
 		}
 
+		if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
+			player.send(new ServerMessagePacket(
+					String.format("[PickupItem] - Item: %s Position: %s", item.toString(), position.toString())));
+		}
+		
+		player.getMovementListener().append(() -> {
+			if (player.getPosition().isWithinInteractionDistance(position)) {
+				player.getInventory().add(item);
+				player.send(new RemoveGroundItemPacket(item));
+				GameObjects.getGlobalObjects().remove(item);
+			}
+		});
+		
 	}
 }

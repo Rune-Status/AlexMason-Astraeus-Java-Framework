@@ -4,6 +4,7 @@ import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
 import astraeus.game.model.entity.mob.player.attribute.Attribute;
+import astraeus.game.model.entity.object.GameObjects;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
@@ -55,6 +56,8 @@ public final class DropItemPacket implements Receivable {
 		}
 		
 		player.send(new AddGroundItemPacket(item));
+		
+		GameObjects.getGroundItems().put(player.getPosition().copy(), item);
 		
 		player.getInventory().remove(item);	
 		
