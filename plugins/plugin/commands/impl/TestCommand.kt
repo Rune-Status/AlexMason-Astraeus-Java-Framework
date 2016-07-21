@@ -13,8 +13,9 @@ import plugin.commands.CommandParser
 @SubscribesTo(CommandEvent::class)
 class TestCommand : Command() {
 
-	override fun execute(player: Player, parser: CommandParser) {
+	override fun execute(player: Player, parser: CommandParser) : Boolean {
 		player.send(ServerMessagePacket("${parser.command} command works perfectly!"))
+		return true
 	}
 
 	override fun test(event: CommandEvent): Boolean {

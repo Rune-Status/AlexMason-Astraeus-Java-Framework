@@ -21,7 +21,7 @@ abstract class Command : EventSubscriber<CommandEvent> {
 		
 	}
 	
-	abstract fun execute(player : Player, parser : CommandParser)
+	abstract fun execute(player : Player, parser : CommandParser) : Boolean
 	
 	abstract val rights : PlayerRights
 

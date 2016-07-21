@@ -12,8 +12,9 @@ import plugin.commands.CommandParser
 @SubscribesTo(CommandEvent::class)
 class PositionCommand : Command() {
 
-	override fun execute(player: Player, parser: CommandParser) {
-		player.send(ServerMessagePacket("Your position is: ${player.position}"))		
+	override fun execute(player: Player, parser: CommandParser) : Boolean {
+		player.send(ServerMessagePacket("Your position is: ${player.position}"))
+		return true	
 	}
 
 	override fun test(event: CommandEvent): Boolean {		

@@ -14,6 +14,7 @@ import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.model.location.Area;
 import astraeus.game.model.sound.Volume;
+import astraeus.game.model.widget.WidgetSet;
 import astraeus.net.channel.PlayerChannel;
 import astraeus.net.packet.OutgoingPacket;
 import astraeus.net.packet.Sendable;
@@ -53,6 +54,7 @@ public class Player extends Mob {
 	private final Inventory inventory = new Inventory(this);
 	private final Equipment equipment = new Equipment(this);
 	private final Bank bank = new Bank(this);
+	private final WidgetSet widgets = new WidgetSet(this);
 
 	public int lastMessage = 1;
 	@SuppressWarnings("unused")
@@ -529,6 +531,10 @@ public class Player extends Mob {
 
 	public String getUUID() {
 		return uuid;
+	}	
+
+	public WidgetSet getWidgets() {
+		return widgets;
 	}
 
 	@Override
