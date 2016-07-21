@@ -18,7 +18,12 @@ public abstract class GsonParser<T> implements Runnable {
 	/**
 	 * The single logger for this class.
 	 */
-	private static final Logger LOGGER = LoggerUtils.getLogger(GsonParser.class);	
+	private static final Logger LOGGER = LoggerUtils.getLogger(GsonParser.class);
+	
+	/**
+	 * The single instance of Gson for this parser.
+	 */
+	private static final Gson GSON = new GsonBuilder().create();
 
 	/**
 	 * The path to the file being parsed.
@@ -80,13 +85,10 @@ public abstract class GsonParser<T> implements Runnable {
 	public abstract void onRead(T[] array) throws IOException;
 
 	@Override
-	public void run() {
-		
-		final Gson gson = new GsonBuilder().create();
-		
+	public void run() {		
 		try (FileReader reader = new FileReader(path + ".json")) {
 			
-			T[] types = deserialize(gson, reader);
+			T[] types = deserialize(GSON, reader);
 
 			onRead(types);
 
@@ -99,5 +101,4 @@ public abstract class GsonParser<T> implements Runnable {
 		}
 
 	}
-
 }
