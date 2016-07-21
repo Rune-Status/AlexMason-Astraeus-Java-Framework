@@ -2,6 +2,7 @@ package astraeus.game.model.entity.mob.player.io;
 
 import astraeus.game.model.Brightness;
 import astraeus.game.model.Position;
+import astraeus.game.model.entity.mob.Movement;
 import astraeus.game.model.entity.mob.player.Appearance;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
@@ -48,7 +49,7 @@ public final class PlayerDetails {
             player.attr().put(Player.MUSIC_VOLUME_KEY, details.musicVolume);
             player.attr().put(Player.SOUND_EFFECT_VOLUME_KEY, details.soundEffectVolume);
             player.attr().put(Player.AREA_SOUND_VOLUME_KEY, details.areaSoundVolume);
-            player.getMovement().setRunning(details.running);
+            player.attr().put(Movement.RUNNING_KEY, details.running);
             player.attr().put(Player.AUTO_RETALIATE_KEY, details.autoRetaliate);
             player.attr().put(Player.SOUND_KEY, details.enableSound);
             player.attr().put(Player.MUSIC_KEY, details.enableMusic);
@@ -125,7 +126,7 @@ public final class PlayerDetails {
         soundEffectVolume = player.attr().get(Player.SOUND_EFFECT_VOLUME_KEY);
         areaSoundVolume = player.attr().get(Player.AREA_SOUND_VOLUME_KEY);
         newPlayer = player.attr().get(Player.NEW_PLAYER_KEY);
-        running = player.getMovement().isRunning();
+        running = player.attr().get(Movement.RUNNING_KEY);
         autoRetaliate = player.attr().get(Player.AUTO_RETALIATE_KEY);
         enableSound = player.attr().get(Player.SOUND_KEY);
         enableMusic = player.attr().get(Player.MUSIC_KEY);

@@ -1,6 +1,7 @@
 package astraeus.game.model.entity.mob;
 
 import astraeus.game.model.Position;
+import astraeus.game.model.entity.mob.player.attribute.AttributeKey;
 import astraeus.net.packet.out.UpdateMapRegion;
 
 import java.util.Deque;
@@ -34,21 +35,21 @@ public final class Movement {
 	 * The points of focus.
 	 */
 	private final Deque<MovementPoint> focusPoints = new LinkedList<MovementPoint>();
-
+	
 	/**
-	 * If the entity is currently running.
+	 * The key that holds the entities running attribute.
 	 */
-	private boolean isRunning = false;
+	public static final AttributeKey<Boolean> RUNNING_KEY = AttributeKey.valueOf("running", true);
+	
+	/**
+	 * The key that holds the entities frozen/ lock movement attribute.
+	 */
+	public static final AttributeKey<Boolean> LOCK_MOVEMENT = AttributeKey.valueOf("lock_movement", false);
 
 	/**
 	 * If the entity running queue is enabled.
 	 */
 	private boolean isRunningQueueEnabled = false;
-
-	/**
-	 * Prevents the entity from moving.
-	 */
-	private boolean lockMovement;
 
 	/**
 	 * The default class constructor.
@@ -74,25 +75,6 @@ public final class Movement {
 	 */
 	public final Mob getEntity() {
 		return entity;
-	}
-
-	/**
-	 * Checks if the entity is running.
-	 *
-	 * @return The result of the check,
-	 */
-	public final boolean isRunning() {
-		return isRunning;
-	}
-
-	/**
-	 * Modifies if the entity is running.
-	 *
-	 * @param isRunning
-	 *            The new modification.
-	 */
-	public final void setRunning(boolean isRunning) {
-		this.isRunning = isRunning;
 	}
 
 	/**
@@ -130,7 +112,7 @@ public final class Movement {
 	 * main procedure.
 	 */
 	public final void handleEntityMovement() {
-		if (lockMovement) {
+		if (entity.attr.get(Movement.LOCK_MOVEMENT)) {
 			return;
 		}
 
@@ -138,7 +120,7 @@ public final class Movement {
 
 		walkingPoint = getNextPoint();
 
-		if (isRunning()) {
+		if (entity.attr.get(Movement.RUNNING_KEY)) {			
 			runningPoint = getNextPoint();
 		}
 
@@ -274,14 +256,6 @@ public final class Movement {
 
 	public boolean isMovementDone() {
 		return focusPoints.isEmpty();
-	}
-
-	public boolean isLockMovement() {
-		return lockMovement;
-	}
-
-	public void setLockMovement(boolean lockMovement) {
-		this.lockMovement = lockMovement;
 	}
 
 	/**

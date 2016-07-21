@@ -5,17 +5,24 @@ import astraeus.game.event.impl.ButtonActionEvent
 import astraeus.game.model.entity.mob.player.Player
 import astraeus.net.packet.out.SetWidgetConfigPacket
 
+import astraeus.game.model.entity.mob.Movement
+
 @SubscribesTo(ButtonActionEvent::class)
 class ToggleRunButton : ButtonClick() {
 
     override fun execute(player: Player, event: ButtonActionEvent) {
         when (event.button) {
             1050, 19158 -> {
-                if (player.movement.isRunning == true) player.movement.isRunning = false else player.movement.isRunning = true
+				
+				player.attr().toggle(Movement.RUNNING_KEY)             
+				
+				val running = player.attr().get(Movement.RUNNING_KEY)
+				
                 // run orb toggle
-                player.send(SetWidgetConfigPacket(152, if (player.movement.isRunning) 1 else 0))
+                player.send(SetWidgetConfigPacket(152, if (running) 1 else 0))
                 // run button in the wrench tab
-                player.send(SetWidgetConfigPacket(429, if (player.movement.isRunning) 1 else 0))
+                player.send(SetWidgetConfigPacket(429, if (running) 1 else 0))			
+
             }
         }
     }

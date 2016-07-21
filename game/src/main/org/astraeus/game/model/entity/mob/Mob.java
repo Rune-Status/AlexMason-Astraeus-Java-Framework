@@ -27,7 +27,7 @@ public abstract class Mob extends Entity {
 
 	private final Queue<Graphic> graphics = new PriorityQueue<>();
 
-	private AttributeMap attributes = new AttributeMap();
+	protected AttributeMap attr = new AttributeMap();	
 
 	/**
 	 * The specialized set for enumerated types that will store all of the
@@ -368,10 +368,6 @@ public abstract class Mob extends Entity {
 
 	public Queue<Animation> getAnimations() {
 		return animations;
-	}
-
-	public AttributeMap attr() {
-		return attributes;
 	}
 
 	public String getForcedChat() {

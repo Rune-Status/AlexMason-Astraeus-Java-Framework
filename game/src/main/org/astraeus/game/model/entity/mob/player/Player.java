@@ -7,6 +7,7 @@ import astraeus.game.model.entity.EntityType;
 import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.item.ItemContainer;
 import astraeus.game.model.entity.mob.Mob;
+import astraeus.game.model.entity.mob.Movement;
 import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.player.attribute.AttributeKey;
 import astraeus.game.model.entity.mob.player.attribute.AttributeMap;
@@ -77,7 +78,7 @@ public class Player extends Mob {
 	private int wildernessLevel;
 	private boolean inWilderness;
 	private boolean inMultiCombat;
-	
+
 	public static final AttributeKey<Boolean> ACCEPT_AID_KEY = AttributeKey.valueOf("accept_aid", true);
 	public static final AttributeKey<Boolean> ACTIVE_KEY = AttributeKey.valueOf("active", false);
 	public static final AttributeKey<Boolean> AUTO_RETALIATE_KEY = AttributeKey.valueOf("auto_retaliate", true);
@@ -94,14 +95,14 @@ public class Player extends Mob {
 	public static final AttributeKey<Boolean> SHOPPING_KEY = AttributeKey.valueOf("shopping", false);
 	public static final AttributeKey<Boolean> SOUND_KEY = AttributeKey.valueOf("sound", true);
 	public static final AttributeKey<Boolean> SPLIT_CHAT_KEY = AttributeKey.valueOf("split_chat_key", true);
-	
-	public static final AttributeKey<Volume> AREA_SOUND_VOLUME_KEY = AttributeKey.valueOf("area_sound_volume", Volume.NORMAL);
+
+	public static final AttributeKey<Volume> AREA_SOUND_VOLUME_KEY = AttributeKey.valueOf("area_sound_volume",
+			Volume.NORMAL);
 	public static final AttributeKey<Volume> MUSIC_VOLUME_KEY = AttributeKey.valueOf("music_volume", Volume.NORMAL);
-	public static final AttributeKey<Volume> SOUND_EFFECT_VOLUME_KEY = AttributeKey.valueOf("sound_effect_volume", Volume.NORMAL);
-	
+	public static final AttributeKey<Volume> SOUND_EFFECT_VOLUME_KEY = AttributeKey.valueOf("sound_effect_volume",
+			Volume.NORMAL);
+
 	public static final AttributeKey<Brightness> BRIGHTNESS_KEY = AttributeKey.valueOf("brightness", Brightness.NORMAL);
-		
-	private AttributeMap attr = new AttributeMap();
 
 	// actual player
 	public Player(final PlayerChannel session) {
@@ -114,7 +115,7 @@ public class Player extends Mob {
 		super(location);
 		this.username = username;
 	}
-	
+
 	public void createAttributes() {
 		attr.put(ACCEPT_AID_KEY, true);
 		attr.put(ACTIVE_KEY, false);
@@ -136,6 +137,8 @@ public class Player extends Mob {
 		attr.put(MUSIC_KEY, true);
 		attr.put(MUSIC_VOLUME_KEY, Volume.NORMAL);
 		attr.put(NEW_PLAYER_KEY, false);
+		attr.put(Movement.RUNNING_KEY, true);
+		attr.put(Movement.LOCK_MOVEMENT, false);
 	}
 
 	@Override
@@ -149,7 +152,8 @@ public class Player extends Mob {
 		setRegionChange(true);
 		getUpdateFlags().add(UpdateFlag.APPEARANCE);
 		onStartup();
-		setPosition(attr().contains(AttributeKey.valueOf("new_player", true)) ? Player.DEFAULT_LOCATION : getPosition());
+		setPosition(
+				attr().contains(AttributeKey.valueOf("new_player", true)) ? Player.DEFAULT_LOCATION : getPosition());
 		onLogin();
 		LOGGER.info(String.format("[REGISTERED]: [user= %s]", username));
 	}
@@ -176,11 +180,11 @@ public class Player extends Mob {
 		send(new ResetCameraPositionPacket());
 		send(new SetPrivacyOptionPacket(0, 0, 0));
 		send(new SetSpecialAmountPacket());
-		send(new SetWidgetConfigPacket(172, attr().get(AUTO_RETALIATE_KEY) ? 1 : 0));		
+		send(new SetWidgetConfigPacket(172, attr().get(AUTO_RETALIATE_KEY) ? 1 : 0));
 		send(new SetPlayerOptionPacket(PlayerOption.FOLLOW));
 		send(new SetPlayerOptionPacket(PlayerOption.TRADE_REQUEST));
-		send(new SetWidgetConfigPacket(152, getMovement().isRunning() ? 1 : 0));
-		send(new SetWidgetConfigPacket(429, getMovement().isRunning() ? 1 : 0));
+		send(new SetWidgetConfigPacket(152, attr().get(Movement.RUNNING_KEY) ? 1 : 0));
+		send(new SetWidgetConfigPacket(429, attr().get(Movement.RUNNING_KEY) ? 1 : 0));
 		send(new SetWidgetConfigPacket(171, attr().get(MOUSE_BUTTON_KEY) ? 1 : 0));
 		send(new SetWidgetConfigPacket(172, attr().get(CHAT_EFFECTS_KEY) ? 1 : 0));
 		send(new SetWidgetConfigPacket(287, attr().get(SPLIT_CHAT_KEY) ? 1 : 0));
@@ -408,26 +412,32 @@ public class Player extends Mob {
 	}
 
 	private void handleRunRestore() {
-		if (!getMovement().isMoving()) {
-			setRunRestore(getRunRestore() + 1);
+		if (attr.get(Movement.RUNNING_KEY)) {
+			return;
+		}
+		
+		setRunRestore(getRunRestore() + 1);
 
-			if (getRunRestore() == 3) {
-				setRunRestore(0);
+		if (getRunRestore() == 3) {
+			setRunRestore(0);
 
-				int energy = getRunEnergy() + 1;
+			int energy = getRunEnergy() + 1;
 
-				if (energy > 100)
-					energy = 100;
+			if (energy > 100)
+				energy = 100;
 
-				setRunEnergy(energy);
-				send(new SetRunEnergyPacket());
-			}
+			setRunEnergy(energy);
+			send(new SetRunEnergyPacket());
 		}
 	}
 
 	private void handleRunEnergy() {
+		if (!attr.get(Movement.RUNNING_KEY)) {
+			return;
+		}
+
 		if (getRunEnergy() <= 0) {
-			getMovement().setRunning(false);
+			attr.put(Movement.RUNNING_KEY, false);
 			send(new SetWidgetConfigPacket(152, 0));
 		} else {
 			setRunEnergy(getRunEnergy() - 1);
@@ -580,12 +590,12 @@ public class Player extends Mob {
 
 	public String getUUID() {
 		return uuid;
-	}	
+	}
 
 	public WidgetSet getWidgets() {
 		return widgets;
 	}
-	
+
 	public AttributeMap attr() {
 		return attr;
 	}
