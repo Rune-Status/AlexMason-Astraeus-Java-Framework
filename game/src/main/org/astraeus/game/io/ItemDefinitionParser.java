@@ -9,8 +9,17 @@ import com.google.gson.Gson;
 import astraeus.game.model.entity.item.ItemDefinition;
 import astraeus.util.GsonParser;
 
+/**
+ * The {@link GsonParser} implementation that will parse item definitions.
+ * 
+ * @author Vult-R
+ */
 public final class ItemDefinitionParser extends GsonParser<ItemDefinition> {
 
+	/**
+	 * Creates a new {@link ItemDefinitionParser}.
+	 * 
+	 */
 	public ItemDefinitionParser() {
 		super("./data/item/item_definitions");
 	}
