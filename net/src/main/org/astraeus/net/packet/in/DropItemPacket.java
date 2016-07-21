@@ -1,5 +1,6 @@
 package astraeus.net.packet.in;
 
+import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
 import astraeus.game.model.entity.mob.player.attribute.Attribute;
@@ -8,6 +9,7 @@ import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 import astraeus.net.packet.IncomingPacket.IncomingPacketOpcode;
 import astraeus.net.codec.game.GamePacketReader;
+import astraeus.net.packet.out.AddGroundItemPacket;
 import astraeus.net.packet.out.ServerMessagePacket;
 
 /**
@@ -16,20 +18,31 @@ import astraeus.net.packet.out.ServerMessagePacket;
  * @author SeVen
  */
 @IncomingPacketOpcode(IncomingPacket.DROP_ITEM)
-public class DropItemPacket implements Receivable {
+public final class DropItemPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
-		GamePacketReader reader = packet.getReader();
 		
+		System.out.println("drop item packet");
+		
+		GamePacketReader reader = packet.getReader();
 		
 		final int itemId = reader.readShort(false, ByteModification.ADDITION);
 		
 		reader.readByte(false);
 		reader.readByte(false);
-		@SuppressWarnings("unused")
-            final int slot = reader.readShort(false, ByteModification.ADDITION);
 
+        final int slot = reader.readShort(false, ByteModification.ADDITION);
+        
+        System.out.println("dropping item: " + itemId + " slot: " + slot);
+        
+        final Item item = player.getInventory().getItem(slot);
+        
+        if (item == null) {
+        	return;
+        }       
+
+        //TODO add destoryable items
 		boolean droppable = true;
 
 		if (!droppable) {
@@ -40,6 +53,11 @@ public class DropItemPacket implements Receivable {
 		if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
 			player.send(new ServerMessagePacket("ItemDropped: " + itemId));
 		}
+		
+		player.send(new AddGroundItemPacket(item));
+		
+		player.getInventory().remove(item);	
+		
 	}
 
 }

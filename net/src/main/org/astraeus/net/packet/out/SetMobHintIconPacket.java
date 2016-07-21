@@ -46,11 +46,11 @@ public final class SetMobHintIconPacket implements Sendable {
 	@Override
 	public Optional<OutgoingPacket> writePacket(Player player) {
 		GamePacketBuilder builder = new GamePacketBuilder(254);
-		builder.write(entity.isPlayer() ? reset ? -1 : 10 : reset ? -1 : 1)
-		.writeShort(entity.getSlot())
-		.write(0 >> 16)
-		.write(0 >> 8)
-		.write(0);
+		builder.write(entity.isPlayer() ? reset ? -1 : 10 : reset ? -1 : 1) // type
+		.writeShort(entity.getSlot()) // slot
+		.write(0) // x offset
+		.write(0) // y offset
+		.write(0); // z offset
 		return builder.toOutgoingPacket();
 	}
 

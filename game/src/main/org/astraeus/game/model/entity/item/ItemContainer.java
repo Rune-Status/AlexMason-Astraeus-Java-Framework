@@ -56,6 +56,28 @@ public abstract class ItemContainer {
             this.capacity = capacity;
             this.items = new Item[capacity];
       }
+      
+      public void remove(Item item) {
+    	  for(int index = 0; index < items.length; index++) {
+    		  if (items[index] == null) {
+    			  continue;
+    		  }
+    		  
+    		  if (items[index] == item) {
+    			  items[index] = null;
+    		  }
+    	  }
+    	  refresh();
+      }
+      
+      public void remove(int slot) {
+    	  if (slot >= items.length) {
+    		  throw new IllegalArgumentException("slot: " + slot + " must be less than length: " + items.length);
+    	  }
+    	  items[slot] = null;
+    	  
+    	  refresh();
+      }
 
       /**
        * Gets the items that are held in this container.
