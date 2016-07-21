@@ -3,7 +3,6 @@ package astraeus.net.channel;
 import astraeus.Server;
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.player.Player;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.game.model.entity.mob.player.io.PlayerDeserializer;
 import astraeus.net.packet.Sendable;
 import io.netty.channel.Channel;
@@ -101,7 +100,7 @@ public class PlayerChannel {
             player.setPassword(password);
 
             try {
-                  player.attr().put(Attribute.NEW_PLAYER, !PlayerDeserializer.deserialize(player));
+                  player.attr().put(Player.NEW_PLAYER_KEY, !PlayerDeserializer.deserialize(player));
             } catch (Exception e) {
                   e.printStackTrace();
             }

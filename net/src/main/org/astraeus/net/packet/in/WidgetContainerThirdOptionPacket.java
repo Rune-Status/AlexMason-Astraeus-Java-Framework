@@ -3,7 +3,6 @@ package astraeus.net.packet.in;
 import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
@@ -22,7 +21,7 @@ public final class WidgetContainerThirdOptionPacket implements Receivable {
 		final int itemId = reader.readShort(ByteModification.ADDITION);
 		final int itemSlot = reader.readShort(ByteModification.ADDITION);
 
-		if (player.getRights().equal(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
+		if (player.getRights().equal(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
 			player.send(new ServerMessagePacket("[ItemContainerAction] - ThirdClick - InterfaceId: " + interfaceId + " itemId: " + itemId + " slot: " + itemSlot));
 		}
 

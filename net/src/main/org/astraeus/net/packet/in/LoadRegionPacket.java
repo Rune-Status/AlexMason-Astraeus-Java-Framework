@@ -1,7 +1,7 @@
 package astraeus.net.packet.in;
 
 import astraeus.game.model.entity.mob.player.Player;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
+import astraeus.game.model.entity.mob.player.attribute.AttributeKey;
 import astraeus.game.model.entity.object.GameObjects;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
@@ -10,10 +10,12 @@ import astraeus.net.packet.Receivable;
 public final class LoadRegionPacket implements Receivable {
 
 	@Override
-	public void handlePacket(Player player, IncomingPacket packet) {
-		player.attr().put(Attribute.SAVE, true);
+	public void handlePacket(Player player, IncomingPacket packet) {	
+		
+		player.attr().put(AttributeKey.valueOf("save", false), true);
 		
 		GameObjects.createGlobalObjects(player);
+		GameObjects.createGlobalItems(player);		
 	}
 
 }

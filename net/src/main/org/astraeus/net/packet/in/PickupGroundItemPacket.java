@@ -4,7 +4,6 @@ import astraeus.game.model.Position;
 import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.game.model.entity.object.GameObjects;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
@@ -19,7 +18,7 @@ import astraeus.net.packet.out.ServerMessagePacket;
  * @author SeVen
  */
 @IncomingPacket.IncomingPacketOpcode(IncomingPacket.PICKUP_GROUND_ITEM)
-public class PickupGroundItemPacket implements Receivable {
+public final class PickupGroundItemPacket implements Receivable {
 
 	@Override
 	public void handlePacket(final Player player, IncomingPacket packet) {
@@ -45,7 +44,7 @@ public class PickupGroundItemPacket implements Receivable {
 			return;
 		}
 
-		if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
+		if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
 			player.send(new ServerMessagePacket(
 					String.format("[PickupItem] - Item: %s Position: %s", item.toString(), position.toString())));
 		}

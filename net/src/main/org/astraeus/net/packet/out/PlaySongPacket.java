@@ -1,7 +1,6 @@
 package astraeus.net.packet.out;
 
 import astraeus.game.model.entity.mob.player.Player;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
@@ -34,7 +33,7 @@ public final class PlaySongPacket implements Sendable {
 	@Override
 	public Optional<OutgoingPacket> writePacket(Player player) {
 		GamePacketBuilder builder = new GamePacketBuilder(74);
-		if (!(Boolean) player.attr().get(Attribute.MUSIC) || id == -1) {
+		if (!player.attr().get(Player.MUSIC_KEY) || id == -1) {
 			return Optional.empty();
 		}
 		builder.writeShort(id, ByteOrder.LITTLE);

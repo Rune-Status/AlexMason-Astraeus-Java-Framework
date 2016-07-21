@@ -5,7 +5,6 @@ import astraeus.game.model.Position;
 import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
@@ -27,7 +26,7 @@ public final class ItemOnGroundItemPacket implements Receivable {
 		final int slot = reader.readShort(ByteOrder.LITTLE, ByteModification.ADDITION);		
 		final int x = reader.readShort();		
 
-		if (player.getRights().equal(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
+		if (player.getRights().equal(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
 			player.send(new ServerMessagePacket("used: " + used + " slot: " + slot + " groundItem: " + id + " x: " + x + " y: " + y + " z: " + z));
 		}
 		

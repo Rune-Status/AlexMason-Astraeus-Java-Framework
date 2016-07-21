@@ -9,14 +9,13 @@ import astraeus.net.packet.out.ServerMessagePacket
 
 import astraeus.game.model.entity.mob.player.Player
 import astraeus.game.model.entity.mob.player.PlayerRights
-import astraeus.game.model.entity.mob.player.attribute.Attribute
 
 @SubscribesTo(NpcSecondClickEvent::class)
 class NpcSecondClick : EventSubscriber<NpcSecondClickEvent> {
 	
 	override fun subscribe(context: EventContext, player: Player, event: NpcSecondClickEvent) {
 		
-		if (player.rights.greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Attribute.DEBUG)) {
+		if (player.rights.greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
             player.send(ServerMessagePacket("[click= npc], [type = second], [id= ${event.npc.id}], [slot= ${event.npc.slot}]"));
         }
 		

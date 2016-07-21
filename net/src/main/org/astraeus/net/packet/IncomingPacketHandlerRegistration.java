@@ -1,7 +1,6 @@
 package astraeus.net.packet;
 
 import astraeus.game.model.entity.mob.player.Player;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.packet.in.*;
 
 import java.util.HashMap;
@@ -40,7 +39,7 @@ public final class IncomingPacketHandlerRegistration {
 	public static final void dispatchToHandler(Player player, IncomingPacket packet) {
 		Optional<Receivable> listener = Optional.ofNullable(INCOMING_PACKETS.get(packet.getOpcode()));
 
-		if ((boolean) player.attr().get(Attribute.DEBUG_NETWORK)) {
+		if (player.attr().get(Player.DEBUG_NETWORK_KEY)) {
 			LOGGER.info(String.format(packet.toString()));
 		}
 

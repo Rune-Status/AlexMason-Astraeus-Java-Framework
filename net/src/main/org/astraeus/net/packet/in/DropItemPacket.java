@@ -3,7 +3,6 @@ package astraeus.net.packet.in;
 import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.game.model.entity.object.GameObjects;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.packet.IncomingPacket;
@@ -22,10 +21,7 @@ import astraeus.net.packet.out.ServerMessagePacket;
 public final class DropItemPacket implements Receivable {
 
 	@Override
-	public void handlePacket(Player player, IncomingPacket packet) {
-		
-		System.out.println("drop item packet");
-		
+	public void handlePacket(Player player, IncomingPacket packet) {	
 		GamePacketReader reader = packet.getReader();
 		
 		final int itemId = reader.readShort(false, ByteModification.ADDITION);
@@ -34,8 +30,6 @@ public final class DropItemPacket implements Receivable {
 		reader.readByte(false);
 
         final int slot = reader.readShort(false, ByteModification.ADDITION);
-        
-        System.out.println("dropping item: " + itemId + " slot: " + slot);
         
         final Item item = player.getInventory().getItem(slot);
         
@@ -51,7 +45,7 @@ public final class DropItemPacket implements Receivable {
 			return;
 		}
 
-		if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
+		if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
 			player.send(new ServerMessagePacket("ItemDropped: " + itemId));
 		}
 		

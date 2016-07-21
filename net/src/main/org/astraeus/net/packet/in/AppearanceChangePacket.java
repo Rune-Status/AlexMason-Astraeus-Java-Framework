@@ -3,7 +3,6 @@ package astraeus.net.packet.in;
 import astraeus.game.model.entity.mob.player.Appearance;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.codec.game.GamePacketReader;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
@@ -141,7 +140,7 @@ public class AppearanceChangePacket implements Receivable {
 			player.setAppearance(appearance);
 		}
 
-		if ((boolean) player.attr().get(Attribute.DEBUG)) {
+		if (player.attr().get(Player.DEBUG_KEY)) {
 			player.send(new ServerMessagePacket(appearance.toString()));
 		}
 

@@ -5,7 +5,6 @@ import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.npc.NpcDefinition;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
@@ -28,7 +27,7 @@ public final class AttackNpcPacket implements Receivable {
               return;
         }
 
-        if (player.getRights().greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
+        if (player.getRights().greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
               player.send(new ServerMessagePacket(String.format("[attack= npc], [id= %d], [slot= %d]", npc.getId(), npc.getSlot())));
         }
 

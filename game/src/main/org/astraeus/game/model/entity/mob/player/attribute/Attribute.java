@@ -1,42 +1,54 @@
 package astraeus.game.model.entity.mob.player.attribute;
 
-import astraeus.game.model.Brightness;
-import astraeus.game.model.sound.Volume;
+import java.util.Objects;
 
-public enum Attribute {
-      ACTIVE(false),
-      SHOPPING(false),
-      TRADING(false),
-      BANKING(false),
-      CHANGING_APPEARANCE(false),
-      FOLLOWING(false),
-      SOUND(true),
-      MUSIC(true),
-      CHAT_EFFECT(true),
-      SPLIT_CHAT(true),
-      ACCEPT_AID(true),
-      MOUSE_BUTTON(true),
-      PROFANITY(true),
-      DEBUG(false),
-      AUTO_RETALIATE(true),
-      NEW_PLAYER(false),
-      DEBUG_NETWORK(false),
-      SAVE(true),
-      DISCONNECTED(false),
-      LOGOUT(false),
-      BRIGHTNESS(Brightness.NORMAL),
-      MUSIC_VOLUME(Volume.NORMAL),
-      SOUND_EFFECT_VOLUME(Volume.NORMAL),
-      AREA_SOUND_VOLUME(Volume.NORMAL);
+/**
+ * Represents a single attribute.
+ *
+ * @author Ryley Kimmel <ryley.kimmel@live.com>
+ *
+ * @param <T> The attributes values type reference.
+ */
+final class Attribute<T> {
 
-      private final Object defaultValue;
+	/**
+	 * This attributes key. An attributes key is an identifier that encapsulates
+	 * this attributes name. This key is used for representing an attribute
+	 * through some collection.
+	 */
+	private final AttributeKey<T> key;
 
-      private Attribute(Object defaultValue) {
-            this.defaultValue = defaultValue;
-      }
+	/**
+	 * The value of this attribute, the type of value of this attribute is as
+	 * described by this classes parameter.
+	 *
+	 * @see {@link T}
+	 */
+	private final T value;
 
-      public Object getDefaultValue() {
-            return defaultValue;
-      }
+	/**
+	 * Constructs a new {@link Attribute} with the specified key and value.
+	 *
+	 * @param key This attributes key, may not be {@code null}.
+	 * @param value This attributes value.
+	 */
+	protected Attribute(AttributeKey<T> key, T value) {
+		this.key = Objects.requireNonNull(key);
+		this.value = value;
+	}
+
+	/**
+	 * Returns this attributes key.
+	 */
+	protected AttributeKey<T> getKey() {
+		return key;
+	}
+
+	/**
+	 * Returns this attributes value.
+	 */
+	protected T getValue() {
+		return value;
+	}
 
 }

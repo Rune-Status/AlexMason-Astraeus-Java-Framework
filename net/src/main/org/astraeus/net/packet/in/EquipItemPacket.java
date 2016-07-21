@@ -6,7 +6,6 @@ import astraeus.game.model.entity.mob.player.Equipment;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
 import astraeus.game.model.entity.mob.player.Equipment.EquipmentDefinition;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.game.GamePacketReader;
@@ -31,7 +30,7 @@ public final class EquipItemPacket implements Receivable {
 		final int interfaceId = reader.readShort(ByteModification.ADDITION);
 
 		if (player.getRights().greaterOrEqual(PlayerRights.DEVELOPER)
-				&& player.attr().contains(Attribute.DEBUG, true)) {
+				&& player.attr().get(Player.DEBUG_KEY)) {
 			player.send(new ServerMessagePacket(
 					String.format("[EquipItem] - [id= %d], [slot= %d], [interfaceId= %d]", id, slot, interfaceId)));
 		}

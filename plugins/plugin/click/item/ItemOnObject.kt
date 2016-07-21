@@ -6,7 +6,6 @@ import astraeus.game.event.SubscribesTo
 import astraeus.game.event.impl.ItemOnObjectEvent
 import astraeus.game.model.entity.mob.player.Player
 import astraeus.game.model.entity.mob.player.PlayerRights
-import astraeus.game.model.entity.mob.player.attribute.Attribute
 
 import astraeus.net.packet.out.SetWidgetConfigPacket
 import astraeus.net.packet.out.ServerMessagePacket
@@ -15,7 +14,7 @@ import astraeus.net.packet.out.ServerMessagePacket
 class ItemOnObject : EventSubscriber<ItemOnObjectEvent> {	
 
 	override fun subscribe(context: EventContext, player: Player, event: ItemOnObjectEvent) {
-        if (player.rights.greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Attribute.DEBUG)) {
+        if (player.rights.greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
             player.send(ServerMessagePacket("[ItemOnObject] - itemId:  ${event.item.id} objectId: ${event.gameObject.id} objectLocation: ${event.gameObject.position}"))
         }
 		

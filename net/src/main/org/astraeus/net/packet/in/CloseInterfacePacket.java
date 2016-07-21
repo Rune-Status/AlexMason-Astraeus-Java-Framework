@@ -2,7 +2,6 @@ package astraeus.net.packet.in;
 
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 import astraeus.net.packet.IncomingPacket.IncomingPacketOpcode;
@@ -18,15 +17,15 @@ public class CloseInterfacePacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
-		if ((Boolean) player.attr().get(Attribute.BANKING)) {
-			player.attr().put(Attribute.BANKING, false);
+		if (player.attr().get(Player.BANKING_KEY)) {
+			player.attr().put(Player.BANKING_KEY, false);
 		}
 
-		if ((Boolean) player.attr().get(Attribute.SHOPPING)) {
-			player.attr().put(Attribute.SHOPPING, false);
+		if (player.attr().get(Player.SHOPPING_KEY)) {
+			player.attr().put(Player.SHOPPING_KEY, false);
 		}
 
-		if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().contains(Attribute.DEBUG, true)) {
+		if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
 			player.send(new ServerMessagePacket("[CloseInterface] - Closed Window"));
 		}
 	}

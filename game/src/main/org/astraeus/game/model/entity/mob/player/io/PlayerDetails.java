@@ -5,7 +5,6 @@ import astraeus.game.model.Position;
 import astraeus.game.model.entity.mob.player.Appearance;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.game.model.sound.Volume;
 
 import java.io.*;
@@ -42,22 +41,22 @@ public final class PlayerDetails {
             player.setUsername(details.username);
             player.setPassword(details.password);
             player.setRights(details.rights);
-            player.setPosition((boolean) player.attr().get(Attribute.NEW_PLAYER) ? Player.DEFAULT_LOCATION
+            player.setPosition(player.attr().get(Player.NEW_PLAYER_KEY) ? Player.DEFAULT_LOCATION
                     : details.location);
-            player.attr().put(Attribute.NEW_PLAYER, details.newPlayer);
-            player.attr().put(Attribute.BRIGHTNESS, details.brightness);
-            player.attr().put(Attribute.MUSIC_VOLUME, details.musicVolume);
-            player.attr().put(Attribute.SOUND_EFFECT_VOLUME, details.soundEffectVolume);
-            player.attr().put(Attribute.AREA_SOUND_VOLUME, details.areaSoundVolume);
+            player.attr().put(Player.NEW_PLAYER_KEY, details.newPlayer);
+            player.attr().put(Player.BRIGHTNESS_KEY, details.brightness);
+            player.attr().put(Player.MUSIC_VOLUME_KEY, details.musicVolume);
+            player.attr().put(Player.SOUND_EFFECT_VOLUME_KEY, details.soundEffectVolume);
+            player.attr().put(Player.AREA_SOUND_VOLUME_KEY, details.areaSoundVolume);
             player.getMovement().setRunning(details.running);
-            player.attr().put(Attribute.AUTO_RETALIATE, details.autoRetaliate);
-            player.attr().put(Attribute.SOUND, details.enableSound);
-            player.attr().put(Attribute.MUSIC, details.enableMusic);
-            player.attr().put(Attribute.DEBUG, details.debugMode);
-            player.attr().put(Attribute.MOUSE_BUTTON, details.mouseButtons);
-            player.attr().put(Attribute.CHAT_EFFECT, details.chatEffects);
-            player.attr().put(Attribute.SPLIT_CHAT, details.splitChat);
-            player.attr().put(Attribute.ACCEPT_AID, details.acceptAid);
+            player.attr().put(Player.AUTO_RETALIATE_KEY, details.autoRetaliate);
+            player.attr().put(Player.SOUND_KEY, details.enableSound);
+            player.attr().put(Player.MUSIC_KEY, details.enableMusic);
+            player.attr().put(Player.DEBUG_KEY, details.debugMode);
+            player.attr().put(Player.MOUSE_BUTTON_KEY, details.mouseButtons);
+            player.attr().put(Player.CHAT_EFFECTS_KEY, details.chatEffects);
+            player.attr().put(Player.SPLIT_CHAT_KEY, details.splitChat);
+            player.attr().put(Player.ACCEPT_AID_KEY, details.acceptAid);
 
             if (details.appearance == null) {
                 player.getAppearance().getDefaultAppearance();
@@ -121,20 +120,20 @@ public final class PlayerDetails {
         hostAddress = player.getHostAddress();
         rights = player.getRights();
         location = player.getPosition();
-        brightness = player.attr().get(Attribute.BRIGHTNESS);
-        musicVolume = player.attr().get(Attribute.MUSIC_VOLUME);
-        soundEffectVolume = player.attr().get(Attribute.SOUND_EFFECT_VOLUME);
-        areaSoundVolume = player.attr().get(Attribute.AREA_SOUND_VOLUME);
-        newPlayer = player.attr().get(Attribute.NEW_PLAYER);
+        brightness = player.attr().get(Player.BRIGHTNESS_KEY);
+        musicVolume = player.attr().get(Player.MUSIC_VOLUME_KEY);
+        soundEffectVolume = player.attr().get(Player.SOUND_EFFECT_VOLUME_KEY);
+        areaSoundVolume = player.attr().get(Player.AREA_SOUND_VOLUME_KEY);
+        newPlayer = player.attr().get(Player.NEW_PLAYER_KEY);
         running = player.getMovement().isRunning();
-        autoRetaliate = player.attr().get(Attribute.AUTO_RETALIATE);
-        enableSound = player.attr().get(Attribute.SOUND);
-        enableMusic = player.attr().get(Attribute.MUSIC);
-        debugMode = player.attr().get(Attribute.DEBUG);
-        mouseButtons = player.attr().get(Attribute.MOUSE_BUTTON);
-        chatEffects = player.attr().get(Attribute.CHAT_EFFECT);
-        splitChat = player.attr().get(Attribute.SPLIT_CHAT);
-        acceptAid = player.attr().get(Attribute.ACCEPT_AID);
+        autoRetaliate = player.attr().get(Player.AUTO_RETALIATE_KEY);
+        enableSound = player.attr().get(Player.SOUND_KEY);
+        enableMusic = player.attr().get(Player.MUSIC_KEY);
+        debugMode = player.attr().get(Player.DEBUG_KEY);
+        mouseButtons = player.attr().get(Player.MOUSE_BUTTON_KEY);
+        chatEffects = player.attr().get(Player.CHAT_EFFECTS_KEY);
+        splitChat = player.attr().get(Player.SPLIT_CHAT_KEY);
+        acceptAid = player.attr().get(Player.ACCEPT_AID_KEY);
         appearance = player.getAppearance();
         friendList = player.getRelation().getFriendList();
         ignoreList = player.getRelation().getIgnoreList();

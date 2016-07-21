@@ -6,7 +6,6 @@ import astraeus.game.event.SubscribesTo
 import astraeus.game.event.impl.ItemThirdClickEvent
 import astraeus.game.model.entity.mob.player.Player
 import astraeus.game.model.entity.mob.player.PlayerRights
-import astraeus.game.model.entity.mob.player.attribute.Attribute
 
 import astraeus.net.packet.out.SetWidgetConfigPacket
 import astraeus.net.packet.out.ServerMessagePacket
@@ -16,7 +15,7 @@ class ItemThirdClick : EventSubscriber<ItemThirdClickEvent> {
 
 	override fun subscribe(context: EventContext, player: Player, event: ItemThirdClickEvent) {
 		
-		if (player.rights.greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Attribute.DEBUG)) {
+		if (player.rights.greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
             player.send(ServerMessagePacket("[ItemClick#3] - ItemId: ${event.id} Slot: ${event.slot} WidgetId: ${event.widgetId}"))
         }
 		

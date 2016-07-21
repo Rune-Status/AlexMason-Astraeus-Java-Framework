@@ -3,6 +3,7 @@ package astraeus.game.model.entity.object;
 import astraeus.game.model.Position;
 import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.player.Player;
+import astraeus.net.packet.out.AddGroundItemPacket;
 import astraeus.net.packet.out.AddObjectPacket;
 
 import java.util.ArrayList;
@@ -38,6 +39,10 @@ public final class GameObjects {
 		GLOBAL_OBJECTS.stream().filter(Objects::nonNull)
 				.filter($it -> $it.getPosition().isWithinDistance(player.getPosition(), 32))
 				.forEach($it -> player.send(new AddObjectPacket($it, true)));
+	}
+	
+	public static final void createGlobalItems(Player player) {
+		GROUND_ITEMS.values().stream().filter(Objects::nonNull).filter($it -> $it.getPosition().isWithinDistance(player.getPosition(), 32)).forEach($it -> player.send(new AddGroundItemPacket($it)));
 	}
 
 	/**

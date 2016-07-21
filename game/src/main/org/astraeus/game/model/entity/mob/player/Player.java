@@ -8,7 +8,8 @@ import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.item.ItemContainer;
 import astraeus.game.model.entity.mob.Mob;
 import astraeus.game.model.entity.mob.npc.Npc;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
+import astraeus.game.model.entity.mob.player.attribute.AttributeKey;
+import astraeus.game.model.entity.mob.player.attribute.AttributeMap;
 import astraeus.game.model.entity.mob.player.io.PlayerSerializer;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.entity.object.GameObject;
@@ -22,7 +23,6 @@ import astraeus.net.packet.out.*;
 import astraeus.util.LoggerUtils;
 import astraeus.util.StringUtils;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -77,16 +77,65 @@ public class Player extends Mob {
 	private int wildernessLevel;
 	private boolean inWilderness;
 	private boolean inMultiCombat;
+	
+	public static final AttributeKey<Boolean> ACCEPT_AID_KEY = AttributeKey.valueOf("accept_aid", true);
+	public static final AttributeKey<Boolean> ACTIVE_KEY = AttributeKey.valueOf("active", false);
+	public static final AttributeKey<Boolean> AUTO_RETALIATE_KEY = AttributeKey.valueOf("auto_retaliate", true);
+	public static final AttributeKey<Boolean> BANKING_KEY = AttributeKey.valueOf("banking", false);
+	public static final AttributeKey<Boolean> CHAT_EFFECTS_KEY = AttributeKey.valueOf("chat_effects", true);
+	public static final AttributeKey<Boolean> DEBUG_KEY = AttributeKey.valueOf("debug", false);
+	public static final AttributeKey<Boolean> DEBUG_NETWORK_KEY = AttributeKey.valueOf("debug_network", false);
+	public static final AttributeKey<Boolean> DISCONNECTED_KEY = AttributeKey.valueOf("disconnected", false);
+	public static final AttributeKey<Boolean> LOGOUT_KEY = AttributeKey.valueOf("logout", false);
+	public static final AttributeKey<Boolean> MUSIC_KEY = AttributeKey.valueOf("music", true);
+	public static final AttributeKey<Boolean> NEW_PLAYER_KEY = AttributeKey.valueOf("new_player", false);
+	public static final AttributeKey<Boolean> MOUSE_BUTTON_KEY = AttributeKey.valueOf("mouse_button", false);
+	public static final AttributeKey<Boolean> SAVE_KEY = AttributeKey.valueOf("save", false);
+	public static final AttributeKey<Boolean> SHOPPING_KEY = AttributeKey.valueOf("shopping", false);
+	public static final AttributeKey<Boolean> SOUND_KEY = AttributeKey.valueOf("sound", true);
+	public static final AttributeKey<Boolean> SPLIT_CHAT_KEY = AttributeKey.valueOf("split_chat_key", true);
+	
+	public static final AttributeKey<Volume> AREA_SOUND_VOLUME_KEY = AttributeKey.valueOf("area_sound_volume", Volume.NORMAL);
+	public static final AttributeKey<Volume> MUSIC_VOLUME_KEY = AttributeKey.valueOf("music_volume", Volume.NORMAL);
+	public static final AttributeKey<Volume> SOUND_EFFECT_VOLUME_KEY = AttributeKey.valueOf("sound_effect_volume", Volume.NORMAL);
+	
+	public static final AttributeKey<Brightness> BRIGHTNESS_KEY = AttributeKey.valueOf("brightness", Brightness.NORMAL);
+		
+	private AttributeMap attr = new AttributeMap();
 
+	// actual player
 	public Player(final PlayerChannel session) {
 		super(Player.DEFAULT_LOCATION);
 		this.session = session;
-		Arrays.stream(Attribute.values()).forEach($it -> attr().put($it, $it.getDefaultValue()));
 	}
 
+	// bots
 	public Player(String username, Position location) {
 		super(location);
 		this.username = username;
+	}
+	
+	public void createAttributes() {
+		attr.put(ACCEPT_AID_KEY, true);
+		attr.put(ACTIVE_KEY, false);
+		attr.put(AREA_SOUND_VOLUME_KEY, Volume.NORMAL);
+		attr.put(AUTO_RETALIATE_KEY, true);
+		attr.put(BANKING_KEY, false);
+		attr.put(BRIGHTNESS_KEY, Brightness.NORMAL);
+		attr.put(CHAT_EFFECTS_KEY, true);
+		attr.put(DEBUG_KEY, false);
+		attr.put(DEBUG_NETWORK_KEY, false);
+		attr.put(DISCONNECTED_KEY, false);
+		attr.put(LOGOUT_KEY, false);
+		attr.put(SAVE_KEY, false);
+		attr.put(SHOPPING_KEY, false);
+		attr.put(SOUND_KEY, true);
+		attr.put(SOUND_EFFECT_VOLUME_KEY, Volume.NORMAL);
+		attr.put(SPLIT_CHAT_KEY, true);
+		attr.put(MOUSE_BUTTON_KEY, false);
+		attr.put(MUSIC_KEY, true);
+		attr.put(MUSIC_VOLUME_KEY, Volume.NORMAL);
+		attr.put(NEW_PLAYER_KEY, false);
 	}
 
 	@Override
@@ -100,7 +149,7 @@ public class Player extends Mob {
 		setRegionChange(true);
 		getUpdateFlags().add(UpdateFlag.APPEARANCE);
 		onStartup();
-		setPosition(attr().contains(Attribute.NEW_PLAYER, true) ? Player.DEFAULT_LOCATION : getPosition());
+		setPosition(attr().contains(AttributeKey.valueOf("new_player", true)) ? Player.DEFAULT_LOCATION : getPosition());
 		onLogin();
 		LOGGER.info(String.format("[REGISTERED]: [user= %s]", username));
 	}
@@ -110,7 +159,7 @@ public class Player extends Mob {
 		PlayerSerializer.encode(this);
 		send(new LogoutPlayerPacket());
 		resetEntityInteraction();
-		attr().toggle(Attribute.DISCONNECTED);
+		attr().put(Player.DISCONNECTED_KEY, true);
 		session.getChannel().close();
 		World.WORLD.deregister(this);
 		LOGGER.info(String.format("[DEREGISTERED]: [host= %s]", session.getHostAddress()));
@@ -127,19 +176,19 @@ public class Player extends Mob {
 		send(new ResetCameraPositionPacket());
 		send(new SetPrivacyOptionPacket(0, 0, 0));
 		send(new SetSpecialAmountPacket());
-		send(new SetWidgetConfigPacket(172, attr().contains(Attribute.AUTO_RETALIATE, true) ? 1 : 0));
+		send(new SetWidgetConfigPacket(172, attr().get(AUTO_RETALIATE_KEY) ? 1 : 0));		
 		send(new SetPlayerOptionPacket(PlayerOption.FOLLOW));
 		send(new SetPlayerOptionPacket(PlayerOption.TRADE_REQUEST));
 		send(new SetWidgetConfigPacket(152, getMovement().isRunning() ? 1 : 0));
 		send(new SetWidgetConfigPacket(429, getMovement().isRunning() ? 1 : 0));
-		send(new SetWidgetConfigPacket(171, (boolean) attr().get(Attribute.MOUSE_BUTTON) ? 1 : 0));
-		send(new SetWidgetConfigPacket(172, (boolean) attr().get(Attribute.CHAT_EFFECT) ? 1 : 0));
-		send(new SetWidgetConfigPacket(287, (boolean) attr().get(Attribute.SPLIT_CHAT) ? 1 : 0));
-		send(new SetWidgetConfigPacket(427, (boolean) attr().get(Attribute.ACCEPT_AID) ? 1 : 0));
-		send(new SetWidgetConfigPacket(166, attr().<Brightness>get(Attribute.BRIGHTNESS).getCode()));
-		send(new SetWidgetConfigPacket(168, attr().<Volume>get(Attribute.MUSIC_VOLUME).getCode()));
-		send(new SetWidgetConfigPacket(169, attr().<Volume>get(Attribute.SOUND_EFFECT_VOLUME).getCode()));
-		send(new SetWidgetConfigPacket(170, attr().<Volume>get(Attribute.AREA_SOUND_VOLUME).getCode()));
+		send(new SetWidgetConfigPacket(171, attr().get(MOUSE_BUTTON_KEY) ? 1 : 0));
+		send(new SetWidgetConfigPacket(172, attr().get(CHAT_EFFECTS_KEY) ? 1 : 0));
+		send(new SetWidgetConfigPacket(287, attr().get(SPLIT_CHAT_KEY) ? 1 : 0));
+		send(new SetWidgetConfigPacket(427, attr().get(ACCEPT_AID_KEY) ? 1 : 0));
+		send(new SetWidgetConfigPacket(166, attr().get(BRIGHTNESS_KEY).getCode()));
+		send(new SetWidgetConfigPacket(168, attr().get(MUSIC_VOLUME_KEY).getCode()));
+		send(new SetWidgetConfigPacket(169, attr().get(SOUND_EFFECT_VOLUME_KEY).getCode()));
+		send(new SetWidgetConfigPacket(170, attr().get(AREA_SOUND_VOLUME_KEY).getCode()));
 		Players.createSideBarInterfaces(this, true);
 		for (int i = 0; i < 23; i++) {
 			send(new SetWidgetTextPacket(i));
@@ -154,14 +203,14 @@ public class Player extends Mob {
 		send(new SetRunEnergyPacket());
 		getRelation().updateLists(true);
 		Players.resetPlayerAnimation(this);
-		attr().put(Attribute.SAVE, true);
+		attr().put(SAVE_KEY, true);
 	}
 
 	@Override
 	public void onLogout() {
-		attr().put(Attribute.ACTIVE, false);
-		attr().put(Attribute.LOGOUT, true);
-		attr().put(Attribute.DISCONNECTED, true);
+		attr().put(ACTIVE_KEY, false);
+		attr().put(LOGOUT_KEY, true);
+		attr().put(DISCONNECTED_KEY, true);
 		send(new LogoutPlayerPacket());
 	}
 
@@ -535,6 +584,10 @@ public class Player extends Mob {
 
 	public WidgetSet getWidgets() {
 		return widgets;
+	}
+	
+	public AttributeMap attr() {
+		return attr;
 	}
 
 	@Override

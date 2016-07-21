@@ -1,7 +1,6 @@
 package astraeus.net.packet.out;
 
 import astraeus.game.model.entity.mob.player.Player;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.codec.game.GamePacketBuilder;
 import astraeus.net.packet.OutgoingPacket;
 import astraeus.net.packet.Sendable;
@@ -34,7 +33,7 @@ public final class PlaySoundPacket implements Sendable {
     public Optional<OutgoingPacket> writePacket(Player player) {
         GamePacketBuilder builder = new GamePacketBuilder(174);
 
-        if (!(Boolean) player.attr().get(Attribute.SOUND) || id <= 0) {
+        if (!player.attr().get(Player.SOUND_KEY) || id <= 0) {
             return Optional.empty();
         }
 

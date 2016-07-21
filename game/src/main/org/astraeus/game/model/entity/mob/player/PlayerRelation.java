@@ -1,7 +1,6 @@
 package astraeus.game.model.entity.mob.player;
 
 import astraeus.game.model.World;
-import astraeus.game.model.entity.mob.player.attribute.Attribute;
 import astraeus.net.packet.out.*;
 import astraeus.util.StringUtils;
 
@@ -62,8 +61,8 @@ public class PlayerRelation {
 	 * Handles a players split chat setting
 	 */
 	public void handleSplitChat() {
-		player.attr().toggle(Attribute.SPLIT_CHAT);
-		player.send(new SetWidgetConfigPacket(287, (boolean) player.attr().get(Attribute.SPLIT_CHAT) ? 1 : 0)); // chat
+		player.attr().put(Player.SPLIT_CHAT_KEY, !player.attr().get(Player.SPLIT_CHAT_KEY));
+		player.send(new SetWidgetConfigPacket(287, player.attr().get(Player.SPLIT_CHAT_KEY) ? 1 : 0)); // chat
 	}
 
 	/**
@@ -176,9 +175,9 @@ public class PlayerRelation {
 			if (World.WORLD.getPlayerByName(StringUtils.longToString(username)).isPresent()) {
 				final Optional<Player> unfriend = Optional.ofNullable(World.WORLD.getPlayerByName(StringUtils.longToString(username)).get());
 
-				unfriend.ifPresent($it -> $it.getRelation().updateLists($it.attr().get(Attribute.ACTIVE)));
+				unfriend.ifPresent($it -> $it.getRelation().updateLists($it.attr().get(Player.ACTIVE_KEY)));
 
-				updateLists(player.attr().get(Attribute.ACTIVE));
+				updateLists(player.attr().get(Player.ACTIVE_KEY));
 			}
 		} else {
 			player.send(new ServerMessagePacket("This player is not on your friends list!"));
