@@ -106,7 +106,6 @@ public final class Bootstrap {
             
             LOGGER.info("Loading plugins");
             serviceLoader.execute(() -> {
-            	new PluginMetaDataParser().run();
             	World.WORLD.getPluginService().load();
             });
       }

@@ -64,5 +64,9 @@ public final class UniversalEventProvider implements EventProvider {
 
 		context.repairSubscriberChain();
 	}
+	
+	public Multimap<Class<? extends Event>, EventSubscriber<? super Event>> getEvents() {
+		return events;
+	}
 
 }

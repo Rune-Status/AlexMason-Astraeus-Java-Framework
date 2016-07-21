@@ -15,7 +15,8 @@ public final class LoadRegionPacket implements Receivable {
 		player.attr().put(AttributeKey.valueOf("save", false), true);
 		
 		GameObjects.createGlobalObjects(player);
-		GameObjects.createGlobalItems(player);		
+		// TODO this needs to be done better, load ground items for players entering regions
+		//GameObjects.createGlobalItems(player);		
 	}
 
 }

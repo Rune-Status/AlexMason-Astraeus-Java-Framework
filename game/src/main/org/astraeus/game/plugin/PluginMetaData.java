@@ -6,15 +6,18 @@ public final class PluginMetaData {
 	
 	private final String description;
 	
+	private final String group;
+	
 	private final String base;
 
 	private final String[] authors;
 
 	private final double version;
 
-	public PluginMetaData(String name, String description, String base, String[] authors, double version) {
+	public PluginMetaData(String name, String description, String group, String base, String[] authors, double version) {
 		this.name = name;
 		this.description = description;
+		this.group = group;
 		this.base = base;
 		this.authors = authors;
 		this.version = version;
@@ -30,6 +33,10 @@ public final class PluginMetaData {
 
 	public String getDescription() {
 		return description;
+	}
+	
+	public String getGroup() {
+		return group;
 	}
 	
 	public String getBase() {

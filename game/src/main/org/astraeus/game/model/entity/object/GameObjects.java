@@ -42,6 +42,10 @@ public final class GameObjects {
 	}
 	
 	public static final void createGlobalItems(Player player) {
+		if (GROUND_ITEMS.isEmpty()) {
+			return;
+		}
+		
 		GROUND_ITEMS.values().stream().filter(Objects::nonNull).filter($it -> $it.getPosition().isWithinDistance(player.getPosition(), 32)).forEach($it -> player.send(new AddGroundItemPacket($it)));
 	}
 

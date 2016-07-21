@@ -2,7 +2,6 @@ package astraeus.game.model;
 
 import astraeus.game.GameConstants;
 import astraeus.game.event.Event;
-import astraeus.game.event.EventProvider;
 import astraeus.game.event.EventSubscriber;
 import astraeus.game.event.UniversalEventProvider;
 import astraeus.game.model.entity.mob.Mob;
@@ -67,7 +66,7 @@ public final class World {
 	/**
 	 * This worlds event provider.
 	 */
-	private final EventProvider eventProvider = new UniversalEventProvider();
+	private final UniversalEventProvider eventProvider = new UniversalEventProvider();
 	
 	/**
 	 * The service for plugins.
@@ -355,6 +354,10 @@ public final class World {
 	 */
 	public PluginService getPluginService() {
 		return PLUGIN_SERVICE;
+	}
+	
+	public UniversalEventProvider getSubscribers() {
+		return eventProvider;
 	}
 
 }
