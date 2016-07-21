@@ -122,22 +122,22 @@ class ButtonClick : EventSubscriber<ButtonActionEvent> {
 			}
 
 			914 -> {
-				player.attr().put(Player.MOUSE_BUTTON_KEY, !player.attr().get(Player.MOUSE_BUTTON_KEY));
+				player.attr().toggle(Player.MOUSE_BUTTON_KEY);
 				player.send(SetWidgetConfigPacket(171, player.attr().get(Player.MOUSE_BUTTON_KEY)))
 			}
 
 			915 -> {
-				player.attr().put(Player.CHAT_EFFECTS_KEY, !player.attr().get(Player.CHAT_EFFECTS_KEY));
+				player.attr().toggle(Player.CHAT_EFFECTS_KEY);
 				player.send(SetWidgetConfigPacket(172, player.attr().get<Boolean>(Player.CHAT_EFFECTS_KEY)))
 			}
 
 			957 -> {
-				player.attr().put(Player.SPLIT_CHAT_KEY, !player.attr().get(Player.SPLIT_CHAT_KEY));
+				player.attr().toggle(Player.SPLIT_CHAT_KEY);
 				player.send(SetWidgetConfigPacket(287, player.attr().get<Boolean>(Player.SPLIT_CHAT_KEY)))
 			}
 
 			12464 -> {
-				player.attr().put(Player.ACCEPT_AID_KEY, !player.attr().get(Player.ACCEPT_AID_KEY));
+				player.attr().toggle(Player.ACCEPT_AID_KEY);
 				player.send(SetWidgetConfigPacket(427, player.attr().get<Boolean>(Player.ACCEPT_AID_KEY)))
 			}
 

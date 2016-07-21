@@ -58,6 +58,14 @@ public final class AttributeMap {
 	public <T> void put(AttributeKey<T> key, T value) {
 		attrs.put(key, new Attribute<>(key, value));
 	}
+	
+	@SuppressWarnings("unchecked")
+	public void toggle(AttributeKey<Boolean> key) {
+		if (contains(key)) {
+			Attribute<Boolean> attr = (Attribute<Boolean>) attrs.get(key);
+			put(attr.getKey(), !attr.getValue());
+		}
+	}
 
 	/**
 	 * Returns a flag which denotes whether or not an attribute key exists
