@@ -1,14 +1,5 @@
 [
 {
-  "name": "Button Click",
-  "description": "The plugin for clicking various buttons on the client.",
-  "base": "plugin.click.ButtonClick",
-  "authors": [
-    "Vult-R"
-  ],
-  "version": 1.0
-},
-{
   "name": "Npc First Click",
   "description": "The plugin for handling the first option of an npc.",
   "base": "plugin.click.npc.NpcFirstClick",
@@ -165,6 +156,105 @@
   "name": "Display Widget Command",
   "description": "The command for displaying widgets.",
   "base": "plugin.commands.impl.DisplayWidgetCommand",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Debug Command",
+  "description": "The command for a developer to enter debug mode.",
+  "base": "plugin.commands.impl.DebugCommand",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Logout Button",
+  "description": "The button for logging a player out.",
+  "base": "plugin.buttons.LogoutButton",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Brightness Button",
+  "description": "The button for adjusting a players client's brightness.",
+  "base": "plugin.buttons.BrightnessButton",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Music Volume Button",
+  "description": "The button for adjusting a players music volume.",
+  "base": "plugin.buttons.MusicVolumeButton",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Sound Effect Volume Button",
+  "description": "The button for adjusting a players sound effects volume.",
+  "base": "plugin.buttons.SoundEffectVolumeButton",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Area Sound Volume Button",
+  "description": "The button for adjusting a players area sound volume.",
+  "base": "plugin.buttons.AreaSoundVolumeButton",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Mouse Option Button",
+  "description": "The button for changing a players mouse click.",
+  "base": "plugin.buttons.MouseOptionButton",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Toggle Chat Effects Button",
+  "description": "The button for toggling chat effects.",
+  "base": "plugin.buttons.ToggleChatEffectButton",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Toggle Split Chat Button",
+  "description": "The button for toggling split chat.",
+  "base": "plugin.buttons.ToggleSplitChatButton",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Toggle Accept Aid Button",
+  "description": "The button for toggling accept aid.",
+  "base": "plugin.buttons.ToggleAcceptAidButton",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
+},
+{
+  "name": "Toggle Run Button",
+  "description": "The button for toggling run.",
+  "base": "plugin.buttons.ToggleRunButton",
   "authors": [
     "Vult-R"
   ],
