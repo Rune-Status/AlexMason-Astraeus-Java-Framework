@@ -4,16 +4,16 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 /**
- * The container that represents a list of entities.
+ * The collection for mobile entities.
  * 
- * @author SeVen
+ * @author Vult-R
  */
 public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> {
 
       /**
        * The array of entities.
        */
-      private final E[] entities;
+      private final E[] mobs;      
 
       /**
        * The cached slots to prevent expensive lookups.
@@ -38,7 +38,7 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
       @SuppressWarnings("unchecked")
 	public MobList(int capacity) {
             this.capacity = capacity;
-            this.entities = (E[]) new Mob[capacity + 1];
+            this.mobs = (E[]) new Mob[capacity + 1];
             IntStream.rangeClosed(1, capacity).forEach(slotQueue::add);
       }
 
@@ -50,7 +50,7 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
                   int slot = slotQueue.remove();
                   e.setSlot(slot);
                   e.setRegistered(true);
-                  entities[slot] = e;
+                  mobs[slot] = e;
                   size++;
                   return true;
             }
@@ -63,9 +63,9 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
 
             Objects.requireNonNull(e);
 
-            if (e.isRegistered() && entities[e.getSlot()] != null) {
+            if (e.isRegistered() && mobs[e.getSlot()] != null) {
                   e.setRegistered(false);
-                  entities[e.getSlot()] = null;
+                  mobs[e.getSlot()] = null;
                   slotQueue.add(e.getSlot());
                   size--;
                   return true;
@@ -81,10 +81,10 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
        * @throws IndexOutOfBoundsException If the index is out of bounds.
        */
       public E get(int index) {
-            if (index <= 0 || index >= entities.length) {
+            if (index <= 0 || index >= mobs.length) {
                   throw new IndexOutOfBoundsException();
             }
-            return entities[index];
+            return mobs[index];
       }
 
       /**
@@ -98,13 +98,11 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
             return entity.getSlot();
       }
       
+      /**
+       * Gets the next available slot in the queue.
+       */
       public int getNextFreeSlot() {
-    	  for(int index = 0; index < entities.length; index++) {
-    		  if (entities[index] == null) {
-    			  return index;
-    		  }
-    	  }
-    	  return -1;
+    	  return slotQueue.peek();
       }
 
       /**
@@ -118,7 +116,7 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
        * Gets the array of entities.
        */
       public final E[] getEntities() {
-            return entities;
+            return mobs;
       }
 
       /**
@@ -134,8 +132,8 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
        * @return {@code -1} If this collection is full. Otherwise the available index.
        */
       private int getNextIndex() {
-            for (int index = 1; index < entities.length; index++) {
-                  if (entities[index] == null) {
+            for (int index = 1; index < mobs.length; index++) {
+                  if (mobs[index] == null) {
                         return index;
                   }
             }
@@ -168,7 +166,7 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
 
       @Override
       public boolean contains(Object o) {
-            for (Mob entity : entities) {
+            for (Mob entity : mobs) {
                   if (entity == null) {
                         continue;
                   }
@@ -189,9 +187,9 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
             int size = size();
             Mob[] array = new Mob[size];
             int ptr = 0;
-            for (int i = 1; i < entities.length; i++) {
-                  if (entities[i] != null) {
-                        array[ptr++] = entities[i];
+            for (int i = 1; i < mobs.length; i++) {
+                  if (mobs[i] != null) {
+                        array[ptr++] = mobs[i];
                   }
             }
             return array;
@@ -240,10 +238,10 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
       @Override
       public boolean retainAll(Collection<?> c) {
             boolean changed = false;
-            for (int i = 1; i < entities.length; i++) {
-                  if (entities[i] != null) {
-                        if (!c.contains(entities[i])) {
-                              entities[i] = null;
+            for (int i = 1; i < mobs.length; i++) {
+                  if (mobs[i] != null) {
+                        if (!c.contains(mobs[i])) {
+                              mobs[i] = null;
                               size--;
                               changed = true;
                         }
@@ -254,8 +252,8 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
 
       @Override
       public void clear() {
-            for (int index = 1; index < entities.length; index++) {
-                  entities[index] = null;
+            for (int index = 1; index < mobs.length; index++) {
+                  mobs[index] = null;
             }
             size = 0;
       }

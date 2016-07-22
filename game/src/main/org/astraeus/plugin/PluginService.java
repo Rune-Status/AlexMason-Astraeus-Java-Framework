@@ -26,17 +26,17 @@ public final class PluginService {
 	/**
 	 * The single logger for this class.
 	 */
-	private static final Logger LOGGER = LoggerUtils.getLogger(PluginService.class);
+	private static final Logger logger = LoggerUtils.getLogger(PluginService.class);	
 
 	/**
 	 * The list of subscribers registered to the server.
 	 */
-	private static final List<EventSubscriber<?>> SUBSCRIBERS = new ArrayList<>();
+	private static final List<EventSubscriber<?>> subscribers = new ArrayList<>();	
 	
 	/**
 	 * The single instance of gson to deserialize the plugin meta data.
 	 */	
-	private static final Gson GSON = new GsonBuilder().create();	
+	private static final Gson gson = new GsonBuilder().create();	
 
 	/**
 	 * Loads the plugins.
@@ -47,9 +47,9 @@ public final class PluginService {
 			
 			plugins.stream().forEach($it -> register($it));			
 		} catch (IOException e) {
-			LOGGER.log(Level.SEVERE, "A problem was encountered while trying to load plugins.", e);
+			logger.log(Level.SEVERE, "A problem was encountered while trying to load plugins.", e);
 		}
-		LOGGER.info("Loaded: " + SUBSCRIBERS.size() + " plugins.");
+		logger.info("Loaded: " + subscribers.size() + " plugins.");
 	}
 	
 	/**
@@ -79,7 +79,7 @@ public final class PluginService {
 				File json = new File(file, "plugins.json");
 				
 				if (json.exists()) {
-					PluginMetaData[] meta = GSON.fromJson(new FileReader(json), PluginMetaData[].class);
+					PluginMetaData[] meta = gson.fromJson(new FileReader(json), PluginMetaData[].class);
 					
 					plugins.add(meta);
 				} else {
@@ -108,7 +108,7 @@ public final class PluginService {
 				clazz = Class.forName(base);
 
 			} catch (Exception ex) {
-				LOGGER.warning(base + " could not be found.");
+				logger.warning(base + " could not be found.");
 				continue;
 			}
 
@@ -118,9 +118,9 @@ public final class PluginService {
 
 					World.WORLD.provideSubscriber(subscriber);
 
-					SUBSCRIBERS.add(subscriber);
+					subscribers.add(subscriber);
 				} catch (Exception ex) {
-					LOGGER.warning(base + " could not be created.");
+					logger.warning(base + " could not be created.");
 					continue;
 				}
 			}
@@ -131,17 +131,14 @@ public final class PluginService {
 	 * Reloads plugins.
 	 */
 	public void reload() {
-		SUBSCRIBERS.clear();
-		World.WORLD.getSubscribers().getEvents().clear();
-		
-		load();
+		throw new UnsupportedOperationException("This is currently not supported.");
 	}
 
 	/**
 	 * Gets the list of subscriber registered to the server.
 	 */
 	public List<EventSubscriber<?>> getSubscribers() {
-		return SUBSCRIBERS;
+		return subscribers;
 	}
 
 }
