@@ -1,12 +1,35 @@
 # Astraeus
+Astraeus is a high performance RuneScape emulator for the #317 protocol.
 
-Astraeus is a high performance RuneScape emulator for the #317 protocol. It aims to provide up-to-date conventions, high performance
-and easy to use syntax that entry-level programmers can learn off of.
+## Goal
+To be **extensible**, **easy to use**, and **up-to-date**.
 
-## History
-
-Astraeus is my third framework for RuneScape. Astraeus is the predecessor of my previous Astraeus project that utilizes Java NIO that was developed in 2015.
+## Noteable Features
+* Event-driven Java/Kotlin Plugin System
+* Netty 4.xx for networking
+* JSON for serializing
+* Settings use TOML
+* Kotlin plugins
+* 100% type-safe attributes (Ideally the same as how Netty does it)
+* All dependencies are current (2016)
+* Extremely clean
+* Object-orientated
+* Entity-design
+* Highly-scalable
+* Almost all outgoing packets
+* Almost all incoming packets
+* Multi-player support
+* Rendering
+* Cached slots
+* Queued login/logouts
+* Connection filtering
+* Item container system
 
 ## Credits
-* The Apollo development team [Apollo](https://github.com/apollo-rsps/apollo)
-* Lare96 [Luna](https://github.com/lare96/luna)
+* Apollo and its contributors [Apollo](https://github.com/apollo-rsps/apollo)
+* [Ryley](https://github.com/atomicint)
+* Scu11
+* [Lare96](https://github.com/lare96)
+
+## Contribute
+Feel free to send pull requests or submit issues!

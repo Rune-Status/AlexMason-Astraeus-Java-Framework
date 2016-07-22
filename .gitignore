@@ -2,14 +2,9 @@
 /.classpath
 /.project
 /.idea/
-/build/
 /bin/
 /data/characters/containers/
 /data/characters/details/
 /.settings/
-/game/src/main/game.iml
-/net/src/main/net.iml
-/util/src/main/util.iml
-/out/
 /Astraeus-Java-Framework.iml
 
