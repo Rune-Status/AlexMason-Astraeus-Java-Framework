@@ -1,4 +1,4 @@
-package astraeus.game.io;
+package astraeus.io;
 
 import java.io.FileReader;
 import java.io.IOException;

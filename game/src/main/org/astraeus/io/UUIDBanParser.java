@@ -1,4 +1,4 @@
-package astraeus.game.io;
+package astraeus.io;
 
 import astraeus.game.model.World;
 import astraeus.util.TextFileParser;

@@ -1,4 +1,4 @@
-package astraeus.game.io;
+package astraeus.io;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -6,10 +6,9 @@ import java.util.Arrays;
 
 import com.google.gson.Gson;
 
+import astraeus.io.PacketSizeParser.PacketSize;
 import astraeus.net.NetworkConstants;
 import astraeus.util.GsonParser;
-
-import astraeus.game.io.PacketSizeParser.PacketSize;
 
 public final class PacketSizeParser extends GsonParser<PacketSize> {
 

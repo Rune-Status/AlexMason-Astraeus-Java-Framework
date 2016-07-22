@@ -1,4 +1,4 @@
-package astraeus.game.plugin;
+package astraeus.plugin;
 
 import java.io.File;
 import java.io.FileReader;

@@ -1,9 +1,9 @@
 package astraeus;
 
-import astraeus.game.io.*;
 import astraeus.game.model.World;
 import astraeus.game.service.GameService;
 import astraeus.game.service.GameServiceSequencer;
+import astraeus.io.*;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.bootstrap.ServerBootstrap;

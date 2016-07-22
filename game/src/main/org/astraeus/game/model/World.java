@@ -8,9 +8,9 @@ import astraeus.game.model.entity.mob.Mob;
 import astraeus.game.model.entity.mob.MobList;
 import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.player.Player;
-import astraeus.game.plugin.PluginService;
 import astraeus.game.task.Task;
 import astraeus.game.task.TaskManager;
+import astraeus.plugin.PluginService;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;

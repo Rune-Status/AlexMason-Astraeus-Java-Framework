@@ -1,4 +1,4 @@
-package astraeus.game.plugin;
+package astraeus.plugin;
 
 public final class PluginMetaData {
 	
