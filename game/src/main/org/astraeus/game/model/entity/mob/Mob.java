@@ -2,6 +2,7 @@ package astraeus.game.model.entity.mob;
 
 import astraeus.game.model.*;
 import astraeus.game.model.entity.Entity;
+import astraeus.game.model.entity.EntityType;
 import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.player.ForceMovement;
@@ -13,9 +14,9 @@ import astraeus.game.model.entity.object.GameObject;
 import java.util.*;
 
 /**
- * The class that represents an entity that is either an NPC or Player.
+ * The class that represents a mobile entity that is either a NPC (Non-Playable-Character) or Player.
  * 
- * @author SeVen
+ * @author Vult-R
  */
 public abstract class Mob extends Entity {
 
@@ -225,11 +226,11 @@ public abstract class Mob extends Entity {
 	}
 
 	public Npc getNpc() {
-		return World.WORLD.getMobs()[slot];
+		return World.WORLD.getMobs().get(slot);
 	}
 
 	public Player getPlayer() {
-		return (Player) World.WORLD.getPlayers().get(slot);
+		return World.WORLD.getPlayers().get(slot);
 	}
 
 	public int getRunningDirection() {
@@ -257,11 +258,11 @@ public abstract class Mob extends Entity {
 	}
 
 	public boolean isNpc() {
-		return getClass() == Npc.class;
+		return type() == EntityType.NPC;
 	}
 
 	public boolean isPlayer() {
-		return getClass() == Player.class;
+		return type() == EntityType.PLAYER;
 	}
 
 	@Override
@@ -446,8 +447,6 @@ public abstract class Mob extends Entity {
 	public MovementQueueListener getMovementListener() {
 		return movementListener;
 	}
-	
-
 
 	/**
 	 * Gets the index of this entity in the entity list.

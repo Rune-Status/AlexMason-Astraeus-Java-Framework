@@ -21,7 +21,7 @@ public final class AttackNpcPacket implements Receivable {
               return;
         }
 
-        final Npc npc = World.WORLD.getMobs()[npcIndex];
+        final Npc npc = World.WORLD.getMobs().get(npcIndex);
 
         if (npc == null) {
               return;

@@ -31,12 +31,12 @@ public final class World {
 	/**
 	 * The collection of players in the game world.
 	 */
-	private final MobList<Player> PLAYERS = new MobList<Player>(GameConstants.MAX_PLAYERS);
-
+	private final MobList<Player> players = new MobList<Player>(GameConstants.MAX_PLAYERS);	
+	
 	/**
-	 * The mobs registered in this world.
+	 * The collection of npcs in the game world.
 	 */
-	private Npc mobs[] = new Npc[GameConstants.MAXIMUM_NPC_SPAWNS];
+	private final MobList<Npc> npcs = new MobList<Npc>(GameConstants.MAX_NPC_SPAWNS);
 
 	/**
 	 * The {@link Set} of banned hosts.
@@ -92,7 +92,7 @@ public final class World {
 		if (entity.isPlayer()) {
 			Player player = (Player) entity;
 			player.setId(-1);
-			PLAYERS.add(player);
+			players.add(player);
 		}
 	}
 
@@ -109,10 +109,9 @@ public final class World {
 		}
 
 		if (entity.isPlayer()) {
-			PLAYERS.remove(entity);
+			players.remove(entity);
 		} else {
-			World.WORLD.getMobs()[entity.getSlot()].setRegistered(false);
-			World.WORLD.getMobs()[entity.getSlot()] = null;
+			npcs.remove(entity);
 		}
 	}
 
@@ -171,7 +170,7 @@ public final class World {
 	 *            The name of the player.
 	 */
 	public Optional<Player> getPlayerByName(String name) {
-		for (final Player player : PLAYERS) {
+		for (final Player player : players) {
 			if (player != null) {
 				if (player.getUsername().equalsIgnoreCase(name)) {
 					return Optional.of(player);
@@ -229,7 +228,7 @@ public final class World {
 	 * @return The collection of players.
 	 */
 	public MobList<Player> getPlayers() {
-		return PLAYERS;
+		return players;
 	}
 
 	/**
@@ -237,8 +236,8 @@ public final class World {
 	 * 
 	 * @return The collection of mobs.
 	 */
-	public Npc[] getMobs() {
-		return mobs;
+	public MobList<Npc> getMobs() {
+		return npcs;
 	}
 
 	/**

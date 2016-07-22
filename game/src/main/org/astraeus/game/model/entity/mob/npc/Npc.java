@@ -35,10 +35,9 @@ public class Npc extends Mob {
 
       private boolean lockFollow;
 
-      public Npc(int id, int slot) {
+      public Npc(int id) {
             super(GameConstants.DEFAULT_LOCATION);
             setId(id);
-            setSlot(slot);
             size = NpcDefinition.get(id).getSize();
       }
 

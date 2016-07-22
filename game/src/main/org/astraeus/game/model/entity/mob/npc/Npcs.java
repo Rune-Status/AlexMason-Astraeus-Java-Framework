@@ -4,17 +4,23 @@ import astraeus.game.GameConstants;
 import astraeus.game.model.Position;
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
-import astraeus.util.IntUtils;
 import astraeus.util.RandomUtils;
 
 import java.util.concurrent.TimeUnit;
 
 /**
- * A static-utility class that contains methods for mobs.
+ * A static-utility class that contains useful methods for npcs.
  * 
- * @author SeVen
+ * @author Vult-R
  */
-public class Npcs {
+public final class Npcs {
+	
+	/**
+	 * The private constructor to prevent instantiation of this class.
+	 */
+	private Npcs() {
+		
+	}
 
 	/**
 	 * Spawns a {@link Npc} into the game world.
@@ -23,22 +29,19 @@ public class Npcs {
 	 *            The mob to spawn.
 	 */
 	public static void createSpawn(NpcSpawn spawn) {
-		final int slot = IntUtils.findFreeIndex(World.WORLD.getMobs());
+		final Npc npc = new Npc(spawn.getId());
+		
+		if (World.WORLD.getMobs().add(npc)) {
+			npc.setPosition(spawn.getPosition());
+			npc.setCreatedLocation(new Position(spawn.getPosition()));
 
-		if (slot == -1) {
-			return;
+			npc.setFacingDirection(spawn.getFacing());
+			npc.setRandomWalk(spawn.isRandomWalk());
+			npc.setRegistered(true);
+			npc.setVisible(true);
+			npc.getUpdateFlags().add(UpdateFlag.APPEARANCE);
 		}
-
-		final Npc mob = new Npc(spawn.getId(), slot);
-		mob.setPosition(spawn.getPosition());
-		mob.setCreatedLocation(new Position(spawn.getPosition()));
-
-		mob.setFacingDirection(spawn.getFacing());
-		mob.setRandomWalk(spawn.isRandomWalk());
-		mob.setRegistered(true);
-		mob.setVisible(true);
-		mob.getUpdateFlags().add(UpdateFlag.APPEARANCE);
-		World.WORLD.getMobs()[slot] = mob;
+				
 	}
 
 	/**
@@ -81,20 +84,6 @@ public class Npcs {
 		}
 
 		mob.setFacingDirection(mob.getFacingDirection());
-	}
-
-	public static boolean isDragon(Npc mob) {
-		if (mob == null) {
-			return false;
-		}
-		
-		NpcDefinition def = NpcDefinition.get(mob.getId());
-		
-		if (def == null || def.getName() == null) {
-			return false;
-		}
-
-		return def.getName().toLowerCase().contains("dragon");
 	}
 
 }

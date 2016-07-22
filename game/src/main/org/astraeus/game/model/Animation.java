@@ -3,7 +3,7 @@ package astraeus.game.model;
 /**
  * Class that models a single animation used by an entity.
  * 
- * @author Seven
+ * @author Vult-R
  */
 public final class Animation implements Comparable<Animation> {
 

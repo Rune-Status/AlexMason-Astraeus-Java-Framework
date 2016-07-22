@@ -68,6 +68,6 @@ public final class GameConstants {
 	/**
 	 * The maximum amount of mobs that can be held within the game world.
 	 */
-	public static final int MAXIMUM_NPC_SPAWNS = 3000;
+	public static final int MAX_NPC_SPAWNS = 3000;
 
 }

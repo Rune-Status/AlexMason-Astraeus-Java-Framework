@@ -97,6 +97,15 @@ public final class MobList<E extends Mob> implements Collection<E>, Iterable<E> 
       public int indexOf(E entity) {
             return entity.getSlot();
       }
+      
+      public int getNextFreeSlot() {
+    	  for(int index = 0; index < entities.length; index++) {
+    		  if (entities[index] == null) {
+    			  return index;
+    		  }
+    	  }
+    	  return -1;
+      }
 
       /**
        * Gets the capacity of this container.

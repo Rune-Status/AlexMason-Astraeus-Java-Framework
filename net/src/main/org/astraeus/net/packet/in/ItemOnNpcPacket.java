@@ -29,7 +29,7 @@ public final class ItemOnNpcPacket implements Receivable {
 			return;
 		}
 
-		final Npc npc = World.WORLD.getMobs()[npcSlot];
+		final Npc npc = World.WORLD.getMobs().get(npcSlot);
 
 		// validate the npc actually exists
 		if (npc == null) {

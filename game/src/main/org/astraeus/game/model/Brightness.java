@@ -3,7 +3,7 @@ package astraeus.game.model;
 /**
  * The enumeration of the brightness levels as seen by the client.
  *
- * @author Seven
+ * @author Vult-R
  */
 public enum Brightness {
 

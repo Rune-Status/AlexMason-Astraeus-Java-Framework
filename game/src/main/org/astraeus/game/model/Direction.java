@@ -5,7 +5,7 @@ import astraeus.game.model.entity.object.GameObject;
 /**
  * Represents the enumerated directions an entity can walk or face.
  * 
- * @author SeVen
+ * @author Vult-R
  */
 public enum Direction {
 

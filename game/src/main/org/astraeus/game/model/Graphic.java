@@ -3,7 +3,7 @@ package astraeus.game.model;
 /**
  * Represents a single graphic that can be used by entities. Also known as GFX.
  * 
- * @author Seven
+ * @author Vult-R
  */
 public final class Graphic implements Comparable<Graphic> {
 

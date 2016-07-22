@@ -16,7 +16,7 @@ public final class MagicOnNpcPacket implements Receivable {
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
         final int slot = packet.getReader().readShort(ByteOrder.LITTLE, ByteModification.ADDITION);
-        final Npc mobMagic = World.WORLD.getMobs()[slot];
+        final Npc mobMagic = World.WORLD.getMobs().get(slot);
         @SuppressWarnings("unused")
         final int spell = packet.getReader().readShort(ByteModification.ADDITION);
 

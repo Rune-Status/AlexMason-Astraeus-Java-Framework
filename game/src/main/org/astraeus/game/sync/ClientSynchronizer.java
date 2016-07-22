@@ -1,8 +1,5 @@
 package astraeus.game.sync;
 
-import java.util.Arrays;
-import java.util.List;
-
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.MobList;
 import astraeus.game.model.entity.mob.npc.Npc;
@@ -42,7 +39,7 @@ public final class ClientSynchronizer {
 	public void synchronize() {
 		
 		MobList<Player> players = World.WORLD.getPlayers();
-		List<Npc> npcs = Arrays.asList(World.WORLD.getMobs());
+		MobList<Npc> npcs = World.WORLD.getMobs();
 		
 		players.forEach(player -> service.getExecutor().submit(new PrePlayerUpdateTask(player)));
 		
