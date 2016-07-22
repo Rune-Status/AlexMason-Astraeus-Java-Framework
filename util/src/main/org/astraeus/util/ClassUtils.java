@@ -9,7 +9,7 @@ import java.util.Optional;
  *
  * @author Ryley Kimmel <ryley.kimmel@live.com>
  */
-public final class ClassUtil {
+public final class ClassUtils {
 
 	/**
 	 * Returns the specified {@link T annotation} for the potentially annotated
@@ -33,7 +33,7 @@ public final class ClassUtil {
 	 * @throws UnsupportedOperationException If this class is instantiated from
 	 *             within itself.
 	 */
-	private ClassUtil() {
+	private ClassUtils() {
 		throw new UnsupportedOperationException("static-utility classes may not be instantiated.");
 	}
 

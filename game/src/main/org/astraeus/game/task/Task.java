@@ -1,115 +1,74 @@
 package astraeus.game.task;
 
-import java.util.Objects;
-import com.google.common.base.Preconditions;
+import java.util.Optional;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
- * An assignment that has been scheduled to be completed sometime in the future.
- * These tasks run in intervals of {@code 600}ms and are executed on the main
- * game thread. They support dynamic delay changes, which means that the delay
- * for the task can be changed during the execution of the task. To conclude,
- * tasks have the ability to have any Object attached to them which can later be
- * utilized for things like stopping the task.
- * <p>
- * <p>
- * The data structures that hold tasks are not thread safe, which means tasks
- * should not be used across multiple threads. Tasks should only ever be used to
- * execute game logic.
- * 
- * @author lare96 <http://github.com/lare96>
+ * An abstraction model that contains functions that enable units of work to be carried out in cyclic intervals.
+ *
+ * @author lare96 <http://github.org/lare96>
  */
 public abstract class Task {
 
     /**
-     * The default attachment key for all tasks.
-     */
-    public static final Object DEFAULT_KEY = new Object();
-
-    /**
-     * The delay for this task.
-     */
-    private int delay;
-
-    /**
-     * The counter used for determining when this task executes.
-     */
-    private int counter;
-
-    /**
-     * Determines if this task executes when submitted.
+     * If this {@code Task} executes upon being submitted.
      */
     private final boolean instant;
 
     /**
-     * The attachment key that will be used by this task.
+     * The dynamic delay of this {@code Task}.
      */
-    private Object key;
+    private int delay;
 
     /**
-     * Determines if this task is running.
+     * If this {@code Task} is currently running.
      */
-    private boolean running;
+    private boolean running = true;
+
+    /**
+     * A counter that determines when this {@code Task} is ready to execute.
+     */
+    private int counter;
+
+    /**
+     * An attachment for this {@code Task} instance.
+     */
+    private Optional<Object> key = Optional.empty();
 
     /**
      * Creates a new {@link Task}.
-     * 
-     * @param delay
-     *            the delay for this task.
-     * @param instant
-     *            if this task executes when submitted.
+     *
+     * @param instant If this {@code Task} executes upon being submitted.
+     * @param delay The dynamic delay of this {@code Task}.
      */
-    public Task(int delay, boolean instant) {
-        Preconditions.checkArgument(delay >= 0);
-        this.delay = delay;
+    public Task(boolean instant, int delay) {
+        checkArgument(delay > 0);
+
         this.instant = instant;
-        this.running = true;
-        attach(DEFAULT_KEY);
+        this.delay = delay;
     }
 
     /**
-     * The code that will be executed by this task.
+     * Creates a new {@link Task} that doesn't execute instantly.
+     *
+     * @param delay The dynamic delay of this {@code Task}.
      */
-    public abstract void execute();
-
-    /**
-     * The method executed when this task is submitted to the task manager.
-     */
-    public void onSubmit() {
-
+    public Task(int delay) {
+        this(false, delay);
     }
 
     /**
-     * The method executed every {@code 600}ms when this task is sequenced.
+     * A function executed when the {@code counter} reaches the {@code delay}.
      */
-    public void onSequence() {
-
-    }
+    protected abstract void execute();
 
     /**
-     * The method executed when this task is cancelled using
-     * {@link Task#cancel()}.
+     * Determines if this {@code Task} is ready to execute.
+     *
+     * @return {@code true} if this {@code Task} can execute, {@code false} otherwise.
      */
-    public void onCancel() {
-
-    }
-
-    /**
-     * The method executed when {@link Task#execute()} throws an error.
-     * 
-     * @param t
-     *            the error thrown by execution of the task.
-     */
-    public void onThrowable(Throwable t) {
-
-    }
-
-    /**
-     * Determines if this task needs to be executed.
-     * 
-     * @return {@code true} if this task needs to be executed, {@code false}
-     *         otherwise.
-     */
-    public final boolean needsExecute() {
+    final boolean canExecute() {
         if (++counter >= delay && running) {
             counter = 0;
             return true;
@@ -118,72 +77,88 @@ public abstract class Task {
     }
 
     /**
-     * Cancels this task and executes the {@link Task#onCancel()} method only if
-     * this task is running.
+     * Cancels this {@code Task}. If this {@code Task} is already cancelled, does nothing.
      */
     public final void cancel() {
         if (running) {
-            running = false;
             onCancel();
+            running = false;
         }
     }
 
     /**
-     * Attaches {@code key} to this task that can later be retrieved with
-     * {@link Task#getKey()}. This is a very useful feature because similar or
-     * related tasks can be bound with the same key, and then be retrieved or
-     * cancelled later on. All player related tasks should be bound with the
-     * player's instance so all tasks are automatically stopped on logout.
-     * <p>
-     * <p>
-     * Keys with a value of {@code null} are <b>not</b> permitted, the default
-     * value for all keys is {@link Task#DEFAULT_KEY}.
-     * 
-     * @param key
-     *            the key to bind to this task, cannot be {@code null}.
-     * @return an instance of this task.
+     * A function executed when this {@code Task} is iterated over by the {@link TaskManager}.
      */
-    public final Task attach(Object key) {
-        this.key = Objects.requireNonNull(key);
+    void onLoop() {
+
+    }
+
+    /**
+     * A function executed when this {@code Task} is submitted to the {@link TaskManager}.
+     */
+    void onSchedule() {
+
+    }
+
+    /**
+     * A function executed when this {@code Task} is cancelled.
+     */
+    void onCancel() {
+
+    }
+
+    /**
+     * A function executed when this {@code Task} throws an {@code Exception}.
+     *
+     * @param e The {@code Exception} thrown by this {@code Task}.
+     */
+    void onException(Exception e) {
+
+    }
+
+    /**
+     * Attaches {@code newKey} to this {@code Task}. The equivalent of doing {@code Optional.ofNullable(newKey)}.
+     *
+     * @param newKey The new key to attach to this {@code Task}.
+     * @return An instance of this {@code Task} for method chaining.
+     */
+    public Task attach(Object newKey) {
+        key = Optional.ofNullable(newKey);
         return this;
     }
 
     /**
-     * Sets the new delay for this task in a dynamic fashion.
-     * 
-     * @param delay
-     *            the new delay to set for this task.
+     * @return {@code true} if this {@code Task} executes upon being submitted, {@code false} otherwise.
      */
-    public final void newDelay(int delay) {
-        Preconditions.checkArgument(delay >= 0);
-        this.delay = delay;
-    }
-
-    /**
-     * Determines if this task executes when submitted.
-     * 
-     * @return {@code true} if this task executes when submitted, {@code false}
-     *         otherwise.
-     */
-    public final boolean isInstant() {
+    public boolean isInstant() {
         return instant;
     }
 
     /**
-     * Gets the attachment key that will be used by this task.
-     * 
-     * @return the attachment key.
+     * @return The dynamic delay of this {@code Task}.
      */
-    public final Object getKey() {
-        return key;
+    public int getDelay() {
+        return delay;
     }
 
     /**
-     * Determines if this task is running.
-     * 
-     * @return {@code true} if this task is running, {@code false} otherwise.
+     * Sets the delay of this {@code Task} to {@code delay}.
      */
-    public final boolean isRunning() {
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    /**
+     * @return {@code true} if this {@code Task} is running, {@code false} otherwise.
+     */
+    public boolean isRunning() {
         return running;
+    }
+
+    /**
+     * @return The attachment for this {@code Task} instance.
+     */
+    public Optional<Object> getAttachment() {
+        return key;
     }
 }

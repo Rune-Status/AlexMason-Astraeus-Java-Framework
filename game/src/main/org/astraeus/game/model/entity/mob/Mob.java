@@ -44,7 +44,7 @@ public abstract class Mob extends Entity {
 
 	private Position facingLocation;
 
-	private final Movement movement = new Movement(this);
+	protected final Movement movement = new Movement(this);
 
 	private final MovementQueueListener movementListener = new MovementQueueListener(this);
 
@@ -98,9 +98,9 @@ public abstract class Mob extends Entity {
 	public abstract int getMaximumHealth();
 
 	/**
-	 * Prepares entity movement.
+	 * The method called before the mob is updated.
 	 */
-	public abstract void prepare();
+	public abstract void preUpdate();
 
 	/**
 	 * The method called when an entity is being added to the game world.

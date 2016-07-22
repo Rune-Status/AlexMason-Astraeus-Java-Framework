@@ -3,7 +3,6 @@ package astraeus.game.model.entity.mob.npc;
 import astraeus.game.GameConstants;
 import astraeus.game.model.Direction;
 import astraeus.game.model.Position;
-import astraeus.game.model.World;
 import astraeus.game.model.entity.EntityType;
 import astraeus.game.model.entity.mob.Mob;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
@@ -61,31 +60,6 @@ public class Npc extends Mob {
       @Override
       public int size() {            
             return NpcDefinition.get(getId()).getSize();
-      }
-
-      public static void process() {
-            for (final Npc mob : World.WORLD.getMobs()) {
-
-                  if (mob == null) {
-                        continue;
-                  }
-
-                  if (!mob.isRegistered()) {
-                        continue;
-                  }
-
-                  if (!mob.isRandomWalk() && mob.getInteractingEntity() == null) {
-                        Npcs.resetFacingDirection(mob);
-                  }
-
-                  if (!mob.isDead() && mob.getInteractingEntity() == null) {
-                        mob.resetEntityInteraction();
-                  }
-
-                  if (mob.isRandomWalk() && mob.getInteractingEntity() == null) {
-                        Npcs.handleRandomWalk(mob);
-                  }
-            }
       }
 
       @Override
@@ -155,8 +129,20 @@ public class Npc extends Mob {
       }
 
       @Override
-      public void prepare() {
-            getMovement().handleEntityMovement();
+      public void preUpdate() {
+            movement.handleEntityMovement();
+            
+			if (!isRandomWalk() && getInteractingEntity() == null) {
+				Npcs.resetFacingDirection(this);
+			}
+
+			if (!isDead() && getInteractingEntity() == null) {
+				resetEntityInteraction();
+			}
+
+			if (isRandomWalk() && getInteractingEntity() == null) {
+				Npcs.handleRandomWalk(this);
+			}
       }
 
       /**

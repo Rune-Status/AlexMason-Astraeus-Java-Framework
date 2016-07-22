@@ -88,11 +88,6 @@ public final class MovementQueueListener {
         }
 
         @Override
-        public boolean canExecute() {
-            return mob.getMovement().isMovementDone();
-        }
-
-        @Override
         public void run() {
             if (mob.isRegistered()) {
                 try {

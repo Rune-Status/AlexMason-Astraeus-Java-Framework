@@ -59,11 +59,6 @@ public final class World {
 	private final Queue<Player> LOGOUTS = new ConcurrentLinkedQueue<>();
 
 	/**
-	 * An intrinsic lock used to keep the server in sync.
-	 */
-	public final Object LOCK = new Object();
-
-	/**
 	 * This worlds event provider.
 	 */
 	private final UniversalEventProvider eventProvider = new UniversalEventProvider();
@@ -72,6 +67,10 @@ public final class World {
 	 * The service for plugins.
 	 */
 	private final PluginService PLUGIN_SERVICE = new PluginService();	
+	
+	
+	
+    private final TaskManager tasks = new TaskManager();
 	
 	/**
 	 * The single world for this server.
@@ -117,101 +116,6 @@ public final class World {
 		}
 	}
 
-	public void process() {
-		synchronized (LOCK) {
-
-			// handle players logging in
-			for (int index = 0; index < GameConstants.LOGIN_LIMIT; index++) {
-				Player player = LOGINS.poll();
-
-				if (player == null) {
-					break;
-				}
-
-				player.onRegister();
-			}
-
-			int amount = 0;
-
-			// handle players logging out
-			Iterator<Player> $it = LOGOUTS.iterator();
-			while ($it.hasNext()) {
-				Player player = $it.next();
-				if (player == null || amount >= GameConstants.LOGOUT_LIMIT) {
-					break;
-				}
-				player.onDeregister();
-				$it.remove();
-				amount++;
-			}
-
-			// process incoming packets, handle movement, and any player
-			// process.
-			for (final Player player : PLAYERS) {
-				if (player == null || !player.isRegistered() || player.getSession() == null) {
-					continue;
-				}
-				try {
-					player.getSession().handleQueuedPackets();
-					player.prepare();
-					player.tick();
-				} catch (final Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-
-			// mob movement, mob other various mob processes
-			for (final Npc mob : mobs) {
-
-				if (mob == null || !mob.isRegistered()) {
-					continue;
-				}
-
-				mob.prepare();
-			}
-
-			// player and mob updating in parallel
-			for (final Player player : PLAYERS) {
-				if (player == null || !player.isRegistered()) {
-					continue;
-				}
-				try {
-					player.update();
-				} catch (final Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-
-			// reset player flags
-			for (final Player player : PLAYERS) {
-				if (player == null || !player.isRegistered()) {
-					continue;
-				}
-				try {
-					player.clearUpdateFlags();
-				} catch (final Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-			// reset mob flags
-			for (final Npc mob : mobs) {
-				if (mob == null || !mob.isRegistered()) {
-					continue;
-				}
-
-				try {
-					mob.clearUpdateFlags();
-				} catch (final Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-
-		}
-	}
-
 	/**
 	 * Adds a {@code player} to the login queue.
 	 * 
@@ -221,6 +125,18 @@ public final class World {
 	public void queueLogin(Player player) {
 		if (player.getSession() != null && !LOGINS.contains(player)) {
 			LOGINS.add(player);
+		}
+	}
+	
+	public void dequeueLogin() {
+		for (int index = 0; index < GameConstants.LOGIN_LIMIT; index++) {
+			Player player = LOGINS.poll();
+
+			if (player == null) {
+				break;
+			}
+
+			player.onRegister();
 		}
 	}
 
@@ -233,6 +149,18 @@ public final class World {
 	public void queueLogout(Player player) {
 		if (player != null && !LOGOUTS.contains(player)) {
 			LOGOUTS.add(player);
+		}
+	}
+	
+	public void dequeueLogout() {
+		for(int index = 0; index < LOGOUTS.size(); index++) {
+			Player player = LOGOUTS.poll();
+			
+			if (player == null || index >= GameConstants.LOGOUT_LIMIT) {
+				break;
+			}
+			
+			player.onDeregister();
 		}
 	}
 
@@ -292,7 +220,7 @@ public final class World {
 	 *            The task to execute.
 	 */
 	public void submit(Task task) {
-		TaskManager.submit(task);
+		tasks.schedule(task);		
 	}
 
 	/**

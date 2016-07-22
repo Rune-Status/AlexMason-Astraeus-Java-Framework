@@ -26,7 +26,7 @@ public abstract class EventListener extends Task {
      *            the rate in which the listener will listen.
      */
     public EventListener(boolean shutdown, int rate) {
-        super(rate, true);
+        super(true, rate);
         this.shutdown = shutdown;
     }
 
@@ -37,15 +37,6 @@ public abstract class EventListener extends Task {
     public EventListener() {
         this(true, 1);
     }
-
-    /**
-     * The listener will execute {@code run()} when invocation of this method
-     * returns {@code false}.
-     *
-     * @return {@code true} if the code can be executed, {@code false} if the
-     *         listener should keep listening.
-     */
-    public abstract boolean canExecute();
 
     /**
      * The code that will be executed when {@code canExecute()} returns

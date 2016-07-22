@@ -4,102 +4,93 @@ import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Queue;
-import com.google.common.base.Preconditions;
+import java.util.logging.Logger;
+
+import astraeus.util.LoggerUtils;
 
 /**
- * The task handler that oversees the processing of all submitted tasks. It
- * makes sure tasks are stopped when requested and executed at the correct time.
- * <p>
- * <p>
- * The data structures that hold tasks for processing are not thread safe, which
- * means tasks should only be submitted on the main game thread.
- * 
- * @author lare96 <http://github.com/lare96>
+ * Handles the processing and execution of {@link Task}s. Functions contained within this class should only be invoked on the
+ * {@link GameService} thread to ensure thread safety.
+ *
+ * @author lare96 <http://github.org/lare96>
  */
 public final class TaskManager {
 
     /**
-     * The list that holds all of the pending tasks that are awaiting execution.
+     * The single logger for this class.
      */
-    private static final List<Task> PENDING_LIST = new LinkedList<>();
+    @SuppressWarnings("unused")
+	private static final Logger logger = LoggerUtils.getLogger(TaskManager.class);    
 
     /**
-     * The queue that holds all of the tasks that are ready to be executed.
+     * A {@link List} of tasks that have been submitted and are awaiting execution.
      */
-    private static final Queue<Task> RUNNING_QUEUE = new ArrayDeque<>(50);
+    private final List<Task> awaitingExecution = new LinkedList<>();
 
     /**
-     * Queues pending tasks that are ready to be executed and executes tasks
-     * that were previously queued.
-     * 
-     * @throws Exception
-     *             if any errors occur while processing the tasks.
+     * A {@link Queue} of tasks that are ready to be executed.
      */
-    public static void sequence() throws Exception {
-        Iterator<Task> it = PENDING_LIST.iterator();
-        while (it.hasNext()) {
-            Task t = it.next();
-            t.onSequence();
-            if (t.needsExecute()) {
-                RUNNING_QUEUE.add(t);
-            } else if (!t.isRunning()) {
-                it.remove();
-            }
-        }
+    private final Queue<Task> executionQueue = new ArrayDeque<>();
 
-        Task t;
-        while ((t = RUNNING_QUEUE.poll()) != null) {
+    /**
+     * Schedules {@code t} to run in the underlying {@code TaskManager}.
+     *
+     * @param t The {@link Task} to schedule.
+     */
+    public void schedule(Task t) {
+        t.onSchedule();
+        if (t.isInstant()) {
             try {
                 t.execute();
-            } catch (Throwable ex) {
-                ex.printStackTrace();
-                t.onThrowable(ex);
+            } catch (Exception e) {
+                t.onException(e);
+                e.printStackTrace();
+            }
+        }
+        awaitingExecution.add(t);
+    }
+
+    /**
+     * Runs an iteration of the {@link Task} processing logic. All {@link Exception}s thrown by {@code Task}s are caught and
+     * logged by the underlying {@link Logger}.
+     */
+    public void runTaskIteration() {
+        Iterator<Task> $it = awaitingExecution.iterator();
+        while ($it.hasNext()) {
+            Task it = $it.next();
+
+            if (!it.isRunning()) {
+                $it.remove();
+                continue;
+            }
+            it.onLoop();
+            if (it.canExecute()) {
+                executionQueue.add(it);
+            }
+        }
+
+        for (; ; ) {
+            Task it = executionQueue.poll();
+            if (it == null) {
+                break;
+            }
+
+            try {
+                it.execute();
+            } catch (Exception e) {
+                it.onException(e);
+                e.printStackTrace();
             }
         }
     }
 
     /**
-     * Submits {@code task} to this task handler. The task must be running for
-     * it to be successfully submitted.
-     * 
-     * @param task
-     *            the task to submit to this task handler.
+     * Iterates through all active {@link Task}s and cancels all that have {@code attachment} as their attachment.
      */
-    public static void submit(Task task) {
-        Preconditions.checkArgument(task.isRunning());
-        task.onSubmit();
-        
-        if (task.isInstant()) {
-            task.execute();
-        }
-        
-        if (task.isRunning()) {
-            PENDING_LIST.add(task);
-        }
-        
-    }
-
-    /**
-     * Cancels all tasks with {@code key} as their key attachment.
-     * 
-     * @param key
-     *            the key to cancel all tasks with.
-     */
-    public static void cancel(Object key) {
-        PENDING_LIST.stream().filter(t -> t.getKey().equals(key)).forEach(t -> t.cancel());
-    }
-
-    /**
-     * Determines if any task with {@code key} as their key attachment is
-     * currently running.
-     * 
-     * @param key
-     *            the key to determine this for.
-     * @return {@code true} if there is a running task with that key attachment,
-     *         {@code false} otherwise.
-     */
-    public static boolean running(Object key) {
-        return PENDING_LIST.stream().anyMatch(t -> t.getKey().equals(key) && t.isRunning());
+    public void cancel(Object attachment) {
+        awaitingExecution.stream().filter(it -> Objects.equals(attachment, it.getAttachment().orElse(null)))
+            .forEach(Task::cancel);
     }
 }

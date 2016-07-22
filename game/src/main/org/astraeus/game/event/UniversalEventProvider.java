@@ -5,7 +5,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import astraeus.game.model.entity.mob.player.Player;
-import astraeus.util.ClassUtil;
+import astraeus.util.ClassUtils;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -41,7 +41,7 @@ public final class UniversalEventProvider implements EventProvider {
 	}
 
 	private void checkSubscriber(EventSubscriber<?> subscriber, Consumer<SubscribesTo> consumer) {
-		Optional<SubscribesTo> optional = ClassUtil.getAnnotation(subscriber.getClass(), SubscribesTo.class);
+		Optional<SubscribesTo> optional = ClassUtils.getAnnotation(subscriber.getClass(), SubscribesTo.class);
 		Preconditions.checkArgument(optional.isPresent(), String.format("%s is not annotated with @SubscribesTo", subscriber.getClass()));
 		consumer.accept(optional.get());
 	}

@@ -23,6 +23,10 @@ public class Configuration {
             throw new ExceptionInInitializerError(e);
         }
     }
+    
+    private Configuration() {
+    	
+    }
 
     /**
      * The name of the server

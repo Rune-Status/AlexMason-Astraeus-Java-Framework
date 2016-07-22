@@ -331,15 +331,22 @@ public class Player extends Mob {
 	}
 
 	public void update() {
-		synchronized (this) {
-			send(new UpdatePlayerPacket());
-			send(new UpdateNpcPacket());
+		synchronized(this) {
+		send(new UpdatePlayerPacket());
+		send(new UpdateNpcPacket());
 		}
 	}
 
 	@Override
-	public void prepare() {
-		getMovement().handleEntityMovement();
+	public void preUpdate() {
+		// first handle the packets
+		session.handleQueuedPackets();
+		
+		// second movement
+		movement.handleEntityMovement();
+		
+		// lastly anything else before the npc is updated		
+		tick();
 	}
 
 	@Override
@@ -415,7 +422,7 @@ public class Player extends Mob {
 		if (attr.get(Movement.RUNNING_KEY)) {
 			return;
 		}
-		
+
 		setRunRestore(getRunRestore() + 1);
 
 		if (getRunRestore() == 3) {
