@@ -1,8 +1,6 @@
 package astraeus;
 
 import astraeus.game.model.World;
-import astraeus.game.service.GameService;
-import astraeus.game.service.GameServiceSequencer;
 import astraeus.io.*;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -14,6 +12,8 @@ import io.netty.util.ResourceLeakDetector;
 import io.netty.util.ResourceLeakDetector.Level;
 import astraeus.net.channel.ChannelPiplineInitializer;
 import astraeus.net.packet.IncomingPacketHandlerRegistration;
+import astraeus.service.GameService;
+import astraeus.service.GameServiceSequencer;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

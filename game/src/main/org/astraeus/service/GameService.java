@@ -1,4 +1,4 @@
-package astraeus.game.service;
+package astraeus.service;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

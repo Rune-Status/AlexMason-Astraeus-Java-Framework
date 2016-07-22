@@ -7,12 +7,12 @@ import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.MobList;
 import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.player.Player;
-import astraeus.game.service.GameService;
 import astraeus.game.sync.task.PlayerUpdateTask;
 import astraeus.game.sync.task.PostNpcUpdateTask;
 import astraeus.game.sync.task.PostPlayerUpdateTask;
 import astraeus.game.sync.task.PreNpcUpdateTask;
 import astraeus.game.sync.task.PrePlayerUpdateTask;
+import astraeus.service.GameService;
 
 /**
  * The class that synchronizes player's clients with the server.

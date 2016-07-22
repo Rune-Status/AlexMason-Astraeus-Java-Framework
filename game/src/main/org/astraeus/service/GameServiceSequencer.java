@@ -1,4 +1,4 @@
-package astraeus.game.service;
+package astraeus.service;
 
 import astraeus.game.model.World;
 
