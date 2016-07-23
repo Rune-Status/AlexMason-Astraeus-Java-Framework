@@ -28,5 +28,15 @@
     "Vult-R"
   ],
   "version": 1.0
+},
+{
+  "name": "Object Fourth Click",
+  "description": "The plugin for handling the fourth option of an object.",
+  "group": "click",
+  "base": "plugin.click.obj.ObjectFourthClick",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
 }
 ]

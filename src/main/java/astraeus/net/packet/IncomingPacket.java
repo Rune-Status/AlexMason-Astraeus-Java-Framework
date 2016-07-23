@@ -102,19 +102,24 @@ public final class IncomingPacket {
 	public static final int EQUIP_ITEM = 41;
 
 	/**
-	 * Send when a player uses the first option of an object.
+	 * Sent when a player uses the first option of an object.
 	 */
 	public static final int OBJECT_OPTION_1 = 132;
 
 	/**
-	 * Send when a player uses the second option of an object.
+	 * Sent when a player uses the second option of an object.
 	 */
 	public static final int OBJECT_OPTION_2 = 252;
 
 	/**
-	 * Send when a player uses the third option of an object.
+	 * Sent when a player uses the third option of an object.
 	 */
 	public static final int OBJECT_OPTION_3 = 70;
+	
+	/**
+	 * Sent when a player uses the fourth option of an object.
+	 */
+	public static final int OBJECT_OPTION_4 = 228;
 
 	/**
 	 * Sent when the game client window goes in and out of focus.
