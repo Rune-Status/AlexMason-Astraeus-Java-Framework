@@ -10,7 +10,7 @@ class ToggleAcceptAidButton : ButtonClick() {
 
     override fun execute(player: Player, event: ButtonActionEvent) {
         player.attr().toggle(Player.ACCEPT_AID_KEY);
-        player.send(SetWidgetConfigPacket(427, player.attr().get<Boolean>(Player.ACCEPT_AID_KEY)))
+        player.queuePacket(SetWidgetConfigPacket(427, player.attr().get<Boolean>(Player.ACCEPT_AID_KEY)))
     }
 
     override fun test(event: ButtonActionEvent): Boolean {

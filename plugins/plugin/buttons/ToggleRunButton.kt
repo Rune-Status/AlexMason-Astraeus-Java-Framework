@@ -19,9 +19,9 @@ class ToggleRunButton : ButtonClick() {
 				val running = player.attr().get(Movement.RUNNING_KEY)
 				
                 // run orb toggle
-                player.send(SetWidgetConfigPacket(152, if (running) 1 else 0))
+                player.queuePacket(SetWidgetConfigPacket(152, if (running) 1 else 0))
                 // run button in the wrench tab
-                player.send(SetWidgetConfigPacket(429, if (running) 1 else 0))			
+                player.queuePacket(SetWidgetConfigPacket(429, if (running) 1 else 0))			
 
             }
         }

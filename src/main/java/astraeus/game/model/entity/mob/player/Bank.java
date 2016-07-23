@@ -45,9 +45,9 @@ public final class Bank extends ItemContainer {
      */
     public void open() {
         setBanking(true);
-        player.send(new DisplayInventoryWidgetPacket(5292, 5063));
-        player.send(new UpdateItemsOnWidgetPacket(5064, player.getInventory().getItems()));
-        player.send(new UpdateItemsOnWidgetPacket(5382, items));
+        player.queuePacket(new DisplayInventoryWidgetPacket(5292, 5063));
+        player.queuePacket(new UpdateItemsOnWidgetPacket(5064, player.getInventory().getItems()));
+        player.queuePacket(new UpdateItemsOnWidgetPacket(5382, items));
     }
 
     /**
@@ -66,12 +66,12 @@ public final class Bank extends ItemContainer {
         }
 
         if (player.getInventory().getFreeSlots() == 0) {
-            player.send(new ServerMessagePacket("There is not enough room in your inventory to withdraw this item."));
+            player.queuePacket(new ServerMessagePacket("There is not enough room in your inventory to withdraw this item."));
             return;
         }
 
         if (!player.getInventory().canHold(items[slot].getId())) {
-            player.send(new ServerMessagePacket("There is not enough room in your inventory to withdraw this item."));
+            player.queuePacket(new ServerMessagePacket("There is not enough room in your inventory to withdraw this item."));
             return;
         }
 
@@ -86,7 +86,7 @@ public final class Bank extends ItemContainer {
         if (isNote()) {
             if (!ItemDefinition.getDefinitions()[items[slot].getId() + 1].isNoted()) {
                 player.getInventory().add(new Item(items[slot].getId(), calculatedAmount));
-                player.send(new ServerMessagePacket("This item cannot be withdraw from your bank account as a note."));
+                player.queuePacket(new ServerMessagePacket("This item cannot be withdraw from your bank account as a note."));
             } else {
                 player.getInventory().add(new Item(items[slot].getId() + 1, calculatedAmount));
             }
@@ -132,7 +132,7 @@ public final class Bank extends ItemContainer {
         }
 
         if (getFreeSlots() == 0) {
-            player.send(new ServerMessagePacket("There is not enough room in your bank account to deposit this item."));
+            player.queuePacket(new ServerMessagePacket("There is not enough room in your bank account to deposit this item."));
             return;
         }
 
@@ -173,14 +173,14 @@ public final class Bank extends ItemContainer {
      */
     public void initBank() {
         setSwap(true);
-        player.send(new SetWidgetConfigPacket(304, 0));
-        player.send(new SetWidgetConfigPacket(115, 0));
+        player.queuePacket(new SetWidgetConfigPacket(304, 0));
+        player.queuePacket(new SetWidgetConfigPacket(115, 0));
     }
 
     @Override
     public void refresh() {
-        getPlayer().send(new UpdateItemsOnWidgetPacket(5382, getPlayer().getBank().items));
-        getPlayer().send(new UpdateItemsOnWidgetPacket(5064, getPlayer().getInventory().getItems()));
+        getPlayer().queuePacket(new UpdateItemsOnWidgetPacket(5382, getPlayer().getBank().items));
+        getPlayer().queuePacket(new UpdateItemsOnWidgetPacket(5064, getPlayer().getInventory().getItems()));
     }
 
     @Override

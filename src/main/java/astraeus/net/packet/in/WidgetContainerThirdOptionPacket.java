@@ -22,7 +22,7 @@ public final class WidgetContainerThirdOptionPacket implements Receivable {
 		final int itemSlot = reader.readShort(ByteModification.ADDITION);
 
 		if (player.getRights().equal(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
-			player.send(new ServerMessagePacket("[ItemContainerAction] - ThirdClick - InterfaceId: " + interfaceId + " itemId: " + itemId + " slot: " + itemSlot));
+			player.queuePacket(new ServerMessagePacket("[ItemContainerAction] - ThirdClick - InterfaceId: " + interfaceId + " itemId: " + itemId + " slot: " + itemSlot));
 		}
 
 		switch (interfaceId) {

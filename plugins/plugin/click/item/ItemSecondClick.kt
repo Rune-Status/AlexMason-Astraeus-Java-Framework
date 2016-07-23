@@ -16,7 +16,7 @@ class ItemSecondClick : EventSubscriber<ItemSecondClickEvent> {
 	override fun subscribe(context: EventContext, player: Player, event: ItemSecondClickEvent) {
 		
 		if (player.rights.greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
-            player.send(ServerMessagePacket("[ItemClick#2] - ItemId: ${event.id} Slot: ${event.slot}"))
+            player.queuePacket(ServerMessagePacket("[ItemClick#2] - ItemId: ${event.id} Slot: ${event.slot}"))
         }
 		
 		when(event.id) {

@@ -16,21 +16,21 @@ import java.util.Iterator;
 import java.util.Optional;
 
 /**
- * The {@link OutgoingPacket} that will update a player in the game world.
+ * The packet for updating a player.
  * 
- * @author SeVen
+ * @author Vult-R
  */
 public final class UpdatePlayerPacket implements Sendable {
 
       /**
        * The max amount of players that can be added per cycle.
        */
-      private static final int MAX_NEW_PLAYERS_PER_CYCLE = 25;
+      private static final int MAX_NEW_PLAYERS_PER_CYCLE = 20;
 
       @Override
       public Optional<OutgoingPacket> writePacket(Player player) {
             if (player.isRegionChange() || player.isTeleporting()) {
-                  player.send(new UpdateMapRegion());
+                  player.queuePacket(new UpdateMapRegion());
             }
 
             GamePacketBuilder builder = new GamePacketBuilder(81, PacketHeader.VARIABLE_SHORT);
@@ -52,7 +52,7 @@ public final class UpdatePlayerPacket implements Sendable {
 
                   final Player other = iterator.next();
 
-                  if (World.WORLD.getPlayers().get(other.getSlot()) != null && other.isRegistered()
+                  if (World.world.getPlayers().get(other.getSlot()) != null && other.isRegistered()
                               && !other.isTeleporting() && other.getPosition().isWithinDistance(
                                           player.getPosition(), Position.VIEWING_DISTANCE)) {
 
@@ -70,7 +70,7 @@ public final class UpdatePlayerPacket implements Sendable {
 
             int playersAdded = 0;
 
-            for (final Player other : World.WORLD.getPlayers()) {
+            for (final Player other : World.world.getPlayers()) {
                   if (other == null || !other.isRegistered() || other == player
                               || player.getLocalPlayers().contains(other)) {
                         continue;

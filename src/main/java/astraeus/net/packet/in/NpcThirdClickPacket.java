@@ -12,7 +12,7 @@ public final class NpcThirdClickPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
-		final Npc npc = World.WORLD.getMobs().get(packet.getReader().readShort());
+		final Npc npc = World.world.getMobs().get(packet.getReader().readShort());
 
 		if (npc == null) {
 			return;

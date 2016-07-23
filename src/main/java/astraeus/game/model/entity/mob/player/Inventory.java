@@ -27,7 +27,7 @@ public final class Inventory extends ItemContainer {
     public void add(Item item) {
 
         if (!canHold(item.getId())) {
-            player.send(new ServerMessagePacket("You don't have the required inventory space to hold this item."));
+            player.queuePacket(new ServerMessagePacket("You don't have the required inventory space to hold this item."));
             return;
         }
 
@@ -108,7 +108,7 @@ public final class Inventory extends ItemContainer {
 
     @Override
     public void refresh() {
-        player.send(new UpdateItemsOnWidgetPacket(3214, items));
+        player.queuePacket(new UpdateItemsOnWidgetPacket(3214, items));
     }
 
 }

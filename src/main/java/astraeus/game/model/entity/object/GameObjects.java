@@ -22,12 +22,12 @@ public final class GameObjects {
 	/**
 	 * The list of global object spawned in the game world.
 	 */
-	private static final List<GameObject> GLOBAL_OBJECTS = new ArrayList<>();
+	private static final List<GameObject> global_objects = new ArrayList<>();	
 
 	/**
 	 * A map of ground items and their positions in the world.
 	 */
-	private static final Map<Position, Item> GROUND_ITEMS = new HashMap<>();
+	private static final Map<Position, Item> ground_items = new HashMap<>();	
 
 	/**
 	 * The method that creates global objects for a user.
@@ -36,17 +36,17 @@ public final class GameObjects {
 	 *            The player to create the global objects for.
 	 */
 	public static final void createGlobalObjects(Player player) {
-		GLOBAL_OBJECTS.stream().filter(Objects::nonNull)
+		global_objects.stream().filter(Objects::nonNull)
 				.filter($it -> $it.getPosition().isWithinDistance(player.getPosition(), 32))
-				.forEach($it -> player.send(new AddObjectPacket($it, true)));
+				.forEach($it -> player.queuePacket(new AddObjectPacket($it, true)));
 	}
 	
 	public static final void createGlobalItems(Player player) {
-		if (GROUND_ITEMS.isEmpty()) {
+		if (ground_items.isEmpty()) {
 			return;
 		}
 		
-		GROUND_ITEMS.values().stream().filter(Objects::nonNull).filter($it -> $it.getPosition().isWithinDistance(player.getPosition(), 32)).forEach($it -> player.send(new AddGroundItemPacket($it)));
+		ground_items.values().stream().filter(Objects::nonNull).filter($it -> $it.getPosition().isWithinDistance(player.getPosition(), 32)).forEach($it -> player.queuePacket(new AddGroundItemPacket($it)));
 	}
 
 	/**
@@ -55,11 +55,11 @@ public final class GameObjects {
 	 * @return The custom objects.
 	 */
 	public static final List<GameObject> getGlobalObjects() {
-		return GLOBAL_OBJECTS;
+		return global_objects;
 	}
 
 	public static Map<Position, Item> getGroundItems() {
-		return GROUND_ITEMS;
+		return ground_items;
 	}
 
 }

@@ -31,7 +31,7 @@ public final class Npcs {
 	public static void createSpawn(NpcSpawn spawn) {
 		final Npc npc = new Npc(spawn.getId());
 		
-		if (World.WORLD.getMobs().add(npc)) {
+		if (World.world.getMobs().add(npc)) {
 			npc.setPosition(spawn.getPosition());
 			npc.setCreatedLocation(new Position(spawn.getPosition()));
 

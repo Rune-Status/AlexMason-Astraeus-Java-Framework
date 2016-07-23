@@ -10,7 +10,7 @@ class ToggleChatEffectButton : ButtonClick() {
 
     override fun execute(player: Player, event: ButtonActionEvent) {
         player.attr().toggle(Player.CHAT_EFFECTS_KEY);
-        player.send(SetWidgetConfigPacket(172, player.attr().get<Boolean>(Player.CHAT_EFFECTS_KEY)))
+        player.queuePacket(SetWidgetConfigPacket(172, player.attr().get<Boolean>(Player.CHAT_EFFECTS_KEY)))
     }
 
     override fun test(event: ButtonActionEvent): Boolean {

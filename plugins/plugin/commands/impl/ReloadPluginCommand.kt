@@ -15,9 +15,9 @@ import plugin.commands.CommandParser
 class ReloadPluginCommand : Command() {
 
 	override fun execute(player: Player, parser: CommandParser) : Boolean {
-		player.send(ServerMessagePacket("Reloading plugins..."))		
-		World.WORLD.pluginService.reload()
-		player.send(ServerMessagePacket("Reloaded ${World.WORLD.pluginService.subscribers.size} plugins! "))
+		player.queuePacket(ServerMessagePacket("Reloading plugins..."))		
+		World.world.pluginService.reload()
+		player.queuePacket(ServerMessagePacket("Reloaded ${World.world.pluginService.subscribers.size} plugins! "))
 		return true
 	}
 

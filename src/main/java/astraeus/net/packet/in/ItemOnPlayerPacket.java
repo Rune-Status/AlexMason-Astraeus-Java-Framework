@@ -18,7 +18,7 @@ public final class ItemOnPlayerPacket implements Receivable {
 		
 		final Item used = player.getInventory().getItem(itemSlot);
 		
-		final Player usedWith = World.WORLD.getPlayers().get(playerIndex);
+		final Player usedWith = World.world.getPlayers().get(playerIndex);
 		
 		player.post(new ItemOnPlayerEvent(used, usedWith));	
 

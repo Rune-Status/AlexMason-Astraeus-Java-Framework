@@ -14,7 +14,7 @@ import plugin.commands.CommandParser
 class TestCommand : Command() {
 
 	override fun execute(player: Player, parser: CommandParser) : Boolean {
-		player.send(ServerMessagePacket("${parser.command} command works perfectly!"))
+		player.queuePacket(ServerMessagePacket("${parser.command} command works perfectly!"))
 		return true
 	}
 

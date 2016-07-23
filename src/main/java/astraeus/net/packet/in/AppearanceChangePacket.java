@@ -35,37 +35,37 @@ public class AppearanceChangePacket implements Receivable {
 		case MALE:
 
 			if (!(appearance.getHead() >= 0 && appearance.getHead() <= 8)) {
-				player.send(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid head id %d", appearance.getHead()) : "You cannot change your appearance, because you have an invalid head id."));
+				player.queuePacket(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid head id %d", appearance.getHead()) : "You cannot change your appearance, because you have an invalid head id."));
 				return false;
 			}
 
 			if (!(appearance.getJaw() >= 10 && appearance.getJaw() <= 17)) {
-				player.send(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid jaw id %d", appearance.getJaw()) : "You cannot change your appearance, because you have an invalid jaw id."));
+				player.queuePacket(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid jaw id %d", appearance.getJaw()) : "You cannot change your appearance, because you have an invalid jaw id."));
 				return false;
 			}
 
 			if (!(appearance.getTorso() >= 18 && appearance.getTorso() <= 25)) {
-				player.send(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid torso id %d", appearance.getTorso()) : "You cannot change your appearance, because you have an invalid torso id."));
+				player.queuePacket(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid torso id %d", appearance.getTorso()) : "You cannot change your appearance, because you have an invalid torso id."));
 				return false;
 			}
 
 			if (!(appearance.getArms() >= 26 && appearance.getArms() <= 31)) {
-				player.send(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid arm id %d", appearance.getHead()) : "You cannot change your appearance, because you have an invalid arm id."));
+				player.queuePacket(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid arm id %d", appearance.getHead()) : "You cannot change your appearance, because you have an invalid arm id."));
 				return false;
 			}
 
 			if (!(appearance.getHands() >= 33 && appearance.getHands() <= 34)) {
-				player.send(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid hand id %d", appearance.getHands()) : "You cannot change your appearance, because you have an invalid hand id."));
+				player.queuePacket(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid hand id %d", appearance.getHands()) : "You cannot change your appearance, because you have an invalid hand id."));
 				return false;
 			}
 
 			if (!(appearance.getLegs() >= 36 && appearance.getLegs() <= 40)) {
-				player.send(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid leg id %d", appearance.getLegs()) : "You cannot change your appearance, because you have an invalid leg id."));
+				player.queuePacket(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid leg id %d", appearance.getLegs()) : "You cannot change your appearance, because you have an invalid leg id."));
 				return false;
 			}
 
 			if (!(appearance.getFeet() >= 42 && appearance.getFeet() <= 43)) {
-				player.send(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid feet id %d", appearance.getFeet()) : "You cannot change your appearance, because you have an invalid feet id."));
+				player.queuePacket(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid feet id %d", appearance.getFeet()) : "You cannot change your appearance, because you have an invalid feet id."));
 				return false;
 			}
 
@@ -74,37 +74,37 @@ public class AppearanceChangePacket implements Receivable {
 		case FEMALE:
 
 			if (!(appearance.getHead() >= 45 && appearance.getHead() <= 54)) {
-				player.send(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid head id %d", appearance.getHead()) : "You cannot change your appearance, because you have an invalid head id."));
+				player.queuePacket(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid head id %d", appearance.getHead()) : "You cannot change your appearance, because you have an invalid head id."));
 				return false;
 			}
 
 			if (!(appearance.getJaw() == -1)) {
-				player.send(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid jaw id %d", appearance.getJaw()) : "You cannot change your appearance, because you have an invalid jaw id."));
+				player.queuePacket(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid jaw id %d", appearance.getJaw()) : "You cannot change your appearance, because you have an invalid jaw id."));
 				return false;
 			}
 
 			if (!(appearance.getTorso() >= 56 && appearance.getTorso() <= 60)) {
-				player.send(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid torso id %d", appearance.getTorso()) : "You cannot change your appearance, because you have an invalid torso id."));
+				player.queuePacket(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid torso id %d", appearance.getTorso()) : "You cannot change your appearance, because you have an invalid torso id."));
 				return false;
 			}
 
 			if (!(appearance.getArms() >= 61 && appearance.getArms() <= 65)) {
-				player.send(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid arm id %d", appearance.getHead()) : "You cannot change your appearance, because you have an invalid arm id."));
+				player.queuePacket(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid arm id %d", appearance.getHead()) : "You cannot change your appearance, because you have an invalid arm id."));
 				return false;
 			}
 
 			if (!(appearance.getHands() >= 67 && appearance.getHands() <= 68)) {
-				player.send(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid hand id %d", appearance.getHands()) : "You cannot change your appearance, because you have an invalid hand id."));
+				player.queuePacket(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid hand id %d", appearance.getHands()) : "You cannot change your appearance, because you have an invalid hand id."));
 				return false;
 			}
 
 			if (!(appearance.getLegs() >= 70 && appearance.getLegs() <= 77)) {
-				player.send(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid leg id %d", appearance.getLegs()) : "You cannot change your appearance, because you have an invalid leg id."));
+				player.queuePacket(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid leg id %d", appearance.getLegs()) : "You cannot change your appearance, because you have an invalid leg id."));
 				return false;
 			}
 
 			if (!(appearance.getFeet() >= 79 && appearance.getFeet() <= 80)) {
-				player.send(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid feet id %d", appearance.getFeet()) : "You cannot change your appearance, because you have an invalid feet id."));
+				player.queuePacket(new ServerMessagePacket(player.getRights().greaterOrEqual(PlayerRights.ADMINISTRATOR) ? String.format("Cannot change appearance - Invalid feet id %d", appearance.getFeet()) : "You cannot change your appearance, because you have an invalid feet id."));
 				return false;
 			}
 
@@ -141,10 +141,10 @@ public class AppearanceChangePacket implements Receivable {
 		}
 
 		if (player.attr().get(Player.DEBUG_KEY)) {
-			player.send(new ServerMessagePacket(appearance.toString()));
+			player.queuePacket(new ServerMessagePacket(appearance.toString()));
 		}
 
-		player.send(new RemoveWidgetPacket());
+		player.queuePacket(new RemoveWidgetPacket());
 	}
 
 }

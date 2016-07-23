@@ -16,7 +16,7 @@ class ObjectSecondClick : EventSubscriber<ObjectSecondClickEvent> {
 	override fun subscribe(context: EventContext, player: Player, event: ObjectSecondClickEvent) {
 		
 		if (player.rights.greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
-            player.send(ServerMessagePacket("[click= object], [type= second], [id= ${event.gameObject.id}], [location= ${event.gameObject.position.toString()}]"));
+            player.queuePacket(ServerMessagePacket("[click= object], [type= second], [id= ${event.gameObject.id}], [location= ${event.gameObject.position.toString()}]"));
         }
 		
 		println(event.gameObject.id)

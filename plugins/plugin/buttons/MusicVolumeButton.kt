@@ -13,27 +13,27 @@ class MusicVolumeButton : ButtonClick() {
         when (event.button) {
             930 -> {
                 player.attr().put(Player.MUSIC_VOLUME_KEY, Volume.SILENT)
-                player.send(SetWidgetConfigPacket(168, player.attr().get(Player.MUSIC_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(168, player.attr().get(Player.MUSIC_VOLUME_KEY).code))
             }
 
             931 -> {
                 player.attr().put(Player.MUSIC_VOLUME_KEY, Volume.QUIET)
-                player.send(SetWidgetConfigPacket(168, player.attr().get(Player.MUSIC_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(168, player.attr().get(Player.MUSIC_VOLUME_KEY).code))
             }
 
             932 -> {
                 player.attr().put(Player.MUSIC_VOLUME_KEY, Volume.NORMAL)
-                player.send(SetWidgetConfigPacket(168, player.attr().get(Player.MUSIC_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(168, player.attr().get(Player.MUSIC_VOLUME_KEY).code))
             }
 
             933 -> {
                 player.attr().put(Player.MUSIC_VOLUME_KEY, Volume.HIGH)
-                player.send(SetWidgetConfigPacket(168, player.attr().get(Player.MUSIC_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(168, player.attr().get(Player.MUSIC_VOLUME_KEY).code))
             }
 
             934 -> {
                 player.attr().put(Player.MUSIC_VOLUME_KEY, Volume.LOUD)
-                player.send(SetWidgetConfigPacket(168, player.attr().get(Player.MUSIC_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(168, player.attr().get(Player.MUSIC_VOLUME_KEY).code))
             }
         }
     }

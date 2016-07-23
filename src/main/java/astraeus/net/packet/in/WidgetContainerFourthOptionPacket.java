@@ -21,7 +21,7 @@ public final class WidgetContainerFourthOptionPacket implements Receivable {
 		final int itemId = reader.readShort(ByteModification.ADDITION);
 
 		if (player.getRights().equal(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
-			player.send(new ServerMessagePacket("[ItemContainerAction] - FourthAction - InterfaceId: " + interfaceId + " itemId: " + itemId + " slot: " + itemSlot));
+			player.queuePacket(new ServerMessagePacket("[ItemContainerAction] - FourthAction - InterfaceId: " + interfaceId + " itemId: " + itemId + " slot: " + itemSlot));
 		}
 
 		switch (interfaceId) {

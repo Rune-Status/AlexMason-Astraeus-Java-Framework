@@ -38,7 +38,7 @@ public final class UpdateNpcPacket implements Sendable {
 
                   final Npc mob = iterator.next();
 
-                  if (World.WORLD.getMobs().get(mob.getSlot()) != null && mob.isRegistered()
+                  if (World.world.getMobs().get(mob.getSlot()) != null && mob.isRegistered()
                               && player.getPosition().isWithinDistance(mob.getPosition(),
                                           Position.VIEWING_DISTANCE)) {
                         updateMovement(mob, builder);
@@ -52,7 +52,7 @@ public final class UpdateNpcPacket implements Sendable {
                   }
             }
 
-            for (final Npc mob : World.WORLD.getMobs()) {
+            for (final Npc mob : World.world.getMobs()) {
 
                   if (player.getLocalNpcs().size() >= 255) {
                         break;

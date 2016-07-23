@@ -134,7 +134,7 @@ public final class Movement {
 		
 		if (entity.isPlayer()) {
 			if (deltaX < 16 || deltaX >= 88 || deltaY < 16 || deltaY > 88) {
-				entity.getPlayer().send(new UpdateMapRegion());
+				entity.getPlayer().queuePacket(new UpdateMapRegion());
 			}
 
 			if (walkingPoint != null || runningPoint != null) {

@@ -21,18 +21,18 @@ public final class AttackNpcPacket implements Receivable {
               return;
         }
 
-        final Npc npc = World.WORLD.getMobs().get(npcIndex);
+        final Npc npc = World.world.getMobs().get(npcIndex);
 
         if (npc == null) {
               return;
         }
 
         if (player.getRights().greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
-              player.send(new ServerMessagePacket(String.format("[attack= npc], [id= %d], [slot= %d]", npc.getId(), npc.getSlot())));
+              player.queuePacket(new ServerMessagePacket(String.format("[attack= npc], [id= %d], [slot= %d]", npc.getId(), npc.getSlot())));
         }
 
         if (npc.getCurrentHealth() <= 0) {
-              player.send(new ServerMessagePacket("This npc is already dead..."));
+              player.queuePacket(new ServerMessagePacket("This npc is already dead..."));
               return;
         }
 	}

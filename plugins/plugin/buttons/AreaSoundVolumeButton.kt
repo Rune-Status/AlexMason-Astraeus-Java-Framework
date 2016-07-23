@@ -13,27 +13,27 @@ class AreaSoundVolumeButton : ButtonClick() {
         when (event.button) {
             19150 -> {
                 player.attr().put(Player.AREA_SOUND_VOLUME_KEY, Volume.SILENT)
-                player.send(SetWidgetConfigPacket(170, player.attr().get(Player.AREA_SOUND_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(170, player.attr().get(Player.AREA_SOUND_VOLUME_KEY).code))
             }
 
             19151 -> {
                 player.attr().put(Player.AREA_SOUND_VOLUME_KEY, Volume.QUIET)
-                player.send(SetWidgetConfigPacket(170, player.attr().get(Player.AREA_SOUND_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(170, player.attr().get(Player.AREA_SOUND_VOLUME_KEY).code))
             }
 
             19152 -> {
                 player.attr().put(Player.AREA_SOUND_VOLUME_KEY, Volume.NORMAL)
-                player.send(SetWidgetConfigPacket(170, player.attr().get(Player.AREA_SOUND_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(170, player.attr().get(Player.AREA_SOUND_VOLUME_KEY).code))
             }
 
             19153 -> {
                 player.attr().put(Player.AREA_SOUND_VOLUME_KEY, Volume.HIGH)
-                player.send(SetWidgetConfigPacket(170, player.attr().get(Player.AREA_SOUND_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(170, player.attr().get(Player.AREA_SOUND_VOLUME_KEY).code))
             }
 
             19154 -> {
                 player.attr().put(Player.AREA_SOUND_VOLUME_KEY, Volume.LOUD)
-                player.send(SetWidgetConfigPacket(170, player.attr().get(Player.AREA_SOUND_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(170, player.attr().get(Player.AREA_SOUND_VOLUME_KEY).code))
             }
         }
     }

@@ -16,10 +16,10 @@ public final class PlayerSecondOptionPacket implements Receivable {
 		GamePacketReader reader = packet.getReader();
 		
 		int otherPlayerIndex = reader.readShort(ByteOrder.LITTLE);
-		Player other = (Player) World.WORLD.getPlayers().get(otherPlayerIndex);
+		Player other = (Player) World.world.getPlayers().get(otherPlayerIndex);
 
 		if (other == null) {
-			player.send(new ServerMessagePacket("You tried to attack a player that doesn't exist."));
+			player.queuePacket(new ServerMessagePacket("You tried to attack a player that doesn't exist."));
 			return;
 		}		
 	}

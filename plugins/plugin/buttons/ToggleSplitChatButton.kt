@@ -10,7 +10,7 @@ class ToggleSplitChatButton : ButtonClick() {
 
     override fun execute(player: Player, event: ButtonActionEvent) {
         player.attr().toggle(Player.SPLIT_CHAT_KEY);
-        player.send(SetWidgetConfigPacket(287, player.attr().get<Boolean>(Player.SPLIT_CHAT_KEY)))
+        player.queuePacket(SetWidgetConfigPacket(287, player.attr().get<Boolean>(Player.SPLIT_CHAT_KEY)))
     }
 
     override fun test(event: ButtonActionEvent): Boolean {

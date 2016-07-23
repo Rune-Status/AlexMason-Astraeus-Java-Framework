@@ -22,7 +22,7 @@ public final class WidgetContainerSecondOptionPacket implements Receivable {
 		final int itemSlot = reader.readShort(ByteOrder.LITTLE);
 
 		if (player.getRights().equal(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
-			player.send(new ServerMessagePacket("[ItemContainerAction] - SecondClick - InterfaceId: " + interfaceId + " itemId: " + itemId + " slot: " + itemSlot));
+			player.queuePacket(new ServerMessagePacket("[ItemContainerAction] - SecondClick - InterfaceId: " + interfaceId + " itemId: " + itemId + " slot: " + itemSlot));
 		}
 
 		switch (interfaceId) {

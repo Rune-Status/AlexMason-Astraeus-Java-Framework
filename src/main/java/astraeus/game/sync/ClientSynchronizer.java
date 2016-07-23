@@ -38,8 +38,8 @@ public final class ClientSynchronizer {
 	 */
 	public void synchronize() {
 		
-		MobList<Player> players = World.WORLD.getPlayers();
-		MobList<Npc> npcs = World.WORLD.getMobs();
+		MobList<Player> players = World.world.getPlayers();
+		MobList<Npc> npcs = World.world.getMobs();
 		
 		players.forEach(player -> service.getExecutor().submit(new PrePlayerUpdateTask(player)));
 		

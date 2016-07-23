@@ -36,7 +36,7 @@ public final class RemoveRegionalObjectPacket implements Sendable {
 
 	@Override
 	public Optional<OutgoingPacket> writePacket(Player player) {
-		player.send(new SetUpdateRegionPacket(object.getPosition()));
+		player.queuePacket(new SetUpdateRegionPacket(object.getPosition()));
 		GamePacketBuilder builder = new GamePacketBuilder(101);
 		builder.write(object.getType() << 2 | (normal ? object.getOrientation() : Direction.getDoorOrientation(object.getEnumeratedOrientation()) & 3), ByteModification.NEGATION)
 				.write(0);

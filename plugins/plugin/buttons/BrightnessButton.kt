@@ -14,22 +14,22 @@ class BrightnessButton : ButtonClick() {
 		when (event.button) {
 			906 -> {
 				player.attr().put(Player.BRIGHTNESS_KEY, Brightness.VERY_DARK)
-				player.send(SetWidgetConfigPacket(166, player.attr().get(Player.BRIGHTNESS_KEY).code))
+				player.queuePacket(SetWidgetConfigPacket(166, player.attr().get(Player.BRIGHTNESS_KEY).code))
 			}
 
 			908 -> {
 				player.attr().put(Player.BRIGHTNESS_KEY, Brightness.DARK)
-				player.send(SetWidgetConfigPacket(166, player.attr().get(Player.BRIGHTNESS_KEY).code))
+				player.queuePacket(SetWidgetConfigPacket(166, player.attr().get(Player.BRIGHTNESS_KEY).code))
 			}
 
 			910 -> {
 				player.attr().put(Player.BRIGHTNESS_KEY, Brightness.NORMAL)
-				player.send(SetWidgetConfigPacket(166, player.attr().get(Player.BRIGHTNESS_KEY).code))
+				player.queuePacket(SetWidgetConfigPacket(166, player.attr().get(Player.BRIGHTNESS_KEY).code))
 			}
 
 			912 -> {
 				player.attr().put(Player.BRIGHTNESS_KEY, Brightness.BRIGHT)
-				player.send(SetWidgetConfigPacket(166, player.attr().get(Player.BRIGHTNESS_KEY).code))
+				player.queuePacket(SetWidgetConfigPacket(166, player.attr().get(Player.BRIGHTNESS_KEY).code))
 			}
 		}
 	}

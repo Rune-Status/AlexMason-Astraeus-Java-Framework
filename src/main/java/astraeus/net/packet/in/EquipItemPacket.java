@@ -31,7 +31,7 @@ public final class EquipItemPacket implements Receivable {
 
 		if (player.getRights().greaterOrEqual(PlayerRights.DEVELOPER)
 				&& player.attr().get(Player.DEBUG_KEY)) {
-			player.send(new ServerMessagePacket(
+			player.queuePacket(new ServerMessagePacket(
 					String.format("[EquipItem] - [id= %d], [slot= %d], [interfaceId= %d]", id, slot, interfaceId)));
 		}
 
@@ -52,7 +52,7 @@ public final class EquipItemPacket implements Receivable {
 			// check if shield can be removed
 			if (equipDef.isTwoHanded() && player.getEquipment().getItems()[Equipment.SHIELD] != null) {
 				if (player.getInventory().getFreeSlots() < 1) {
-					player.send(new ServerMessagePacket("You don't have the required inventory space to equip this item."));
+					player.queuePacket(new ServerMessagePacket("You don't have the required inventory space to equip this item."));
 					return;
 				}
 			}

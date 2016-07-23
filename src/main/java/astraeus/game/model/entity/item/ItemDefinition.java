@@ -9,7 +9,8 @@ public final class ItemDefinition {
 
 	public static final int ITEM_LIMIT = 11791;
 
-	public static final ItemDefinition[] DEFINITIONS = new ItemDefinition[ITEM_LIMIT];
+	//TODO make item definitions immutable
+	public static final ItemDefinition[] definitions = new ItemDefinition[ITEM_LIMIT];	
 
 	private final int id;
 	
@@ -51,11 +52,11 @@ public final class ItemDefinition {
 	}
 
 	public static ItemDefinition[] getDefinitions() {
-		return DEFINITIONS;
+		return definitions;
 	}
 
 	public static ItemDefinition lookup(int id) {
-		return DEFINITIONS[id];
+		return definitions[id];
 	}
 
 	public int getId() {

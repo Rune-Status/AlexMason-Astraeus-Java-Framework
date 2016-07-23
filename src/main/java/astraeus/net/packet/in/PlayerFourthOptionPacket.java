@@ -23,7 +23,7 @@ public final class PlayerFourthOptionPacket implements Receivable {
 		}
 
 		if (player.getRights().equal(PlayerRights.ADMINISTRATOR)) {
-			player.send(new ServerMessagePacket("Trading as an admin has been disabled."));
+			player.queuePacket(new ServerMessagePacket("Trading as an admin has been disabled."));
 			return;
 		}
 
@@ -31,11 +31,11 @@ public final class PlayerFourthOptionPacket implements Receivable {
 			return;
 		}
 
-		if (World.WORLD.getPlayers().get(otherPlayerTradeIndex) == null) {
+		if (World.world.getPlayers().get(otherPlayerTradeIndex) == null) {
 			return;
 		}
 
-		Player other = (Player) World.WORLD.getPlayers().get(otherPlayerTradeIndex);
+		Player other = (Player) World.world.getPlayers().get(otherPlayerTradeIndex);
 
 		if (other == null || !other.isRegistered() || other.isTeleporting() || other.isDead()) {
 			return;

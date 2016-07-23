@@ -41,20 +41,20 @@ public class Players {
        */
       public static void createSideBarInterfaces(Player player, boolean enable) {
             if (enable) {
-                  player.send(new SetSideBarWidgetPacket(ATTACK_TAB, 2423));
-                  player.send(new SetSideBarWidgetPacket(SKILL_TAB, 3917));
-                  player.send(new SetSideBarWidgetPacket(QUEST_TAB, 638));
-                  player.send(new SetSideBarWidgetPacket(INVENTORY_TAB, 3213));
-                  player.send(new SetSideBarWidgetPacket(EQUIPMENT_TAB, 1644));
-                  player.send(new SetSideBarWidgetPacket(PRAYER_TAB, 5608));
-                  player.send(new SetSideBarWidgetPacket(MAGIC_TAB, 1151));
-                  player.send(new SetSideBarWidgetPacket(CLAN_TAB, -1));
-                  player.send(new SetSideBarWidgetPacket(FRIENDS_TAB, 5065));
-                  player.send(new SetSideBarWidgetPacket(IGNORE_TAB, 5715));
-                  player.send(new SetSideBarWidgetPacket(LOGOUT_TAB, 2449));
-                  player.send(new SetSideBarWidgetPacket(WRENCH_TAB, 904));
-                  player.send(new SetSideBarWidgetPacket(EMOTE_TAB, 147));
-                  player.send(new SetSideBarWidgetPacket(MUSIC_TAB, 962));
+                  player.queuePacket(new SetSideBarWidgetPacket(ATTACK_TAB, 2423));
+                  player.queuePacket(new SetSideBarWidgetPacket(SKILL_TAB, 3917));
+                  player.queuePacket(new SetSideBarWidgetPacket(QUEST_TAB, 638));
+                  player.queuePacket(new SetSideBarWidgetPacket(INVENTORY_TAB, 3213));
+                  player.queuePacket(new SetSideBarWidgetPacket(EQUIPMENT_TAB, 1644));
+                  player.queuePacket(new SetSideBarWidgetPacket(PRAYER_TAB, 5608));
+                  player.queuePacket(new SetSideBarWidgetPacket(MAGIC_TAB, 1151));
+                  player.queuePacket(new SetSideBarWidgetPacket(CLAN_TAB, -1));
+                  player.queuePacket(new SetSideBarWidgetPacket(FRIENDS_TAB, 5065));
+                  player.queuePacket(new SetSideBarWidgetPacket(IGNORE_TAB, 5715));
+                  player.queuePacket(new SetSideBarWidgetPacket(LOGOUT_TAB, 2449));
+                  player.queuePacket(new SetSideBarWidgetPacket(WRENCH_TAB, 904));
+                  player.queuePacket(new SetSideBarWidgetPacket(EMOTE_TAB, 147));
+                  player.queuePacket(new SetSideBarWidgetPacket(MUSIC_TAB, 962));
             }
       }
 
@@ -84,15 +84,15 @@ public class Players {
        *    The item being destroyed.
        */
       public static void destroyItem(Player player, Item item) {
-            player.send(new SetItemOnInterfaceSlotPacket(14171, item, 0));
-            player.send(new SetWidgetStringPacket("Are you sure you want to drop this item?", 14174));
-            player.send(new SetWidgetStringPacket("Yes.", 14175));
-            player.send(new SetWidgetStringPacket("No.", 14176));
-            player.send(new SetWidgetStringPacket("", 14177));
-            player.send(new SetWidgetStringPacket("This item is valuable, you will not", 14182));
-            player.send(new SetWidgetStringPacket("get it back once lost.", 14183));
-            player.send(new SetWidgetStringPacket(item.getName(), 14184));
-            player.send(new DisplayChatBoxWidgetPacket(14170));
+            player.queuePacket(new SetItemOnInterfaceSlotPacket(14171, item, 0));
+            player.queuePacket(new SetWidgetStringPacket("Are you sure you want to drop this item?", 14174));
+            player.queuePacket(new SetWidgetStringPacket("Yes.", 14175));
+            player.queuePacket(new SetWidgetStringPacket("No.", 14176));
+            player.queuePacket(new SetWidgetStringPacket("", 14177));
+            player.queuePacket(new SetWidgetStringPacket("This item is valuable, you will not", 14182));
+            player.queuePacket(new SetWidgetStringPacket("get it back once lost.", 14183));
+            player.queuePacket(new SetWidgetStringPacket(item.getName(), 14184));
+            player.queuePacket(new DisplayChatBoxWidgetPacket(14170));
       }
 
 

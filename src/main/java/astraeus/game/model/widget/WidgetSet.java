@@ -38,15 +38,15 @@ public final class WidgetSet {
 		widgets.clear();
 		switch(type) {
 		case CHAT_BOX:	
-			player.send(new DisplayChatBoxWidgetPacket(id));
+			player.queuePacket(new DisplayChatBoxWidgetPacket(id));
 			break;
 			
 		case TAB:
-			player.send(new DisplayTabWidgetPacket(id));
+			player.queuePacket(new DisplayTabWidgetPacket(id));
 			break;
 			
 		case WINDOW:
-			player.send(new DisplayWidgetPacket(id));
+			player.queuePacket(new DisplayWidgetPacket(id));
 			break;		
 		}
 		widgets.put(type, id);
@@ -57,7 +57,7 @@ public final class WidgetSet {
 	 */
 	public void close() {
 		widgets.clear();
-		player.send(new RemoveWidgetPacket());
+		player.queuePacket(new RemoveWidgetPacket());
 	}
 	
 	/**

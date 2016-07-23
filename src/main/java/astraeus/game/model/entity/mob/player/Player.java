@@ -18,7 +18,6 @@ import astraeus.game.model.location.Area;
 import astraeus.game.model.sound.Volume;
 import astraeus.game.model.widget.WidgetSet;
 import astraeus.net.channel.PlayerChannel;
-import astraeus.net.packet.OutgoingPacket;
 import astraeus.net.packet.Sendable;
 import astraeus.net.packet.out.*;
 import astraeus.util.LoggerUtils;
@@ -148,7 +147,7 @@ public class Player extends Mob {
 
 	@Override
 	public void onRegister() {
-		World.WORLD.register(this);
+		World.world.register(this);
 		setRegionChange(true);
 		getUpdateFlags().add(UpdateFlag.APPEARANCE);
 		onStartup();
@@ -161,41 +160,41 @@ public class Player extends Mob {
 	@Override
 	public void onDeregister() {
 		PlayerSerializer.encode(this);
-		send(new LogoutPlayerPacket());
+		queuePacket(new LogoutPlayerPacket());
 		resetEntityInteraction();
 		attr().put(Player.DISCONNECTED_KEY, true);
 		session.getChannel().close();
-		World.WORLD.deregister(this);
+		World.world.deregister(this);
 		LOGGER.info(String.format("[DEREGISTERED]: [host= %s]", session.getHostAddress()));
 	}
 
 	@Override
 	public void onLogin() {
-		send(new ServerMessagePacket("Welcome to " + Configuration.SERVER_NAME + "."));
+		queuePacket(new ServerMessagePacket("Welcome to " + Configuration.SERVER_NAME + "."));
 	}
 
 	@Override
 	public void onStartup() {
-		send(new SetPlayerSlotPacket());
-		send(new ResetCameraPositionPacket());
-		send(new SetPrivacyOptionPacket(0, 0, 0));
-		send(new SetSpecialAmountPacket());
-		send(new SetWidgetConfigPacket(172, attr().get(AUTO_RETALIATE_KEY) ? 1 : 0));
-		send(new SetPlayerOptionPacket(PlayerOption.FOLLOW));
-		send(new SetPlayerOptionPacket(PlayerOption.TRADE_REQUEST));
-		send(new SetWidgetConfigPacket(152, attr().get(Movement.RUNNING_KEY) ? 1 : 0));
-		send(new SetWidgetConfigPacket(429, attr().get(Movement.RUNNING_KEY) ? 1 : 0));
-		send(new SetWidgetConfigPacket(171, attr().get(MOUSE_BUTTON_KEY) ? 1 : 0));
-		send(new SetWidgetConfigPacket(172, attr().get(CHAT_EFFECTS_KEY) ? 1 : 0));
-		send(new SetWidgetConfigPacket(287, attr().get(SPLIT_CHAT_KEY) ? 1 : 0));
-		send(new SetWidgetConfigPacket(427, attr().get(ACCEPT_AID_KEY) ? 1 : 0));
-		send(new SetWidgetConfigPacket(166, attr().get(BRIGHTNESS_KEY).getCode()));
-		send(new SetWidgetConfigPacket(168, attr().get(MUSIC_VOLUME_KEY).getCode()));
-		send(new SetWidgetConfigPacket(169, attr().get(SOUND_EFFECT_VOLUME_KEY).getCode()));
-		send(new SetWidgetConfigPacket(170, attr().get(AREA_SOUND_VOLUME_KEY).getCode()));
+		queuePacket(new SetPlayerSlotPacket());
+		queuePacket(new ResetCameraPositionPacket());
+		queuePacket(new SetPrivacyOptionPacket(0, 0, 0));
+		queuePacket(new SetSpecialAmountPacket());
+		queuePacket(new SetWidgetConfigPacket(172, attr().get(AUTO_RETALIATE_KEY) ? 1 : 0));
+		queuePacket(new SetPlayerOptionPacket(PlayerOption.FOLLOW));
+		queuePacket(new SetPlayerOptionPacket(PlayerOption.TRADE_REQUEST));
+		queuePacket(new SetWidgetConfigPacket(152, attr().get(Movement.RUNNING_KEY) ? 1 : 0));
+		queuePacket(new SetWidgetConfigPacket(429, attr().get(Movement.RUNNING_KEY) ? 1 : 0));
+		queuePacket(new SetWidgetConfigPacket(171, attr().get(MOUSE_BUTTON_KEY) ? 1 : 0));
+		queuePacket(new SetWidgetConfigPacket(172, attr().get(CHAT_EFFECTS_KEY) ? 1 : 0));
+		queuePacket(new SetWidgetConfigPacket(287, attr().get(SPLIT_CHAT_KEY) ? 1 : 0));
+		queuePacket(new SetWidgetConfigPacket(427, attr().get(ACCEPT_AID_KEY) ? 1 : 0));
+		queuePacket(new SetWidgetConfigPacket(166, attr().get(BRIGHTNESS_KEY).getCode()));
+		queuePacket(new SetWidgetConfigPacket(168, attr().get(MUSIC_VOLUME_KEY).getCode()));
+		queuePacket(new SetWidgetConfigPacket(169, attr().get(SOUND_EFFECT_VOLUME_KEY).getCode()));
+		queuePacket(new SetWidgetConfigPacket(170, attr().get(AREA_SOUND_VOLUME_KEY).getCode()));
 		Players.createSideBarInterfaces(this, true);
 		for (int i = 0; i < 23; i++) {
-			send(new SetWidgetTextPacket(i));
+			queuePacket(new SetWidgetTextPacket(i));
 		}
 		inventory.refresh();
 		equipment.refresh();
@@ -204,7 +203,7 @@ public class Player extends Mob {
 		bank.initBank();
 		getRelation().updateLists(true);
 		getRelation().sendFriends();
-		send(new SetRunEnergyPacket());
+		queuePacket(new SetRunEnergyPacket());
 		getRelation().updateLists(true);
 		Players.resetPlayerAnimation(this);
 		attr().put(SAVE_KEY, true);
@@ -215,7 +214,7 @@ public class Player extends Mob {
 		attr().put(ACTIVE_KEY, false);
 		attr().put(LOGOUT_KEY, true);
 		attr().put(DISCONNECTED_KEY, true);
-		send(new LogoutPlayerPacket());
+		queuePacket(new LogoutPlayerPacket());
 	}
 
 	@Override
@@ -331,9 +330,9 @@ public class Player extends Mob {
 	}
 
 	public void update() {
-		synchronized(this) {
-		send(new UpdatePlayerPacket());
-		send(new UpdateNpcPacket());
+		synchronized (this) {
+			flushPacket(new UpdatePlayerPacket());
+			flushPacket(new UpdateNpcPacket());
 		}
 	}
 
@@ -341,11 +340,11 @@ public class Player extends Mob {
 	public void preUpdate() {
 		// first handle the packets
 		session.handleQueuedPackets();
-		
+
 		// second movement
 		movement.handleEntityMovement();
-		
-		// lastly anything else before the npc is updated		
+
+		// lastly anything else before the npc is updated
 		tick();
 	}
 
@@ -379,24 +378,24 @@ public class Player extends Mob {
 					: super.getPosition().getY();
 			wildernessLevel = (((calculateY - 3520) / 8) + 1);
 			if (!inWilderness) {
-				send(new DisplayWalkableWidgetPacket(197));
-				send(new SetPlayerOptionPacket(PlayerOption.ATTACK));
+				queuePacket(new DisplayWalkableWidgetPacket(197));
+				queuePacket(new SetPlayerOptionPacket(PlayerOption.ATTACK));
 				inWilderness = true;
 			}
-			send(new SetWidgetStringPacket("@yel@Level: " + wildernessLevel, 199));
+			queuePacket(new SetWidgetStringPacket("@yel@Level: " + wildernessLevel, 199));
 		} else if (inWilderness) {
-			send(new SetPlayerOptionPacket(PlayerOption.ATTACK, true));
-			send(new DisplayWalkableWidgetPacket(-1));
+			queuePacket(new SetPlayerOptionPacket(PlayerOption.ATTACK, true));
+			queuePacket(new DisplayWalkableWidgetPacket(-1));
 			inWilderness = false;
 			wildernessLevel = 0;
 		}
 		if (Area.inMultiCombat(this)) {
 			if (!inMultiCombat) {
-				send(new DisplayMultiIconPacket(false));
+				queuePacket(new DisplayMultiIconPacket(false));
 				inMultiCombat = true;
 			}
 		} else {
-			send(new DisplayMultiIconPacket(true));
+			queuePacket(new DisplayMultiIconPacket(true));
 			inMultiCombat = false;
 		}
 	}
@@ -434,7 +433,7 @@ public class Player extends Mob {
 				energy = 100;
 
 			setRunEnergy(energy);
-			send(new SetRunEnergyPacket());
+			queuePacket(new SetRunEnergyPacket());
 		}
 	}
 
@@ -445,10 +444,10 @@ public class Player extends Mob {
 
 		if (getRunEnergy() <= 0) {
 			attr.put(Movement.RUNNING_KEY, false);
-			send(new SetWidgetConfigPacket(152, 0));
+			queuePacket(new SetWidgetConfigPacket(152, 0));
 		} else {
 			setRunEnergy(getRunEnergy() - 1);
-			send(new SetRunEnergyPacket());
+			queuePacket(new SetRunEnergyPacket());
 		}
 	}
 
@@ -459,7 +458,7 @@ public class Player extends Mob {
 	 *            The event to post.
 	 */
 	public <E extends Event> void post(E event) {
-		World.WORLD.post(this, event);
+		World.world.post(this, event);
 	}
 
 	@Override
@@ -537,13 +536,26 @@ public class Player extends Mob {
 	}
 
 	/**
-	 * Sends an {@link OutgoingPacket} to a users client.
+	 * Queues a packet to be processed in sequence.
 	 * 
 	 * @param out
-	 *            The outgoing packet.
+	 * 		The packet to queue.
 	 */
-	public void send(final Sendable out) {
+	public void queuePacket(final Sendable out) {
 		this.session.queue(out);
+	}
+
+	/**
+	 * Sends a packet to the client immediately.
+	 * 
+	 * @note This should never be used only by player update and npc update packet.
+	 * All other packets can be queued.
+	 * 
+	 * @param out
+	 * 		The packet to send.
+	 */
+	private void flushPacket(final Sendable out) {
+		this.session.flush(out);
 	}
 
 	public void setAppearance(Appearance appearance) {

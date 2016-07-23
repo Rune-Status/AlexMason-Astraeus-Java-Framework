@@ -45,14 +45,14 @@ public final class PickupGroundItemPacket implements Receivable {
 		}
 
 		if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
-			player.send(new ServerMessagePacket(
+			player.queuePacket(new ServerMessagePacket(
 					String.format("[PickupItem] - Item: %s Position: %s", item.toString(), position.toString())));
 		}
 		
 		player.getMovementListener().append(() -> {
 			if (player.getPosition().isWithinInteractionDistance(position)) {
 				player.getInventory().add(item);
-				player.send(new RemoveGroundItemPacket(item));
+				player.queuePacket(new RemoveGroundItemPacket(item));
 				GameObjects.getGlobalObjects().remove(item);
 			}
 		});

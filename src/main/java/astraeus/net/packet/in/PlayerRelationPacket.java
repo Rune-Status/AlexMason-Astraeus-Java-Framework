@@ -67,7 +67,7 @@ public class PlayerRelationPacket implements Receivable {
 		}
 
 		if (!player.getRelation().getFriendList().contains(to)) {
-			player.send(new ServerMessagePacket("You cannot send a message to a " + "player not on your friends list!"));
+			player.queuePacket(new ServerMessagePacket("You cannot send a message to a " + "player not on your friends list!"));
 			return;
 		}
 

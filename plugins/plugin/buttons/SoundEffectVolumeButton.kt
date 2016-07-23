@@ -13,27 +13,27 @@ class SoundEffectVolumeButton : ButtonClick() {
         when (event.button) {
             941 -> {
                 player.attr().put(Player.SOUND_EFFECT_VOLUME_KEY, Volume.SILENT)
-                player.send(SetWidgetConfigPacket(169, player.attr().get(Player.SOUND_EFFECT_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(169, player.attr().get(Player.SOUND_EFFECT_VOLUME_KEY).code))
             }
 
             942 -> {
                 player.attr().put(Player.SOUND_EFFECT_VOLUME_KEY, Volume.QUIET)
-                player.send(SetWidgetConfigPacket(169, player.attr().get(Player.SOUND_EFFECT_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(169, player.attr().get(Player.SOUND_EFFECT_VOLUME_KEY).code))
             }
 
             943 -> {
                 player.attr().put(Player.SOUND_EFFECT_VOLUME_KEY, Volume.NORMAL)
-                player.send(SetWidgetConfigPacket(169, player.attr().get(Player.SOUND_EFFECT_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(169, player.attr().get(Player.SOUND_EFFECT_VOLUME_KEY).code))
             }
 
             944 -> {
                 player.attr().put(Player.SOUND_EFFECT_VOLUME_KEY, Volume.HIGH)
-                player.send(SetWidgetConfigPacket(169, player.attr().get(Player.SOUND_EFFECT_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(169, player.attr().get(Player.SOUND_EFFECT_VOLUME_KEY).code))
             }
 
             945 -> {
                 player.attr().put(Player.SOUND_EFFECT_VOLUME_KEY, Volume.LOUD)
-                player.send(SetWidgetConfigPacket(169, player.attr().get(Player.SOUND_EFFECT_VOLUME_KEY).code))
+                player.queuePacket(SetWidgetConfigPacket(169, player.attr().get(Player.SOUND_EFFECT_VOLUME_KEY).code))
             }
         }
     }

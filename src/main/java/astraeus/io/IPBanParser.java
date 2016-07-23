@@ -23,7 +23,7 @@ public final class IPBanParser extends TextFileParser {
 	@Override
 	public void parse(Scanner reader) throws IOException {
 		String ip_bans = reader.nextLine();
-		World.WORLD.getIpBans().add(ip_bans);
+		World.world.getIpBans().add(ip_bans);
 	}
 
 }

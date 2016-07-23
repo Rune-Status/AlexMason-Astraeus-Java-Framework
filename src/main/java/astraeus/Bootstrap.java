@@ -111,7 +111,7 @@ public final class Bootstrap {
 
 		logger.info("Loading plugins");
 		serviceLoader.execute(() -> {
-			World.WORLD.getPluginService().load();
+			World.world.getPluginService().load();
 		});
 	}
 

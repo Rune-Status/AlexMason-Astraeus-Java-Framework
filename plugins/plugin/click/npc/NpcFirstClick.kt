@@ -16,7 +16,7 @@ class NpcFirstClick : EventSubscriber<NpcFirstClickEvent> {
 	override fun subscribe(context: EventContext, player: Player, event: NpcFirstClickEvent) {
 		
 		if (player.rights.greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
-            player.send(ServerMessagePacket("[click= npc], [type = first], [id= ${event.npc.id}], [slot= ${event.npc.slot}]"));
+            player.queuePacket(ServerMessagePacket("[click= npc], [type = first], [id= ${event.npc.id}], [slot= ${event.npc.slot}]"));
         }
 		
 		when(event.npc.id) {

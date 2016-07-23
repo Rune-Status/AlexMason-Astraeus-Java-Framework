@@ -116,7 +116,7 @@ public final class PluginService {
 				try {
 					final EventSubscriber<?> subscriber = (EventSubscriber<?>) clazz.newInstance();
 
-					World.WORLD.provideSubscriber(subscriber);
+					World.world.provideSubscriber(subscriber);
 
 					subscribers.add(subscriber);
 				} catch (Exception ex) {

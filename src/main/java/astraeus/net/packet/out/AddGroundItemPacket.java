@@ -25,7 +25,7 @@ public final class AddGroundItemPacket implements Sendable {
 
 	@Override
 	public Optional<OutgoingPacket> writePacket(Player player) {
-		player.send(new SetUpdateRegionPacket(player.getPosition()));
+		player.queuePacket(new SetUpdateRegionPacket(player.getPosition()));
 		
 		final GamePacketBuilder builder = new GamePacketBuilder(44);
 		builder.writeShort(item.getId(), ByteModification.ADDITION, ByteOrder.LITTLE)

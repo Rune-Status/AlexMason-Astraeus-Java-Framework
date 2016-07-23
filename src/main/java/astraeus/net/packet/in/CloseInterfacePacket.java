@@ -26,7 +26,7 @@ public class CloseInterfacePacket implements Receivable {
 		}
 
 		if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
-			player.send(new ServerMessagePacket("[CloseInterface] - Closed Window"));
+			player.queuePacket(new ServerMessagePacket("[CloseInterface] - Closed Window"));
 		}
 	}
 }

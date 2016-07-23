@@ -41,15 +41,15 @@ public final class DropItemPacket implements Receivable {
 		boolean droppable = true;
 
 		if (!droppable) {
-			player.send(new ServerMessagePacket("This item cannot be dropped."));
+			player.queuePacket(new ServerMessagePacket("This item cannot be dropped."));
 			return;
 		}
 
 		if (player.getRights().equals(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
-			player.send(new ServerMessagePacket("ItemDropped: " + itemId));
+			player.queuePacket(new ServerMessagePacket("ItemDropped: " + itemId));
 		}
 		
-		player.send(new AddGroundItemPacket(item));
+		player.queuePacket(new AddGroundItemPacket(item));
 		
 		GameObjects.getGroundItems().put(player.getPosition().copy(), item);
 		

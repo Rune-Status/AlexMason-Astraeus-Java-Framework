@@ -23,7 +23,7 @@ public final class WidgetContainerFirstOptionPacket implements Receivable {
 		final int itemId = reader.readShort(ByteModification.ADDITION);
 
 		if (player.getRights().greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
-			player.send(new ServerMessagePacket("[ItemContainerAction] - FirstAction - InterfaceId: " + interfaceId + " (" + itemId + ", " + itemSlot + ")"));
+			player.queuePacket(new ServerMessagePacket("[ItemContainerAction] - FirstAction - InterfaceId: " + interfaceId + " (" + itemId + ", " + itemSlot + ")"));
 		}
 
 		switch (interfaceId) {

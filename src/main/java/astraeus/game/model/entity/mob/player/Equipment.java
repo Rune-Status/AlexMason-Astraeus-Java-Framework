@@ -53,10 +53,11 @@ public final class Equipment extends ItemContainer {
 	 */
 	public static final class EquipmentDefinition {
 
-		public static final Map<Integer, EquipmentDefinition> EQUIPMENT_DEFINITIONS = new HashMap<>();
+		//TODO make this immutable
+		public static final Map<Integer, EquipmentDefinition> equipment_definitions = new HashMap<>();		
 
 		public static EquipmentDefinition get(int id) {
-			return EQUIPMENT_DEFINITIONS.get(id);
+			return equipment_definitions.get(id);
 		}
 
 		private final int id;
@@ -210,7 +211,7 @@ public final class Equipment extends ItemContainer {
 
 	@Override
 	public void refresh() {
-		getPlayer().send(new UpdateItemsOnWidgetPacket(1688, items));
+		getPlayer().queuePacket(new UpdateItemsOnWidgetPacket(1688, items));
 	}
 
 	/**
@@ -254,14 +255,14 @@ public final class Equipment extends ItemContainer {
 
 	private void displayWeaponsInterface() {
 		if (items[Equipment.WEAPON] == null) {
-			player.send(new SetSideBarWidgetPacket(0, 5855));
-			player.send(new SetWidgetStringPacket("Unarmed", 5857));
+			player.queuePacket(new SetSideBarWidgetPacket(0, 5855));
+			player.queuePacket(new SetWidgetStringPacket("Unarmed", 5857));
 		} else {
-			player.send(new SetSideBarWidgetPacket(0, getWeaponInterface()));
-			player.send(new SetWidgetStringPacket(
+			player.queuePacket(new SetSideBarWidgetPacket(0, getWeaponInterface()));
+			player.queuePacket(new SetWidgetStringPacket(
 					ItemDefinition.getDefinitions()[items[Equipment.WEAPON].getId()].getName(),
 					getWeaponInterface() + 3));
-			player.send(new SetItemModelOnWidgetPacket(getWeaponInterface() + 1, 200, items[Equipment.WEAPON].getId()));
+			player.queuePacket(new SetItemModelOnWidgetPacket(getWeaponInterface() + 1, 200, items[Equipment.WEAPON].getId()));
 		}
 	}
 

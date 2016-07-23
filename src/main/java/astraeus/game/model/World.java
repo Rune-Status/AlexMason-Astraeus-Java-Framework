@@ -68,14 +68,16 @@ public final class World {
 	 */
 	private final PluginService PLUGIN_SERVICE = new PluginService();	
 	
-	
-	
-    private final TaskManager tasks = new TaskManager();
-	
 	/**
-	 * The single world for this server.
+	 * The tasks for this world.
 	 */
-	public static final World WORLD = new World();
+    private final TaskManager tasks = new TaskManager();
+    
+    /**
+     * The single instance of world
+     */
+    //TODO scrap this singleton
+    public static final World world = new World();
 
 	/**
 	 * Registers and adds a {@code entity) into the game world.
@@ -116,10 +118,9 @@ public final class World {
 	}
 
 	/**
-	 * Adds a {@code player} to the login queue.
+	 * The function that makes a player wait until they can be added into the game.
 	 * 
 	 * @param player
-	 *            The player that is logging in.
 	 */
 	public void queueLogin(Player player) {
 		if (player.getSession() != null && !LOGINS.contains(player)) {
@@ -127,6 +128,9 @@ public final class World {
 		}
 	}
 	
+	/**
+	 * The function that allows players to login.
+	 */
 	public void dequeueLogin() {
 		for (int index = 0; index < GameConstants.LOGIN_LIMIT; index++) {
 			Player player = LOGINS.poll();
@@ -140,10 +144,9 @@ public final class World {
 	}
 
 	/**
-	 * Adds a {@link Player} to the logout queue.
+	 * The function that makes a player wait until they can be logged out in sync with the server.
 	 * 
 	 * @param player
-	 *            The player logging out.
 	 */
 	public void queueLogout(Player player) {
 		if (player != null && !LOGOUTS.contains(player)) {
@@ -151,6 +154,9 @@ public final class World {
 		}
 	}
 	
+	/**
+	 * The function that logs out players from the game world.
+	 */
 	public void dequeueLogout() {
 		for(int index = 0; index < LOGOUTS.size(); index++) {
 			Player player = LOGOUTS.poll();
@@ -164,20 +170,12 @@ public final class World {
 	}
 
 	/**
-	 * Gets a player by their username
-	 *
+	 * Searches the collection of players and retrieves the player with the specified name
+	 * 
 	 * @param name
-	 *            The name of the player.
 	 */
-	public Optional<Player> getPlayerByName(String name) {
-		for (final Player player : players) {
-			if (player != null) {
-				if (player.getUsername().equalsIgnoreCase(name)) {
-					return Optional.of(player);
-				}
-			}
-		}
-		return Optional.empty();
+	public Optional<Player> searchPlayer(String name) {
+		return players.stream().filter(Objects::nonNull).filter(it -> name.equalsIgnoreCase(it.getUsername())).findFirst();
 	}
 
 	/**

@@ -16,7 +16,7 @@ class ItemOnItem : EventSubscriber<ItemOnItemEvent> {
 	override fun subscribe(context: EventContext, player: Player, event: ItemOnItemEvent) {
 		
         if (player.rights.greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
-            player.send(ServerMessagePacket("[ItemOnItem] - used: ${event.used.id} with: ${event.usedWith.id}}"));
+            player.queuePacket(ServerMessagePacket("[ItemOnItem] - used: ${event.used.id} with: ${event.usedWith.id}}"));
         }	
 		
 		

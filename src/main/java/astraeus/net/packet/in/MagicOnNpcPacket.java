@@ -16,12 +16,12 @@ public final class MagicOnNpcPacket implements Receivable {
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
         final int slot = packet.getReader().readShort(ByteOrder.LITTLE, ByteModification.ADDITION);
-        final Npc mobMagic = World.WORLD.getMobs().get(slot);
+        final Npc mobMagic = World.world.getMobs().get(slot);
         @SuppressWarnings("unused")
         final int spell = packet.getReader().readShort(ByteModification.ADDITION);
 
         if (mobMagic == null) {
-              player.send(new ServerMessagePacket("You tried to attack a mob that doesn't exist."));
+              player.queuePacket(new ServerMessagePacket("You tried to attack a mob that doesn't exist."));
               return;
         }
 

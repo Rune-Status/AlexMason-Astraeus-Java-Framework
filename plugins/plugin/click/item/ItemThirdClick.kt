@@ -16,7 +16,7 @@ class ItemThirdClick : EventSubscriber<ItemThirdClickEvent> {
 	override fun subscribe(context: EventContext, player: Player, event: ItemThirdClickEvent) {
 		
 		if (player.rights.greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
-            player.send(ServerMessagePacket("[ItemClick#3] - ItemId: ${event.id} Slot: ${event.slot} WidgetId: ${event.widgetId}"))
+            player.queuePacket(ServerMessagePacket("[ItemClick#3] - ItemId: ${event.id} Slot: ${event.slot} WidgetId: ${event.widgetId}"))
         }
 		
 		when(event.id) {

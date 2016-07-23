@@ -13,7 +13,7 @@ class DebugCommand : Command() {
 
     override fun execute(player: Player, parser: CommandParser): Boolean {
         player.attr().toggle(Player.DEBUG_KEY)
-        player.send(ServerMessagePacket("[debug= ${player.attr().get(Player.DEBUG_KEY)}]"))
+        player.queuePacket(ServerMessagePacket("[debug= ${player.attr().get(Player.DEBUG_KEY)}]"))
         return true
     }
 
