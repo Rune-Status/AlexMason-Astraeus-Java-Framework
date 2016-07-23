@@ -101,10 +101,19 @@ public final class IncomingPacket {
 	 */
 	public static final int EQUIP_ITEM = 41;
 
+	/**
+	 * Send when a player uses the first option of an object.
+	 */
 	public static final int OBJECT_OPTION_1 = 132;
 
+	/**
+	 * Send when a player uses the second option of an object.
+	 */
 	public static final int OBJECT_OPTION_2 = 252;
 
+	/**
+	 * Send when a player uses the third option of an object.
+	 */
 	public static final int OBJECT_OPTION_3 = 70;
 
 	/**
@@ -198,7 +207,7 @@ public final class IncomingPacket {
 	public static final int MAGIC_ON_ITEMS = 237;
 
 	/**
-	 * Sent when a player uses magic on a mob.
+	 * Sent when a player uses magic on an npc.
 	 */
 	public static final int MAGIC_ON_NPC = 131;
 
@@ -206,6 +215,11 @@ public final class IncomingPacket {
 	 * Sent when a player attempts to cast magic on another player.
 	 */
 	public static final int MAGIC_ON_PLAYER = 249;
+	
+	/**
+	 * Sent when a player uses a spell on a ground item.
+	 */
+	public static final int MAGIC_ON_GROUND_ITEM = 181;
 
 	/**
 	 * Sent when a player moves an item from one slot to another.
