@@ -8,7 +8,7 @@ import astraeus.net.packet.Sendable;
 
 import java.util.Optional;
 
-public final class SetWidgetTextPacket implements Sendable {
+public final class UpdateSkillPacket implements Sendable {
 
 	private final int id;
 
@@ -16,11 +16,11 @@ public final class SetWidgetTextPacket implements Sendable {
 
 	private final int experience;
 
-	public SetWidgetTextPacket(int id) {
+	public UpdateSkillPacket(int id) {
 		this(id, 99, 14_000_000);
 	}
 
-	public SetWidgetTextPacket(int id, int level, int experience) {
+	public UpdateSkillPacket(int id, int level, int experience) {
 		this.id = id;
 		this.level = level;
 		this.experience = experience;

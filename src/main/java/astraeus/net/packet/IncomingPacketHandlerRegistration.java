@@ -114,5 +114,8 @@ public final class IncomingPacketHandlerRegistration {
 		registerHandler(new ItemOnPlayerPacket());
 		registerHandler(new MovementPacket());
 		registerHandler(new EquipItemPacket());
+		registerHandler(new NpcFirstClickPacket());
+		registerHandler(new NpcSecondClickPacket());
+		registerHandler(new NpcThirdClickPacket());
 	}
 }

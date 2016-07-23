@@ -33,10 +33,13 @@ public class MovementPacket implements Receivable {
 			player.setInteractingEntity(null);
 		}
 		
-//		if (player.getDialogue().isPresent()) {
-//			player.send(new RemoveWidgetPacket());
-//			player.getDialogueFactory().clear();
-//		}
+		if (player.getDialogue().isPresent()) {
+			player.getDialogueFactory().clear();
+		}
+		
+		if (!player.getWidgets().isEmpty()) {
+			player.getWidgets().close();
+		}
 		
 		GamePacketReader reader = packet.getReader();
 

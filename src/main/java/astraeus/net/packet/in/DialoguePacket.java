@@ -11,12 +11,12 @@ import astraeus.net.packet.IncomingPacket.IncomingPacketOpcode;
  * @author SeVen
  */
 @IncomingPacketOpcode(40)
-public class DialoguePacket implements Receivable {
+public final class DialoguePacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
 
-		//player.getDialogueFactory().execute();
+		player.getDialogueFactory().execute();
 
 	}
 }

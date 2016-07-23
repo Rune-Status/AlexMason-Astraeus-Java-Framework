@@ -98,5 +98,15 @@
     "Vult-R"
   ],
   "version": 1.0
+},
+{
+  "name": "Dialogue button",
+  "description": "The button for handling dialogue buttons.",
+  "group": "button",
+  "base": "plugin.buttons.DialogueButton",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
 }
 ]

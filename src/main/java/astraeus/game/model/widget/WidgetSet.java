@@ -34,6 +34,25 @@ public final class WidgetSet {
 		this.player = player;
 	}
 	
+	/**
+	 * Opens a window type widget for a player.
+	 * 
+	 * @param id
+	 * 		The id of the widget.
+	 */
+	public void open(int id) {
+		open(WidgetType.WINDOW, id);
+	}
+	
+	/**
+	 * Opens a widget for a player.
+	 * 
+	 * @param type
+	 * 		The type of widget to open.
+	 * 
+	 * @param id
+	 * 		The id of the widget.
+	 */
 	public void open(WidgetType type, int id) {
 		widgets.clear();
 		switch(type) {

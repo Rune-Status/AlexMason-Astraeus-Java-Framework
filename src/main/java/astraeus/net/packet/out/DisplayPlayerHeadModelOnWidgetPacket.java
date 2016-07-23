@@ -9,11 +9,11 @@ import astraeus.net.packet.Sendable;
 
 import java.util.Optional;
 
-public final class SetPlayerHeadModelOnWidgetPacket implements Sendable {
+public final class DisplayPlayerHeadModelOnWidgetPacket implements Sendable {
 
 	private final int interfaceId;
 
-	public SetPlayerHeadModelOnWidgetPacket(int interfaceId) {
+	public DisplayPlayerHeadModelOnWidgetPacket(int interfaceId) {
 		this.interfaceId = interfaceId;
 	}
 

@@ -17,6 +17,9 @@ import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.model.location.Area;
 import astraeus.game.model.sound.Volume;
 import astraeus.game.model.widget.WidgetSet;
+import astraeus.game.model.widget.dialog.Dialogue;
+import astraeus.game.model.widget.dialog.DialogueFactory;
+import astraeus.game.model.widget.dialog.OptionDialogue;
 import astraeus.net.channel.PlayerChannel;
 import astraeus.net.packet.Sendable;
 import astraeus.net.packet.out.*;
@@ -24,6 +27,7 @@ import astraeus.util.LoggerUtils;
 import astraeus.util.StringUtils;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 public class Player extends Mob {
@@ -55,6 +59,10 @@ public class Player extends Mob {
 	private final Equipment equipment = new Equipment(this);
 	private final Bank bank = new Bank(this);
 	private final WidgetSet widgets = new WidgetSet(this);
+	
+	private DialogueFactory dialogueFactory = new DialogueFactory(this);
+	private Optional<Dialogue> dialogue = Optional.empty();
+	private Optional<OptionDialogue> optionDialogue;
 
 	public int lastMessage = 1;
 	@SuppressWarnings("unused")
@@ -94,6 +102,7 @@ public class Player extends Mob {
 	public static final AttributeKey<Boolean> SHOPPING_KEY = AttributeKey.valueOf("shopping", false);
 	public static final AttributeKey<Boolean> SOUND_KEY = AttributeKey.valueOf("sound", true);
 	public static final AttributeKey<Boolean> SPLIT_CHAT_KEY = AttributeKey.valueOf("split_chat_key", true);
+	public static final AttributeKey<Boolean> CHANGING_APPEARANCE_KEY = AttributeKey.valueOf("changing_appearance_key", false);
 
 	public static final AttributeKey<Volume> AREA_SOUND_VOLUME_KEY = AttributeKey.valueOf("area_sound_volume",
 			Volume.NORMAL);
@@ -194,7 +203,7 @@ public class Player extends Mob {
 		queuePacket(new SetWidgetConfigPacket(170, attr().get(AREA_SOUND_VOLUME_KEY).getCode()));
 		Players.createSideBarInterfaces(this, true);
 		for (int i = 0; i < 23; i++) {
-			queuePacket(new SetWidgetTextPacket(i));
+			queuePacket(new UpdateSkillPacket(i));
 		}
 		inventory.refresh();
 		equipment.refresh();
@@ -617,6 +626,30 @@ public class Player extends Mob {
 
 	public AttributeMap attr() {
 		return attr;
+	}
+	
+	public DialogueFactory getDialogueFactory() {
+		return dialogueFactory;
+	}
+
+	public void setDialogueFactory(DialogueFactory dialogueFactory) {
+		this.dialogueFactory = dialogueFactory;
+	}
+
+	public Optional<OptionDialogue> getOptionDialogue() {
+		return optionDialogue;
+	}
+
+	public void setOptionDialogue(Optional<OptionDialogue> optionDialogue) {
+		this.optionDialogue = optionDialogue;
+	}
+	
+	public Optional<Dialogue> getDialogue() {
+		return dialogue;
+	}
+	
+	public void setDialogue(final Optional<Dialogue> dialogue) {
+		this.dialogue = dialogue;
 	}
 
 	@Override
