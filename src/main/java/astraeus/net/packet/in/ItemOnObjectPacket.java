@@ -26,7 +26,7 @@ public final class ItemOnObjectPacket implements Receivable {
 		final int objectX = reader.readShort(ByteOrder.LITTLE, ByteModification.ADDITION);
 		final int itemId = reader.readShort();
 		
-		final Item item = player.getInventory().getItem(slot);
+		final Item item = player.getInventory().get(slot);
 		
 		// validate the item exists and is the correct item
 		if (item.getId() != itemId) {

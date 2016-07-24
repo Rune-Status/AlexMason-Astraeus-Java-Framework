@@ -8,9 +8,9 @@ import com.google.gson.Gson;
 
 import astraeus.game.model.entity.mob.npc.NpcSpawn;
 import astraeus.game.model.entity.mob.npc.Npcs;
-import astraeus.util.GsonParser;
+import astraeus.util.GsonObjectParser;
 
-public final class NpcSpawnParser extends GsonParser<NpcSpawn> {
+public final class NpcSpawnParser extends GsonObjectParser<NpcSpawn> {
 
 	public NpcSpawnParser() {
 		super("./data/npc/npc_spawns");

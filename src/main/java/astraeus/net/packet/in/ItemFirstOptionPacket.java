@@ -19,7 +19,7 @@ public final class ItemFirstOptionPacket implements Receivable {
 		final int slot = reader.readShort(false, ByteModification.ADDITION);
 		final int id = reader.readShort(ByteOrder.LITTLE);
 		
-		final Item item = player.getInventory().getItem(slot);
+		final Item item = player.getInventory().get(slot);
 		
 		if (item.getId() != id) {
 			return;

@@ -28,11 +28,17 @@ public class MoveItemPacket implements Receivable {
 		switch (interfaceId) {
 
 			case 3214:
-				player.getInventory().swapItems(fromSlot, toSlot);
+				player.getInventory().swap(fromSlot, toSlot);
+				player.getInventory().refresh();
 				break;
 
 			case 5382:
-
+	            if (player.isInsertItem()) {
+	                player.getBank().swap(fromSlot, toSlot);
+	            } else {
+	                player.getBank().transfer(fromSlot, toSlot);
+	            }
+	            player.getBank().refresh();
 				break;
 
 		default:

@@ -7,9 +7,9 @@ import java.util.Arrays;
 import com.google.gson.Gson;
 
 import astraeus.game.model.entity.mob.player.Equipment.EquipmentDefinition;
-import astraeus.util.GsonParser;
+import astraeus.util.GsonObjectParser;
 
-public final class EquipmentDefinitionParser extends GsonParser<EquipmentDefinition> {
+public final class EquipmentDefinitionParser extends GsonObjectParser<EquipmentDefinition> {
 
 	public EquipmentDefinitionParser() {
 		super("./data/equipment/equipment_definitions");

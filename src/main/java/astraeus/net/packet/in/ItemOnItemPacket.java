@@ -18,9 +18,9 @@ public final class ItemOnItemPacket implements Receivable {
 		final int usedWithSlot = reader.readShort();
 		final int itemUsedSlot = reader.readShort(ByteModification.ADDITION);
 		
-		final Item used = player.getInventory().getItem(itemUsedSlot);
+		final Item used = player.getInventory().get(itemUsedSlot);
 		
-		final Item with = player.getInventory().getItem(usedWithSlot);		
+		final Item with = player.getInventory().get(usedWithSlot);		
 
 		player.post(new ItemOnItemEvent(used, with));
 	}

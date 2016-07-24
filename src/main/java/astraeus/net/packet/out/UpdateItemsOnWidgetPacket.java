@@ -25,17 +25,30 @@ public final class UpdateItemsOnWidgetPacket implements Sendable {
 	@Override
 	public Optional<OutgoingPacket> writePacket(Player player) {
 		GamePacketBuilder builder = new GamePacketBuilder(53, PacketHeader.VARIABLE_SHORT);
-		builder.writeShort(id).writeShort(items.length);
+		builder.writeShort(id);
+		
+		if (items == null) {
+			builder.writeShort(0)
+			.write(0)
+			.writeShort(0, ByteModification.ADDITION, ByteOrder.LITTLE);
+			return builder.toOutgoingPacket();
+		}
+		
+		builder.writeShort(items.length);
+
 		for (final Item item : items) {
 			if (item != null) {
 				if (item.getAmount() > 254) {
-					builder.write(255).writeInt(item.getAmount(), ByteOrder.INVERSE_MIDDLE);
+					builder
+					.write(255)
+					.writeInt(item.getAmount(), ByteOrder.INVERSE_MIDDLE);
 				} else {
 					builder.write(item.getAmount());
 				}
 				builder.writeShort(item.getId() + 1, ByteModification.ADDITION, ByteOrder.LITTLE);
 			} else {
-				builder.write(0).writeShort(0, ByteModification.ADDITION, ByteOrder.LITTLE);
+				builder.write(0)
+				.writeShort(0, ByteModification.ADDITION, ByteOrder.LITTLE);
 			}
 		}
 		return builder.toOutgoingPacket();

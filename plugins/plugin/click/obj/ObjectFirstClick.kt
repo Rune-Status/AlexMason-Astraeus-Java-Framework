@@ -21,6 +21,8 @@ class ObjectFirstClick : EventSubscriber<ObjectFirstClickEvent> {
 		
 		when (event.gameObject.id) {
 			
+			2213 -> player.bank.open()
+			
 		}
 		
 	}

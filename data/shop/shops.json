@@ -1,268 +1,54 @@
 [
   {
-    "id": 0,
     "name": "General Store",
-	"currency": COINS,
-    "restock": true,
-    "canSellItems": true,
     "items": [
       {
-        "id": 590,
-        "amount": 100
+        "id": 1931,
+        "amount": 15
+      },
+      {
+        "id": 1935,
+        "amount": 15
+      },
+      {
+        "id": 1735,
+        "amount": 15
+      },
+      {
+        "id": 7156,
+        "amount": 15
       },
       {
         "id": 1755,
-        "amount": 100
+        "amount": 15
       },
       {
         "id": 2347,
-        "amount": 100
+        "amount": 15
       },
       {
-        "id": 952,
-        "amount": 100
+        "id": 550,
+        "amount": 15
       },
       {
-        "id": 946,
-        "amount": 100
+        "id": 1925,
+        "amount": 15
       },
       {
-        "id": 10010,
-        "amount": 100
-      },
-      {
-        "id": 5341,
-        "amount": 100
-      },
-      {
-        "id": 5343,
-        "amount": 100
-      },
-      {
-        "id": 5340,
-        "amount": 100
+        "id": 1923,
+        "amount": 15
       },
       {
         "id": 1540,
-        "amount": 100
+        "amount": 50
       },
       {
-        "id": 1523,
-        "amount": 30
-      },
-      {
-        "id": 314,
-        "amount": 100000
+        "id": 380,
+        "amount": 150
       }
-    ]
-  },
-  {
-    "id": 1,
-    "name": "PvP Reward Store",
-	"currency": COINS,
+    ],
     "restock": true,
-    "canSellItems": false,
-    "items": [
-      {
-        "id": 12873,
-        "amount": 100
-      },	
-      {
-        "id": 12875,
-        "amount": 100
-      },	
-      {
-        "id": 12877,
-        "amount": 100
-      },	
-      {
-        "id": 12879,
-        "amount": 100
-      },	
-      {
-        "id": 12881,
-        "amount": 100
-      },	
-      {
-        "id": 12883,
-        "amount": 100
-      },	  
-      {
-        "id": 4151,
-        "amount": 100
-      },
-      {
-        "id": 12006,
-        "amount": 100
-      },
-      {
-        "id": 11838,
-        "amount": 100
-      }	,  
-      {
-        "id": 12809,
-        "amount": 100
-      },
-      {
-        "id": 11824,
-        "amount": 100
-      },	  
-      {
-        "id": 11889,
-        "amount": 100
-      }	,	  
-      {
-        "id": 11808,
-        "amount": 100
-      }	,	  
-      {
-        "id": 11806,
-        "amount": 100
-      }	,	  
-      {
-        "id": 11804,
-        "amount": 100
-      }	,	  
-      {
-        "id": 11802,
-        "amount": 100
-      }	,	  
-      {
-        "id": 11791,
-        "amount": 100
-      }	,	
-      {
-        "id": 12902,
-        "amount": 100
-      }	,
-      {
-        "id": 12900,
-        "amount": 100
-      }	,	  
-      {
-        "id": 11908,
-        "amount": 100
-      }	,	  
-      {
-        "id": 11785,
-        "amount": 100
-      }	,
-      {
-        "id": 12924,
-        "amount": 100
-      }	,
-	  {
-        "id": 6731,
-        "amount": 100
-      }	,	  
-      {
-        "id": 6733,
-        "amount": 100
-      }	,	  
-      {
-        "id": 6735,
-        "amount": 100
-      }	,	  
-      {
-        "id": 6737,
-        "amount": 100
-      }	,	  
-      {
-        "id": 11283,
-        "amount": 100
-      }	,
-      {
-        "id": 11924,
-        "amount": 100
-      }	,
-      {
-        "id": 11926,
-        "amount": 100
-      }	,	  
-      {
-        "id": 12806,
-        "amount": 100
-      }	,	  
-      {
-        "id": 12807,
-        "amount": 100
-      }	,	  
-      {
-        "id": 12829,
-        "amount": 100
-      }	,	  
-      {
-        "id": 12831,
-        "amount": 100
-      }	,	  
-      {
-        "id": 12825,
-        "amount": 100
-      }	,	  
-      {
-        "id": 12821,
-        "amount": 100
-      }	,	  
-      {
-        "id": 12817,
-        "amount": 100
-      }	,	 
-      {
-        "id": 12929,
-        "amount": 100
-      }	,		  
-      {
-        "id": 13198,
-        "amount": 100
-      }	,	  
-      {
-        "id": 13196,
-        "amount": 100
-      },	
-      {
-        "id": 11826,
-        "amount": 100
-      },	
-      {
-        "id": 11828,
-        "amount": 100
-      },		  
-      {
-        "id": 11830,
-        "amount": 100
-      },
-      {
-        "id": 11832,
-        "amount": 100
-      },	
-      {
-        "id": 11834,
-        "amount": 100
-      },		  
-      {
-        "id": 11836,
-        "amount": 100
-      },
-      {
-        "id": 7462,
-        "amount": 100
-      },	  
-      {
-        "id": 6585,
-        "amount": 100
-      },	  
-      {
-        "id": 12436,
-        "amount": 100
-      },  
-      {
-        "id": 11840,
-        "amount": 100
-      },	  
-      {
-        "id": 12954,
-        "amount": 100
-      }	  
-    ]
-  }  
+    "canSell": true,
+    "currency": "COINS"
+  }
 ]

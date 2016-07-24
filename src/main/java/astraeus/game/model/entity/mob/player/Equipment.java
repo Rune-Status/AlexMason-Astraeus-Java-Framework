@@ -1,15 +1,8 @@
 package astraeus.game.model.entity.mob.player;
 
-import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.item.ItemContainer;
-import astraeus.game.model.entity.item.ItemDefinition;
-import astraeus.game.model.entity.mob.MobAnimation;
+import astraeus.game.model.entity.item.ItemContainerPolicy;
 import astraeus.game.model.entity.mob.player.skill.SkillRequirement;
-import astraeus.net.packet.out.SetItemModelOnWidgetPacket;
-import astraeus.net.packet.out.UpdateItemsOnWidgetPacket;
-import astraeus.net.packet.out.SetSideBarWidgetPacket;
-import astraeus.net.packet.out.SetWidgetStringPacket;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -128,6 +121,7 @@ public final class Equipment extends ItemContainer {
 		
 	}
 
+	@SuppressWarnings("unused")
 	private enum WeaponInterface {
 		WHIP(12290),
 
@@ -188,6 +182,11 @@ public final class Equipment extends ItemContainer {
 	public static final int FEET = 10;
 	public static final int RING = 12;
 	public static final int ARROWS = 13;
+	
+	/**
+	 * The player that this container belongs to.
+	 */
+	private final Player player;
 
 	/**
 	 * Creates a new {@link Equipment} container.
@@ -196,90 +195,16 @@ public final class Equipment extends ItemContainer {
 	 *            The player that owns this container.
 	 */
 	public Equipment(Player player) {
-		super(14, player);
+		super(14, ItemContainerPolicy.NORMAL);
+		this.player = player;
 	}
 	
-	@Override
-	public void add(Item item) {
-		refresh();
-	}
-
-	@Override
-	public void remove(int index, int amount) {
-		refresh();
-	}
-
-	@Override
-	public void refresh() {
-		getPlayer().queuePacket(new UpdateItemsOnWidgetPacket(1688, items));
-	}
-
-	/**
-	 * Updates the weapon for a {@link Player}.
-	 */
-	public void updateWeapon() {
-		displayWeaponsInterface();
-		if (items[Equipment.WEAPON] != null) {
-			if (ItemDefinition.getDefinitions()[items[Equipment.WEAPON].getId()].getName().contains("2h")) {
-				player.getMobAnimation().setStand(2561);
-				player.getMobAnimation().setWalk(2562);
-				player.getMobAnimation().setRun(2563);
-				return;
-			}
-			switch (items[Equipment.WEAPON].getId()) {
-
-			case 4153:
-				player.getMobAnimation().setStand(1662);
-				player.getMobAnimation().setWalk(1663);
-				player.getMobAnimation().setRun(1664);
-				break;
-
-			case 4151:
-				player.getMobAnimation().setStand(0x328);
-				player.getMobAnimation().setWalk(1660);
-				player.getMobAnimation().setRun(1661);
-				break;
-
-			default:
-				player.getMobAnimation().setStand(MobAnimation.PLAYER_STAND);
-				player.getMobAnimation().setWalk(MobAnimation.PLAYER_WALK);
-				player.getMobAnimation().setRun(MobAnimation.PLAYER_RUN);
-				break;
-			}
-		} else {
-			player.getMobAnimation().setStand(MobAnimation.PLAYER_STAND);
-			player.getMobAnimation().setWalk(MobAnimation.PLAYER_WALK);
-			player.getMobAnimation().setRun(MobAnimation.PLAYER_RUN);
-		}
-	}
-
-	private void displayWeaponsInterface() {
-		if (items[Equipment.WEAPON] == null) {
-			player.queuePacket(new SetSideBarWidgetPacket(0, 5855));
-			player.queuePacket(new SetWidgetStringPacket("Unarmed", 5857));
-		} else {
-			player.queuePacket(new SetSideBarWidgetPacket(0, getWeaponInterface()));
-			player.queuePacket(new SetWidgetStringPacket(
-					ItemDefinition.getDefinitions()[items[Equipment.WEAPON].getId()].getName(),
-					getWeaponInterface() + 3));
-			player.queuePacket(new SetItemModelOnWidgetPacket(getWeaponInterface() + 1, 200, items[Equipment.WEAPON].getId()));
-		}
-	}
-
-	private int getWeaponInterface() {
-		if (items[Equipment.WEAPON] == null) {
-			return 5855;
-		}
-
-		for (WeaponInterface wi : WeaponInterface.values()) {
-			if (ItemDefinition.getDefinitions()[items[Equipment.WEAPON].getId()].getName().toLowerCase()
-					.contains(wi.name())) {
-				return wi.getInterfaceId();
-			}
-		}
-
-		return 5855;
-	}
+    /**
+     * Refreshes the contents of this equipment container to the interface.
+     */
+    public void refresh() {
+        refresh(player, 1688);
+    }
 
 	public static boolean isFullHat(int itemId) {
 		return EquipmentDefinition.get(itemId) != null ? EquipmentDefinition.get(itemId).isFullHat() : false;

@@ -8,9 +8,9 @@ import com.google.gson.Gson;
 
 import astraeus.io.PacketSizeParser.PacketSize;
 import astraeus.net.NetworkConstants;
-import astraeus.util.GsonParser;
+import astraeus.util.GsonObjectParser;
 
-public final class PacketSizeParser extends GsonParser<PacketSize> {
+public final class PacketSizeParser extends GsonObjectParser<PacketSize> {
 
 	public PacketSizeParser() {
 		super("./data/io/packet_sizes");

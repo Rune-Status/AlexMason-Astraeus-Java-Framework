@@ -30,7 +30,7 @@ public final class ItemOnGroundItemPacket implements Receivable {
 			player.queuePacket(new ServerMessagePacket("used: " + used + " slot: " + slot + " groundItem: " + id + " x: " + x + " y: " + y + " z: " + z));
 		}
 		
-		final Item itemUsed = player.getInventory().getItem(slot);
+		final Item itemUsed = player.getInventory().get(slot);
 		
 		if (itemUsed.getId() != id) {
 			return;

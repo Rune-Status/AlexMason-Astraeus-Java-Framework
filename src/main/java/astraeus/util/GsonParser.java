@@ -1,104 +1,70 @@
 package astraeus.util;
 
 import java.io.FileReader;
-import java.io.IOException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.util.logging.Logger;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
- * A specialized parser for parsing json files.
- * 
- * @author Vult-R
+ * This class provides an easy to use google gson parser specifically designed for parsing JSON files.
+ *
+ * @author Seven
  */
-public abstract class GsonParser<T> implements Runnable {
+public abstract class GsonParser extends GenericParser {
 
 	/**
-	 * The single logger for this class.
+	 * The {@link Gson} object.
 	 */
-	private static final Logger LOGGER = LoggerUtils.getLogger(GsonParser.class);
-	
-	/**
-	 * The single instance of Gson for this parser.
-	 */
-	private static final Gson GSON = new GsonBuilder().create();
+	protected Gson builder;
 
 	/**
-	 * The path to the file being parsed.
-	 */
-	protected String path;
-
-	/**
-	 * The flag that denotes to log this result to the output stream.
-	 */
-	private boolean log;
-
-	/**
-	 * Creates a new {@link GsonParser}.
-	 * 
+	 * Creates a new {@link GsonObjectParser}.
+	 *
 	 * @param path
-	 * 		The path of the file being parsed.
+	 * 		The specified path of the json file to parse.
 	 */
 	public GsonParser(String path) {
 		this(path, true);
 	}
 
 	/**
-	 * Creates a new {@link GsonParser}.
-	 * 
+	 * Creates a new {@link GsonObjectParser}.
+	 *
 	 * @param path
-	 * 		The path of the file being parsed.
-	 * 
+	 * 		The specified path of the json file to parse.
+	 *
 	 * @param log
-	 * 		The flag to log this result.
+	 * 		The flag that denotes to log messages.
 	 */
 	public GsonParser(String path, boolean log) {
-		this.path = path;
-		this.log = log;
+		super(path, ".json", log);
+		this.builder = new GsonBuilder().create();
 	}
 
 	/**
-	 * The method that will deserialize the json file into a java object.
-	 * 
-	 * @param gson
-	 * 		The gson object
-	 * 
-	 * @param reader
-	 * 		The reader that will parse the file.
-	 * 
-	 * @throws IOException
-	 * 
-	 * @return The type as an array.
+	 * The method allows a user to modify the data as its being parsed.
+	 *
+	 * @param data
+	 * 		The {@link JsonObject} that contains all serialized information.
 	 */
-	public abstract T[] deserialize(Gson gson, FileReader reader) throws IOException;
-
-	/**
-	 * The method called after the {@link #deserialize(Gson, FileReader)} has been called.
-	 * 
-	 * @param array
-	 * 		The array that was deserialized.
-	 * 
-	 * @throw IOException
-	 */
-	public abstract void onRead(T[] array) throws IOException;
+	protected abstract void parse(JsonObject data);
 
 	@Override
-	public void run() {		
-		try (FileReader reader = new FileReader(path + ".json")) {
-			
-			T[] types = deserialize(GSON, reader);
+	public final void deserialize() {
+		try (FileReader reader = new FileReader(path.toFile())) {
+			JsonParser parser = new JsonParser();
+			JsonArray array = (JsonArray) parser.parse(reader);
 
-			onRead(types);
-
-			if (log) {
-				LOGGER.info("Loaded: " + types.length + " " + path.substring(path.lastIndexOf("/")  + 1).replaceAll("_", " "));
+			for (index = 0; index < array.size(); index++) {
+				JsonObject data = (JsonObject) array.get(index);
+				parse(data);
 			}
-
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
+
 }

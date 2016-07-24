@@ -5,7 +5,6 @@ import astraeus.game.event.Event;
 import astraeus.game.model.*;
 import astraeus.game.model.entity.EntityType;
 import astraeus.game.model.entity.item.Item;
-import astraeus.game.model.entity.item.ItemContainer;
 import astraeus.game.model.entity.mob.Mob;
 import astraeus.game.model.entity.mob.Movement;
 import astraeus.game.model.entity.mob.npc.Npc;
@@ -63,6 +62,8 @@ public class Player extends Mob {
 	private DialogueFactory dialogueFactory = new DialogueFactory(this);
 	private Optional<Dialogue> dialogue = Optional.empty();
 	private Optional<OptionDialogue> optionDialogue;
+	
+	private boolean insertItem;
 
 	public int lastMessage = 1;
 	@SuppressWarnings("unused")
@@ -85,6 +86,8 @@ public class Player extends Mob {
 	private int wildernessLevel;
 	private boolean inWilderness;
 	private boolean inMultiCombat;
+	
+	private boolean withdrawAsNote;
 
 	public static final AttributeKey<Boolean> ACCEPT_AID_KEY = AttributeKey.valueOf("accept_aid", true);
 	public static final AttributeKey<Boolean> ACTIVE_KEY = AttributeKey.valueOf("active", false);
@@ -207,9 +210,7 @@ public class Player extends Mob {
 		}
 		inventory.refresh();
 		equipment.refresh();
-		equipment.updateWeapon();
 		bank.refresh();
-		bank.initBank();
 		getRelation().updateLists(true);
 		getRelation().sendFriends();
 		queuePacket(new SetRunEnergyPacket());
@@ -458,7 +459,7 @@ public class Player extends Mob {
 			setRunEnergy(getRunEnergy() - 1);
 			queuePacket(new SetRunEnergyPacket());
 		}
-	}
+	}	
 
 	/**
 	 * Posts an event to this world's event provider.
@@ -580,7 +581,7 @@ public class Player extends Mob {
 		this.rights = rights;
 	}
 
-	public ItemContainer getInventory() {
+	public Inventory getInventory() {
 		return inventory;
 	}
 
@@ -650,7 +651,35 @@ public class Player extends Mob {
 	
 	public void setDialogue(final Optional<Dialogue> dialogue) {
 		this.dialogue = dialogue;
+	}	
+
+	public boolean isWithdrawAsNote() {
+		return withdrawAsNote;
 	}
+
+	public void setWithdrawAsNote(boolean withdrawAsNote) {
+		this.withdrawAsNote = withdrawAsNote;
+	}
+	
+    /**
+     * Determines if items should be inserted when banking.
+     *
+     * @return {@code true} if items should be inserted, {@code false}
+     *         otherwise.
+     */
+    public boolean isInsertItem() {
+        return insertItem;
+    }
+
+    /**
+     * Sets the value for {@link Player#insertItem}.
+     *
+     * @param insertItem
+     *            the new value to set.
+     */
+    public void setInsertItem(boolean insertItem) {
+        this.insertItem = insertItem;
+    }    
 
 	@Override
 	public int getHashCode() {

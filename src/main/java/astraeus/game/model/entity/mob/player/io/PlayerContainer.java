@@ -26,9 +26,9 @@ public final class PlayerContainer {
      *        Any attributes that are placed in here will be serialized.
      */
     public PlayerContainer(Player player) {
-        inventory = player.getInventory().getItems();
-        equipment = player.getEquipment().getItems();
-        bank = player.getBank().getItems();
+        inventory = player.getInventory().container();
+        equipment = player.getEquipment().container();
+        bank = player.getBank().container();
     }
 
     public Item[] getInventory() {

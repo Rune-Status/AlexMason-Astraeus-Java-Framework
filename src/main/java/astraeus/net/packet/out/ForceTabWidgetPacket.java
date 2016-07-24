@@ -9,11 +9,11 @@ import astraeus.net.packet.Sendable;
 
 import java.util.Optional;
 
-public final class DisplayTabWidgetPacket implements Sendable {
+public final class ForceTabWidgetPacket implements Sendable {
 
 	private final int id;
 
-	public DisplayTabWidgetPacket(int id) {
+	public ForceTabWidgetPacket(int id) {
 		this.id = id;
 	}
 

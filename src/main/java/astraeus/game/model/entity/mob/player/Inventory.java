@@ -2,113 +2,68 @@ package astraeus.game.model.entity.mob.player;
 
 import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.item.ItemContainer;
-import astraeus.game.model.entity.item.ItemDefinition;
-import astraeus.net.packet.out.UpdateItemsOnWidgetPacket;
+import astraeus.game.model.entity.item.ItemContainerPolicy;
 import astraeus.net.packet.out.ServerMessagePacket;
 
 /**
- * Resembles the inventory of a {@link Player}.
+ * The container that manages the inventory for a player.
  *
- * @author Seven
+ * @author lare96 <http://github.com/lare96>
  */
 public final class Inventory extends ItemContainer {
 
     /**
-     * Creates a new {@link Inventory}.
+     * The player who's inventory is being managed.
+     */
+    private final Player player;
+
+    /**
+     * Create a new {@link Inventory}.
      *
      * @param player
-     *      The player who owns this container.
+     *            the player who's inventory is being managed.
      */
     public Inventory(Player player) {
-        super(28, player);
+        super(28, ItemContainerPolicy.NORMAL);
+        this.player = player;
     }
 
-    @Override
-    public void add(Item item) {
-
-        if (!canHold(item.getId())) {
-            player.queuePacket(new ServerMessagePacket("You don't have the required inventory space to hold this item."));
-            return;
-        }
-
-        for (int slot = 0; slot < getCapacity(); slot ++) {
-
-            if (items[slot] == null) {
-                continue;
-            }
-
-            if (items[slot].getId() == item.getId()) {
-                if (ItemDefinition.getDefinitions()[item.getId()].isStackable()) {
-                    items[slot].setAmount(items[slot].getAmount() + item.getAmount());
-                    refresh();
-                    return;
-                }
-            }
-
-        }
-
-        if (!ItemDefinition.getDefinitions()[item.getId()].isStackable() && item.getAmount() > 1) {
-
-            int itemAmount = item.getAmount();
-
-            for (int amount = 0; amount < itemAmount; amount ++) {
-                for (int slot = 0; slot < getCapacity(); slot ++) {
-                    if (items[slot] == null) {
-                        items[slot] = item;
-                        item.setAmount(1);
-                        break;
-                    }
-                }
-            }
-
-            refresh();
-            return;
-        }
-
-        for (int slot = 0; slot < getCapacity(); slot ++) {
-
-            if (items[slot] == null) {
-                items[slot] = item;
-                refresh();
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void remove(int index, int amount) {
-
-        int deleteCount = 0;
-
-        for (int slot = 0; slot < getCapacity(); slot ++) {
-
-            if (items[slot] == null) {
-                continue;
-            }
-
-            if (items[slot].getId() == index) {
-
-                if (deleteCount == amount) {
-                    break;
-                }
-
-                if (items[slot].getAmount() > amount && ItemDefinition.getDefinitions()[index].isStackable()) {
-                    items[slot].setAmount(items[slot].getAmount() - amount);
-                    refresh();
-                    break;
-                }
-
-                items[slot] = new Item(-1, 0);
-                items[slot] = null;
-                refresh();
-                deleteCount ++;
-            }
-        }
-    }
-
-    @Override
+    /**
+     * Refreshes the contents of this inventory container to the interface.
+     */
     public void refresh() {
-        player.queuePacket(new UpdateItemsOnWidgetPacket(3214, items));
+        refresh(player, 3214);
     }
 
+    @Override
+    public boolean add(Item item, int slot) {
+        if (!Item.valid(item))
+            return false;
+        if (!contains(item.getId()) && !item.definition().isStackable()) {
+            if (freeSlot() == -1) {
+                player.queuePacket(new ServerMessagePacket("You don't have enough space in your inventory!"));
+                return false;
+            }
+        }
+        boolean val = super.add(item, slot);
+        refresh();
+        return val;
+    }
+
+    @Override
+    public boolean add(Item item) {
+        return add(item, -1);
+    }
+
+    @Override
+    public boolean remove(Item item, int slot) {
+        boolean val = super.remove(item, slot);
+        refresh();
+        return val;
+    }
+
+    @Override
+    public boolean remove(Item item) {
+        return remove(item, -1);
+    }
 }

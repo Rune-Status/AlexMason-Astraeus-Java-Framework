@@ -11,6 +11,7 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.task.Task;
 import astraeus.game.task.TaskManager;
 import astraeus.plugin.PluginService;
+import astraeus.util.LoggerUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -26,7 +27,7 @@ public final class World {
 	/**
 	 * The single logger for this class.
 	 */
-	public final Logger logger = Logger.getLogger(World.class.getName());
+	public final Logger logger = LoggerUtils.getLogger(World.class);
 
 	/**
 	 * The collection of players in the game world.
@@ -41,22 +42,22 @@ public final class World {
 	/**
 	 * The {@link Set} of banned hosts.
 	 */
-	private final Set<String> IP_BANS = new HashSet<>();
+	private final Set<String> ipBans = new HashSet<>();	
 
 	/**
 	 * The {@link Set} of banned mac addresses.
 	 */
-	private final Set<String> BANNED_UUIDS = new HashSet<>();
+	private final Set<String> bannedUUIDs = new HashSet<>();
 
 	/**
 	 * The {@link Player}s waiting to login.
 	 */
-	private final Queue<Player> LOGINS = new ConcurrentLinkedQueue<>();
+	private final Queue<Player> logins = new ConcurrentLinkedQueue<>();
 
 	/**
 	 * The {@link Player}s waiting to logout.
 	 */
-	private final Queue<Player> LOGOUTS = new ConcurrentLinkedQueue<>();
+	private final Queue<Player> logouts = new ConcurrentLinkedQueue<>();
 
 	/**
 	 * This worlds event provider.
@@ -66,7 +67,7 @@ public final class World {
 	/**
 	 * The service for plugins.
 	 */
-	private final PluginService PLUGIN_SERVICE = new PluginService();	
+	private final PluginService pluginService = new PluginService();	
 	
 	/**
 	 * The tasks for this world.
@@ -123,8 +124,8 @@ public final class World {
 	 * @param player
 	 */
 	public void queueLogin(Player player) {
-		if (player.getSession() != null && !LOGINS.contains(player)) {
-			LOGINS.add(player);
+		if (player.getSession() != null && !logins.contains(player)) {
+			logins.add(player);
 		}
 	}
 	
@@ -133,7 +134,7 @@ public final class World {
 	 */
 	public void dequeueLogin() {
 		for (int index = 0; index < GameConstants.LOGIN_LIMIT; index++) {
-			Player player = LOGINS.poll();
+			Player player = logins.poll();
 
 			if (player == null) {
 				break;
@@ -149,8 +150,8 @@ public final class World {
 	 * @param player
 	 */
 	public void queueLogout(Player player) {
-		if (player != null && !LOGOUTS.contains(player)) {
-			LOGOUTS.add(player);
+		if (player != null && !logouts.contains(player)) {
+			logouts.add(player);
 		}
 	}
 	
@@ -158,8 +159,8 @@ public final class World {
 	 * The function that logs out players from the game world.
 	 */
 	public void dequeueLogout() {
-		for(int index = 0; index < LOGOUTS.size(); index++) {
-			Player player = LOGOUTS.poll();
+		for(int index = 0; index < logouts.size(); index++) {
+			Player player = logouts.poll();
 			
 			if (player == null || index >= GameConstants.LOGOUT_LIMIT) {
 				break;
@@ -243,8 +244,8 @@ public final class World {
 	 * 
 	 * @return The queue containing players logging in.
 	 */
-	public Queue<Player> getLogins() {
-		return LOGINS;
+	public Queue<Player> getLogins() {		
+		return logins;
 	}
 
 	/**
@@ -252,8 +253,8 @@ public final class World {
 	 * 
 	 * @return The queue containing players logging out.
 	 */
-	public Queue<Player> getLogouts() {
-		return LOGOUTS;
+	public Queue<Player> getLogouts() {		
+		return logouts;
 	}
 
 	/**
@@ -262,7 +263,7 @@ public final class World {
 	 * @return The set of banned hosts.
 	 */
 	public Set<String> getIpBans() {
-		return IP_BANS;
+		return ipBans;
 	}
 
 	/**
@@ -270,15 +271,19 @@ public final class World {
 	 *
 	 * @return The set of banned mac addresses.
 	 */
-	public Set<String> getBannedUUIDs() {
-		return BANNED_UUIDS;
+	public Set<String> getBannedUUIDs() {			
+		return bannedUUIDs;		
+	}
+	
+	public TaskManager getTasks() {
+		return tasks;
 	}
 	
 	/**
 	 * Gets the service for plugins.
 	 */
-	public PluginService getPluginService() {
-		return PLUGIN_SERVICE;
+	public PluginService getPluginService() {		
+		return pluginService;
 	}
 	
 	public UniversalEventProvider getSubscribers() {

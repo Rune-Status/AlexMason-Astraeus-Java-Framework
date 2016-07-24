@@ -52,6 +52,14 @@ public final class Item extends Entity {
       public Item(Item item) {
             this(item.getId(), item.getAmount());
       }
+      
+      public Item copy() {
+    	  return new Item(id, amount);
+      }
+      
+      public static boolean valid(Item item) {
+          return item != null && item.id > 0 && item.amount > 0;
+      }
 
       /**
        * Adds a specified amount to this item.
@@ -203,6 +211,10 @@ public final class Item extends Entity {
       public Item noted() {
             final ItemDefinition def = ItemDefinition.getDefinitions()[getId()];
             return def.getNotedId() != -1 ? new Item(def.getNotedId(), amount) : this;
+      }
+      
+      public ItemDefinition definition() {
+    	  return ItemDefinition.lookup(id);
       }
 
       @Override

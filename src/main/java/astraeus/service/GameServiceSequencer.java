@@ -11,7 +11,10 @@ public final class GameServiceSequencer extends GameService {
 
 	@Override
 	public void runGameLoop() {
+		
 		World.world.dequeueLogin();
+		
+		World.world.getTasks().runTaskIteration();
 		
 		synchronizer.synchronize();
 		

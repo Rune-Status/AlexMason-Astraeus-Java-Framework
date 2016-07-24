@@ -22,7 +22,7 @@ public final class ItemOnNpcPacket implements Receivable {
 		final int npcSlot = reader.readShort(false, ByteModification.ADDITION);
 		final int itemSlot = reader.readShort(ByteOrder.LITTLE);
 		
-		final Item item = player.getInventory().getItem(itemSlot);
+		final Item item = player.getInventory().get(itemSlot);
 		
 		// validate the item is the correct item
 		if (item.getId() != itemId) {

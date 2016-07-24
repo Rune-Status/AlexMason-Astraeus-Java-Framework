@@ -10,9 +10,9 @@ import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.model.entity.object.GameObjectType;
 import astraeus.game.model.entity.object.GameObjects;
 import astraeus.game.model.entity.object.impl.GlobalObject;
-import astraeus.util.GsonParser;
+import astraeus.util.GsonObjectParser;
 
-public final class GlobalObjectParser extends GsonParser<GlobalObject> {
+public final class GlobalObjectParser extends GsonObjectParser<GlobalObject> {
 
 	public GlobalObjectParser() {
 		super("./data/object/global_objects");

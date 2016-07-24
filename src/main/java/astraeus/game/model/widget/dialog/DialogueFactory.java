@@ -12,7 +12,6 @@ import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.npc.NpcDefinition;
 import astraeus.game.model.entity.mob.player.Player;
-import astraeus.game.model.widget.WidgetType;
 import astraeus.net.packet.out.DisplayNpcHeadModelOnWidgetPacket;
 import astraeus.net.packet.out.DisplayPlayerHeadModelOnWidgetPacket;
 import astraeus.net.packet.out.RemoveWidgetPacket;
@@ -299,7 +298,7 @@ public final class DialogueFactory {
 				player.queuePacket(new SetWidgetStringPacket(StringUtils.formatName(player.getUsername()), 970));
 				player.queuePacket(new SetWidgetStringPacket(appendKeywords(lines[0]), 971));
 				player.queuePacket(new DisplayPlayerHeadModelOnWidgetPacket(969));
-				player.getWidgets().open(WidgetType.CHAT_BOX, 968);
+				player.getWidgets().openChatBoxWidget(968);
 				break;
 
 			case 2:
@@ -308,7 +307,7 @@ public final class DialogueFactory {
 				player.queuePacket(new SetWidgetStringPacket(appendKeywords(lines[0]), 976));
 				player.queuePacket(new SetWidgetStringPacket(appendKeywords(lines[1]), 977));
 				player.queuePacket(new DisplayPlayerHeadModelOnWidgetPacket(974));
-				player.getWidgets().open(WidgetType.CHAT_BOX, 973);
+				player.getWidgets().openChatBoxWidget(973);
 				break;
 
 			case 3:
@@ -318,7 +317,7 @@ public final class DialogueFactory {
 				player.queuePacket(new SetWidgetStringPacket(appendKeywords(lines[1]), 983));
 				player.queuePacket(new SetWidgetStringPacket(appendKeywords(lines[2]), 984));
 				player.queuePacket(new DisplayPlayerHeadModelOnWidgetPacket(980));
-				player.getWidgets().open(WidgetType.CHAT_BOX, 979);
+				player.getWidgets().openChatBoxWidget(979);
 				break;
 
 			case 4:
@@ -329,7 +328,7 @@ public final class DialogueFactory {
 				player.queuePacket(new SetWidgetStringPacket(appendKeywords(lines[2]), 991));
 				player.queuePacket(new SetWidgetStringPacket(appendKeywords(lines[3]), 992));
 				player.queuePacket(new DisplayPlayerHeadModelOnWidgetPacket(987));
-				player.getWidgets().open(WidgetType.CHAT_BOX, 986);
+				player.getWidgets().openChatBoxWidget(986);
 				break;
 
 			default:
@@ -440,7 +439,7 @@ public final class DialogueFactory {
 			player.queuePacket(new SetWidgetStringPacket(mob.getName(), 4884));
 			player.queuePacket(new SetWidgetStringPacket(appendKeywords(lines[0]), 4885));
 			player.queuePacket(new DisplayNpcHeadModelOnWidgetPacket(mob.getId(), 4883));
-			player.getWidgets().open(WidgetType.CHAT_BOX, 4882);
+			player.getWidgets().openChatBoxWidget(4882);
 			break;
 
 		case 2:
@@ -449,7 +448,7 @@ public final class DialogueFactory {
 			player.queuePacket(new SetWidgetStringPacket(appendKeywords(lines[0]), 4890));
 			player.queuePacket(new SetWidgetStringPacket(appendKeywords(lines[1]), 4891));
 			player.queuePacket(new DisplayNpcHeadModelOnWidgetPacket(mob.getId(), 4888));
-			player.getWidgets().open(WidgetType.CHAT_BOX, 4887);
+			player.getWidgets().openChatBoxWidget(4887);
 			break;
 
 		case 3:
@@ -459,7 +458,7 @@ public final class DialogueFactory {
 			player.queuePacket(new SetWidgetStringPacket(appendKeywords(lines[1]), 4897));
 			player.queuePacket(new SetWidgetStringPacket(appendKeywords(lines[2]), 4898));
 			player.queuePacket(new DisplayNpcHeadModelOnWidgetPacket(mob.getId(), 4894));
-			player.getWidgets().open(WidgetType.CHAT_BOX, 4893);
+			player.getWidgets().openChatBoxWidget(4893);
 			break;
 
 		case 4:
@@ -470,7 +469,7 @@ public final class DialogueFactory {
 			player.queuePacket(new SetWidgetStringPacket(appendKeywords(lines[2]), 4905));
 			player.queuePacket(new SetWidgetStringPacket(appendKeywords(lines[3]), 4906));
 			player.queuePacket(new DisplayNpcHeadModelOnWidgetPacket(mob.getId(), 4901));
-			player.getWidgets().open(WidgetType.CHAT_BOX, 4900);
+			player.getWidgets().openChatBoxWidget(4900);
 			break;
 
 		default:
@@ -608,7 +607,7 @@ public final class DialogueFactory {
 			player.queuePacket(new SetWidgetStringPacket("Select an Option", 2460));
 			player.queuePacket(new SetWidgetStringPacket(options[0], 2461));
 			player.queuePacket(new SetWidgetStringPacket(options[1], 2462));
-			player.getWidgets().open(WidgetType.CHAT_BOX, 2459);
+			player.getWidgets().openChatBoxWidget(2459);
 			return this;
 			
 		case 3:
@@ -616,7 +615,7 @@ public final class DialogueFactory {
 			player.queuePacket(new SetWidgetStringPacket(options[0], 2471));
 			player.queuePacket(new SetWidgetStringPacket(options[1], 2472));
 			player.queuePacket(new SetWidgetStringPacket(options[2], 2473));
-			player.getWidgets().open(WidgetType.CHAT_BOX, 2469);
+			player.getWidgets().openChatBoxWidget(2469);
 			return this;
 			
 		case 4:
@@ -625,7 +624,7 @@ public final class DialogueFactory {
 			player.queuePacket(new SetWidgetStringPacket(options[1], 2483));
 			player.queuePacket(new SetWidgetStringPacket(options[2], 2484));
 			player.queuePacket(new SetWidgetStringPacket(options[3], 2485));
-			player.getWidgets().open(WidgetType.CHAT_BOX, 2480);
+			player.getWidgets().openChatBoxWidget(2480);
 			return this;
 			
 		case 5:
@@ -635,7 +634,7 @@ public final class DialogueFactory {
 			player.queuePacket(new SetWidgetStringPacket(options[2], 2496));
 			player.queuePacket(new SetWidgetStringPacket(options[3], 2497));
 			player.queuePacket(new SetWidgetStringPacket(options[4], 2498));
-			player.getWidgets().open(WidgetType.CHAT_BOX, 2492);
+			player.getWidgets().openChatBoxWidget(2492);
 			return this;
 		}
 		return this;
@@ -667,25 +666,25 @@ public final class DialogueFactory {
 
 		case 1:
 			player.queuePacket(new SetWidgetStringPacket(dialogue.getLines()[0], 357));
-			player.getWidgets().open(WidgetType.CHAT_BOX, 356);
+			player.getWidgets().openChatBoxWidget(356);
 			break;
 		case 2:
 			player.queuePacket(new SetWidgetStringPacket(dialogue.getLines()[0], 360));
 			player.queuePacket(new SetWidgetStringPacket(dialogue.getLines()[1], 361));
-			player.getWidgets().open(WidgetType.CHAT_BOX, 359);
+			player.getWidgets().openChatBoxWidget(359);
 			break;
 		case 3:
 			player.queuePacket(new SetWidgetStringPacket(dialogue.getLines()[0], 364));
 			player.queuePacket(new SetWidgetStringPacket(dialogue.getLines()[1], 365));
 			player.queuePacket(new SetWidgetStringPacket(dialogue.getLines()[2], 366));
-			player.getWidgets().open(WidgetType.CHAT_BOX, 363);
+			player.getWidgets().openChatBoxWidget(363);
 			break;
 		case 4:
 			player.queuePacket(new SetWidgetStringPacket(dialogue.getLines()[0], 369));
 			player.queuePacket(new SetWidgetStringPacket(dialogue.getLines()[1], 370));
 			player.queuePacket(new SetWidgetStringPacket(dialogue.getLines()[2], 371));
 			player.queuePacket(new SetWidgetStringPacket(dialogue.getLines()[3], 372));
-			player.getWidgets().open(WidgetType.CHAT_BOX, 368);
+			player.getWidgets().openChatBoxWidget(368);
 			break;
 		case 5:
 			player.queuePacket(new SetWidgetStringPacket(dialogue.getLines()[0], 375));
@@ -693,7 +692,7 @@ public final class DialogueFactory {
 			player.queuePacket(new SetWidgetStringPacket(dialogue.getLines()[2], 377));
 			player.queuePacket(new SetWidgetStringPacket(dialogue.getLines()[3], 378));
 			player.queuePacket(new SetWidgetStringPacket(dialogue.getLines()[4], 379));
-			player.getWidgets().open(WidgetType.CHAT_BOX, 374);
+			player.getWidgets().openChatBoxWidget(374);
 
 		default:
 			logger.log(Level.SEVERE, String.format("Invalid statement dialogue line length: %s", dialogue.getLines().length));

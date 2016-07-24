@@ -37,6 +37,11 @@ public final class GameConstants {
 	 * The collection of locations representing multi-combat areas.
 	 */
 	public static final ImmutableList<Area> MULTIPLE_COMBAT = ImmutableList.of();
+	
+	/**
+	 * The collection of items that cannot be sold/bought from shops.
+	 */
+	public static final ImmutableList<Integer> INVALID_SHOP_ITEMS  = ImmutableList.of(995);
 
 	/**
 	 * The maximum amount of players that can be logged in on a single game

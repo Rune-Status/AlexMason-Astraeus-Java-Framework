@@ -5,7 +5,7 @@ import java.util.Map;
 
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.packet.out.DisplayChatBoxWidgetPacket;
-import astraeus.net.packet.out.DisplayTabWidgetPacket;
+import astraeus.net.packet.out.DisplayInventoryWidgetPacket;
 import astraeus.net.packet.out.DisplayWidgetPacket;
 import astraeus.net.packet.out.RemoveWidgetPacket;
 
@@ -34,41 +34,22 @@ public final class WidgetSet {
 		this.player = player;
 	}
 	
-	/**
-	 * Opens a window type widget for a player.
-	 * 
-	 * @param id
-	 * 		The id of the widget.
-	 */
-	public void open(int id) {
-		open(WidgetType.WINDOW, id);
+	public void openChatBoxWidget(int id) {
+		widgets.clear();
+		player.queuePacket(new DisplayChatBoxWidgetPacket(id));
+		widgets.put(WidgetType.CHAT_BOX, id);
 	}
 	
-	/**
-	 * Opens a widget for a player.
-	 * 
-	 * @param type
-	 * 		The type of widget to open.
-	 * 
-	 * @param id
-	 * 		The id of the widget.
-	 */
-	public void open(WidgetType type, int id) {
+	public void openInventoryWidget(int widgetId, int sidebarId) {
 		widgets.clear();
-		switch(type) {
-		case CHAT_BOX:	
-			player.queuePacket(new DisplayChatBoxWidgetPacket(id));
-			break;
-			
-		case TAB:
-			player.queuePacket(new DisplayTabWidgetPacket(id));
-			break;
-			
-		case WINDOW:
-			player.queuePacket(new DisplayWidgetPacket(id));
-			break;		
-		}
-		widgets.put(type, id);
+		player.queuePacket(new DisplayInventoryWidgetPacket(widgetId, sidebarId));
+		widgets.put(WidgetType.INVENTORY, widgetId);
+	}
+	
+	public void open(int id) {
+		widgets.clear();
+		player.queuePacket(new DisplayWidgetPacket(id));
+		widgets.put(WidgetType.WINDOW, id);
 	}
 	
 	/**

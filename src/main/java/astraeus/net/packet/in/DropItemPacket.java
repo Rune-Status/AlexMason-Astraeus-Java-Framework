@@ -31,7 +31,7 @@ public final class DropItemPacket implements Receivable {
 
         final int slot = reader.readShort(false, ByteModification.ADDITION);
         
-        final Item item = player.getInventory().getItem(slot);
+        final Item item = player.getInventory().get(slot);
         
         if (item == null) {
         	return;

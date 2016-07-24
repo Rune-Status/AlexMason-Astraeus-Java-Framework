@@ -7,9 +7,9 @@ import java.util.Arrays;
 import com.google.gson.Gson;
 
 import astraeus.game.model.entity.mob.npc.NpcDefinition;
-import astraeus.util.GsonParser;
+import astraeus.util.GsonObjectParser;
 
-public final class NpcDefinitionParser extends GsonParser<NpcDefinition> {
+public final class NpcDefinitionParser extends GsonObjectParser<NpcDefinition> {
 
 	public NpcDefinitionParser() {
 		super("./Data/npc/npc_definitions");

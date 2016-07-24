@@ -7,14 +7,14 @@ import java.util.Arrays;
 import com.google.gson.Gson;
 
 import astraeus.game.model.entity.item.ItemDefinition;
-import astraeus.util.GsonParser;
+import astraeus.util.GsonObjectParser;
 
 /**
- * The {@link GsonParser} implementation that will parse item definitions.
+ * The {@link GsonObjectParser} implementation that will parse item definitions.
  * 
  * @author Vult-R
  */
-public final class ItemDefinitionParser extends GsonParser<ItemDefinition> {
+public final class ItemDefinitionParser extends GsonObjectParser<ItemDefinition> {
 
 	/**
 	 * Creates a new {@link ItemDefinitionParser}.

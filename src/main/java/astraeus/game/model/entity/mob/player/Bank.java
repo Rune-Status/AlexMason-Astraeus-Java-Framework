@@ -2,220 +2,206 @@ package astraeus.game.model.entity.mob.player;
 
 import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.item.ItemContainer;
-import astraeus.game.model.entity.item.ItemDefinition;
+import astraeus.game.model.entity.item.ItemContainerPolicy;
 import astraeus.net.packet.out.SetWidgetConfigPacket;
 import astraeus.net.packet.out.DisplayInventoryWidgetPacket;
 import astraeus.net.packet.out.UpdateItemsOnWidgetPacket;
 import astraeus.net.packet.out.ServerMessagePacket;
 
 /**
- * Resembles the bank of a {@link Player}.
+ * The container that manages the bank for a player.
  *
- * @author Seven
+ * @author lare96 <http://github.com/lare96>
  */
 public final class Bank extends ItemContainer {
 
     /**
-     * The flag that denotes a player is banking.
+     * The player who's bank is being managed.
      */
-    private boolean banking;
-
-    /**
-     * The flag that denotes to withdraw this item as a noted item.
-     */
-    private boolean note;
-
-    /**
-     * The flag that denotes the bank can swap items.
-     */
-    private boolean swap;
+    private final Player player;
 
     /**
      * Creates a new {@link Bank}.
      *
      * @param player
-     *      The player that owns this container.
+     *            the player who's bank is being managed.
      */
     public Bank(Player player) {
-        super(352, player);
+        super(250, ItemContainerPolicy.STACK_ALWAYS);
+        this.player = player;
     }
 
     /**
-     * The method that wil open up the bank.
+     * Opens and refreshes the bank for {@code player}.
      */
     public void open() {
-        setBanking(true);
+        shift();
+        player.setWithdrawAsNote(false);
+        player.queuePacket(new SetWidgetConfigPacket(116, 0));
         player.queuePacket(new DisplayInventoryWidgetPacket(5292, 5063));
-        player.queuePacket(new UpdateItemsOnWidgetPacket(5064, player.getInventory().getItems()));
-        player.queuePacket(new UpdateItemsOnWidgetPacket(5382, items));
-    }
-
-    /**
-     * The method that will withdraw an item from this bank.
-     *
-     * @param amount
-     *      The amount to remove
-     *
-     * @param slot
-     *      The index of the item to remove.
-     */
-    public void withdrawItem(final int amount, final int slot) {
-
-        if (items[slot].getAmount() < 0) {
-            return;
-        }
-
-        if (player.getInventory().getFreeSlots() == 0) {
-            player.queuePacket(new ServerMessagePacket("There is not enough room in your inventory to withdraw this item."));
-            return;
-        }
-
-        if (!player.getInventory().canHold(items[slot].getId())) {
-            player.queuePacket(new ServerMessagePacket("There is not enough room in your inventory to withdraw this item."));
-            return;
-        }
-
-        int calculatedAmount = amount;
-
-        if (calculatedAmount > player.getInventory().getFreeSlots() && !isNote()) {
-            calculatedAmount = player.getInventory().getFreeSlots();
-        } else if (isNote()) {
-            calculatedAmount = amount;
-        }
-
-        if (isNote()) {
-            if (!ItemDefinition.getDefinitions()[items[slot].getId() + 1].isNoted()) {
-                player.getInventory().add(new Item(items[slot].getId(), calculatedAmount));
-                player.queuePacket(new ServerMessagePacket("This item cannot be withdraw from your bank account as a note."));
-            } else {
-                player.getInventory().add(new Item(items[slot].getId() + 1, calculatedAmount));
-            }
-        } else {
-            player.getInventory().add(new Item(items[slot].getId(), calculatedAmount));
-        }
-
-        for (int i = 0; i < getCapacity(); i ++) {
-            if (i == slot && items[slot] != null) {
-
-                if (calculatedAmount >= items[slot].getAmount()) {
-                    items[slot] = new Item(-1, 0);
-                }
-
-                if (calculatedAmount < items[slot].getAmount()) {
-                    items[slot].setAmount(items[slot].getAmount() - calculatedAmount);
-                }
-
-                if (items[slot].getId() == -1) {
-                    items[slot] = null;
-                }
-
-            }
-        }
-
-        shiftItems();
         refresh();
+        player.queuePacket(new UpdateItemsOnWidgetPacket(5064, player.getInventory().container()));
     }
 
     /**
-     * The method that will add an item to this bank.
+     * Refreshes the contents of this bank container to the interface.
+     */
+    public void refresh() {
+        refresh(player, 5382);
+    }
+
+    /**
+     * Deposits an item to this bank that currently exists in the player's
+     * inventory. This is used for when a player is manually depositing an item
+     * using the banking interface.
+     *
+     * @param inventorySlot
+     *            the slot from the player's inventory.
+     * @param amount
+     *            the amount of the item being deposited.
+     * @return {@code true} if the item was deposited, {@code false} otherwise.
+     */
+    public boolean depositFromInventory(int inventorySlot, int amount) {
+        Item invItem = player.getInventory().get(inventorySlot);
+        if(invItem == null)
+            return false;
+        Item item = new Item(invItem.getId(), amount);
+        int count = player.getInventory().amount(item.getId());
+
+        if (item.getAmount() > count) {
+            item.setAmount(count);
+        }
+
+        if (deposit(item.copy())) {
+            player.getInventory().remove(item, inventorySlot);
+            refresh();
+            player.queuePacket(new UpdateItemsOnWidgetPacket(5064, player.getInventory().container()));
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Deposits {@code item} directly into this bank.
      *
      * @param item
-     *      The item to add.
-     *
-     * @param slot
-     *      The slot to add this item.
+     *            the item to deposit into this bank.
+     * @return {@code true} if the item was deposited, {@code false} otherwise.
      */
-    public void depositItem(final Item item, final int slot) {
-
-        if (item.getAmount() < 0) {
-            return;
+    public boolean deposit(Item item) {
+        
+        item = item.definition().isNoted() ? new Item(item.getId()  -1, item.getAmount()) : item;
+        
+        int slot = freeSlot();
+        boolean contains = contains(item.getId());
+        if (slot == -1 && !contains) {
+            player.queuePacket(new ServerMessagePacket("You don't have enough space to " + "deposit this item!"));
+            return false;
         }
-
-        if (getFreeSlots() == 0) {
-            player.queuePacket(new ServerMessagePacket("There is not enough room in your bank account to deposit this item."));
-            return;
-        }
-
-        int amount = item.getAmount();
-        int index = item.getId();
-
-        if (amount > player.getInventory().getItemAmount(item.getId())) {
-            amount = player.getInventory().getItemAmount(item.getId());
-        }
-
-        if (ItemDefinition.getDefinitions()[index].isNoted()) {
-            index -= 1;
-        }
-
-        for (int i = 0; i < getCapacity(); i ++) {
-            if (items[i] == null) {
-                set(i, new Item(index, amount));
-                break;
-            }
-
-            if (items[i].getId() == index && items[i] != null) {
-                set(i, new Item(index, amount + items[i].getAmount()));
-                break;
-            }
-        }
-
-        if (amount > 1) {
-            player.getInventory().remove(item.getId(), amount);
-        } else {
-            player.getInventory().removeFromSlot(slot, 1);
-        }
-
-        refresh();
+        int itemId = item.definition().isNoted() ? item.getId() - 1 : item.getId();
+        if (!contains)
+            return super.add(new Item(itemId, item.getAmount()), slot);
+        get(searchSlot(itemId)).add(item.getAmount());
+        return true;
     }
 
     /**
-     * The method that will initialize bank configs.
+     * Withdraws an item from this bank from the {@code bankSlot} slot. This is
+     * used for when a player is manually withdrawing an item using the banking
+     * interface.
+     *
+     * @param bankSlot
+     *            the slot from the player's bank.
+     * @param amount
+     *            the amount of the item being withdrawn.
+     * @param addItem
+     *            if the item should be added back into the player's inventory
+     *            after being withdrawn.
+     * @return {@code true} if the item was withdrawn, {@code false} otherwise.
      */
-    public void initBank() {
-        setSwap(true);
-        player.queuePacket(new SetWidgetConfigPacket(304, 0));
-        player.queuePacket(new SetWidgetConfigPacket(115, 0));
-    }
+    public boolean withdraw(int bankSlot, int amount, boolean addItem) {
 
-    @Override
-    public void refresh() {
-        getPlayer().queuePacket(new UpdateItemsOnWidgetPacket(5382, getPlayer().getBank().items));
-        getPlayer().queuePacket(new UpdateItemsOnWidgetPacket(5064, getPlayer().getInventory().getItems()));
-    }
+        Item item = new Item(get(bankSlot).getId(), amount);
+        boolean withdrawItemNoted = item.definition().isNoteable();
+        int withdrawAmount = amount(item.getId());
 
-    @Override
-    public void add(Item item) {
+        if (player.isWithdrawAsNote() && !withdrawItemNoted) {
+            player.queuePacket(new ServerMessagePacket("This item can't be withdrawn as " + "a note."));
+            player.setWithdrawAsNote(false);
+            player.queuePacket(new SetWidgetConfigPacket(115, 0));
+        }
+
+        if (free(bankSlot)) {
+            return false;
+        }
+
+        if (item.getAmount() > withdrawAmount) {
+            item.setAmount(withdrawAmount);
+        }
+
+        if (item.getAmount() > player.getInventory().remaining() && !item.definition().isStackable() && !player.isWithdrawAsNote()) {
+            item.setAmount(player.getInventory().remaining());
+        }
+
+        if (!item.definition().isStackable() && !item.definition().isNoted() && !player.isWithdrawAsNote()) {
+            if (player.getInventory().remaining() < item.getAmount()) {
+                player.queuePacket(new ServerMessagePacket("You do not have enough space" + " in your inventory!"));
+                return false;
+            }
+        } else {
+            if (player.getInventory().remaining() < 1 && !player.getInventory().contains(
+                !player.isWithdrawAsNote() ? item.getId() : item.getId() + 1)) {
+                player.queuePacket(new ServerMessagePacket("You do not have enough space" + " in your inventory!"));
+                return false;
+            }
+        }
+
+        super.remove(item, bankSlot);
+        if (player.isWithdrawAsNote()) {
+            item = new Item(item.getId() + 1, item.getAmount());
+        }
+        if (addItem)
+            player.getInventory().add(item);
         refresh();
+        player.queuePacket(new UpdateItemsOnWidgetPacket(5064, player.getInventory().container()));
+        return true;
     }
 
+    /**
+     * Withdraws {@code item} from this bank.
+     *
+     * @param item
+     *            the item to withdraw.
+     * @param addItem
+     *            if the item should be added back into the player's inventory
+     *            after being withdrawn.
+     * @return {@code true} if the item was withdrawn, {@code false} otherwise.
+     */
+    public boolean withdraw(Item item, boolean addItem) {
+        return withdraw(searchSlot(item.getId()), item.getAmount(), addItem);
+    }
+
+    /**
+     * This method is not supported by this container implementation.
+     *
+     * @throws UnsupportedOperationException
+     *             if this method is invoked by default, this method will always
+     *             throw an exception.
+     */
     @Override
-    public void remove(int index, int amount) {
-        refresh();
+    public boolean add(Item item, int slot) {
+        throw new UnsupportedOperationException("This method is not supported" + " by this container implementation!");
     }
 
-    public boolean isBanking() {
-        return banking;
+    /**
+     * This method is not supported by this container implementation.
+     *
+     * @throws UnsupportedOperationException
+     *             if this method is invoked by default, this method will always
+     *             throw an exception.
+     */
+    @Override
+    public boolean remove(Item item, int slot) {
+        throw new UnsupportedOperationException("This method is not supported" + " by this container implementation!");
     }
-
-    public void setBanking(boolean banking) {
-        this.banking = banking;
-    }
-
-    public boolean isNote() {
-        return note;
-    }
-
-    public void setNote(boolean note) {
-        this.note = note;
-    }
-
-    public boolean isSwap() {
-        return swap;
-    }
-
-    public void setSwap(boolean swap) {
-        this.swap = swap;
-    }
-
 }
-

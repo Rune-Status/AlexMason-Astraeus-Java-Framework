@@ -13,13 +13,13 @@ public enum WidgetType {
 	CHAT_BOX,
 
 	/**
-	 * A widget that appears in the game screen.
-	 */
-	WINDOW,
-
-	/**
 	 * A widget that is displayed over the inventory area.
 	 */
-	TAB,
+	INVENTORY,
+	
+	/**
+	 * A widget that appears in the game screen.
+	 */
+	WINDOW;
 	
 }

@@ -15,21 +15,32 @@ import plugin.commands.CommandParser
 class DisplayWidgetCommand : Command() {
 	
 	override fun execute(player: Player, parser: CommandParser) : Boolean {
-		if (parser.hasNext(2)) {
+		
+		if (parser.hasNext(1)) {
+			val id = parser.nextInt()
+			
+			player.widgets.open(id)
+			return true
+		} else if (parser.hasNext(2)) {
 			val type = parser.nextString();
 			
 			val id = parser.nextInt()
 			
 			when (type) {
-				"window", "w" -> player.widgets.open(WidgetType.WINDOW, id)
-				"tab", "t" -> player.widgets.open(WidgetType.TAB, id)
-				"chat", "c" -> player.widgets.open(WidgetType.CHAT_BOX, id)
+				"window", "w" -> player.widgets.open(id)
+				"chat", "c" -> player.widgets.openChatBoxWidget(id)		
 			}
 			return true
-		} else if (parser.hasNext(1)) {
+		} else if (parser.hasNext(3)) {
+			val type = parser.nextString()
+			
 			val id = parser.nextInt()
 			
-			player.widgets.open(WidgetType.WINDOW, id)
+			val sidebarId = parser.nextInt()
+			
+			when (type) {
+				"tab", "t" -> player.widgets.openInventoryWidget(id, sidebarId)
+			}
 			return true
 		}
 		return false
