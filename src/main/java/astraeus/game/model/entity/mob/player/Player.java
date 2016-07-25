@@ -59,7 +59,7 @@ public class Player extends Mob {
 	private final Equipment equipment = new Equipment(this);
 	private final Bank bank = new Bank(this);
 	private final WidgetSet widgets = new WidgetSet(this);
-	
+	private final PrayerBook prayerBook = new PrayerBook(this);
 	private DialogueFactory dialogueFactory = new DialogueFactory(this);
 	private Optional<Dialogue> dialogue = Optional.empty();
 	private Optional<OptionDialogue> optionDialogue;
@@ -67,8 +67,8 @@ public class Player extends Mob {
 	private boolean insertItem;
 
 	public int lastMessage = 1;
-	@SuppressWarnings("unused")
-	private int headIcon;
+
+	private int headIcon = -1;
 	private int combatLevel;
 	private Appearance appearance = Player.DEFAULT_APPEARANCE;
 	private PlayerRights rights = PlayerRights.PLAYER;
@@ -156,6 +156,8 @@ public class Player extends Mob {
 	@Override
 	public void tick() {
 		handleRunRestore();
+
+		prayerBook.drain();
 	}
 
 	@Override
@@ -524,6 +526,15 @@ public class Player extends Mob {
 		getUpdateFlags().add(UpdateFlag.APPEARANCE);
 	}
 
+	public int getHeadIcon() {
+		return headIcon;
+	}
+
+	public void setHeadIcon(int headIcon) {
+		this.headIcon = headIcon;
+		getUpdateFlags().add(UpdateFlag.APPEARANCE);
+	}
+
 	public void setChatMessage(ChatMessage chatMessage) {
 		this.chatMessage = chatMessage;
 	}
@@ -635,6 +646,10 @@ public class Player extends Mob {
     public void setCombatLevel(int combatLevel) {
     	this.combatLevel = combatLevel;
     }
+
+	public PrayerBook getPrayerBook() {
+		return prayerBook;
+	}
 
 	@Override
 	public int getHashCode() {

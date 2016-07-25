@@ -4,10 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import astraeus.game.model.entity.mob.player.Player;
-import astraeus.net.packet.out.DisplayChatBoxWidgetPacket;
-import astraeus.net.packet.out.DisplayInventoryWidgetPacket;
-import astraeus.net.packet.out.DisplayWidgetPacket;
-import astraeus.net.packet.out.RemoveWidgetPacket;
+import astraeus.net.packet.out.*;
 
 /**
  * A specialized set for widgets.
@@ -44,6 +41,12 @@ public final class WidgetSet {
 		widgets.clear();
 		player.queuePacket(new DisplayInventoryWidgetPacket(widgetId, sidebarId));
 		widgets.put(WidgetType.INVENTORY, widgetId);
+	}
+
+	public void openSidebarWidget(int tab, int sidebarId) {
+		widgets.clear();
+		player.queuePacket(new SetSideBarWidgetPacket(tab, sidebarId));
+		widgets.put(WidgetType.TAB, sidebarId);
 	}
 	
 	public void open(int id) {

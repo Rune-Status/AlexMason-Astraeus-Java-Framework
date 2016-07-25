@@ -41,6 +41,7 @@ public final class PostLoginEventConsumer implements EventSubscriber<PostLoginEv
 		event.getPlayer().queuePacket(new SetWidgetConfigPacket(169, event.getPlayer().attr().get(Player.SOUND_EFFECT_VOLUME_KEY).getCode()));
 		event.getPlayer().queuePacket(new SetWidgetConfigPacket(170, event.getPlayer().attr().get(Player.AREA_SOUND_VOLUME_KEY).getCode()));
 		Players.createSideBarInterfaces(event.getPlayer(), true);
+		event.getPlayer().getSkills().calculateLevels();
 		event.getPlayer().getSkills().refresh();
 		event.getPlayer().getInventory().refresh();
 		event.getPlayer().getEquipment().refresh();

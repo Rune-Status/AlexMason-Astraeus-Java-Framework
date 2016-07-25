@@ -146,6 +146,26 @@ public final class Equipment extends ItemContainer {
 	public static final int MAGIC_STRENGTH = 12;
 	public static final int PRAYER = 13;
 
+	/** Item bonus names. */
+	public static final String[] BONUS_NAMES = {
+		/* 0 */  "Stab",
+		/* 1 */  "Slash",
+		/* 2 */  "Crush",
+		/* 3 */  "Magic",
+		/* 4 */  "Range",
+		/* - */
+		/* 5 */  "Stab",
+		/* 6 */  "Slash",
+		/* 7 */  "Crush",
+		/* 8 */  "Magic",
+		/* 9 */  "Range",
+		/* - */
+		/* 10 */ "Strength",
+		/* 11 */ "Ranged Strength",
+		/* 12 */ "Magic Strength",
+		/* 13 */ "Prayer"
+	};
+
 	/**
 	 * The player that this container belongs to.
 	 */

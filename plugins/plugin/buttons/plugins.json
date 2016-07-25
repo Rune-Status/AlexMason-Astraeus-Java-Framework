@@ -108,5 +108,15 @@
     "Vult-R"
   ],
   "version": 1.0
+},
+{
+  "name": "Prayer button",
+  "description": "The button for handling prayer buttons.",
+  "group": "button",
+  "base": "plugin.buttons.PrayerButton",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
 }
 ]

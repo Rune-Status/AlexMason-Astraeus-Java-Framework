@@ -15,11 +15,7 @@ abstract class ButtonClick : EventSubscriber<ButtonActionEvent> {
 		if (!player.canClickButton()) {
 			return
 		}
-		
-		if (player.rights.greaterOrEqual(PlayerRights.DEVELOPER) && player.attr().get(Player.DEBUG_KEY)) {
-			player.queuePacket(ServerMessagePacket("[button= ${event.button}]"))
-		}
-		
+
 		execute(player, event)
 	}
 	

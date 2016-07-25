@@ -36,7 +36,7 @@ public class PlayerAppearanceUpdateBlock extends PlayerUpdateBlock {
 		properties.write(player.getAppearance().getGender().getCode());
 
 		// headicon
-		properties.write(-1);
+		properties.write(player.getHeadIcon());
 
 		// these two custom remove this if you want to use a #317 client
 		properties.write(-1);

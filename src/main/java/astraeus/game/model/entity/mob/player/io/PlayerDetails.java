@@ -68,7 +68,9 @@ public final class PlayerDetails {
             
 			if (details.skills != null) {
 				player.getSkills().setSkills(details.skills);
-			}
+			} else {
+                player.getSkills().setDefault();
+            }
 
             if (details.friendList.size() > 0) {
                 player.getRelation().setFriendList(details.friendList);

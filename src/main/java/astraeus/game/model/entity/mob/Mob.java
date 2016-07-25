@@ -8,6 +8,7 @@ import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.player.ForceMovement;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.attr.AttributeMap;
+import astraeus.game.model.entity.mob.player.collect.Equipment;
 import astraeus.game.model.entity.mob.player.skill.SkillSet;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.entity.object.GameObject;
@@ -48,6 +49,8 @@ public abstract class Mob extends Entity {
 	private ForceMovement forceMovement;
 
 	private MobAnimation mobAnimation = new MobAnimation();
+
+	private final int[] bonuses = new int[Equipment.BONUS_NAMES.length];
 
 	private transient Mob interactingEntity;
 
@@ -441,6 +444,10 @@ public abstract class Mob extends Entity {
 
 	public void setSkills(SkillSet skills) {
 		this.skills = skills;
+	}
+
+	public int[] getBonuses() {
+		return bonuses;
 	}
 
 	@Override
