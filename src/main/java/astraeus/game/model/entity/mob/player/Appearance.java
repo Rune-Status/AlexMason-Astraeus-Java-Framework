@@ -3,25 +3,15 @@ package astraeus.game.model.entity.mob.player;
 /**
  * Represents a {@link Player}s appearance.
  * 
- * @author Seven
+ * @author Vult-R
  */
-public class Appearance {
+public final class Appearance {
 
-      public static final int HEAD = 0;
-
-      public static final int JAW = 1;
-
-      public static final int TORSO = 2;
-
-      public static final int ARMS = 3;
-
-      public static final int HANDS = 4;
-
-      public static final int LEGS = 5;
-
-      public static final int FEET = 6;
-
+	/**
+	 * Represents the a gender model of a {@link Player}
+	 */
       public enum Gender {
+
             MALE(0),
 
             FEMALE(1);
@@ -32,40 +22,76 @@ public class Appearance {
                   this.code = id;
             }
 
-            /**
-             * @return the id
-             */
             public int getCode() {
                   return code;
             }
 
       }
 
-      private Gender gender;
+      /**
+       * The gender of this player.
+       */
+      private final Gender gender;
 
-      private int head;
+      /**
+       * The head model
+       */
+      private final int head;
 
-      private int jaw;
+      /**
+       * The jaw model
+       */
+      private final int jaw;
 
-      private int torso;
+      /**
+       * The torso model
+       */
+      private final int torso;
 
-      private int arms;
+      /**
+       * The arms model
+       */
+      private final int arms;
 
-      private int hands;
+      /**
+       * The hands model
+       */
+      private final int hands;
 
-      private int legs;
+      /**
+       * The legs model
+       */
+      private final int legs;
 
-      private int feet;
+      /**
+       * The feet model
+       */
+      private final int feet;
 
-      private int hairColor;
+      /**
+       * The color of the hair model
+       */
+      private final int hairColor;
 
-      private int torsoColor;
+      /**
+       * The color of the torso model
+       */
+      private final int torsoColor;
 
-      private int legsColor;
+      /**
+       * The color of the legs model
+       */
+      private final int legsColor;
 
-      private int feetColor;
+      /**
+       * The color of the feet model
+       */
+      private final int feetColor;
 
-      private int skinColor;
+      /**
+       * The color of skin
+       */
+      private final int skinColor;
 
       public Appearance(final Gender gender, final int head, final int jaw, final int torso,
                   final int arms, final int hands, final int legs, final int feet, int hairColor,
@@ -85,9 +111,6 @@ public class Appearance {
             this.skinColor = skinColor;
       }
 
-      /**
-       * @return the arms
-       */
       public int getArms() {
             return arms;
       }
@@ -96,179 +119,52 @@ public class Appearance {
             return Player.DEFAULT_APPEARANCE;
       }
 
-      /**
-       * @return the feet
-       */
       public int getFeet() {
             return feet;
       }
 
-      /**
-       * @return the gender
-       */
       public Gender getGender() {
             return gender;
       }
 
-      /**
-       * @return the hands
-       */
       public int getHands() {
             return hands;
       }
 
-      /**
-       * @return the head
-       */
       public int getHead() {
             return head;
       }
 
-      /**
-       * @return the jaw
-       */
       public int getJaw() {
             return jaw;
       }
 
-      /**
-       * @return the legs
-       */
       public int getLegs() {
             return legs;
       }
 
-      /**
-       * @return the torso
-       */
       public int getTorso() {
             return torso;
       }
 
-      /**
-       * @param arms the arms to set
-       */
-      public void setArms(final int arms) {
-            this.arms = arms;
-      }
-
-      /**
-       * @param feet the feet to set
-       */
-      public void setFeet(final int feet) {
-            this.feet = feet;
-      }
-
-      /**
-       * @param gender the gender to set
-       */
-      public void setGender(final Gender gender) {
-            this.gender = gender;
-      }
-
-      /**
-       * @param hands the hands to set
-       */
-      public void setHands(final int hands) {
-            this.hands = hands;
-      }
-
-      /**
-       * @param head the head to set
-       */
-      public void setHead(final int head) {
-            this.head = head;
-      }
-
-      /**
-       * @param jaw the jaw to set
-       */
-      public void setJaw(final int jaw) {
-            this.jaw = jaw;
-      }
-
-      /**
-       * @param legs the legs to set
-       */
-      public void setLegs(final int legs) {
-            this.legs = legs;
-      }
-
-      /**
-       * @param torso the torso to set
-       */
-      public void setTorso(final int torso) {
-            this.torso = torso;
-      }
-
-      /**
-       * @return the feetColor
-       */
       public int getFeetColor() {
             return feetColor;
       }
 
-      /**
-       * @return the hairColor
-       */
       public int getHairColor() {
             return hairColor;
       }
 
-      /**
-       * @return the legsColor
-       */
       public int getLegsColor() {
             return legsColor;
       }
 
-      /**
-       * @return the skinColor
-       */
       public int getSkinColor() {
             return skinColor;
       }
 
-      /**
-       * @return the torsoColor
-       */
       public int getTorsoColor() {
             return torsoColor;
-      }
-
-      /**
-       * @param feetColor the feetColor to set
-       */
-      public void setFeetColor(int feetColor) {
-            this.feetColor = feetColor;
-      }
-
-      /**
-       * @param hairColor the hairColor to set
-       */
-      public void setHairColor(int hairColor) {
-            this.hairColor = hairColor;
-      }
-
-      /**
-       * @param legsColor the legsColor to set
-       */
-      public void setLegsColor(int legsColor) {
-            this.legsColor = legsColor;
-      }
-
-      /**
-       * @param skinColor the skinColor to set
-       */
-      public void setSkinColor(int skinColor) {
-            this.skinColor = skinColor;
-      }
-
-      /**
-       * @param torsoColor the torsoColor to set
-       */
-      public void setTorsoColor(int torsoColor) {
-            this.torsoColor = torsoColor;
       }
 
       @Override

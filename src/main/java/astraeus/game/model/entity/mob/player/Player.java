@@ -34,7 +34,7 @@ public class Player extends Mob {
 	/**
 	 * The single logger for this class.
 	 */
-	private static final Logger LOGGER = LoggerUtils.getLogger(Player.class);
+	private static final Logger logger = LoggerUtils.getLogger(Player.class);	
 
 	/**
 	 * The default appearance of a player.
@@ -166,7 +166,7 @@ public class Player extends Mob {
 		setPosition(
 				attr().contains(AttributeKey.valueOf("new_player", true)) ? Player.DEFAULT_LOCATION : getPosition());
 		onLogin();
-		LOGGER.info(String.format("[REGISTERED]: [user= %s]", username));
+		logger.info(String.format("[REGISTERED]: [user= %s]", username));
 	}
 
 	@Override
@@ -177,7 +177,7 @@ public class Player extends Mob {
 		attr().put(Player.DISCONNECTED_KEY, true);
 		session.getChannel().close();
 		World.world.deregister(this);
-		LOGGER.info(String.format("[DEREGISTERED]: [host= %s]", session.getHostAddress()));
+		logger.info(String.format("[DEREGISTERED]: [host= %s]", session.getHostAddress()));
 	}
 
 	@Override

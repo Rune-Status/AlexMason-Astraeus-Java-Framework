@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 /**
  * The bootstrap that will prepare the game and network.
  * 
- * @author Seven
+ * @author Vult-R
  */
 public final class Bootstrap {
 
@@ -51,9 +51,9 @@ public final class Bootstrap {
 	 * @return The instance of this bootstrap.
 	 */
 	public Bootstrap build() throws Exception {
-		logger.info("Preparing game resources...");
+		logger.info("Unpacking game resources...");
 		// load and cache data
-		executeServiceLoad();
+		executeStartupServices();
 
 		serviceLoader.shutdown();
 
@@ -62,7 +62,7 @@ public final class Bootstrap {
 		}
 
 		logger.info("Preparing game engine...");
-		// run the game loop
+		// run the service for the game loop
 		service.start();
 		logger.info("Game Engine has been built");
 		return this;
@@ -91,7 +91,7 @@ public final class Bootstrap {
 	/**
 	 * Executes external files to be used in game.
 	 */
-	private void executeServiceLoad() {
+	private void executeStartupServices() {
 
 		logger.info("Initializing packets...");
 		serviceLoader.execute(() -> {
