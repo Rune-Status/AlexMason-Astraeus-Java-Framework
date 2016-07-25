@@ -46,51 +46,51 @@ public class PlayerAppearanceUpdateBlock extends PlayerUpdateBlock {
 		if (player.getId() == -1) {
 
 		   // helm or hat
-			if (player.getEquipment().get(Equipment.HEAD) != null) {
-				properties.writeShort(0x200 + player.getEquipment().get(Equipment.HEAD).getId());
+			if (player.getEquipment().get(Equipment.HEAD_SLOT) != null) {
+				properties.writeShort(0x200 + player.getEquipment().get(Equipment.HEAD_SLOT).getId());
 			} else {
 				properties.write(0);
 			}
 				
 				// cape
-			if (player.getEquipment().get(Equipment.CAPE) != null) {
-				properties.writeShort(0x200 + player.getEquipment().get(Equipment.CAPE).getId());
+			if (player.getEquipment().get(Equipment.CAPE_SLOT) != null) {
+				properties.writeShort(0x200 + player.getEquipment().get(Equipment.CAPE_SLOT).getId());
 			} else {
 				properties.write(0);
 			}
 
 				// amulet
-			if (player.getEquipment().get(Equipment.AMULET) != null) {
-				properties.writeShort(0x200 + player.getEquipment().get(Equipment.AMULET).getId());
+			if (player.getEquipment().get(Equipment.NECKLACE_SLOT) != null) {
+				properties.writeShort(0x200 + player.getEquipment().get(Equipment.NECKLACE_SLOT).getId());
 			} else {
 				properties.write(0);
 			}
 
 				//weapon
 
-			if (player.getEquipment().get(Equipment.WEAPON) != null) {
-				properties.writeShort(0x200 + player.getEquipment().get(Equipment.WEAPON).getId());
+			if (player.getEquipment().get(Equipment.WEAPON_SLOT) != null) {
+				properties.writeShort(0x200 + player.getEquipment().get(Equipment.WEAPON_SLOT).getId());
 			} else {
 				properties.write(0);
 			}
 
 				// torso
-			if (player.getEquipment().get(Equipment.CHEST) != null) {
-				properties.writeShort(0x200 + player.getEquipment().get(Equipment.CHEST).getId());
+			if (player.getEquipment().get(Equipment.CHEST_SLOT) != null) {
+				properties.writeShort(0x200 + player.getEquipment().get(Equipment.CHEST_SLOT).getId());
 			} else {
 				properties.writeShort(0x100 + player.getAppearance().getTorso());
 			}
 
 				// shield
-			if (player.getEquipment().get(Equipment.SHIELD) != null) {
-				properties.writeShort(0x200 + player.getEquipment().get(Equipment.SHIELD).getId());
+			if (player.getEquipment().get(Equipment.SHIELD_SLOT) != null) {
+				properties.writeShort(0x200 + player.getEquipment().get(Equipment.SHIELD_SLOT).getId());
 			} else {
 				properties.write(0);
 			}
 				
 				// full body
-			if (player.getEquipment().get(Equipment.CHEST) != null) {
-				if (!Equipment.isFullBody(player.getEquipment().get(Equipment.CHEST).getId())) {
+			if (player.getEquipment().get(Equipment.CHEST_SLOT) != null) {
+				if (!Equipment.isFullBody(player.getEquipment().get(Equipment.CHEST_SLOT).getId())) {
 					properties.writeShort(0x100 + player.getAppearance().getArms());
 				} else {
 					properties.write(0);
@@ -100,15 +100,15 @@ public class PlayerAppearanceUpdateBlock extends PlayerUpdateBlock {
 			}
 				
 				// legs
-			if (player.getEquipment().get(Equipment.LEGS) != null) {
-				properties.writeShort(0x200 + player.getEquipment().get(Equipment.LEGS).getId());
+			if (player.getEquipment().get(Equipment.LEGS_SLOT) != null) {
+				properties.writeShort(0x200 + player.getEquipment().get(Equipment.LEGS_SLOT).getId());
 			} else {
 				properties.writeShort(0x100 + player.getAppearance().getLegs());
 			}
 				
 				// full helm
-				if (player.getEquipment().get(Equipment.HEAD) != null) {
-					if (!Equipment.isFullHat(player.getEquipment().get(Equipment.HEAD).getId())) {
+				if (player.getEquipment().get(Equipment.HEAD_SLOT) != null) {
+					if (!Equipment.isFullHat(player.getEquipment().get(Equipment.HEAD_SLOT).getId())) {
 						properties.writeShort(0x100 + player.getAppearance().getHead());
 					} else {
 						properties.write(0);
@@ -118,22 +118,22 @@ public class PlayerAppearanceUpdateBlock extends PlayerUpdateBlock {
 				}
 				
 				// hands
-			if (player.getEquipment().get(Equipment.HANDS) != null) {
-				properties.writeShort(0x200 + player.getEquipment().get(Equipment.HANDS).getId());
+			if (player.getEquipment().get(Equipment.HANDS_SLOT) != null) {
+				properties.writeShort(0x200 + player.getEquipment().get(Equipment.HANDS_SLOT).getId());
 			} else {
 				properties.writeShort(0x100 + player.getAppearance().getHands());
 			}
 				
 				// feet
-			if (player.getEquipment().get(Equipment.FEET) != null) {
-				properties.writeShort(0x200 + player.getEquipment().get(Equipment.FEET).getId());
+			if (player.getEquipment().get(Equipment.FEET_SLOT) != null) {
+				properties.writeShort(0x200 + player.getEquipment().get(Equipment.FEET_SLOT).getId());
 			} else {
 				properties.writeShort(0x100 + player.getAppearance().getFeet());
 			}
 
 				// beard
-			if (player.getEquipment().get(Equipment.HEAD) != null) {
-				if (Equipment.isFullHat(player.getEquipment().get(Equipment.HEAD).getId())) {
+			if (player.getEquipment().get(Equipment.HEAD_SLOT) != null) {
+				if (Equipment.isFullHat(player.getEquipment().get(Equipment.HEAD_SLOT).getId())) {
 					properties.writeShort(0x100 + player.getAppearance().getJaw());
 				} else {
 					properties.write(0);

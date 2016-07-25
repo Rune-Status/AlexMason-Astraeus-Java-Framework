@@ -119,15 +119,15 @@ public final class Equipment extends ItemContainer {
 
 	}
 
-	public static final int HELM_SLOT = 0;
+	public static final int HEAD_SLOT = 0;
 	public static final int CAPE_SLOT = 1;
 	public static final int NECKLACE_SLOT = 2;
 	public static final int WEAPON_SLOT = 3;
-	public static final int TORSO_SLOT = 4;
+	public static final int CHEST_SLOT = 4;
 	public static final int SHIELD_SLOT = 5;
 	public static final int LEGS_SLOT = 7;
-	public static final int GLOVES_SLOT = 9;
-	public static final int BOOTS_SLOT = 10;
+	public static final int HANDS_SLOT = 9;
+	public static final int FEET_SLOT = 10;
 	public static final int RING_SLOT = 12;
 	public static final int AMMO_SLOT = 13;
 
