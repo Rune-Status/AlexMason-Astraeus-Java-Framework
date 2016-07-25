@@ -23,6 +23,8 @@ public abstract class Mob extends Entity {
 	private final List<Player> localPlayers = new LinkedList<Player>();
 
 	private final List<Npc> localNpcs = new LinkedList<Npc>();
+	
+	protected final EnumSet<UpdateFlag> updateFlags = EnumSet.noneOf(UpdateFlag.class);
 
 	private final Queue<Animation> animations = new PriorityQueue<>();
 
@@ -30,17 +32,8 @@ public abstract class Mob extends Entity {
 
 	protected AttributeMap attr = new AttributeMap();	
 
-	/**
-	 * The specialized set for enumerated types that will store all of the
-	 * updating flags.
-	 */
-	private final EnumSet<UpdateFlag> FLAGS = EnumSet.noneOf(UpdateFlag.class);
-
 	private Position lastLocation = new Position(0, 0, 0);
 
-	/**
-	 * The index of an entity in the entity list.
-	 */
 	protected transient int slot;
 
 	private Position facingLocation;
@@ -83,8 +76,6 @@ public abstract class Mob extends Entity {
 		this.position = position;
 	}
 
-	public abstract void clearUpdateFlags();
-
 	public abstract void decrementHealth(int damage);
 
 	public abstract int getCurrentHealth();
@@ -102,16 +93,11 @@ public abstract class Mob extends Entity {
 	 * The method called before the mob is updated.
 	 */
 	public abstract void preUpdate();
-
+	
 	/**
-	 * The method called when an entity is being added to the game world.
+	 * The method called after a mob is updated.
 	 */
-	public abstract void onRegister();
-
-	/**
-	 * The method called when an entity is being removed from the game world.
-	 */
-	public abstract void onDeregister();
+	public abstract void postUpdate();
 
 	/**
 	 * The method called when an entity dies.
@@ -221,11 +207,11 @@ public abstract class Mob extends Entity {
 	}
 
 	public EnumSet<UpdateFlag> getUpdateFlags() {
-		return FLAGS;
+		return updateFlags;
 	}
 
 	public boolean isUpdateRequired() {
-		return !FLAGS.isEmpty();
+		return !updateFlags.isEmpty();
 	}
 
 	public int getWalkingDirection() {
@@ -270,7 +256,7 @@ public abstract class Mob extends Entity {
 			this.getInteractingEntity().setInteractingEntity(null);
 			this.interactingEntity = null;
 		}
-		FLAGS.add(UpdateFlag.ENTITY_INTERACTION);
+		updateFlags.add(UpdateFlag.ENTITY_INTERACTION);
 	}
 
 	public void setDead(boolean isDead) {
@@ -279,7 +265,7 @@ public abstract class Mob extends Entity {
 
 	public void setForcedChat(String forcedChat) {
 		this.forcedChat = forcedChat;
-		FLAGS.add(UpdateFlag.FORCED_CHAT);
+		updateFlags.add(UpdateFlag.FORCED_CHAT);
 	}
 
 	public void setId(int id) {
@@ -288,7 +274,7 @@ public abstract class Mob extends Entity {
 
 	public void setInteractingEntity(Mob entity) {
 		this.interactingEntity = entity;
-		FLAGS.add(UpdateFlag.ENTITY_INTERACTION);
+		updateFlags.add(UpdateFlag.ENTITY_INTERACTION);
 	}
 
 	public void setLastLocation(Position lastLocation) {
@@ -322,14 +308,14 @@ public abstract class Mob extends Entity {
 	public void startAnimation(final Animation animation) {
 		if (animation != null) {
 			animations.add(animation);
-			FLAGS.add(UpdateFlag.ANIMATION);
+			updateFlags.add(UpdateFlag.ANIMATION);
 		}
 	}
 
 	public void startGraphic(Graphic graphic) {
 		if (graphic != null) {
 			graphics.add(graphic);
-			FLAGS.add(UpdateFlag.GRAPHICS);
+			updateFlags.add(UpdateFlag.GRAPHICS);
 		}
 	}
 
@@ -339,7 +325,7 @@ public abstract class Mob extends Entity {
 
 	public void setForceMovement(ForceMovement forceMovement) {
 		this.forceMovement = forceMovement;
-		FLAGS.add(UpdateFlag.FORCE_MOVEMENT);
+		updateFlags.add(UpdateFlag.FORCE_MOVEMENT);
 	}
 
 	public Animation getAnimation() {
@@ -404,7 +390,7 @@ public abstract class Mob extends Entity {
 
 	public void faceLocation(Position facingLocation) {
 		this.facingLocation = facingLocation;
-		FLAGS.add(UpdateFlag.FACE_COORDINATE);
+		updateFlags.add(UpdateFlag.FACE_COORDINATE);
 	}
 
 	public MobAnimation getMobAnimation() {

@@ -62,7 +62,7 @@ public class Npc extends Mob {
       }
 
       @Override
-      public void clearUpdateFlags() {
+      public void postUpdate() {
             getUpdateFlags().clear();
             getAnimations().clear();
             getGraphics().clear();
@@ -248,16 +248,6 @@ public class Npc extends Mob {
        */
       public Stopwatch getRandomWalkTimer() {
             return randomWalkTimer;
-      }
-
-      @Override
-      public void onRegister() {
-            
-      }
-
-      @Override
-      public void onDeregister() {
-            
       }
 
       @Override

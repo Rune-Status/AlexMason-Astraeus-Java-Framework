@@ -12,7 +12,7 @@ import astraeus.game.model.entity.mob.player.attr.AttributeMap;
 import astraeus.game.model.entity.mob.player.collect.Bank;
 import astraeus.game.model.entity.mob.player.collect.Equipment;
 import astraeus.game.model.entity.mob.player.collect.Inventory;
-import astraeus.game.model.entity.mob.player.io.PlayerSerializer;
+import astraeus.game.model.entity.mob.player.event.LogoutEvent;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.model.location.Area;
@@ -24,19 +24,12 @@ import astraeus.game.model.widget.dialog.OptionDialogue;
 import astraeus.net.channel.PlayerChannel;
 import astraeus.net.packet.Sendable;
 import astraeus.net.packet.out.*;
-import astraeus.util.LoggerUtils;
 import astraeus.util.StringUtils;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 public class Player extends Mob {
-
-	/**
-	 * The single logger for this class.
-	 */
-	private static final Logger logger = LoggerUtils.getLogger(Player.class);	
 
 	/**
 	 * The default appearance of a player.
@@ -160,24 +153,16 @@ public class Player extends Mob {
 	}
 
 	@Override
-	public void onRegister() {
-
-	}
-
-	@Override
-	public void onDeregister() {
-		PlayerSerializer.encode(this);
-		queuePacket(new LogoutPlayerPacket());
-		resetEntityInteraction();
-		attr().put(Player.DISCONNECTED_KEY, true);
-		session.getChannel().close();
-		World.world.deregister(this);
-		logger.info(String.format("[DEREGISTERED]: [host= %s]", session.getHostAddress()));
-	}
-
-	@Override
 	public boolean canLogout() {
 		return true;
+	}
+	
+	public void logout() {
+		if (!canLogout()) {
+			return;
+		}
+		
+		post(new LogoutEvent(this));
 	}
 
 	@Override
@@ -287,13 +272,6 @@ public class Player extends Mob {
 		return 1;
 	}
 
-	public void update() {
-		synchronized (this) {
-			flushPacket(new UpdatePlayerPacket());
-			flushPacket(new UpdateNpcPacket());
-		}
-	}
-
 	@Override
 	public void preUpdate() {
 		// first handle the packets
@@ -305,9 +283,16 @@ public class Player extends Mob {
 		// lastly anything else before the npc is updated
 		tick();
 	}
+	
+	public void update() {
+		synchronized (this) {
+			flushPacket(new UpdatePlayerPacket());
+			flushPacket(new UpdateNpcPacket());
+		}
+	}
 
 	@Override
-	public void clearUpdateFlags() {
+	public void postUpdate() {
 		getUpdateFlags().clear();
 		getAnimations().clear();
 		getGraphics().clear();

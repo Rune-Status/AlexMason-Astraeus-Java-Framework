@@ -26,7 +26,7 @@ public final class PostNpcUpdateTask implements Synchronizable {
 
 	@Override
 	public void run() {
-		npc.clearUpdateFlags();
+		npc.postUpdate();
 	}
 
 

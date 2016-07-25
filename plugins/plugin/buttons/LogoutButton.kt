@@ -11,7 +11,7 @@ class LogoutButton : ButtonClick() {
 
 	override fun execute(player: Player, event: ButtonActionEvent) {
 		if (player.canLogout()) {
-			player.post(LogoutEvent(player))
+			player.logout()
 		}
 	}
 

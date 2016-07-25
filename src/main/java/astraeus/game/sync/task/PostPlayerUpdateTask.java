@@ -27,7 +27,7 @@ public final class PostPlayerUpdateTask implements Synchronizable {
 	@Override
 	public void run() {
 		// reset all updating flags
-		player.clearUpdateFlags();
+		player.postUpdate();
 		
 		// flush all awaiting packets to be send to the client
 		player.getSession().flush();
