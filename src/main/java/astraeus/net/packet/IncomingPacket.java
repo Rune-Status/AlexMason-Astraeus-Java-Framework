@@ -119,7 +119,12 @@ public final class IncomingPacket {
 	/**
 	 * Sent when a player uses the fourth option of an object.
 	 */
-	public static final int OBJECT_OPTION_4 = 228;
+	public static final int OBJECT_OPTION_4 = 234;
+	
+	/**
+	 * Sent when a player uses the fifth option of an object.
+	 */
+	public static final int OBJECT_OPTION_5 = 228;
 
 	/**
 	 * Sent when the game client window goes in and out of focus.

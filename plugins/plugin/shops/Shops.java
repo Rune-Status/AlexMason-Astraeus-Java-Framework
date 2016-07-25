@@ -13,7 +13,7 @@ import astraeus.game.model.entity.mob.player.Player;
 @SubscribesTo(ShopEvent.class)
 public final class Shops implements EventSubscriber<ShopEvent> {
 	
-	public static final transient Map<String, Shop> shops = new HashMap<>();
+	public static final Map<String, Shop> shops = new HashMap<>();
 	
 	static {
 		new ShopParser().run();
