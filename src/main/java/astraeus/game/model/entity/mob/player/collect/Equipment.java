@@ -119,67 +119,32 @@ public final class Equipment extends ItemContainer {
 
 	}
 
-	@SuppressWarnings("unused")
-	private enum WeaponInterface {
-		WHIP(12290),
+	public static final int HELM_SLOT = 0;
+	public static final int CAPE_SLOT = 1;
+	public static final int NECKLACE_SLOT = 2;
+	public static final int WEAPON_SLOT = 3;
+	public static final int TORSO_SLOT = 4;
+	public static final int SHIELD_SLOT = 5;
+	public static final int LEGS_SLOT = 7;
+	public static final int GLOVES_SLOT = 9;
+	public static final int BOOTS_SLOT = 10;
+	public static final int RING_SLOT = 12;
+	public static final int AMMO_SLOT = 13;
 
-		BOW(1764),
-
-		STAND(328),
-
-		WAND(328),
-
-		DART(4446),
-
-		KNIFE(4446),
-
-		JAVELIN(4446),
-
-		DAGGER(2276),
-
-		SWORD(2276),
-
-		SCIMITAR(2276),
-
-		PICKAXE(5570),
-
-		AXE(1698),
-
-		BATTLE_AXE(1698),
-
-		HALBERD(8460),
-
-		SPEAR(4679),
-
-		MACE(3796),
-
-		WARHAMMER(425),
-
-		MAUL(425);
-
-		private final int interfaceId;
-
-		private WeaponInterface(int interfaceId) {
-			this.interfaceId = interfaceId;
-		}
-
-		public int getInterfaceId() {
-			return interfaceId;
-		}
-
-	}
-
-	public static final int HEAD = 0;
-	public static final int CAPE = 1;
-	public static final int AMULET = 2;
-	public static final int WEAPON = 3;
-	public static final int CHEST = 4;
-	public static final int SHIELD = 5;
-	public static final int LEGS = 7;
-	public static final int HANDS = 9;
-	public static final int FEET = 10;
-	public static final int RING = 12;
-	public static final int ARROWS = 13;
+	public static final int STAB = 0;
+	public static final int SLASH = 1;
+	public static final int CRUSH = 2;
+	public static final int MAGIC = 3;
+	public static final int RANGED = 4;
+	public static final int STAB_DEFENSE = 5;
+	public static final int SLASH_DEFENSE = 6;
+	public static final int CRUSH_DEFENSE = 7;
+	public static final int MAGIC_DEFENSE = 8;
+	public static final int RANGED_DEFENSE = 9;
+	public static final int STRENGTH = 10;
+	public static final int RANGED_STRENGTH = 11;
+	public static final int MAGIC_STRENGTH = 12;
+	public static final int PRAYER = 13;
 
 	/**
 	 * The player that this container belongs to.
@@ -238,13 +203,13 @@ public final class Equipment extends ItemContainer {
             player.getInventory().remove(item, inventorySlot);
         } else {
             int designatedSlot = equipDef.getType().getSlot();
-            if (designatedSlot == Equipment.WEAPON && equipDef.isTwoHanded() && used(Equipment.SHIELD)) {
-                if (!unequip(Equipment.SHIELD, true))
+            if (designatedSlot == Equipment.WEAPON_SLOT && equipDef.isTwoHanded() && used(Equipment.SHIELD_SLOT)) {
+                if (!unequip(Equipment.SHIELD_SLOT, true))
                     return false;
             }
-            if (designatedSlot == Equipment.SHIELD && used(Equipment.WEAPON)) {
-                if (EquipmentDefinition.get(get(Equipment.WEAPON).getId()).isTwoHanded()) {
-                    if (!unequip(Equipment.WEAPON, true))
+            if (designatedSlot == Equipment.SHIELD_SLOT && used(Equipment.WEAPON_SLOT)) {
+                if (EquipmentDefinition.get(get(Equipment.WEAPON_SLOT).getId()).isTwoHanded()) {
+                    if (!unequip(Equipment.WEAPON_SLOT, true))
                         return false;
                 }
             }
