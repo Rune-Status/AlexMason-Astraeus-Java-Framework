@@ -6,6 +6,7 @@ import astraeus.game.model.entity.mob.Movement;
 import astraeus.game.model.entity.mob.player.Appearance;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
+import astraeus.game.model.entity.mob.player.skill.Skill;
 import astraeus.game.model.sound.Volume;
 
 import java.io.*;
@@ -64,6 +65,10 @@ public final class PlayerDetails {
             } else {
                 player.setAppearance(details.appearance);
             }
+            
+			if (details.skills != null) {
+				player.getSkills().setSkills(details.skills);
+			}
 
             if (details.friendList.size() > 0) {
                 player.getRelation().setFriendList(details.friendList);
@@ -105,6 +110,7 @@ public final class PlayerDetails {
     private final boolean splitChat;
     private final boolean acceptAid;
     private final Appearance appearance;
+    private final Skill[] skills;
     private final List<Long> friendList;
     private final List<Long> ignoreList;
 
@@ -136,6 +142,7 @@ public final class PlayerDetails {
         splitChat = player.attr().get(Player.SPLIT_CHAT_KEY);
         acceptAid = player.attr().get(Player.ACCEPT_AID_KEY);
         appearance = player.getAppearance();
+        skills = player.getSkills().getSkills();
         friendList = player.getRelation().getFriendList();
         ignoreList = player.getRelation().getIgnoreList();
     }
@@ -154,6 +161,10 @@ public final class PlayerDetails {
 
     public Appearance getAppearance() {
         return appearance;
+    }
+    
+    public Skill[] getSkills() {
+    	return skills;
     }
 
     /**

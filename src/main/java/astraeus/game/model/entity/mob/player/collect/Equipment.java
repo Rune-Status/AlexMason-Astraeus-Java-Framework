@@ -4,9 +4,11 @@ import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.item.ItemContainer;
 import astraeus.game.model.entity.item.ItemContainerPolicy;
 import astraeus.game.model.entity.mob.player.Player;
+import astraeus.game.model.entity.mob.player.skill.Skill;
 import astraeus.game.model.entity.mob.player.skill.SkillRequirement;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.net.packet.out.ServerMessagePacket;
+import astraeus.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -215,7 +217,9 @@ public final class Equipment extends ItemContainer {
         	return false;
         }
         
-        // TODO check equipment requirements
+        if (!canEquip(item.getId())) {
+        	return false;
+        }
         
         if (item.definition().isStackable()) {
             int designatedSlot = equipDef.getType().getSlot();
@@ -291,6 +295,32 @@ public final class Equipment extends ItemContainer {
         refresh();
         player.getInventory().refresh();
         return true;
+    }
+    
+    public boolean canEquip(int id) {
+		final EquipmentDefinition req = EquipmentDefinition.equipment_definitions.get(id);
+		
+		if (req != null) {
+			for (final SkillRequirement r : req.getRequirements()) {
+
+				if (r == null) {
+					continue;
+				}
+				
+				if (r.getSkill().getId() == Skill.PRAYER || r.getSkill().getId() == Skill.HITPOINTS) {
+					if (player.getSkills().getMaxLevel(r.getSkill().getId()) < r.getLevel()) {
+						player.queuePacket(new ServerMessagePacket("You need " + StringUtils.getAOrAn(r.getSkill().toString()) + " " + r.getSkill().toString() + " level of " + r.getLevel() + " to equip this item."));
+						return false;
+					}
+				} else {
+					if (player.getSkills().getLevel(r.getSkill().getId()) < r.getLevel()) {
+						player.queuePacket(new ServerMessagePacket("You need " + StringUtils.getAOrAn(r.getSkill().toString()) + " " + r.getSkill().toString() + " level of " + r.getLevel() + " to equip this item."));
+						return false;
+					}
+				}
+			}
+		}
+		return true;
     }
 
 	/**

@@ -8,6 +8,7 @@ import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.player.ForceMovement;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.attr.AttributeMap;
+import astraeus.game.model.entity.mob.player.skill.SkillSet;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.entity.object.GameObject;
 
@@ -31,6 +32,8 @@ public abstract class Mob extends Entity {
 	private final Queue<Graphic> graphics = new PriorityQueue<>();
 
 	protected AttributeMap attr = new AttributeMap();	
+	
+	private SkillSet skills = new SkillSet(this);
 
 	private Position lastLocation = new Position(0, 0, 0);
 
@@ -430,6 +433,14 @@ public abstract class Mob extends Entity {
 	 */
 	public void setSlot(int slot) {
 		this.slot = slot;
+	}	
+
+	public SkillSet getSkills() {
+		return skills;
+	}
+
+	public void setSkills(SkillSet skills) {
+		this.skills = skills;
 	}
 
 	@Override

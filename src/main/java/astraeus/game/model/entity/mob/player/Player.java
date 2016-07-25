@@ -14,6 +14,7 @@ import astraeus.game.model.entity.mob.player.collect.Equipment;
 import astraeus.game.model.entity.mob.player.collect.Inventory;
 import astraeus.game.model.entity.mob.player.event.LogoutEvent;
 import astraeus.game.model.entity.mob.player.io.PlayerSerializer;
+import astraeus.game.model.entity.mob.player.skill.Skill;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.model.location.Area;
@@ -324,12 +325,12 @@ public class Player extends Mob {
 
 	@Override
 	public int getCurrentHealth() {
-		return 99;
+		return getSkills().getLevel(Skill.HITPOINTS);
 	}
 
 	@Override
 	public int getMaximumHealth() {
-		return 99;
+		return getSkills().getMaxLevel(Skill.HITPOINTS);
 	}
 
 	public void displayWalkableInterfaces() {
@@ -630,6 +631,10 @@ public class Player extends Mob {
     public void setInsertItem(boolean insertItem) {
         this.insertItem = insertItem;
     }    
+    
+    public void setCombatLevel(int combatLevel) {
+    	this.combatLevel = combatLevel;
+    }
 
 	@Override
 	public int getHashCode() {

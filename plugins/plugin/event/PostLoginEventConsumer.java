@@ -17,7 +17,6 @@ import astraeus.net.packet.out.SetPrivacyOptionPacket;
 import astraeus.net.packet.out.SetRunEnergyPacket;
 import astraeus.net.packet.out.SetSpecialAmountPacket;
 import astraeus.net.packet.out.SetWidgetConfigPacket;
-import astraeus.net.packet.out.UpdateSkillPacket;
 
 @SubscribesTo(PostLoginEvent.class)
 public final class PostLoginEventConsumer implements EventSubscriber<PostLoginEvent> {
@@ -42,9 +41,7 @@ public final class PostLoginEventConsumer implements EventSubscriber<PostLoginEv
 		event.getPlayer().queuePacket(new SetWidgetConfigPacket(169, event.getPlayer().attr().get(Player.SOUND_EFFECT_VOLUME_KEY).getCode()));
 		event.getPlayer().queuePacket(new SetWidgetConfigPacket(170, event.getPlayer().attr().get(Player.AREA_SOUND_VOLUME_KEY).getCode()));
 		Players.createSideBarInterfaces(event.getPlayer(), true);
-		for (int i = 0; i < 23; i++) {
-			event.getPlayer().queuePacket(new UpdateSkillPacket(i));
-		}
+		event.getPlayer().getSkills().refresh();
 		event.getPlayer().getInventory().refresh();
 		event.getPlayer().getEquipment().refresh();
 		event.getPlayer().getBank().refresh();

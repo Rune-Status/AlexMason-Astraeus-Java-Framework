@@ -16,10 +16,6 @@ public final class UpdateSkillPacket implements Sendable {
 
 	private final int experience;
 
-	public UpdateSkillPacket(int id) {
-		this(id, 99, 14_000_000);
-	}
-
 	public UpdateSkillPacket(int id, int level, int experience) {
 		this.id = id;
 		this.level = level;
