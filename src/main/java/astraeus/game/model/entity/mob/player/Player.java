@@ -171,10 +171,8 @@ public class Player extends Mob {
 	}
 	
 	public void onDeregister() {
-		save();
-		
-		queuePacket(new LogoutPlayerPacket());
-		
+		save();		
+		queuePacket(new LogoutPlayerPacket());		
 		session.getChannel().close();
 		World.world.deregister(this);
 		logger.info(String.format("[DEREGISTERED]: [host= %s]", session.getHostAddress()));

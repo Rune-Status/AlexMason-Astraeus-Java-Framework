@@ -18,13 +18,9 @@ public final class NpcFirstClickPacket implements Receivable {
 		if (npc == null) {
 			return;
 		}
-		
-		System.out.println(1);
 
 		player.getMovementListener().append(() -> {
-			System.out.println(2);
 			if (player.getPosition().isWithinInteractionDistance(npc.getPosition().copy())) {
-				System.out.println(3);
 				player.setInteractingEntity(npc);
 				npc.setInteractingEntity(player);
 

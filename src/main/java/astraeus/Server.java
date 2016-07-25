@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 /**
  * The core class of the server.
  *
- * @author SeVen
+ * @author Vult-R
  */
-public class Server {
+public final class Server {
 
     /**
      * The single logger for this class.
@@ -21,17 +21,17 @@ public class Server {
     /**
      * To check if the server needs to be updated.
      */
-    public static boolean UPDATE_SERVER = false;
+    public static boolean updateServer = false;    
 
     /**
      * Determines if the server has started.
      */
-    public static boolean SERVER_STARTED = false;
+    public static boolean serverStarted = false;    
 
     /**
      * The elapsed time the server has been running.
      */
-    public static Stopwatch UPTIME;
+    public static Stopwatch uptime; 
 
     /**
      * The main entry point to the server.
@@ -46,14 +46,14 @@ public class Server {
 
         new Bootstrap().build().bind();
 
-        UPTIME = new Stopwatch();
+        uptime = new Stopwatch();
 
         logger.info("Server Initialized. [Took " + timer.elapsed(TimeUnit.SECONDS) + " seconds]");
 
     }
 
     public static Stopwatch getUptime() {
-        return UPTIME;
+        return uptime;
     }
 
 }

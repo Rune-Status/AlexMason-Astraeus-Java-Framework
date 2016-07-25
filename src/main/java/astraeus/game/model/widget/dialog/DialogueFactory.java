@@ -188,6 +188,11 @@ public final class DialogueFactory {
 				setActive(false);
 			// there are no more dialogues, so clear the screen.
 				player.queuePacket(new RemoveWidgetPacket());
+				
+				if (player.getInteractingEntity() != null) {
+					player.getInteractingEntity().setInteractingEntity(null);					
+				}
+				
 				player.setInteractingEntity(null);
 		}
 		return this;

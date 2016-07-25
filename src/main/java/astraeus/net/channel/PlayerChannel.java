@@ -182,7 +182,7 @@ public class PlayerChannel {
 
 		// prevents users from logging in before the network has been fully
 		// bound
-		if (!Server.SERVER_STARTED) {
+		if (!Server.serverStarted) {
 			return LoginResponse.SERVER_BEING_UPDATED;
 		}
 

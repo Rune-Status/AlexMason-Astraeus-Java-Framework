@@ -14,6 +14,7 @@ import astraeus.game.event.impl.ShopEvent
 
 import plugin.dialog.AppearanceDialogue
 import plugin.dialog.BankerDialogue
+import plugin.dialog.DefaultDialogue
 
 @SubscribesTo(NpcFirstClickEvent::class)
 class NpcFirstClick : EventSubscriber<NpcFirstClickEvent> {
@@ -31,6 +32,8 @@ class NpcFirstClick : EventSubscriber<NpcFirstClickEvent> {
 			599 -> player.dialogueFactory.sendDialogue(AppearanceDialogue())
 			
 			528 -> player.post(ShopEvent("General Store"))
+			
+			else -> player.dialogueFactory.sendDialogue(DefaultDialogue(event.npc.id))
 		
 		}
 		

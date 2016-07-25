@@ -13,7 +13,7 @@ import astraeus.game.task.Task;
  */
 public abstract class Entity {
 
-	private transient final LinkedList<Task> tasks = new LinkedList<Task>();
+	private final LinkedList<Task> tasks = new LinkedList<Task>();
 
 	public abstract int size();
 	
