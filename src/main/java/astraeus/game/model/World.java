@@ -167,7 +167,7 @@ public final class World {
 				break;
 			}
 			
-			player.logout();
+			player.onDeregister();
 		}
 	}
 

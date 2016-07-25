@@ -13,6 +13,7 @@ import astraeus.game.model.entity.mob.player.collect.Bank;
 import astraeus.game.model.entity.mob.player.collect.Equipment;
 import astraeus.game.model.entity.mob.player.collect.Inventory;
 import astraeus.game.model.entity.mob.player.event.LogoutEvent;
+import astraeus.game.model.entity.mob.player.io.PlayerSerializer;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.model.location.Area;
@@ -24,12 +25,16 @@ import astraeus.game.model.widget.dialog.OptionDialogue;
 import astraeus.net.channel.PlayerChannel;
 import astraeus.net.packet.Sendable;
 import astraeus.net.packet.out.*;
+import astraeus.util.LoggerUtils;
 import astraeus.util.StringUtils;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 public class Player extends Mob {
+	
+	private final Logger logger = LoggerUtils.getLogger(Player.class);
 
 	/**
 	 * The default appearance of a player.
@@ -163,6 +168,20 @@ public class Player extends Mob {
 		}
 		
 		post(new LogoutEvent(this));
+	}
+	
+	public void onDeregister() {
+		save();
+		
+		queuePacket(new LogoutPlayerPacket());
+		
+		session.getChannel().close();
+		World.world.deregister(this);
+		logger.info(String.format("[DEREGISTERED]: [host= %s]", session.getHostAddress()));
+	}
+	
+	public void save() {
+		PlayerSerializer.encode(this);
 	}
 
 	@Override
