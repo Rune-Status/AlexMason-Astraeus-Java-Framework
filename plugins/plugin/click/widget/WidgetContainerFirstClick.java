@@ -23,7 +23,7 @@ public final class WidgetContainerFirstClick implements EventSubscriber<WidgetCo
 		switch (event.getWidgetId()) {
 
 		case 1688:
-			// unequip item
+			player.getEquipment().unequip(event.getItemSlot(), true);
 			break;
 			
         case 3823:

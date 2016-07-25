@@ -1,5 +1,6 @@
 package astraeus.net.packet.in;
 
+import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
 import astraeus.net.codec.ByteModification;
@@ -28,13 +29,15 @@ public final class EquipItemPacket implements Receivable {
 			player.queuePacket(new ServerMessagePacket(
 					String.format("[EquipItem] - [id= %d], [slot= %d], [interfaceId= %d]", id, slot, interfaceId)));
 		}
+		
+		Item item = player.getInventory().get(slot);
+		
+		if (item == null || item.getId() != id) {
+			return;
+		}
 
-		if (interfaceId == 3214) {
-
-			if (!player.getInventory().contains(id)) {
-				return;
-			}
-
+		if (interfaceId == 3214) {			
+			player.getEquipment().equip(slot);			
 		}
 
 	}

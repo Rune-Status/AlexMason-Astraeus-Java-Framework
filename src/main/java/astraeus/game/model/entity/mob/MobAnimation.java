@@ -1,6 +1,6 @@
 package astraeus.game.model.entity.mob;
 
-public class MobAnimation {
+public final class MobAnimation {
 
 	public static final int PLAYER_STAND = 808;
 	public static final int PLAYER_TURN = 823;

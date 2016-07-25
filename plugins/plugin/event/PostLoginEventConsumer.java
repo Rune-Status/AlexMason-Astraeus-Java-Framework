@@ -55,7 +55,6 @@ public final class PostLoginEventConsumer implements EventSubscriber<PostLoginEv
 		Players.resetPlayerAnimation(event.getPlayer());
 		event.getPlayer().attr().put(Player.SAVE_KEY, true);
 		
-		
 		event.getPlayer().queuePacket(new ServerMessagePacket(String.format("Welcome to %s.", Configuration.SERVER_NAME)));		
 	}
 

@@ -1,9 +1,13 @@
 package astraeus.game.model.entity.mob.player.collect;
 
+import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.item.ItemContainer;
 import astraeus.game.model.entity.item.ItemContainerPolicy;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.skill.SkillRequirement;
+import astraeus.game.model.entity.mob.update.UpdateFlag;
+import astraeus.net.packet.out.ServerMessagePacket;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,33 +17,23 @@ import java.util.Map;
  * @author Vult-R
  */
 public final class Equipment extends ItemContainer {
-	
+
 	public static enum EquipmentType {
-		NONE(-1),
-		HAT(0),
-		CAPE(1),
-		SHIELD(5),
-		GLOVES(9),
-		BOOTS(10),
-		AMULET(2),
-		RING(12),
-		ARROWS(13),
-		BODY(4),
-		LEGS(7),
-		WEAPON(3);
+		NONE(-1), HAT(0), CAPE(1), SHIELD(5), GLOVES(9), BOOTS(10), AMULET(2), RING(12), ARROWS(13), BODY(4), LEGS(
+				7), WEAPON(3);
 
 		private final int slot;
-		
+
 		private EquipmentType(final int slot) {
 			this.slot = slot;
 		}
-		
+
 		public int getSlot() {
 			return this.slot;
 		}
-		
+
 	}
-	
+
 	/**
 	 * Represents an in-game equipped item.
 	 * 
@@ -47,8 +41,8 @@ public final class Equipment extends ItemContainer {
 	 */
 	public static final class EquipmentDefinition {
 
-		//TODO make this immutable
-		public static final Map<Integer, EquipmentDefinition> equipment_definitions = new HashMap<>();		
+		// TODO make this immutable
+		public static final Map<Integer, EquipmentDefinition> equipment_definitions = new HashMap<>();
 
 		public static EquipmentDefinition get(int id) {
 			return equipment_definitions.get(id);
@@ -61,18 +55,19 @@ public final class Equipment extends ItemContainer {
 		private final EquipmentType type;
 
 		private final SkillRequirement[] requirements;
-		
+
 		private final boolean twoHanded;
-		
+
 		private final boolean fullBody;
-		
+
 		private final boolean fullHat;
-		
+
 		private final boolean fullMask;
 
 		private final int[] bonuses;
 
-		public EquipmentDefinition(int id, String name, EquipmentType type, SkillRequirement[] requirements, boolean twoHanded, boolean fullBody, boolean fullHat, boolean fullMask, int[] bonuses) {
+		public EquipmentDefinition(int id, String name, EquipmentType type, SkillRequirement[] requirements,
+				boolean twoHanded, boolean fullBody, boolean fullHat, boolean fullMask, int[] bonuses) {
 			this.id = id;
 			this.name = name;
 			this.type = type;
@@ -98,7 +93,7 @@ public final class Equipment extends ItemContainer {
 
 		public SkillRequirement[] getRequirements() {
 			return requirements;
-		}	
+		}
 
 		public boolean isTwoHanded() {
 			return twoHanded;
@@ -119,7 +114,7 @@ public final class Equipment extends ItemContainer {
 		public EquipmentType getType() {
 			return type;
 		}
-		
+
 	}
 
 	@SuppressWarnings("unused")
@@ -183,7 +178,7 @@ public final class Equipment extends ItemContainer {
 	public static final int FEET = 10;
 	public static final int RING = 12;
 	public static final int ARROWS = 13;
-	
+
 	/**
 	 * The player that this container belongs to.
 	 */
@@ -199,18 +194,117 @@ public final class Equipment extends ItemContainer {
 		super(14, ItemContainerPolicy.NORMAL);
 		this.player = player;
 	}
-	
+
     /**
-     * Refreshes the contents of this equipment container to the interface.
+     * Equips the item in {@code inventorySlot} to the equipment container.
+     *
+     * @param inventorySlot
+     *            the slot to equip the item on.
+     * @return {@code true} if the item was equipped, {@code false} otherwise.
      */
-    public void refresh() {
-        refresh(player, 1688);
+    public boolean equip(int inventorySlot) {
+        Item item = player.getInventory().get(inventorySlot);
+        
+        if (!Item.valid(item)) {
+            return false;
+        }
+        
+        EquipmentDefinition equipDef = EquipmentDefinition.get(item.getId());
+        
+        if (equipDef == null) {
+        	return false;
+        }
+        
+        // TODO check equipment requirements
+        
+        if (item.definition().isStackable()) {
+            int designatedSlot = equipDef.getType().getSlot();
+            Item equipItem = get(designatedSlot);
+            if (used(designatedSlot)) {
+                if (item.getId() == equipItem.getId()) {
+                    set(designatedSlot, new Item(item.getId(), item.getAmount() + equipItem.getAmount()));
+                } else {
+                    player.getInventory().set(inventorySlot, equipItem);
+                    player.getInventory().refresh();
+                    set(designatedSlot, item);
+                }
+            } else {
+                set(designatedSlot, item);
+            }
+            player.getInventory().remove(item, inventorySlot);
+        } else {
+            int designatedSlot = equipDef.getType().getSlot();
+            if (designatedSlot == Equipment.WEAPON && equipDef.isTwoHanded() && used(Equipment.SHIELD)) {
+                if (!unequip(Equipment.SHIELD, true))
+                    return false;
+            }
+            if (designatedSlot == Equipment.SHIELD && used(Equipment.WEAPON)) {
+                if (EquipmentDefinition.get(get(Equipment.WEAPON).getId()).isTwoHanded()) {
+                    if (!unequip(Equipment.WEAPON, true))
+                        return false;
+                }
+            }
+            if (used(designatedSlot)) {
+                Item equipItem = get(designatedSlot);
+                if (!equipItem.definition().isStackable()) {
+                    player.getInventory().set(inventorySlot, equipItem);
+                } else {
+                    player.getInventory().set(inventorySlot, null);
+                    player.getInventory().add(equipItem, inventorySlot);
+                }
+                player.getInventory().refresh();
+            } else {
+                player.getInventory().remove(item, inventorySlot);
+            }
+            set(designatedSlot, new Item(item.getId(), item.getAmount()));
+        }
+        refresh();
+        return true;
     }
+
+    /**
+     * Unequips the item in {@code equipmentSlot} from the equipment container.
+     *
+     * @param equipmentSlot
+     *            the slot to unequip the item on.
+     * @param addItem
+     *            if the unequipped item should be added to the inventory.
+     * @return {@code true} if the item was unequipped, {@code false} otherwise.
+     */
+    public boolean unequip(int equipmentSlot, boolean addItem) {
+        if (free(equipmentSlot))
+            return false;
+        
+        Item item = get(equipmentSlot);
+        
+        if (!player.getInventory().spaceFor(item)) {
+            player.queuePacket(new ServerMessagePacket("You do not have enough space in " + "your inventory!"));
+            return false;
+        }
+        
+        remove(item, equipmentSlot);
+        
+        if (addItem) {
+            player.getInventory().add(new Item(item.getId(), item.getAmount()));
+        }
+        
+        refresh();
+        player.getInventory().refresh();
+        return true;
+    }
+
+	/**
+	 * Refreshes the contents of this equipment container to the interface.
+	 */
+	public void refresh() {
+		refresh(player, 1688);
+		player.getUpdateFlags().add(UpdateFlag.APPEARANCE);
+	}
 
 	public static boolean isFullHat(int itemId) {
 		return EquipmentDefinition.get(itemId) != null ? EquipmentDefinition.get(itemId).isFullHat() : false;
 	}
-	
+
 	public static boolean isFullMask(int itemId) {
 		return EquipmentDefinition.get(itemId) != null ? EquipmentDefinition.get(itemId).isFullMask() : false;
 	}
