@@ -32,7 +32,7 @@ public class SkillSet {
 
 	private final Mob entity;
 
-	private final Skill[] skills;
+	private Skill[] skills;
 
 	private double expCounter;
 
@@ -281,14 +281,7 @@ public class SkillSet {
 	}
 
 	public void setSkills(Skill[] skills) {
-		for (int skill = 0; skill < this.skills.length; skill++) {
-			if (skills.length <= skill) {
-				this.skills[skill] = new Skill(skill, skill == Skill.HITPOINTS ? 10 : 1, skill == Skill.HITPOINTS ? 1154 : 0);
-			}
-			if (this.skills[skill] == null) {
-				this.skills[skill] = new Skill(skill, skill == Skill.HITPOINTS ? 10 : 1, skill == Skill.HITPOINTS ? 1154 : 0);
-			}
-		}
+		this.skills = skills;
 	}
 
 	public void lock(int ticks) {
