@@ -1,5 +1,7 @@
 package plugin.commands
 
+
+
 class CommandParser(command: String) {
 	
 	private val arguments : List<String>

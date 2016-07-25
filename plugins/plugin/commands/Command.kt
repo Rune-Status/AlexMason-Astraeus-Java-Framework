@@ -7,8 +7,6 @@ import astraeus.game.event.EventContext
 import astraeus.game.model.entity.mob.player.Player
 import astraeus.game.model.entity.mob.player.PlayerRights
 
-import plugin.commands.CommandParser
-
 abstract class Command : EventSubscriber<CommandEvent> {
 
 	override fun subscribe(context: EventContext, player: Player, event: CommandEvent) {

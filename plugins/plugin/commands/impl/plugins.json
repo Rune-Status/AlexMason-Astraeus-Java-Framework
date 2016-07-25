@@ -58,5 +58,15 @@
     "Vult-R"
   ],
   "version": 1.0
+},
+{
+  "name": "Set Skill Command",
+  "description": "The command setting a skill level.",
+  "group": "command",
+  "base": "plugin.commands.impl.SetSkillCommand",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
 }
 ]
