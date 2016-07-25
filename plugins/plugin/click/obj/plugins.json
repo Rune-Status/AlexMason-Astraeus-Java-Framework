@@ -38,5 +38,15 @@
     "Vult-R"
   ],
   "version": 1.0
+},
+{
+  "name": "Object Fifth Click",
+  "description": "The plugin for handling the fifth option of an object.",
+  "group": "click",
+  "base": "plugin.click.obj.ObjectFifthClick",
+  "authors": [
+    "Vult-R"
+  ],
+  "version": 1.0
 }
 ]
