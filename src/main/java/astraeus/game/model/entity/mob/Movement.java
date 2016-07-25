@@ -1,7 +1,7 @@
 package astraeus.game.model.entity.mob;
 
 import astraeus.game.model.Position;
-import astraeus.game.model.entity.mob.player.attribute.AttributeKey;
+import astraeus.game.model.entity.mob.player.attr.AttributeKey;
 import astraeus.net.packet.out.UpdateMapRegion;
 
 import java.util.Deque;

@@ -1,4 +1,4 @@
-package astraeus.game.model.entity.mob.player.attribute;
+package astraeus.game.model.entity.mob.player.attr;
 
 import java.util.Objects;
 

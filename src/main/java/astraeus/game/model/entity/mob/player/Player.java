@@ -1,6 +1,5 @@
 package astraeus.game.model.entity.mob.player;
 
-import astraeus.Configuration;
 import astraeus.game.event.Event;
 import astraeus.game.model.*;
 import astraeus.game.model.entity.EntityType;
@@ -8,8 +7,11 @@ import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.Mob;
 import astraeus.game.model.entity.mob.Movement;
 import astraeus.game.model.entity.mob.npc.Npc;
-import astraeus.game.model.entity.mob.player.attribute.AttributeKey;
-import astraeus.game.model.entity.mob.player.attribute.AttributeMap;
+import astraeus.game.model.entity.mob.player.attr.AttributeKey;
+import astraeus.game.model.entity.mob.player.attr.AttributeMap;
+import astraeus.game.model.entity.mob.player.collect.Bank;
+import astraeus.game.model.entity.mob.player.collect.Equipment;
+import astraeus.game.model.entity.mob.player.collect.Inventory;
 import astraeus.game.model.entity.mob.player.io.PlayerSerializer;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.entity.object.GameObject;
@@ -45,12 +47,12 @@ public class Player extends Mob {
 	/**
 	 * The default location a player will spawn.
 	 */
-	public static final Position DEFAULT_LOCATION = new Position(3086, 3499);
+	public static final Position defaultSpawn = new Position(3086, 3499);	
 
 	/**
 	 * The default location a player will spawn if they died.
 	 */
-	public static final Position DEFAULT_RESPAWN = new Position(3087, 3502);
+	public static final Position defaultRespawn = new Position(3087, 3502);	
 
 	private ChatMessage chatMessage = new ChatMessage();
 	private final PlayerRelation playerRelation = new PlayerRelation(this);
@@ -117,7 +119,7 @@ public class Player extends Mob {
 
 	// actual player
 	public Player(final PlayerChannel session) {
-		super(Player.DEFAULT_LOCATION);
+		super(Player.defaultSpawn);
 		this.session = session;
 	}
 
@@ -159,14 +161,7 @@ public class Player extends Mob {
 
 	@Override
 	public void onRegister() {
-		World.world.register(this);
-		setRegionChange(true);
-		getUpdateFlags().add(UpdateFlag.APPEARANCE);
-		onStartup();
-		setPosition(
-				attr().contains(AttributeKey.valueOf("new_player", true)) ? Player.DEFAULT_LOCATION : getPosition());
-		onLogin();
-		logger.info(String.format("[REGISTERED]: [user= %s]", username));
+
 	}
 
 	@Override
@@ -178,53 +173,6 @@ public class Player extends Mob {
 		session.getChannel().close();
 		World.world.deregister(this);
 		logger.info(String.format("[DEREGISTERED]: [host= %s]", session.getHostAddress()));
-	}
-
-	@Override
-	public void onLogin() {
-		queuePacket(new ServerMessagePacket("Welcome to " + Configuration.SERVER_NAME + "."));
-	}
-
-	@Override
-	public void onStartup() {
-		queuePacket(new SetPlayerSlotPacket());
-		queuePacket(new ResetCameraPositionPacket());
-		queuePacket(new SetPrivacyOptionPacket(0, 0, 0));
-		queuePacket(new SetSpecialAmountPacket());
-		queuePacket(new SetWidgetConfigPacket(172, attr().get(AUTO_RETALIATE_KEY) ? 1 : 0));
-		queuePacket(new SetPlayerOptionPacket(PlayerOption.FOLLOW));
-		queuePacket(new SetPlayerOptionPacket(PlayerOption.TRADE_REQUEST));
-		queuePacket(new SetWidgetConfigPacket(152, attr().get(Movement.RUNNING_KEY) ? 1 : 0));
-		queuePacket(new SetWidgetConfigPacket(429, attr().get(Movement.RUNNING_KEY) ? 1 : 0));
-		queuePacket(new SetWidgetConfigPacket(171, attr().get(MOUSE_BUTTON_KEY) ? 1 : 0));
-		queuePacket(new SetWidgetConfigPacket(172, attr().get(CHAT_EFFECTS_KEY) ? 1 : 0));
-		queuePacket(new SetWidgetConfigPacket(287, attr().get(SPLIT_CHAT_KEY) ? 1 : 0));
-		queuePacket(new SetWidgetConfigPacket(427, attr().get(ACCEPT_AID_KEY) ? 1 : 0));
-		queuePacket(new SetWidgetConfigPacket(166, attr().get(BRIGHTNESS_KEY).getCode()));
-		queuePacket(new SetWidgetConfigPacket(168, attr().get(MUSIC_VOLUME_KEY).getCode()));
-		queuePacket(new SetWidgetConfigPacket(169, attr().get(SOUND_EFFECT_VOLUME_KEY).getCode()));
-		queuePacket(new SetWidgetConfigPacket(170, attr().get(AREA_SOUND_VOLUME_KEY).getCode()));
-		Players.createSideBarInterfaces(this, true);
-		for (int i = 0; i < 23; i++) {
-			queuePacket(new UpdateSkillPacket(i));
-		}
-		inventory.refresh();
-		equipment.refresh();
-		bank.refresh();
-		getRelation().updateLists(true);
-		getRelation().sendFriends();
-		queuePacket(new SetRunEnergyPacket());
-		getRelation().updateLists(true);
-		Players.resetPlayerAnimation(this);
-		attr().put(SAVE_KEY, true);
-	}
-
-	@Override
-	public void onLogout() {
-		attr().put(ACTIVE_KEY, false);
-		attr().put(LOGOUT_KEY, true);
-		attr().put(DISCONNECTED_KEY, true);
-		queuePacket(new LogoutPlayerPacket());
 	}
 
 	@Override

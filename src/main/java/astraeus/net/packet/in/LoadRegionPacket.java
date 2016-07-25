@@ -1,7 +1,7 @@
 package astraeus.net.packet.in;
 
 import astraeus.game.model.entity.mob.player.Player;
-import astraeus.game.model.entity.mob.player.attribute.AttributeKey;
+import astraeus.game.model.entity.mob.player.attr.AttributeKey;
 import astraeus.game.model.entity.object.GameObjects;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;

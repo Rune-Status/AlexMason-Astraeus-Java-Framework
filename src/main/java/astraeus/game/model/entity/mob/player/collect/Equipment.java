@@ -1,7 +1,8 @@
-package astraeus.game.model.entity.mob.player;
+package astraeus.game.model.entity.mob.player.collect;
 
 import astraeus.game.model.entity.item.ItemContainer;
 import astraeus.game.model.entity.item.ItemContainerPolicy;
+import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.skill.SkillRequirement;
 import java.util.HashMap;
 import java.util.Map;

@@ -7,7 +7,7 @@ import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.player.ForceMovement;
 import astraeus.game.model.entity.mob.player.Player;
-import astraeus.game.model.entity.mob.player.attribute.AttributeMap;
+import astraeus.game.model.entity.mob.player.attr.AttributeMap;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.entity.object.GameObject;
 
@@ -124,33 +124,12 @@ public abstract class Mob extends Entity {
 	public abstract void onMovement();
 
 	/**
-	 * The method called when a {@link Player} logs in.
-	 */
-	public void onLogin() {
-
-	}
-
-	/**
-	 * The method called when a {@link Player} logs out.
-	 */
-	public void onLogout() {
-
-	}
-
-	/**
 	 * Determines if this {@link Player} can logout.
 	 * 
 	 * @return {@code true} If this player can logout. {@code false} Otherwise.
 	 */
 	public boolean canLogout() {
 		return true;
-	}
-
-	/**
-	 * The method called when a {@link Player} gets initialized.
-	 */
-	public void onStartup() {
-
 	}
 
 	public boolean canTeleport() {

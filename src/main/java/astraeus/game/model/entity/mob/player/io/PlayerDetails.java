@@ -42,7 +42,7 @@ public final class PlayerDetails {
             player.setUsername(details.username);
             player.setPassword(details.password);
             player.setRights(details.rights);
-            player.setPosition(player.attr().get(Player.NEW_PLAYER_KEY) ? Player.DEFAULT_LOCATION
+            player.setPosition(player.attr().get(Player.NEW_PLAYER_KEY) ? Player.defaultSpawn
                     : details.location);
             player.attr().put(Player.NEW_PLAYER_KEY, details.newPlayer);
             player.attr().put(Player.BRIGHTNESS_KEY, details.brightness);
