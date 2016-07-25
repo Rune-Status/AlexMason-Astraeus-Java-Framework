@@ -13,6 +13,7 @@ import astraeus.game.model.entity.mob.player.PlayerRights
 import astraeus.game.event.impl.ShopEvent
 
 import plugin.dialog.AppearanceDialogue
+import plugin.dialog.BankerDialogue
 
 @SubscribesTo(NpcFirstClickEvent::class)
 class NpcFirstClick : EventSubscriber<NpcFirstClickEvent> {
@@ -24,6 +25,8 @@ class NpcFirstClick : EventSubscriber<NpcFirstClickEvent> {
         }
 		
 		when(event.npc.id) {
+			
+			494, 495 -> player.dialogueFactory.sendDialogue(BankerDialogue())
 			
 			599 -> player.dialogueFactory.sendDialogue(AppearanceDialogue())
 			
