@@ -25,12 +25,12 @@ public final class LogoutEventConsumer implements EventSubscriber<LogoutEvent> {
 		
 		event.getPlayer().resetEntityInteraction();
 		
+		event.getPlayer().queuePacket(new LogoutPlayerPacket());
+		
 		PlayerSerializer.encode(event.getPlayer());
 		
 		event.getPlayer().getSession().getChannel().close();
 		World.world.deregister(event.getPlayer());
-		
-		event.getPlayer().queuePacket(new LogoutPlayerPacket());
 
 		logger.info(String.format("[DEREGISTERED]: [host= %s]", event.getPlayer().getSession().getHostAddress()));
 	}

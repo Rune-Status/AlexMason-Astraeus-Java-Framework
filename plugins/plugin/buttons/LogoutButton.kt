@@ -10,9 +10,7 @@ import astraeus.game.model.entity.mob.player.event.LogoutEvent
 class LogoutButton : ButtonClick() {
 
 	override fun execute(player: Player, event: ButtonActionEvent) {
-		if (player.canLogout()) {
-			player.logout()
-		}
+		player.logout()
 	}
 
 	override fun test(event: ButtonActionEvent): Boolean {
