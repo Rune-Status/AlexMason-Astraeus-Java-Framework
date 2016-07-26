@@ -36,34 +36,34 @@ public final class Prayer {
         THICK_SKIN("Thick Skin", 0, 5609, 0, 12.0, 83, 446, PrayerGroup.DEFENCE),
         BURST_OF_STRENGTH("Burst of Strength", 1, 5610, 4, 12.0, 84, 449, PrayerGroup.STRENGTH),
         CLARITY_OF_THOUGHT("Clarity of Thought", 2, 5611, 7, 12.0, 85, 436, PrayerGroup.ATTACK),
-        SHARP_EYE("Sharp Eye", 3, 19812, 8, 12.0, 700, -1, PrayerGroup.MAGE_RANGE),
-        MYSTIC_WILL("Mystic Will", 4, 19814, 9, 12.0, 701, -1, PrayerGroup.MAGE_RANGE),
+        SHARP_EYE("Sharp Eye", 3, 19812, 8, 12.0, 700, -1, PrayerGroup.RANGED),
+        MYSTIC_WILL("Mystic Will", 4, 19814, 9, 12.0, 701, -1, PrayerGroup.MAGIC),
         ROCK_SKIN("Rock Skin", 5, 5612, 10, 8.0, 86, 441, PrayerGroup.DEFENCE),
         SUPERHUMAN_STRENGTH("Superhuman Strength", 6, 5613, 13, 8.0, 87, 434, PrayerGroup.STRENGTH),
         IMPROVED_REFLEXES("Improved Reflexes", 7, 5614, 16, 8.0, 88, 448, PrayerGroup.ATTACK),
         RAPID_RESTORE("Rapid Restore", 8, 5615, 19, 60.0, 89, 452, PrayerGroup.DEFAULT),
         RAPID_HEAL("Rapid Heal", 9, 5616, 22, 60.0, 90, 443, PrayerGroup.DEFAULT),
         PROTECT_ITEM("Protect Item", 10, 5617, 25, 30.0, 91, -1, PrayerGroup.DEFAULT),
-        HAWK_EYE("Hawk Eye", 11, 19816, 26, 6.0, 702, -1, PrayerGroup.MAGE_RANGE),
-        MYSTIC_LORE("Mystic Lore", 12, 19818, 27, 6.0, 703, -1, PrayerGroup.MAGE_RANGE),
+        HAWK_EYE("Hawk Eye", 11, 19816, 26, 6.0, 702, -1, PrayerGroup.RANGED),
+        MYSTIC_LORE("Mystic Lore", 12, 19818, 27, 6.0, 703, -1, PrayerGroup.MAGIC),
         STEEL_SKIN("Steel Skin", 13, 5618, 28, 6.0, 92, 439, PrayerGroup.DEFENCE),
         ULTIMATE_STRENGTH("Ultimate Strength", 14, 5619, 31, 6.0, 93, 450, PrayerGroup.STRENGTH),
         INCREDIBLE_REFLEXES("Incredible Reflexes", 15, 5620, 34, 6.0, 94, 440, PrayerGroup.ATTACK),
-        PROTECT_FROM_MAGIC("Protect from Magic", 16, 5621, 37, 4.0, 95, 438, PrayerGroup.OVER_HEAD),
-        PROTECT_FROM_RANGE("Protect from Range", 17, 5622, 40, 4.0, 96, 444, PrayerGroup.OVER_HEAD),
-        PROTECT_FROM_MELEE("Protect from Melee", 18, 5623, 43, 4.0, 97, 433, PrayerGroup.OVER_HEAD),
-        EAGLE_EYE("Eagle Eye", 19, 19821, 44, 6.0, 704, -1, PrayerGroup.MAGE_RANGE),
-        MYSTIC_MIGHT("Mystic Might", 20, 19823, 45, 6.0, 705, -1, PrayerGroup.MAGE_RANGE),
-        RETRIBUTION("Retribution", 21, 683, 46, 4.0, 98, -1, PrayerGroup.OVER_HEAD),
-        REDEMPTION("Redemption", 22, 684, 49, 3.0, 99, -1, PrayerGroup.OVER_HEAD),
-        SMITE("Smite", 23, 685, 52, 4.0, 100, -1, PrayerGroup.OVER_HEAD),
+        PROTECT_FROM_MAGIC("Protect from Magic", 16, 5621, 37, 4.0, 95, 438, PrayerGroup.HEAD_ICON),
+        PROTECT_FROM_RANGE("Protect from Range", 17, 5622, 40, 4.0, 96, 444, PrayerGroup.HEAD_ICON),
+        PROTECT_FROM_MELEE("Protect from Melee", 18, 5623, 43, 4.0, 97, 433, PrayerGroup.HEAD_ICON),
+        EAGLE_EYE("Eagle Eye", 19, 19821, 44, 6.0, 704, -1, PrayerGroup.RANGED),
+        MYSTIC_MIGHT("Mystic Might", 20, 19823, 45, 6.0, 705, -1, PrayerGroup.MAGIC),
+        RETRIBUTION("Retribution", 21, 683, 46, 4.0, 98, -1, PrayerGroup.HEAD_ICON),
+        REDEMPTION("Redemption", 22, 684, 49, 3.0, 99, -1, PrayerGroup.HEAD_ICON),
+        SMITE("Smite", 23, 685, 52, 4.0, 100, -1, PrayerGroup.HEAD_ICON),
         CHIVALRY("Chivalry", 24, 19825, 60, 3.0, 706, -1, PrayerGroup.COMBAT),
         PIETY("Piety", 25, 19827, 70, 3.0, 707, -1, PrayerGroup.COMBAT);
     	
         /**
          * The immutable list of all prayers that belong to the over head group and only one can be activated at a given time.
          */
-        static final ImmutableList<PrayerType> OVER_HEAD_DISABLED = ImmutableList.of(PrayerType.PROTECT_FROM_MAGIC, PrayerType.PROTECT_FROM_RANGE, PrayerType.PROTECT_FROM_MELEE, PrayerType.RETRIBUTION, PrayerType.REDEMPTION, PrayerType.SMITE);
+        static final ImmutableList<PrayerType> HEAD_ICON_DISABLED = ImmutableList.of(PrayerType.PROTECT_FROM_MAGIC, PrayerType.PROTECT_FROM_RANGE, PrayerType.PROTECT_FROM_MELEE, PrayerType.RETRIBUTION, PrayerType.REDEMPTION, PrayerType.SMITE);
         
         /**
          * The immutable list of all prayers that belong to the defense group and only one can be activated at a given time.
@@ -83,7 +83,7 @@ public final class Prayer {
         /**
          * The immutable list of all prayers that belong to the attack and strength group and only one can be activated at a given time.
          */
-        static final ImmutableList<PrayerType> ATT_STR_DISABLED = ImmutableList.of(PrayerType.CLARITY_OF_THOUGHT, PrayerType.IMPROVED_REFLEXES, PrayerType.INCREDIBLE_REFLEXES, PrayerType.BURST_OF_STRENGTH, PrayerType.SUPERHUMAN_STRENGTH, PrayerType.ULTIMATE_STRENGTH, PrayerType.SHARP_EYE, PrayerType.HAWK_EYE, PrayerType.EAGLE_EYE, PrayerType.MYSTIC_WILL, PrayerType.MYSTIC_LORE, PrayerType.MYSTIC_MIGHT, PrayerType.CHIVALRY, PrayerType.PIETY);
+        static final ImmutableList<PrayerType> ATTACK_STRENGTH_DISABLED = ImmutableList.of(PrayerType.CLARITY_OF_THOUGHT, PrayerType.IMPROVED_REFLEXES, PrayerType.INCREDIBLE_REFLEXES, PrayerType.BURST_OF_STRENGTH, PrayerType.SUPERHUMAN_STRENGTH, PrayerType.ULTIMATE_STRENGTH, PrayerType.SHARP_EYE, PrayerType.HAWK_EYE, PrayerType.EAGLE_EYE, PrayerType.MYSTIC_WILL, PrayerType.MYSTIC_LORE, PrayerType.MYSTIC_MIGHT, PrayerType.CHIVALRY, PrayerType.PIETY);
         
         /**
          * The immutable list of all prayers that belong to the combat group and only one can be activated at a given time.
@@ -147,8 +147,8 @@ public final class Prayer {
         public ImmutableList<PrayerType> getDisabledPrayers() {
             switch (group) {
 
-                case OVER_HEAD:
-                    return OVER_HEAD_DISABLED;
+                case HEAD_ICON:
+                    return HEAD_ICON_DISABLED;
 
                 case DEFENCE:
                     return DEFENCE_DISABLED;
@@ -159,8 +159,9 @@ public final class Prayer {
                 case STRENGTH:
                     return STRENGTH_DISABLED;
 
-                case MAGE_RANGE:
-                    return ATT_STR_DISABLED;
+                case RANGED:
+                case MAGIC:
+                    return ATTACK_STRENGTH_DISABLED;
 
                 case COMBAT:
                     return COMBAT_DISABLED;
@@ -231,12 +232,13 @@ public final class Prayer {
     /**
      * Represents a prayer group
      */
-    private enum PrayerGroup {    	
-        OVER_HEAD,
-        DEFENCE,
-        ATTACK,
-        STRENGTH,
-        MAGE_RANGE,
+    private enum PrayerGroup {
+    	DEFENCE,
+    	STRENGTH,
+    	ATTACK,
+        HEAD_ICON,        
+        MAGIC,
+        RANGED,
         COMBAT,
         DEFAULT
     }
@@ -515,7 +517,7 @@ public final class Prayer {
                 player.setHeadIcon(icon);
                 player.getUpdateFlags().add(UpdateFlag.APPEARANCE);
             }
-        } else if (prayer.getGroup() == PrayerGroup.OVER_HEAD) {
+        } else if (prayer.getGroup() == PrayerGroup.HEAD_ICON) {
             final int icon = getHeadIcon(prayer);
             if (icon == player.getHeadIcon()) {
                 player.setHeadIcon(-1);
