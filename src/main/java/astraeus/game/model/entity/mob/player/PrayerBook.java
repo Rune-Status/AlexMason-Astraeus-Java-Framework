@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 public final class PrayerBook {
 	
 	/**
-	 * The immutable map of buttons mapped to its prayer.
+	 * The immutable map of buttons mapped to their prayers.
 	 */
 	public static final ImmutableMap<Integer, Prayer> VALUES = ImmutableMap.copyOf(Stream.of(Prayer.values()).collect(Collectors.toMap(p -> p.getButtonId(), Function.identity())));
 
@@ -61,13 +61,33 @@ public final class PrayerBook {
         PIETY("Piety", 25, 19827, 70, 3.0, 707, -1, PrayerGroup.COMBAT);
     	
         /**
-         * The immutable list of all prayers that belong to the over-head-disabled group.
+         * The immutable list of all prayers that belong to the over head group and only one can be activated at a given time.
          */
         static final ImmutableList<Prayer> OVER_HEAD_DISABLED = ImmutableList.of(Prayer.PROTECT_FROM_MAGIC, Prayer.PROTECT_FROM_RANGE, Prayer.PROTECT_FROM_MELEE, Prayer.RETRIBUTION, Prayer.REDEMPTION, Prayer.SMITE);
+        
+        /**
+         * The immutable list of all prayers that belong to the defense group and only one can be activated at a given time.
+         */
         static final ImmutableList<Prayer> DEFENCE_DISABLED = ImmutableList.of(Prayer.THICK_SKIN, Prayer.ROCK_SKIN, Prayer.STEEL_SKIN, Prayer.CHIVALRY, Prayer.PIETY);
+        
+        /**
+         * The immutable list of all prayers that belong to the attack group and only one can be activated at a given time.
+         */
         static final ImmutableList<Prayer> ATTACK_DISABLED = ImmutableList.of(Prayer.CLARITY_OF_THOUGHT, Prayer.IMPROVED_REFLEXES, Prayer.INCREDIBLE_REFLEXES, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
+        
+        /**
+         * The immutable list of all prayers that belong to the strength group and only one can be activated at a given time.
+         */
         static final ImmutableList<Prayer> STRENGTH_DISABLED = ImmutableList.of(Prayer.BURST_OF_STRENGTH, Prayer.SUPERHUMAN_STRENGTH, Prayer.ULTIMATE_STRENGTH, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
+        
+        /**
+         * The immutable list of all prayers that belong to the attack and strength group and only one can be activated at a given time.
+         */
         static final ImmutableList<Prayer> ATT_STR_DISABLED = ImmutableList.of(Prayer.CLARITY_OF_THOUGHT, Prayer.IMPROVED_REFLEXES, Prayer.INCREDIBLE_REFLEXES, Prayer.BURST_OF_STRENGTH, Prayer.SUPERHUMAN_STRENGTH, Prayer.ULTIMATE_STRENGTH, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
+        
+        /**
+         * The immutable list of all prayers that belong to the combat group and only one can be activated at a given time.
+         */
         static final ImmutableList<Prayer> COMBAT_DISABLED = ImmutableList.of(Prayer.CLARITY_OF_THOUGHT, Prayer.IMPROVED_REFLEXES, Prayer.INCREDIBLE_REFLEXES, Prayer.BURST_OF_STRENGTH, Prayer.SUPERHUMAN_STRENGTH, Prayer.ULTIMATE_STRENGTH, Prayer.THICK_SKIN, Prayer.ROCK_SKIN, Prayer.STEEL_SKIN, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
 
         /**
@@ -146,7 +166,7 @@ public final class PrayerBook {
                     return COMBAT_DISABLED;
 
                 default:
-                    throw new IllegalStateException(group.name() + " is illegal.");
+                    throw new IllegalStateException(String.format("%s is illegal!", group.name()));
             }
         }
         
@@ -199,6 +219,9 @@ public final class PrayerBook {
             return name;
         }
 
+        /**
+         * Gets the prayer group this prayer belongs to.
+         */
         public PrayerGroup getGroup() {
             return group;
         }
@@ -285,7 +308,7 @@ public final class PrayerBook {
         }
 
         if (player.getSkills().getMaxLevel(Skill.PRAYER) < prayer.getRequiredLevel()) {
-            player.getDialogueFactory().sendStatement("You need a Prayer level of <col=255>" + prayer.getRequiredLevel() + "</col> to use <col=255>" + prayer.getName() + "</col>.").execute();
+            player.getDialogueFactory().sendStatement(String.format("You need a Prayer level of <col=255>%d</col> to use <col=255>%s</col>.", prayer.getRequiredLevel(), prayer.getName())).execute();
             return false;
         }
 
@@ -306,6 +329,7 @@ public final class PrayerBook {
      * Determines if a button can be clicked.
      */
     public boolean clickButton(int button) {
+    	// quick prayer
         if (button >= 17202 && button <= 17227) {
             final int prayerId = button - 17202;
             final Prayer prayer = Prayer.values()[prayerId];
@@ -368,7 +392,7 @@ public final class PrayerBook {
     /**
      * Gets the associated head icon from an over head type prayer.
      */
-    private int determineHeadIcon(Prayer prayer) {
+    private int getHeadIcon(Prayer prayer) {
         switch (prayer) {
             case PROTECT_FROM_MAGIC:
                 return 2;
@@ -458,6 +482,9 @@ public final class PrayerBook {
         return true;
     }
     
+    /**
+     * Gets an {@link Optional} describing the result of retrieving a mapped button to its prayer.
+     */
     public Optional<Prayer> search(int button) {
     	return Optional.ofNullable(VALUES.get(button));
     }
@@ -483,13 +510,13 @@ public final class PrayerBook {
                     }
                 }
             }
-            final int icon = determineHeadIcon(prayer);
+            final int icon = getHeadIcon(prayer);
             if (icon != player.getHeadIcon() && icon != -1) {
                 player.setHeadIcon(icon);
                 player.getUpdateFlags().add(UpdateFlag.APPEARANCE);
             }
         } else if (prayer.getGroup() == PrayerGroup.OVER_HEAD) {
-            final int icon = determineHeadIcon(prayer);
+            final int icon = getHeadIcon(prayer);
             if (icon == player.getHeadIcon()) {
                 player.setHeadIcon(-1);
             }
