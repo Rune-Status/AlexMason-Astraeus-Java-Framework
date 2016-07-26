@@ -7,8 +7,13 @@ import astraeus.net.packet.out.ServerMessagePacket;
 import astraeus.net.packet.out.SetWidgetConfigPacket;
 import astraeus.net.packet.out.SetWidgetStringPacket;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 import java.util.Arrays;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Resembles a player's prayer book.
@@ -16,6 +21,11 @@ import java.util.Arrays;
  * @author Vult-R
  */
 public final class PrayerBook {
+	
+	/**
+	 * The immutable map of buttons mapped to its prayer.
+	 */
+	public static final ImmutableMap<Integer, Prayer> VALUES = ImmutableMap.copyOf(Stream.of(Prayer.values()).collect(Collectors.toMap(p -> p.getButtonId(), Function.identity())));
 
     /**
      * Represents the enumerated types of prayer
@@ -23,37 +33,52 @@ public final class PrayerBook {
      * @author Vult-R
      */
     public enum Prayer {
-        THICK_SKIN("Thick Skin", 5609, 1, 12.0, 83, 446, PrayerGroup.DEFENCE),
-        BURST_OF_STRENGTH("Burst of Strength", 5610, 4, 12.0, 84, 449, PrayerGroup.STRENGTH),
-        CLARITY_OF_THOUGHT("Clarity of Thought", 5611, 7, 12.0, 85, 436, PrayerGroup.ATTACK),
-        SHARP_EYE("Sharp Eye", 19812, 8, 12.0, 700, -1, PrayerGroup.MAGE_RANGE),
-        MYSTIC_WILL("Mystic Will", 19814, 9, 12.0, 701, -1, PrayerGroup.MAGE_RANGE),
-        ROCK_SKIN("Rock Skin", 5612, 10, 8.0, 86, 441, PrayerGroup.DEFENCE),
-        SUPERHUMAN_STRENGTH("Superhuman Strength", 5613, 13, 8.0, 87, 434, PrayerGroup.STRENGTH),
-        IMPROVED_REFLEXES("Improved Reflexes", 5614, 16, 8.0, 88, 448, PrayerGroup.ATTACK),
-        RAPID_RESTORE("Rapid Restore", 5615, 19, 60.0, 89, 452, PrayerGroup.DEFAULT),
-        RAPID_HEAL("Rapid Heal", 5616, 22, 60.0, 90, 443, PrayerGroup.DEFAULT),
-        PROTECT_ITEM("Protect Item", 5617, 25, 30.0, 91, -1, PrayerGroup.DEFAULT),
-        HAWK_EYE("Hawk Eye", 19816, 26, 6.0, 702, -1, PrayerGroup.MAGE_RANGE),
-        MYSTIC_LORE("Mystic Lore", 19818, 27, 6.0, 703, -1, PrayerGroup.MAGE_RANGE),
-        STEEL_SKIN("Steel Skin", 5618, 28, 6.0, 92, 439, PrayerGroup.DEFENCE),
-        ULTIMATE_STRENGTH("Ultimate Strength", 5619, 31, 6.0, 93, 450, PrayerGroup.STRENGTH),
-        INCREDIBLE_REFLEXES("Incredible Reflexes", 5620, 34, 6.0, 94, 440, PrayerGroup.ATTACK),
-        PROTECT_FROM_MAGIC("Protect from Magic", 5621, 37, 4.0, 95, 438, PrayerGroup.OVER_HEAD),
-        PROTECT_FROM_RANGE("Protect from Range", 5622, 40, 4.0, 96, 444, PrayerGroup.OVER_HEAD),
-        PROTECT_FROM_MELEE("Protect from Melee", 5623, 43, 4.0, 97, 433, PrayerGroup.OVER_HEAD),
-        EAGLE_EYE("Eagle Eye", 19821, 44, 6.0, 704, -1, PrayerGroup.MAGE_RANGE),
-        MYSTIC_MIGHT("Mystic Might", 19823, 45, 6.0, 705, -1, PrayerGroup.MAGE_RANGE),
-        RETRIBUTION("Retribution", 683, 46, 4.0, 98, -1, PrayerGroup.OVER_HEAD),
-        REDEMPTION("Redemption", 684, 49, 3.0, 99, -1, PrayerGroup.OVER_HEAD),
-        SMITE("Smite", 685, 52, 4.0, 100, -1, PrayerGroup.OVER_HEAD),
-        CHIVALRY("Chivalry", 19825, 60, 3.0, 706, -1, PrayerGroup.COMBAT),
-        PIETY("Piety", 19827, 70, 3.0, 707, -1, PrayerGroup.COMBAT);
+        THICK_SKIN("Thick Skin", 0, 5609, 0, 12.0, 83, 446, PrayerGroup.DEFENCE),
+        BURST_OF_STRENGTH("Burst of Strength", 1, 5610, 4, 12.0, 84, 449, PrayerGroup.STRENGTH),
+        CLARITY_OF_THOUGHT("Clarity of Thought", 2, 5611, 7, 12.0, 85, 436, PrayerGroup.ATTACK),
+        SHARP_EYE("Sharp Eye", 3, 19812, 8, 12.0, 700, -1, PrayerGroup.MAGE_RANGE),
+        MYSTIC_WILL("Mystic Will", 4, 19814, 9, 12.0, 701, -1, PrayerGroup.MAGE_RANGE),
+        ROCK_SKIN("Rock Skin", 5, 5612, 10, 8.0, 86, 441, PrayerGroup.DEFENCE),
+        SUPERHUMAN_STRENGTH("Superhuman Strength", 6, 5613, 13, 8.0, 87, 434, PrayerGroup.STRENGTH),
+        IMPROVED_REFLEXES("Improved Reflexes", 7, 5614, 16, 8.0, 88, 448, PrayerGroup.ATTACK),
+        RAPID_RESTORE("Rapid Restore", 8, 5615, 19, 60.0, 89, 452, PrayerGroup.DEFAULT),
+        RAPID_HEAL("Rapid Heal", 9, 5616, 22, 60.0, 90, 443, PrayerGroup.DEFAULT),
+        PROTECT_ITEM("Protect Item", 10, 5617, 25, 30.0, 91, -1, PrayerGroup.DEFAULT),
+        HAWK_EYE("Hawk Eye", 11, 19816, 26, 6.0, 702, -1, PrayerGroup.MAGE_RANGE),
+        MYSTIC_LORE("Mystic Lore", 12, 19818, 27, 6.0, 703, -1, PrayerGroup.MAGE_RANGE),
+        STEEL_SKIN("Steel Skin", 13, 5618, 28, 6.0, 92, 439, PrayerGroup.DEFENCE),
+        ULTIMATE_STRENGTH("Ultimate Strength", 14, 5619, 31, 6.0, 93, 450, PrayerGroup.STRENGTH),
+        INCREDIBLE_REFLEXES("Incredible Reflexes", 15, 5620, 34, 6.0, 94, 440, PrayerGroup.ATTACK),
+        PROTECT_FROM_MAGIC("Protect from Magic", 16, 5621, 37, 4.0, 95, 438, PrayerGroup.OVER_HEAD),
+        PROTECT_FROM_RANGE("Protect from Range", 17, 5622, 40, 4.0, 96, 444, PrayerGroup.OVER_HEAD),
+        PROTECT_FROM_MELEE("Protect from Melee", 18, 5623, 43, 4.0, 97, 433, PrayerGroup.OVER_HEAD),
+        EAGLE_EYE("Eagle Eye", 19, 19821, 44, 6.0, 704, -1, PrayerGroup.MAGE_RANGE),
+        MYSTIC_MIGHT("Mystic Might", 20, 19823, 45, 6.0, 705, -1, PrayerGroup.MAGE_RANGE),
+        RETRIBUTION("Retribution", 21, 683, 46, 4.0, 98, -1, PrayerGroup.OVER_HEAD),
+        REDEMPTION("Redemption", 22, 684, 49, 3.0, 99, -1, PrayerGroup.OVER_HEAD),
+        SMITE("Smite", 23, 685, 52, 4.0, 100, -1, PrayerGroup.OVER_HEAD),
+        CHIVALRY("Chivalry", 24, 19825, 60, 3.0, 706, -1, PrayerGroup.COMBAT),
+        PIETY("Piety", 25, 19827, 70, 3.0, 707, -1, PrayerGroup.COMBAT);
+    	
+        /**
+         * The immutable list of all prayers that belong to the over-head-disabled group.
+         */
+        static final ImmutableList<Prayer> OVER_HEAD_DISABLED = ImmutableList.of(Prayer.PROTECT_FROM_MAGIC, Prayer.PROTECT_FROM_RANGE, Prayer.PROTECT_FROM_MELEE, Prayer.RETRIBUTION, Prayer.REDEMPTION, Prayer.SMITE);
+        static final ImmutableList<Prayer> DEFENCE_DISABLED = ImmutableList.of(Prayer.THICK_SKIN, Prayer.ROCK_SKIN, Prayer.STEEL_SKIN, Prayer.CHIVALRY, Prayer.PIETY);
+        static final ImmutableList<Prayer> ATTACK_DISABLED = ImmutableList.of(Prayer.CLARITY_OF_THOUGHT, Prayer.IMPROVED_REFLEXES, Prayer.INCREDIBLE_REFLEXES, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
+        static final ImmutableList<Prayer> STRENGTH_DISABLED = ImmutableList.of(Prayer.BURST_OF_STRENGTH, Prayer.SUPERHUMAN_STRENGTH, Prayer.ULTIMATE_STRENGTH, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
+        static final ImmutableList<Prayer> ATT_STR_DISABLED = ImmutableList.of(Prayer.CLARITY_OF_THOUGHT, Prayer.IMPROVED_REFLEXES, Prayer.INCREDIBLE_REFLEXES, Prayer.BURST_OF_STRENGTH, Prayer.SUPERHUMAN_STRENGTH, Prayer.ULTIMATE_STRENGTH, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
+        static final ImmutableList<Prayer> COMBAT_DISABLED = ImmutableList.of(Prayer.CLARITY_OF_THOUGHT, Prayer.IMPROVED_REFLEXES, Prayer.INCREDIBLE_REFLEXES, Prayer.BURST_OF_STRENGTH, Prayer.SUPERHUMAN_STRENGTH, Prayer.ULTIMATE_STRENGTH, Prayer.THICK_SKIN, Prayer.ROCK_SKIN, Prayer.STEEL_SKIN, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
 
         /**
          * The name of this prayer.
          */
         private final String name;
+        
+        /**
+         * The id of this prayer.
+         */
+        private final int id;
 
         /**
          *The buttonId associated with this prayer.
@@ -85,46 +110,16 @@ public final class PrayerBook {
          */
         private final PrayerGroup group;
 
-        private Prayer(String name, int buttonId, int level, double drainRate, int configId, int soundId, PrayerGroup group) {
+        private Prayer(String name, int id, int buttonId, int level, double drainRate, int configId, int soundId, PrayerGroup group) {
             this.name = name;
+            this.id = id;
             this.buttonId = buttonId;
             this.requiredLevel = level;
             this.drainRate = drainRate;
             this.configId = configId;
             this.soundId = soundId;
             this.group = group;
-        }
-
-        /**
-         * Gets the button for this prayer.
-         */
-        public int getButtonId() {
-            return buttonId;
-        }
-
-        /**
-         * Gets the config value for this prayer.
-         */
-        public int getConfigId() {
-            return configId;
-        }
-
-        /**
-         * Gets the sound effect id for this prayer.
-         */
-        public int getSoundId() {
-            return soundId;
-        }
-
-        /**
-         * The immutable list of all prayers that belong to the over-head-disabled group.
-         */
-        static final ImmutableList<Prayer> OVER_HEAD_DISABLED = ImmutableList.of(Prayer.PROTECT_FROM_MAGIC, Prayer.PROTECT_FROM_RANGE, Prayer.PROTECT_FROM_MELEE, Prayer.RETRIBUTION, Prayer.REDEMPTION, Prayer.SMITE);
-        static final ImmutableList<Prayer> DEFENCE_DISABLED = ImmutableList.of(Prayer.THICK_SKIN, Prayer.ROCK_SKIN, Prayer.STEEL_SKIN, Prayer.CHIVALRY, Prayer.PIETY);
-        static final ImmutableList<Prayer> ATTACK_DISABLED = ImmutableList.of(Prayer.CLARITY_OF_THOUGHT, Prayer.IMPROVED_REFLEXES, Prayer.INCREDIBLE_REFLEXES, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
-        static final ImmutableList<Prayer> STRENGTH_DISABLED = ImmutableList.of(Prayer.BURST_OF_STRENGTH, Prayer.SUPERHUMAN_STRENGTH, Prayer.ULTIMATE_STRENGTH, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
-        static final ImmutableList<Prayer> ATT_STR_DISABLED = ImmutableList.of(Prayer.CLARITY_OF_THOUGHT, Prayer.IMPROVED_REFLEXES, Prayer.INCREDIBLE_REFLEXES, Prayer.BURST_OF_STRENGTH, Prayer.SUPERHUMAN_STRENGTH, Prayer.ULTIMATE_STRENGTH, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
-        static final ImmutableList<Prayer> COMBAT_DISABLED = ImmutableList.of(Prayer.CLARITY_OF_THOUGHT, Prayer.IMPROVED_REFLEXES, Prayer.INCREDIBLE_REFLEXES, Prayer.BURST_OF_STRENGTH, Prayer.SUPERHUMAN_STRENGTH, Prayer.ULTIMATE_STRENGTH, Prayer.THICK_SKIN, Prayer.ROCK_SKIN, Prayer.STEEL_SKIN, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
+        }        
 
         /**
          * Gets the disabled prayers.
@@ -154,7 +149,35 @@ public final class PrayerBook {
                     throw new IllegalStateException(group.name() + " is illegal.");
             }
         }
+        
+        /**
+         * Gets the id of this prayer.
+         */
+        public int getId() {
+        	return id;
+        }
 
+        /**
+         * Gets the button for this prayer.
+         */
+        public int getButtonId() {
+            return buttonId;
+        }
+
+        /**
+         * Gets the config value for this prayer.
+         */
+        public int getConfigId() {
+            return configId;
+        }
+
+        /**
+         * Gets the sound effect id for this prayer.
+         */
+        public int getSoundId() {
+            return soundId;
+        }
+        
         /**
          * Gets the drain rate of this prayer.
          */
@@ -179,6 +202,7 @@ public final class PrayerBook {
         public PrayerGroup getGroup() {
             return group;
         }
+
     }
 
     /**
@@ -233,7 +257,7 @@ public final class PrayerBook {
      * Determines if a prayer can be activated.
      */
     public boolean active(Prayer prayer) {
-        return activated[prayer.ordinal()];
+        return activated[prayer.getId()];
     }
 
     /**
@@ -291,13 +315,13 @@ public final class PrayerBook {
                     player.queuePacket(new SetWidgetConfigPacket(630 + prayerId, 0));
                     return true;
                 } else {
-                    quickPrayers[prayer.ordinal()] = true;
-                    player.queuePacket(new SetWidgetConfigPacket(630 + prayer.ordinal(), 1));
+                    quickPrayers[prayer.getId()] = true;
+                    player.queuePacket(new SetWidgetConfigPacket(630 + prayer.getId(), 1));
                     if (prayer.getDisabledPrayers() != null) {
                         for (final Prayer override : prayer.getDisabledPrayers()) {
                             if (override != prayer) {
-                                quickPrayers[override.ordinal()] = false;
-                                player.queuePacket(new SetWidgetConfigPacket(630 + override.ordinal(), 0));
+                                quickPrayers[override.getId()] = false;
+                                player.queuePacket(new SetWidgetConfigPacket(630 + override.getId(), 0));
                             }
                         }
                     }
@@ -308,6 +332,8 @@ public final class PrayerBook {
             }
             return true;
         }
+        
+        search(button).ifPresent(it -> toggle(it));        
 
         switch (button) {
 
@@ -327,7 +353,7 @@ public final class PrayerBook {
 
             case 5001:
                 for (final Prayer prayer : Prayer.values()) {
-                    player.queuePacket(new SetWidgetConfigPacket(630 + prayer.ordinal(), quickPrayers[prayer.ordinal()] ? 1 : 0));
+                    player.queuePacket(new SetWidgetConfigPacket(630 + prayer.getId(), quickPrayers[prayer.getId()] ? 1 : 0));
                 }
                 break;
 
@@ -335,110 +361,6 @@ public final class PrayerBook {
                 player.queuePacket(new ServerMessagePacket("Your quick prayers have been saved."));
                 player.getWidgets().openSidebarWidget(5, 5608);
                 break;
-
-            case 5609:
-                toggle(Prayer.THICK_SKIN);
-                return true;
-
-            case 5610:
-                toggle(Prayer.BURST_OF_STRENGTH);
-                return true;
-
-            case 5611:
-                toggle(Prayer.CLARITY_OF_THOUGHT);
-                return true;
-
-            case 19812:
-                toggle(Prayer.SHARP_EYE);
-                return true;
-
-            case 19814:
-                toggle(Prayer.MYSTIC_WILL);
-                return true;
-
-            case 5612:
-                toggle(Prayer.ROCK_SKIN);
-                return true;
-
-            case 5613:
-                toggle(Prayer.SUPERHUMAN_STRENGTH);
-                return true;
-
-            case 5614:
-                toggle(Prayer.IMPROVED_REFLEXES);
-                return true;
-
-            case 5615:
-                toggle(Prayer.RAPID_RESTORE);
-                return true;
-
-            case 5616:
-                toggle(Prayer.RAPID_HEAL);
-                return true;
-
-            case 5617:
-                toggle(Prayer.PROTECT_ITEM);
-                return true;
-
-            case 19816:
-                toggle(Prayer.HAWK_EYE);
-                return true;
-
-            case 19818:
-                toggle(Prayer.MYSTIC_LORE);
-                return true;
-
-            case 5618:
-                toggle(Prayer.STEEL_SKIN);
-                return true;
-
-            case 5619:
-                toggle(Prayer.ULTIMATE_STRENGTH);
-                return true;
-
-            case 5620:
-                toggle(Prayer.INCREDIBLE_REFLEXES);
-                return true;
-
-            case 5621:
-                toggle(Prayer.PROTECT_FROM_MAGIC);
-                return true;
-
-            case 5622:
-                toggle(Prayer.PROTECT_FROM_RANGE);
-                return true;
-
-            case 5623:
-                toggle(Prayer.PROTECT_FROM_MELEE);
-                return true;
-
-            case 19821:
-                toggle(Prayer.EAGLE_EYE);
-                return true;
-
-            case 19823:
-                toggle(Prayer.MYSTIC_MIGHT);
-                return true;
-
-            case 683:
-                toggle(Prayer.RETRIBUTION);
-                return true;
-
-            case 684:
-                toggle(Prayer.REDEMPTION);
-                return true;
-
-            case 685:
-                toggle(Prayer.SMITE);
-                return true;
-
-            case 19825:
-                toggle(Prayer.CHIVALRY);
-                return true;
-
-            case 19827:
-                toggle(Prayer.PIETY);
-                return true;
         }
         return false;
     }
@@ -490,9 +412,9 @@ public final class PrayerBook {
         int amount = 0;
         for (final Prayer prayer : Prayer.values()) {
             if (active(prayer)) {
-                if (++drain[prayer.ordinal()] >= getAffectedDrainRate(prayer)) {
+                if (++drain[prayer.getId()] >= getAffectedDrainRate(prayer)) {
                     amount++;
-                    drain[prayer.ordinal()] = 0;
+                    drain[prayer.getId()] = 0;
                 }
             }
         }
@@ -532,8 +454,12 @@ public final class PrayerBook {
             quickPrayerEnabled = false;
             return false;
         }
-        toggle(prayer, !activated[prayer.ordinal()]);
+        toggle(prayer, !activated[prayer.getId()]);
         return true;
+    }
+    
+    public Optional<Prayer> search(int button) {
+    	return Optional.ofNullable(VALUES.get(button));
     }
 
     /**
@@ -547,7 +473,7 @@ public final class PrayerBook {
             return;
         }
 
-        activated[prayer.ordinal()] = isEnabled;
+        activated[prayer.getId()] = isEnabled;
         player.queuePacket(new SetWidgetConfigPacket(prayer.getConfigId(), isEnabled ? 1 : 0));
         if (isEnabled) {
             if (prayer.getDisabledPrayers() != null) {
@@ -587,13 +513,13 @@ public final class PrayerBook {
                 continue;
             }
 
-            if (active(prayer) && enabled && quickPrayers[prayer.ordinal()]) {
+            if (active(prayer) && enabled && quickPrayers[prayer.getId()]) {
                 continue;
             }
 
-            toggle(prayer, enabled && quickPrayers[prayer.ordinal()]);
+            toggle(prayer, enabled && quickPrayers[prayer.getId()]);
 
-            if (!active(prayer) && quickPrayers[prayer.ordinal()] || !enabled) {
+            if (!active(prayer) && quickPrayers[prayer.getId()] || !enabled) {
                 success = false;
             }
         }
