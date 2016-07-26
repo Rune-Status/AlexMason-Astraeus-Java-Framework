@@ -16,23 +16,23 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Resembles a player's prayer book.
+ * Resembles a players prayer.
  *
  * @author Vult-R
  */
-public final class PrayerBook {
+public final class Prayer {
 	
 	/**
 	 * The immutable map of buttons mapped to their prayers.
 	 */
-	public static final ImmutableMap<Integer, Prayer> VALUES = ImmutableMap.copyOf(Stream.of(Prayer.values()).collect(Collectors.toMap(p -> p.getButtonId(), Function.identity())));
+	public static final ImmutableMap<Integer, PrayerType> VALUES = ImmutableMap.copyOf(Stream.of(PrayerType.values()).collect(Collectors.toMap(p -> p.getButtonId(), Function.identity())));
 
     /**
      * Represents the enumerated types of prayer
      *
      * @author Vult-R
      */
-    public enum Prayer {
+    public enum PrayerType {    	
         THICK_SKIN("Thick Skin", 0, 5609, 0, 12.0, 83, 446, PrayerGroup.DEFENCE),
         BURST_OF_STRENGTH("Burst of Strength", 1, 5610, 4, 12.0, 84, 449, PrayerGroup.STRENGTH),
         CLARITY_OF_THOUGHT("Clarity of Thought", 2, 5611, 7, 12.0, 85, 436, PrayerGroup.ATTACK),
@@ -63,32 +63,32 @@ public final class PrayerBook {
         /**
          * The immutable list of all prayers that belong to the over head group and only one can be activated at a given time.
          */
-        static final ImmutableList<Prayer> OVER_HEAD_DISABLED = ImmutableList.of(Prayer.PROTECT_FROM_MAGIC, Prayer.PROTECT_FROM_RANGE, Prayer.PROTECT_FROM_MELEE, Prayer.RETRIBUTION, Prayer.REDEMPTION, Prayer.SMITE);
+        static final ImmutableList<PrayerType> OVER_HEAD_DISABLED = ImmutableList.of(PrayerType.PROTECT_FROM_MAGIC, PrayerType.PROTECT_FROM_RANGE, PrayerType.PROTECT_FROM_MELEE, PrayerType.RETRIBUTION, PrayerType.REDEMPTION, PrayerType.SMITE);
         
         /**
          * The immutable list of all prayers that belong to the defense group and only one can be activated at a given time.
          */
-        static final ImmutableList<Prayer> DEFENCE_DISABLED = ImmutableList.of(Prayer.THICK_SKIN, Prayer.ROCK_SKIN, Prayer.STEEL_SKIN, Prayer.CHIVALRY, Prayer.PIETY);
+        static final ImmutableList<PrayerType> DEFENCE_DISABLED = ImmutableList.of(PrayerType.THICK_SKIN, PrayerType.ROCK_SKIN, PrayerType.STEEL_SKIN, PrayerType.CHIVALRY, PrayerType.PIETY);
         
         /**
          * The immutable list of all prayers that belong to the attack group and only one can be activated at a given time.
          */
-        static final ImmutableList<Prayer> ATTACK_DISABLED = ImmutableList.of(Prayer.CLARITY_OF_THOUGHT, Prayer.IMPROVED_REFLEXES, Prayer.INCREDIBLE_REFLEXES, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
+        static final ImmutableList<PrayerType> ATTACK_DISABLED = ImmutableList.of(PrayerType.CLARITY_OF_THOUGHT, PrayerType.IMPROVED_REFLEXES, PrayerType.INCREDIBLE_REFLEXES, PrayerType.SHARP_EYE, PrayerType.HAWK_EYE, PrayerType.EAGLE_EYE, PrayerType.MYSTIC_WILL, PrayerType.MYSTIC_LORE, PrayerType.MYSTIC_MIGHT, PrayerType.CHIVALRY, PrayerType.PIETY);
         
         /**
          * The immutable list of all prayers that belong to the strength group and only one can be activated at a given time.
          */
-        static final ImmutableList<Prayer> STRENGTH_DISABLED = ImmutableList.of(Prayer.BURST_OF_STRENGTH, Prayer.SUPERHUMAN_STRENGTH, Prayer.ULTIMATE_STRENGTH, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
+        static final ImmutableList<PrayerType> STRENGTH_DISABLED = ImmutableList.of(PrayerType.BURST_OF_STRENGTH, PrayerType.SUPERHUMAN_STRENGTH, PrayerType.ULTIMATE_STRENGTH, PrayerType.SHARP_EYE, PrayerType.HAWK_EYE, PrayerType.EAGLE_EYE, PrayerType.MYSTIC_WILL, PrayerType.MYSTIC_LORE, PrayerType.MYSTIC_MIGHT, PrayerType.CHIVALRY, PrayerType.PIETY);
         
         /**
          * The immutable list of all prayers that belong to the attack and strength group and only one can be activated at a given time.
          */
-        static final ImmutableList<Prayer> ATT_STR_DISABLED = ImmutableList.of(Prayer.CLARITY_OF_THOUGHT, Prayer.IMPROVED_REFLEXES, Prayer.INCREDIBLE_REFLEXES, Prayer.BURST_OF_STRENGTH, Prayer.SUPERHUMAN_STRENGTH, Prayer.ULTIMATE_STRENGTH, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
+        static final ImmutableList<PrayerType> ATT_STR_DISABLED = ImmutableList.of(PrayerType.CLARITY_OF_THOUGHT, PrayerType.IMPROVED_REFLEXES, PrayerType.INCREDIBLE_REFLEXES, PrayerType.BURST_OF_STRENGTH, PrayerType.SUPERHUMAN_STRENGTH, PrayerType.ULTIMATE_STRENGTH, PrayerType.SHARP_EYE, PrayerType.HAWK_EYE, PrayerType.EAGLE_EYE, PrayerType.MYSTIC_WILL, PrayerType.MYSTIC_LORE, PrayerType.MYSTIC_MIGHT, PrayerType.CHIVALRY, PrayerType.PIETY);
         
         /**
          * The immutable list of all prayers that belong to the combat group and only one can be activated at a given time.
          */
-        static final ImmutableList<Prayer> COMBAT_DISABLED = ImmutableList.of(Prayer.CLARITY_OF_THOUGHT, Prayer.IMPROVED_REFLEXES, Prayer.INCREDIBLE_REFLEXES, Prayer.BURST_OF_STRENGTH, Prayer.SUPERHUMAN_STRENGTH, Prayer.ULTIMATE_STRENGTH, Prayer.THICK_SKIN, Prayer.ROCK_SKIN, Prayer.STEEL_SKIN, Prayer.SHARP_EYE, Prayer.HAWK_EYE, Prayer.EAGLE_EYE, Prayer.MYSTIC_WILL, Prayer.MYSTIC_LORE, Prayer.MYSTIC_MIGHT, Prayer.CHIVALRY, Prayer.PIETY);
+        static final ImmutableList<PrayerType> COMBAT_DISABLED = ImmutableList.of(PrayerType.CLARITY_OF_THOUGHT, PrayerType.IMPROVED_REFLEXES, PrayerType.INCREDIBLE_REFLEXES, PrayerType.BURST_OF_STRENGTH, PrayerType.SUPERHUMAN_STRENGTH, PrayerType.ULTIMATE_STRENGTH, PrayerType.THICK_SKIN, PrayerType.ROCK_SKIN, PrayerType.STEEL_SKIN, PrayerType.SHARP_EYE, PrayerType.HAWK_EYE, PrayerType.EAGLE_EYE, PrayerType.MYSTIC_WILL, PrayerType.MYSTIC_LORE, PrayerType.MYSTIC_MIGHT, PrayerType.CHIVALRY, PrayerType.PIETY);
 
         /**
          * The name of this prayer.
@@ -130,7 +130,7 @@ public final class PrayerBook {
          */
         private final PrayerGroup group;
 
-        private Prayer(String name, int id, int buttonId, int level, double drainRate, int configId, int soundId, PrayerGroup group) {
+        private PrayerType(String name, int id, int buttonId, int level, double drainRate, int configId, int soundId, PrayerGroup group) {
             this.name = name;
             this.id = id;
             this.buttonId = buttonId;
@@ -144,7 +144,7 @@ public final class PrayerBook {
         /**
          * Gets the disabled prayers.
          */
-        public ImmutableList<Prayer> getDisabledPrayers() {
+        public ImmutableList<PrayerType> getDisabledPrayers() {
             switch (group) {
 
                 case OVER_HEAD:
@@ -231,7 +231,7 @@ public final class PrayerBook {
     /**
      * Represents a prayer group
      */
-    public enum PrayerGroup {
+    private enum PrayerGroup {    	
         OVER_HEAD,
         DEFENCE,
         ATTACK,
@@ -249,12 +249,12 @@ public final class PrayerBook {
     /**
      * The list of activated prayers
      */
-    private final boolean[] activated = new boolean[Prayer.values().length];
+    private final boolean[] activated = new boolean[PrayerType.values().length];
 
     /**
      * The list of activated quick prayers.
      */
-    private boolean[] quickPrayers = new boolean[Prayer.values().length];
+    private boolean[] quickPrayers = new boolean[PrayerType.values().length];
 
     /**
      * The flag that denotes quick prayer is enabled.
@@ -264,22 +264,22 @@ public final class PrayerBook {
     /**
      * The list of prayers currently draining.
      */
-    private final int[] drain = new int[Prayer.values().length];
+    private final int[] drain = new int[PrayerType.values().length];
 
     /**
-     * Creates a new {@link PrayerBook}.
+     * Creates a new {@link Prayer}.
      *
      * @param player
      *      The player who owns these prayers.
      */
-    public PrayerBook(Player player) {
+    public Prayer(Player player) {
         this.player = player;
     }
 
     /**
      * Determines if a prayer can be activated.
      */
-    public boolean active(Prayer prayer) {
+    public boolean active(PrayerType prayer) {
         return activated[prayer.getId()];
     }
 
@@ -287,13 +287,13 @@ public final class PrayerBook {
      * Determines if a button is a prayer button.
      */
     public static boolean isPrayerButton(int buttonId) {
-        return Arrays.stream(Prayer.values()).anyMatch(it -> buttonId == it.getButtonId());
+        return Arrays.stream(PrayerType.values()).anyMatch(it -> buttonId == it.getButtonId());
     }
 
     /**
      * Determines if a player can toggle a specified prayer.
      */
-    private boolean canToggle(Prayer prayer) {
+    private boolean canToggle(PrayerType prayer) {
         if (!player.canPray()) {
             return false;
         }
@@ -312,12 +312,12 @@ public final class PrayerBook {
             return false;
         }
 
-        if (prayer == Prayer.CHIVALRY && player.getSkills().getMaxLevel(Skill.PRAYER) < 65) {
+        if (prayer == PrayerType.CHIVALRY && player.getSkills().getMaxLevel(Skill.PRAYER) < 65) {
             player.getDialogueFactory().sendStatement("You need a Defence level of <col=255>65</col> to use Chivalry.").execute();
             return false;
         }
 
-        if (prayer == Prayer.PIETY && player.getSkills().getMaxLevel(Skill.PRAYER) < 70) {
+        if (prayer == PrayerType.PIETY && player.getSkills().getMaxLevel(Skill.PRAYER) < 70) {
             player.getDialogueFactory().sendStatement("You need a Defence level of <col=255>70</col> to use Piety.").execute();
             return false;
         }
@@ -332,7 +332,7 @@ public final class PrayerBook {
     	// quick prayer
         if (button >= 17202 && button <= 17227) {
             final int prayerId = button - 17202;
-            final Prayer prayer = Prayer.values()[prayerId];
+            final PrayerType prayer = PrayerType.values()[prayerId];
 
             if (!quickPrayers[prayerId]) {
                 if (!canToggle(prayer)) {
@@ -342,7 +342,7 @@ public final class PrayerBook {
                     quickPrayers[prayer.getId()] = true;
                     player.queuePacket(new SetWidgetConfigPacket(630 + prayer.getId(), 1));
                     if (prayer.getDisabledPrayers() != null) {
-                        for (final Prayer override : prayer.getDisabledPrayers()) {
+                        for (final PrayerType override : prayer.getDisabledPrayers()) {
                             if (override != prayer) {
                                 quickPrayers[override.getId()] = false;
                                 player.queuePacket(new SetWidgetConfigPacket(630 + override.getId(), 0));
@@ -376,7 +376,7 @@ public final class PrayerBook {
                 break;
 
             case 5001:
-                for (final Prayer prayer : Prayer.values()) {
+                for (final PrayerType prayer : PrayerType.values()) {
                     player.queuePacket(new SetWidgetConfigPacket(630 + prayer.getId(), quickPrayers[prayer.getId()] ? 1 : 0));
                 }
                 break;
@@ -392,7 +392,7 @@ public final class PrayerBook {
     /**
      * Gets the associated head icon from an over head type prayer.
      */
-    private int getHeadIcon(Prayer prayer) {
+    private int getHeadIcon(PrayerType prayer) {
         switch (prayer) {
             case PROTECT_FROM_MAGIC:
                 return 2;
@@ -415,7 +415,7 @@ public final class PrayerBook {
      * Disables all prayer buttons.
      */
     public void disable() {
-        for (final Prayer prayer : Prayer.values()) {
+        for (final PrayerType prayer : PrayerType.values()) {
             if (active(prayer)) {
                 toggle(prayer, false);
             }
@@ -425,7 +425,7 @@ public final class PrayerBook {
     /**
      * Disables a specific prayer.
      */
-    public void disable(Prayer prayer) {
+    public void disable(PrayerType prayer) {
         toggle(prayer, false);
     }
 
@@ -434,7 +434,7 @@ public final class PrayerBook {
      */
     public void drain() {
         int amount = 0;
-        for (final Prayer prayer : Prayer.values()) {
+        for (final PrayerType prayer : PrayerType.values()) {
             if (active(prayer)) {
                 if (++drain[prayer.getId()] >= getAffectedDrainRate(prayer)) {
                     amount++;
@@ -463,7 +463,7 @@ public final class PrayerBook {
     /**
      * Gets the affected drain rate.
      */
-    public double getAffectedDrainRate(Prayer prayer) {
+    public double getAffectedDrainRate(PrayerType prayer) {
         final int prayerBonus = player.getBonuses()[Equipment.PRAYER];
         return prayer.getDrainRate() * (1 + prayerBonus / 30.0);
     }
@@ -471,7 +471,7 @@ public final class PrayerBook {
     /**
      * The method that toggles a specified prayer.
      */
-    public boolean toggle(Prayer prayer) {
+    public boolean toggle(PrayerType prayer) {
         if (!canToggle(prayer)) {
             player.queuePacket(new SetWidgetConfigPacket(prayer.getConfigId(), 0));
             player.queuePacket(new SetWidgetStringPacket(Math.random() + ":quicks:off", 0));
@@ -485,14 +485,14 @@ public final class PrayerBook {
     /**
      * Gets an {@link Optional} describing the result of retrieving a mapped button to its prayer.
      */
-    public Optional<Prayer> search(int button) {
+    public Optional<PrayerType> search(int button) {
     	return Optional.ofNullable(VALUES.get(button));
     }
 
     /**
      * The method that toggles a specified prayer.
      */
-    public void toggle(Prayer prayer, boolean isEnabled) {
+    public void toggle(PrayerType prayer, boolean isEnabled) {
         if (player.isDead() || player.getCurrentHealth() <= 0) {
             player.queuePacket(new SetWidgetConfigPacket(prayer.getConfigId(), 0));
             player.queuePacket(new SetWidgetStringPacket(Math.random() + ":quicks:off", 0));
@@ -504,7 +504,7 @@ public final class PrayerBook {
         player.queuePacket(new SetWidgetConfigPacket(prayer.getConfigId(), isEnabled ? 1 : 0));
         if (isEnabled) {
             if (prayer.getDisabledPrayers() != null) {
-                for (final Prayer override : prayer.getDisabledPrayers()) {
+                for (final PrayerType override : prayer.getDisabledPrayers()) {
                     if (override != prayer) {
                         toggle(override, false);
                     }
@@ -535,7 +535,7 @@ public final class PrayerBook {
     public void toggleQuickPrayers(boolean enabled) {
         boolean success = true;
 
-        for (final Prayer prayer : Prayer.values()) {
+        for (final PrayerType prayer : PrayerType.values()) {
             if (!active(prayer) && !enabled) {
                 continue;
             }

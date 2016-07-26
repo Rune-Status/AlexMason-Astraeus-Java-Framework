@@ -59,7 +59,7 @@ public class Player extends Mob {
 	private final Equipment equipment = new Equipment(this);
 	private final Bank bank = new Bank(this);
 	private final WidgetSet widgets = new WidgetSet(this);
-	private final PrayerBook prayerBook = new PrayerBook(this);
+	private final Prayer prayer = new Prayer(this);
 	private DialogueFactory dialogueFactory = new DialogueFactory(this);
 	private Optional<Dialogue> dialogue = Optional.empty();
 	private Optional<OptionDialogue> optionDialogue;
@@ -157,7 +157,7 @@ public class Player extends Mob {
 	public void tick() {
 		handleRunRestore();
 
-		prayerBook.drain();
+		prayer.drain();
 	}
 
 	@Override
@@ -647,8 +647,8 @@ public class Player extends Mob {
     	this.combatLevel = combatLevel;
     }
 
-	public PrayerBook getPrayerBook() {
-		return prayerBook;
+	public Prayer getPrayer() {
+		return prayer;
 	}
 
 	@Override
