@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 /**
  * The {@link ByteToMessageDecoder} implementation that decodes incoming {@link IncomingPacket}s.
  * 
- * @author SeVen
+ * @author Vult-R
  */
 public final class GamePacketDecoder extends ByteToMessageDecoder {
 

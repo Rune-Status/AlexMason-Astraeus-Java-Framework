@@ -2,6 +2,7 @@ package astraeus.net.packet;
 
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.packet.in.*;
+import astraeus.util.LoggerUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,12 +20,12 @@ public final class IncomingPacketHandlerRegistration {
 	/**
 	 * The single logger for this class.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(IncomingPacketHandlerRegistration.class.getName());
+	private static final Logger logger = LoggerUtils.getLogger(IncomingPacketHandlerRegistration.class);
 
 	/**
 	 * The map of {@IncomingPacket} opcodes mapped to their listener.
 	 */
-	private final static Map<Integer, Receivable> INCOMING_PACKETS = new HashMap<>();
+	private final static Map<Integer, Receivable> incomingPackets = new HashMap<>();	
 
 	/**
 	 * Intercepts an {@link IncomingPacket} for a {@code player} and dispatches
@@ -37,10 +38,10 @@ public final class IncomingPacketHandlerRegistration {
 	 *            The incoming packet to intervene.
 	 */
 	public static final void dispatchToHandler(Player player, IncomingPacket packet) {
-		Optional<Receivable> listener = Optional.ofNullable(INCOMING_PACKETS.get(packet.getOpcode()));
+		Optional<Receivable> listener = Optional.ofNullable(incomingPackets.get(packet.getOpcode()));
 
 		if (player.attr().get(Player.DEBUG_NETWORK_KEY)) {
-			LOGGER.info(String.format(packet.toString()));
+			logger.info(String.format(packet.toString()));
 		}
 
 		listener.ifPresent(msg -> msg.handlePacket(player, packet));
@@ -57,7 +58,7 @@ public final class IncomingPacketHandlerRegistration {
 				.getAnnotation(IncomingPacket.IncomingPacketOpcode.class);
 		if (annotation != null) {
 			for (final int opcode : annotation.value()) {
-				INCOMING_PACKETS.put(opcode, listener);
+				incomingPackets.put(opcode, listener);
 			}
 		}
 	}

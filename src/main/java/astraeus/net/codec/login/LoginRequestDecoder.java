@@ -22,13 +22,13 @@ public final class LoginRequestDecoder extends ByteToMessageDecoder {
 	/**
 	 * The single logger for this class.
 	 */
-	private static final Logger LOGGER = LoggerUtils.getLogger(LoginRequestDecoder.class);
+	private static final Logger logger = LoggerUtils.getLogger(LoginRequestDecoder.class);	
 	
 	/**
 	 * Generates random numbers via secure cryptography. Generates the session
 	 * key for packet encryption.
 	 */
-	private static final Random RANDOM = new SecureRandom();
+	private static final Random random = new SecureRandom();	
 
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
@@ -39,7 +39,7 @@ public final class LoginRequestDecoder extends ByteToMessageDecoder {
 			int nameHash = in.readUnsignedByte();
 
 			if (request != ProtocolConstants.GAME_SEVER_OPCODE && request != ProtocolConstants.FILE_SERVER_OPCODE) {
-				LOGGER.info(String.format("[host= %s] was rejected for having an invalid connection request.", ctx.channel().remoteAddress()));
+				logger.info(String.format("[host= %s] was rejected for having an invalid connection request.", ctx.channel().remoteAddress()));
 				LoginUtils.sendResponseCode(ctx, LoginResponse.INVALID_LOGIN_SERVER);
 				return;
 			}
@@ -47,7 +47,7 @@ public final class LoginRequestDecoder extends ByteToMessageDecoder {
 			ByteBuf buf = Unpooled.buffer(19);
 			buf.writeLong(0);
 			buf.writeByte(0);
-			buf.writeLong(RANDOM.nextLong());
+			buf.writeLong(random.nextLong());
 			ctx.writeAndFlush(buf);
 			
 			ctx.pipeline().replace("login-request-decoder", "login-type-decoder", new LoginTypeDecoder());

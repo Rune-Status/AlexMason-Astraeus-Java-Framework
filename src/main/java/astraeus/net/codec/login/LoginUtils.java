@@ -12,6 +12,9 @@ import io.netty.channel.ChannelHandlerContext;
  */
 public final class LoginUtils {
 	
+	/**
+	 * The private constructor to prevent instantiation.
+	 */
 	private LoginUtils() {
 		
 	}

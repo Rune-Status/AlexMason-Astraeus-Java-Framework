@@ -3,8 +3,16 @@ package astraeus.net.codec.login;
 import astraeus.net.codec.IsaacCipher;
 import io.netty.channel.ChannelHandlerContext;
 
+/**
+ * The upstream packet that contains information about a player.
+ * 
+ * @author Vult-R
+ */
 public final class LoginDetailsPacket {
 
+	/**
+	 * The context to which this player is going through.
+	 */
     private final ChannelHandlerContext context;
 
     /**
@@ -17,12 +25,42 @@ public final class LoginDetailsPacket {
      */
     private final String password;
 
+    /**
+     * The universal unique identifier for this player.
+     */
     private final String uuid;
 
+    /**
+     * The encrypting isaac
+     */
     private final IsaacCipher encryptor;
 
+    /**
+     * The decrypting isaac
+     */
     private final IsaacCipher decryptor;
 
+    /**
+     * Creates a new {@link LoginDetailsPacket}.
+     * 
+     * @param context
+     * 		The context to which this player is going through
+     * 
+     * @param username
+     * 		The username for this player
+     * 
+     * @param password
+     * 		The password for this player
+     * 	
+     * @param uuid
+     * 		The universal unique identifier for this player
+     * 
+     * @param encrptor
+     * 		The encrypting isaac
+     * 
+     * @param decrpytor
+     * 		The decrypting isaac
+     */
     public LoginDetailsPacket(ChannelHandlerContext context, String username, String password, String uuid,
                 IsaacCipher encryptor, IsaacCipher decryptor) {
           this.context = context;

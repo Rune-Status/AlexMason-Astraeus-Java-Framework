@@ -6,7 +6,7 @@ import astraeus.game.model.entity.mob.player.Player;
  * The interface that allows any implementing {@Packet}s. The ability to be
  * intercepted as an incoming packets.
  * 
- * @author SeVen
+ * @author Vult-R
  */
 @FunctionalInterface
 public interface Receivable {

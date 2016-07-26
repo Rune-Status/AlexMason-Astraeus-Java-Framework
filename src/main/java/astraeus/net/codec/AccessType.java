@@ -2,6 +2,8 @@ package astraeus.net.codec;
 
 /**
  * Represents the different forms data can be read or written in.
+ * 
+ * @author Graham
  */
 public enum AccessType {
 

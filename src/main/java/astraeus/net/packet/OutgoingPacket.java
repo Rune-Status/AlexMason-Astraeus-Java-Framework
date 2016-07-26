@@ -5,9 +5,9 @@ import io.netty.buffer.ByteBuf;
 /**
  * Represents an outgoing packet that can be sent to the client.
  * 
- * @author Seven
+ * @author Vult-R
  */
-public class OutgoingPacket {
+public final class OutgoingPacket {
 
 	/**
 	 * The opcode of this packet.

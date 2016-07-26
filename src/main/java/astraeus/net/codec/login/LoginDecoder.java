@@ -25,7 +25,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 	/**
 	 * The single logger for this class.
 	 */
-	private static final Logger LOGGER = LoggerUtils.getLogger(LoginDecoder.class);
+	private static final Logger logger = LoggerUtils.getLogger(LoginDecoder.class);	
 
 	/**
 	 * The size of the encrypted data.
@@ -69,7 +69,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 			encryptedLoginBlockSize = in.readUnsignedByte();
 
 			if (encryptedLoginBlockSize != in.readableBytes()) {
-				LOGGER.info(String.format("[host= %s] encryptedLoginBlockSize != readable bytes", ctx.channel().remoteAddress()));
+				logger.info(String.format("[host= %s] encryptedLoginBlockSize != readable bytes", ctx.channel().remoteAddress()));
 				LoginUtils.sendResponseCode(ctx, LoginResponse.LOGIN_SERVER_REJECTED_SESSION);
 			}
 
@@ -88,7 +88,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 			int magicValue = in.readUnsignedByte();
 
 			if (magicValue != 255) {
-				LOGGER.info(String.format("[host= %s] [magic= %d] was rejected for the wrong magic value.", ctx.channel().remoteAddress(), magicValue));
+				logger.info(String.format("[host= %s] [magic= %d] was rejected for the wrong magic value.", ctx.channel().remoteAddress(), magicValue));
 				LoginUtils.sendResponseCode(ctx, LoginResponse.LOGIN_SERVER_REJECTED_SESSION);
 				return;
 			}
@@ -96,7 +96,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 			int clientVersion = in.readUnsignedShort();
 
 			if (clientVersion != 317) {
-				LOGGER.info(String.format("[host= %s] [version= %d] was rejected for the wrong client version.", ctx.channel().remoteAddress(), clientVersion));
+				logger.info(String.format("[host= %s] [version= %d] was rejected for the wrong client version.", ctx.channel().remoteAddress(), clientVersion));
 				LoginUtils.sendResponseCode(ctx, LoginResponse.LOGIN_SERVER_REJECTED_SESSION);
 				return;
 			}
@@ -104,7 +104,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 			int memoryVersion = in.readUnsignedByte();
 
 			if (memoryVersion != 0 && memoryVersion != 1) {
-				LOGGER.info(String.format("[host= %s] was rejected for having the memory setting.", ctx.channel().remoteAddress()));
+				logger.info(String.format("[host= %s] was rejected for having the memory setting.", ctx.channel().remoteAddress()));
 				LoginUtils.sendResponseCode(ctx, LoginResponse.LOGIN_SERVER_REJECTED_SESSION);
 				return;
 			}
@@ -118,7 +118,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 			int expectedSize = in.readUnsignedByte();
 
 			if (expectedSize != encryptedLoginBlockSize - 41) {
-				LOGGER.info(String.format("[host= %s] was rejected for having the wrong client settings.", ctx.channel().remoteAddress()));
+				logger.info(String.format("[host= %s] was rejected for having the wrong client settings.", ctx.channel().remoteAddress()));
 				LoginUtils.sendResponseCode(ctx, LoginResponse.LOGIN_SERVER_REJECTED_SESSION);
 				return;
 			}
@@ -131,7 +131,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 				int rsa = rsaBuffer.readUnsignedByte();
 
 				if (rsa != 10) {
-					LOGGER.info(String.format("[host= %s] was rejected for having the wrong rsa opcode.", ctx.channel().remoteAddress()));
+					logger.info(String.format("[host= %s] was rejected for having the wrong rsa opcode.", ctx.channel().remoteAddress()));
 					LoginUtils.sendResponseCode(ctx, LoginResponse.LOGIN_SERVER_REJECTED_SESSION);
 					return;
 				}

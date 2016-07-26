@@ -3,7 +3,7 @@ package astraeus.net.packet;
 /**
  * Represents the header of a packet.
  * 
- * @author SeVen
+ * @author Vult-R
  */
 public enum PacketHeader {
 
@@ -23,7 +23,7 @@ public enum PacketHeader {
     VARIABLE_BYTE,
 
     /**
-     * A variable packet where the size is described by a word.
+     * A variable packet where the size is described by a short or a word.
      */
     VARIABLE_SHORT;
 
