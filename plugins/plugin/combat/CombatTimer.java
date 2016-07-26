@@ -2,11 +2,11 @@ package plugin.combat;
 
 import plugin.combat.type.CombatType;
 
-public class CombatTimer {
+public final class CombatTimer {
 
-    private byte meleeCooldown;
-    private byte rangeCooldown;
-    private byte magicCooldown;
+    private int meleeCooldown;
+    private int rangeCooldown;
+    private int magicCooldown;
 
     public boolean hasCooldown(CombatType type) {
         int diff = 4;
@@ -69,36 +69,36 @@ public class CombatTimer {
     public void setCooldown(CombatType type, int delay) {
         switch (type) {
             case MELEE:
-                meleeCooldown = (byte) delay;
+                meleeCooldown = delay;
 
                 if (magicCooldown < 2) {
-                    magicCooldown = (byte) 2;
+                    magicCooldown = 2;
                 }
 
                 if (rangeCooldown < 3) {
-                    rangeCooldown = (byte) 3;
+                    rangeCooldown = 3;
                 }
                 break;
             case RANGE:
-                rangeCooldown = (byte) delay;
+                rangeCooldown = delay;
 
                 if (meleeCooldown < 4) {
-                    meleeCooldown = (byte) 4;
+                    meleeCooldown = 4;
                 }
 
                 if (magicCooldown < 3) {
-                    magicCooldown = (byte) 3;
+                    magicCooldown = 3;
                 }
                 break;
             default:
-                magicCooldown = (byte) delay;
+                magicCooldown = delay;
 
                 if (meleeCooldown < 4) {
-                    meleeCooldown = (byte) 4;
+                    meleeCooldown = 4;
                 }
 
                 if (rangeCooldown < 3) {
-                    rangeCooldown = (byte) 3;
+                    rangeCooldown = 3;
                 }
                 break;
         }

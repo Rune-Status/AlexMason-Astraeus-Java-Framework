@@ -36,7 +36,7 @@ public abstract class Mob extends Entity {
 	
 	private SkillSet skills = new SkillSet(this);
 
-	private Position lastLocation = new Position(0, 0, 0);
+	private Position lastPosition = new Position(0, 0, 0);	
 
 	protected transient int slot;
 
@@ -283,8 +283,8 @@ public abstract class Mob extends Entity {
 		updateFlags.add(UpdateFlag.ENTITY_INTERACTION);
 	}
 
-	public void setLastLocation(Position lastLocation) {
-		this.lastLocation = lastLocation;
+	public void setLastPosition(Position lastPosition) {		
+		this.lastPosition = lastPosition;
 	}
 
 	public void setRegionChange(boolean regionChange) {
@@ -363,7 +363,7 @@ public abstract class Mob extends Entity {
 	}
 
 	public Position getLastLocation() {
-		return lastLocation;
+		return lastPosition;
 	}
 
 	public List<Npc> getLocalNpcs() {

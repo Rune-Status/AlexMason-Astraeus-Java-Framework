@@ -17,7 +17,7 @@ public class WeaponDefinition {
 
     private final int id;
     private final String name;
-    private WeaponType type;
+    private WeaponInterface type;
     private final CombatType combatType;
     private final RangedWeaponDefinition rangedWeapon;
     private final boolean twoHanded;
@@ -28,7 +28,7 @@ public class WeaponDefinition {
     private final int attackSpeed;
     private final int[] animations;
 
-    public WeaponDefinition(int id, String name, WeaponType type, CombatType combatType, RangedWeaponDefinition rangedWeaponDefinition, boolean twoHanded, int blockAnimation, int standAnimation, int walkAnimation, int runAnimation, int attackSpeed, int[] animations) {
+    public WeaponDefinition(int id, String name, WeaponInterface type, CombatType combatType, RangedWeaponDefinition rangedWeaponDefinition, boolean twoHanded, int blockAnimation, int standAnimation, int walkAnimation, int runAnimation, int attackSpeed, int[] animations) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -54,7 +54,7 @@ public class WeaponDefinition {
         return definition;
     }
 
-    public WeaponType getType() {
+    public WeaponInterface getType() {
         return type;
     }
 

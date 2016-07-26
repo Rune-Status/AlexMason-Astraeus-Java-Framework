@@ -369,19 +369,19 @@ public class Player extends Mob {
 	 * @param player
 	 *            The player that is being moved.
 	 *
-	 * @param location
+	 * @param oosition
 	 *            The location the player will be sent to.
 	 */
-	public void move(Position location) {
-		setLastLocation(getPosition().copy());
-		setPosition(new Position(location.copy()));
+	public void move(Position oosition) {		
+		setLastPosition(position.copy());
+		setPosition(new Position(oosition.copy()));
 		setTeleporting(true);
 		getMovement().reset();
 		getUpdateFlags().add(UpdateFlag.APPEARANCE);
 	}
 
 	private void handleRunRestore() {
-		if (attr.get(Movement.RUNNING_KEY)) {
+		if (attr.get(Movement.RUNNING_KEY) && movement.isMoving()) {
 			return;
 		}
 
@@ -392,8 +392,9 @@ public class Player extends Mob {
 
 			int energy = getRunEnergy() + 1;
 
-			if (energy > 100)
+			if (energy > 100) {
 				energy = 100;
+			}
 
 			setRunEnergy(energy);
 			queuePacket(new SetRunEnergyPacket());

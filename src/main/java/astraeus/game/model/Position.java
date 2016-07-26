@@ -4,6 +4,11 @@ import astraeus.game.model.entity.Entity;
 
 import java.util.Objects;
 
+/**
+ * Represents a position in the game world
+ * 
+ * @author Vult-R
+ */
 public final class Position {
 
 	/**
@@ -74,14 +79,6 @@ public final class Position {
 
 	public Position copy() {
 		return new Position(x, y, height);
-	}
-	
-	public Position climbUp() {
-	    return new Position(x, y, height + 1);
-	}
-	
-	public Position climbDown() {
-	    return new Position(x, y, height - 1);
 	}
 
 	/**
@@ -262,51 +259,28 @@ public final class Position {
 		return dx + dy;
 	}
 
+	/**
+	 * Determines if a position is within interacting distance.
+	 */
 	public boolean isWithinInteractionDistance(Position other) {
 		if (height != other.height) {
 			return false;
 		}
+		
 		final int deltaX = other.x - x, deltaY = other.y - y;
 		return deltaX <= 2 && deltaX >= -3 && deltaY <= 2 && deltaY >= -3;
 	}
 
 	/**
-	 * Modifies the current location with the coordinates of another.
-	 * 
-	 * @param other
-	 *            The new modification.
+	 * Transforms a coordinate into a new position.
 	 */
-	public final void setLocation(Position other) {
-		this.x = other.getX();
-		this.y = other.getY();
-		this.height = other.getHeight();
+	public Position transform(int x, int y, int h) {
+		return new Position(this.x += x, this.y += y, this.height += h);
 	}
 
 	/**
-	 * Adds an additional set of values onto the current position.
-	 *
-	 * @param x
-	 *            The X coordinate value.
-	 *
-	 * @param y
-	 *            The Y coordinate value.
-	 *
-	 * @param z
-	 *            The height plane value.
+	 * Creates a new {@link Position} based on a direction.
 	 */
-	public final void move(int x, int y, int z) {
-		this.x += x;
-		this.y += y;
-		this.height += z;
-	}
-
-	public Position transform(int x, int y, int h) {
-		this.x += x;
-		this.y += y;
-		this.height += h;
-		return this;
-	}
-
 	public Position add(Direction direction) {
 		return new Position(x + direction.getDirectionX(), y + direction.getDirectionY(), height);
 	}

@@ -155,7 +155,7 @@ public final class Movement {
 		if (availableFocusPoint == null || availableFocusPoint.getDirection() == -1) {
 			return null;
 		} else {
-			getEntity().getPosition().move(DIRECTION_DELTA_X[availableFocusPoint.getDirection()], DIRECTION_DELTA_Y[availableFocusPoint.getDirection()], getEntity().getPosition().getHeight());
+			entity.setPosition(entity.getPosition().transform(DIRECTION_DELTA_X[availableFocusPoint.getDirection()], DIRECTION_DELTA_Y[availableFocusPoint.getDirection()], getEntity().getPosition().getHeight()));
 			return availableFocusPoint;
 		}
 	}
