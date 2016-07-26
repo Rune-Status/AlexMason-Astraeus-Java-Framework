@@ -14,7 +14,7 @@ public abstract class GenericParser implements Runnable {
     /**
      * The single logger for this class.
      */
-    protected final Logger LOGGER = Logger.getLogger(GenericParser.class.getName());
+    private final Logger logger = LoggerUtils.getLogger(GenericParser.class);    
 
     /**
      * The path of the file to parse.
@@ -64,7 +64,7 @@ public abstract class GenericParser implements Runnable {
         deserialize();
         onRead();
         if (log) {
-            LOGGER.info(toString());
+            logger.info(toString());
         }
     }
 

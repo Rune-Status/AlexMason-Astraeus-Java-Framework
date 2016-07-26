@@ -1,96 +1,86 @@
 package astraeus.game.task;
 
-import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Queue;
-import java.util.logging.Logger;
-
-import astraeus.util.LoggerUtils;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import astraeus.game.task.Task.StackType;
 
 /**
- * Handles the processing and execution of {@link Task}s. Functions contained within this class should only be invoked on the
- * {@link GameService} thread to ensure thread safety.
- *
- * @author lare96 <http://github.org/lare96>
+ * The class that will manage all tasks.
+ * 
+ * @author Vult-R
  */
 public final class TaskManager {
 
-    /**
-     * The single logger for this class.
-     */
-    @SuppressWarnings("unused")
-	private static final Logger logger = LoggerUtils.getLogger(TaskManager.class);    
+	/**
+	 * The queue that holds the tasks awaiting to be executed.
+	 */
+	private final Queue<Task> adding = new ConcurrentLinkedQueue<Task>();
+	
+	/**
+	 * The list of tasks that are being processed.
+	 */
+	private final List<Task> tasks = new LinkedList<Task>();
 
-    /**
-     * A {@link List} of tasks that have been submitted and are awaiting execution.
-     */
-    private final List<Task> awaitingExecution = new LinkedList<>();
+	/**
+	 * The method that will process all tasks.
+	 */
+	public void process() {
+		Task t;
 
-    /**
-     * A {@link Queue} of tasks that are ready to be executed.
-     */
-    private final Queue<Task> executionQueue = new ArrayDeque<>();
+		synchronized (adding) {
+			while ((t = adding.poll()) != null) {
+				tasks.add(t);
+			}
+		}
 
-    /**
-     * Schedules {@code t} to run in the underlying {@code TaskManager}.
-     *
-     * @param t The {@link Task} to schedule.
-     */
-    public void schedule(Task t) {
-        t.onSchedule();
-        if (t.isInstant()) {
-            try {
-                t.execute();
-            } catch (Exception e) {
-                t.onException(e);
-                e.printStackTrace();
-            }
-        }
-        awaitingExecution.add(t);
-    }
+		for (final Iterator<Task> i = tasks.iterator(); i.hasNext();) {
+			final Task task = i.next();
+			try {
+				if (task.hasStopped()) {
+					task.onStop();
+					i.remove();
+					continue;
+				}
 
-    /**
-     * Runs an iteration of the {@link Task} processing logic. All {@link Exception}s thrown by {@code Task}s are caught and
-     * logged by the underlying {@link Logger}.
-     */
-    public void runTaskIteration() {
-        Iterator<Task> $it = awaitingExecution.iterator();
-        while ($it.hasNext()) {
-            Task it = $it.next();
+				task.run();
+			} catch (final Exception e) {
+				e.printStackTrace();
+				i.remove();
+			}
+		}
+	}
 
-            if (!it.isRunning()) {
-                $it.remove();
-                continue;
-            }
-            it.onLoop();
-            if (it.canExecute()) {
-                executionQueue.add(it);
-            }
-        }
+	/**
+	 * Queues a task to be sequenced with the main game loop.
+	 * 
+	 * @param task
+	 * 		The task to queue.
+	 */
+	public void queue(Task task) {
+		if (task.hasStopped()) {
+			return;
+		}
 
-        for (; ; ) {
-            Task it = executionQueue.poll();
-            if (it == null) {
-                break;
-            }
+		if (task.getStackType() == StackType.NEVER_STACK) {
+			for (final Iterator<Task> i = tasks.iterator(); i.hasNext();) {
+				final Task t = i.next();
 
-            try {
-                it.execute();
-            } catch (Exception e) {
-                it.onException(e);
-                e.printStackTrace();
-            }
-        }
-    }
+				if (t.getStackType() == StackType.NEVER_STACK && t.getTaskType() == task.getTaskType()) {
+					return;
+				}
+			}
+		}
 
-    /**
-     * Iterates through all active {@link Task}s and cancels all that have {@code attachment} as their attachment.
-     */
-    public void cancel(Object attachment) {
-        awaitingExecution.stream().filter(it -> Objects.equals(attachment, it.getAttachment().orElse(null)))
-            .forEach(Task::cancel);
-    }
+		task.onStart();
+
+		if (task.isImmediate()) {
+			task.execute();
+		}
+
+		adding.add(task);
+	}
+
 }

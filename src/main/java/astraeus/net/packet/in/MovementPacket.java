@@ -33,9 +33,9 @@ public class MovementPacket implements Receivable {
 			player.setInteractingEntity(null);
 		}
 		
-		if (player.getDialogue().isPresent()) {
-			player.getDialogueFactory().clear();
-		}
+		player.getCurrentAction().ifPresent(it -> player.stopAction());	
+		
+		player.getDialogue().ifPresent(it -> player.getDialogueFactory().clear());
 		
 		if (!player.getWidgets().isEmpty()) {
 			player.getWidgets().close();

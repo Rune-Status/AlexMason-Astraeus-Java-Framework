@@ -10,7 +10,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.ResourceLeakDetector;
 import io.netty.util.ResourceLeakDetector.Level;
-import plugin.shops.ShopParser;
 import astraeus.net.channel.ChannelPiplineInitializer;
 import astraeus.net.packet.IncomingPacketHandlerRegistration;
 import astraeus.service.GameService;
@@ -105,16 +104,13 @@ public final class Bootstrap {
 			new ItemDefinitionParser().run();
 			new NpcDefinitionParser().run();
 			new NpcSpawnParser().run();
-			new ShopParser().run();
 			new IPBanParser().run();
 			new UUIDBanParser().run();
-			new EquipmentDefinitionParser().run();
+			new EquipmentDefinitionParser().run();			
 		});
 		
 		logger.info("Loading plugins");
-		serviceLoader.execute(() -> {
-			World.world.getPluginService().load();
-		});
+		serviceLoader.execute(() -> World.world.getPluginService().load());
 
 	}
 

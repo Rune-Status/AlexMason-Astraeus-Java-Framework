@@ -120,7 +120,7 @@ public final class Shop {
 		players.forEach(p -> player.queuePacket(new UpdateItemsOnWidgetPacket(3900, container.container())));
 
 		if (checkStock && restock) {
-			if (restockTask != null && restockTask.isRunning()) {
+			if (restockTask != null && !restockTask.hasStopped()) {
 				return;
 			}
 

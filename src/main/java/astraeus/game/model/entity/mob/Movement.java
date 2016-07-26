@@ -249,6 +249,10 @@ public final class Movement {
 		}
 		return -1;
 	}
+	
+	public Deque<MovementPoint> getFocusPoints() {
+		return focusPoints;
+	}
 
 	public boolean isMoving() {
 		return !focusPoints.isEmpty();

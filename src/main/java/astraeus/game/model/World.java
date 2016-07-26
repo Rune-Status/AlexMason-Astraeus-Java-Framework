@@ -219,7 +219,7 @@ public final class World {
 	 *            The task to execute.
 	 */
 	public void submit(Task task) {
-		tasks.schedule(task);		
+		tasks.queue(task);		
 	}
 
 	/**

@@ -5,6 +5,7 @@ import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
 import astraeus.game.model.entity.object.GameObjects;
+import astraeus.game.task.impl.DistancedTask;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 import astraeus.net.codec.ByteOrder;
@@ -49,12 +50,15 @@ public final class PickupGroundItemPacket implements Receivable {
 					String.format("[PickupItem] - Item: %s Position: %s", item.toString(), position.toString())));
 		}
 		
-		player.getMovementListener().append(() -> {
-			if (player.getPosition().isWithinInteractionDistance(position)) {
+		player.startAction(new DistancedTask(player, position, 2) {
+
+			@Override
+			public void onReached() {
 				player.getInventory().add(item);
 				player.queuePacket(new RemoveGroundItemPacket(item));
 				GameObjects.getGlobalObjects().remove(item);
 			}
+			
 		});
 		
 	}

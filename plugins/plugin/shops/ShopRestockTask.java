@@ -26,14 +26,14 @@ public final class ShopRestockTask extends Task {
      *            the container that will be restocked.
      */
     public ShopRestockTask(Shop container) {
-        super(false, 20);
+        super(20, false);
         this.container = container;
     }
 
     @Override
     public void execute() {
         if (container.restockCompleted() || !container.isRestock()) {
-            this.cancel();
+            this.stop();
             return;
         }
         
@@ -53,4 +53,9 @@ public final class ShopRestockTask extends Task {
                 p -> p.queuePacket(new UpdateItemsOnWidgetPacket(3900, container.getContainer().container())));
         }
     }
+
+	@Override
+	public void onStop() {
+		
+	}
 }

@@ -4,6 +4,7 @@ import astraeus.game.event.impl.ObjectThirdClickEvent;
 import astraeus.game.model.Position;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.object.GameObject;
+import astraeus.game.task.impl.DistancedTask;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
@@ -27,12 +28,16 @@ public final class ObjectThirdOptionPacket implements Receivable {
 			return;
 		}
 
-		player.getMovementListener().append(() -> {
-			if (player.getPosition().isWithinDistance(object.getPosition(), 1)) {
+		player.startAction(new DistancedTask(player, object.getPosition(), 2) {
+
+			@Override
+			public void onReached() {
 				player.faceLocation(object.getPosition());
 				player.post(new ObjectThirdClickEvent(object));
 			}
-		});		
+			
+		});
+		
 	}
 
 }

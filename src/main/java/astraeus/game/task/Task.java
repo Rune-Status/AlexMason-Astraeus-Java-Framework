@@ -1,164 +1,259 @@
 package astraeus.game.task;
 
-import java.util.Optional;
-
-import static com.google.common.base.Preconditions.checkArgument;
-
 /**
- * An abstraction model that contains functions that enable units of work to be carried out in cyclic intervals.
- *
- * @author lare96 <http://github.org/lare96>
+ * An abstract model that represents units of work to be carried out in sequence to game ticks.
+ * 
+ * @author Vult-R
  */
 public abstract class Task {
 
-    /**
-     * If this {@code Task} executes upon being submitted.
-     */
-    private final boolean instant;
+	/**
+	 * Represents the enumerated ways task can stop.
+	 */
+	public enum BreakType {
+		
+		/**
+		 * Never stop this task
+		 */
+		NEVER,
+		
+		/**
+		 * Stop this task on movement
+		 */
+		ON_MOVE
+	}
 
-    /**
-     * The dynamic delay of this {@code Task}.
-     */
-    private int delay;
+	/**
+	 * Represents the enumerated ways a task can stack.
+	 */
+	public enum StackType {
+		
+		/**
+		 * Always duplicates
+		 */
+		STACK,
+		
+		/**
+		 * Never allow duplicates
+		 */
+		NEVER_STACK
+	}
+	
+	/**
+	 * The amount of ticks that have passed.
+	 */
+	protected int tick = 0;
 
-    /**
-     * If this {@code Task} is currently running.
-     */
-    private boolean running = true;
+	/**
+	 * The flag that denotes this task has stopped.
+	 */
+	private boolean stopped = false;
+	
+	/**
+	 * The flag that denotes to interrupt this task.
+	 */
+	private boolean interrupt;
 
-    /**
-     * A counter that determines when this {@code Task} is ready to execute.
-     */
-    private int counter;
+	/**
+	 * The time in ticks to delay this task from starting.
+	 */
+	private int delay;
+	
+	/**
+	 * The flag that indicates this task is immediate.
+	 */
+	protected final boolean immediate;
 
-    /**
-     * An attachment for this {@code Task} instance.
-     */
-    private Optional<Object> key = Optional.empty();
+	/**
+	 * The type of stack for this task.
+	 */
+	protected final StackType stackType;
 
-    /**
-     * Creates a new {@link Task}.
-     *
-     * @param instant If this {@code Task} executes upon being submitted.
-     * @param delay The dynamic delay of this {@code Task}.
-     */
-    public Task(boolean instant, int delay) {
-        checkArgument(delay > 0);
+	/**
+	 * The type of break for this task.
+	 */
+	protected final BreakType breakType;
+	
+	/**
+	 * The type of task.
+	 */
+	protected final TaskType taskType;	
 
-        this.instant = instant;
-        this.delay = delay;
-    }
+	/**
+	 * Creates a new {@link Task}.
+	 * 
+	 * @param delay
+	 * 		The delay in game ticks until this task can execute.
+	 */
+	public Task(int delay) {
+		this(delay, false, StackType.STACK, BreakType.NEVER, TaskType.CURRENT_ACTION);
+	}
 
-    /**
-     * Creates a new {@link Task} that doesn't execute instantly.
-     *
-     * @param delay The dynamic delay of this {@code Task}.
-     */
-    public Task(int delay) {
-        this(false, delay);
-    }
+	/**
+	 * Creates a new {@link Task}.
+	 * 
+	 * @param delay
+	 * 		The delay in game ticks until this task can execute.
+	 * 
+	 * @param immediate
+	 * 		The flag that denotes to execute this task immediately.
+	 */
+	public Task(int delay, boolean immediate) {
+		this(delay, immediate, StackType.STACK, BreakType.NEVER, TaskType.CURRENT_ACTION);
+	}
 
-    /**
-     * A function executed when the {@code counter} reaches the {@code delay}.
-     */
-    protected abstract void execute();
+	/**
+	 * Creates a new {@link Task}.
+	 * 
+	 * @param delay
+	 * 		The delay in game ticks until this task can execute.
+	 * 
+	 * @param immediate
+	 * 		The flag that denotes to execute this task immediately.
+	 * 
+	 * @param stackType
+	 * 		The type for how this task stacks.
+	 * 
+	 * @param breakType
+	 * 		The type for how this task breaks.
+	 * 
+	 * @param taskType
+	 * 		The type for identifying this task.
+	 */
+	public Task(int delay, boolean immediate, StackType stackType, BreakType breakType, TaskType taskType) {		
+		this.delay = (short) delay;
+		this.immediate = immediate;
+		this.breakType = breakType;
+		this.stackType = stackType;
+		this.taskType = taskType;
+	}
 
-    /**
-     * Determines if this {@code Task} is ready to execute.
-     *
-     * @return {@code true} if this {@code Task} can execute, {@code false} otherwise.
-     */
-    final boolean canExecute() {
-        if (++counter >= delay && running) {
-            counter = 0;
-            return true;
-        }
-        return false;
-    }
+	/**
+	 * The method that is called when a task executes.
+	 */
+	public abstract void execute();
+	
+	/**
+	 * The method called when a task stops.
+	 */
+	public void onStop() {
+		
+	}
+	
+	/**
+	 * Gets the amount of ticks that have passed since this task has been running.
+	 */
+	public final int getTick() {
+		return tick;
+	}
 
-    /**
-     * Cancels this {@code Task}. If this {@code Task} is already cancelled, does nothing.
-     */
-    public final void cancel() {
-        if (running) {
-            onCancel();
-            running = false;
-        }
-    }
+	/**
+	 * Determines if this task is immediate.
+	 */
+	public final boolean isImmediate() {
+		return immediate;
+	}
+	
+	/**
+	 * Gets the type of break for this task.
+	 */
+	public final BreakType getBreakType() {
+		return breakType;
+	}
+	
+	/**
+	 * Gets the type of stack for this task.
+	 */
+	public final StackType getStackType() {
+		return stackType;
+	}
 
-    /**
-     * A function executed when this {@code Task} is iterated over by the {@link TaskManager}.
-     */
-    void onLoop() {
+	/**
+	 * Gets the type of task.
+	 */
+	public final TaskType getTaskType() {
+		return taskType;
+	}
 
-    }
+	/**
+	 * The method that is called when the task starts.
+	 */
+	public void onStart() {
+	}
 
-    /**
-     * A function executed when this {@code Task} is submitted to the {@link TaskManager}.
-     */
-    void onSchedule() {
+	/**
+	 * The method that is called when the task restarts.
+	 */
+	public final void reset() {
+		tick = 0;
+	}
 
-    }
+	/**
+	 * The method called when the task runs.
+	 */
+	public final void run() {
+		tick++;
+		
+		if (tick >= delay) {
+			if (interrupt) {
+				stop();
+				return;
+			}
+			execute();
+			reset();
+		}
+	}
 
-    /**
-     * A function executed when this {@code Task} is cancelled.
-     */
-    void onCancel() {
+	/**
+	 * Gets the amount of ticks this task will sleep for.
+	 */
+	public final int getDelay() {
+		return delay;
+	}
+	
+	/**
+	 * Sets the delay for this task.
+	 * 
+	 * @param ticks
+	 * 		The ticks to delay this task for.
+	 */
+	public final void setDelay(int ticks) {
+		if (ticks < 0) {
+			throw new IllegalArgumentException("Tick amount must be positive.");
+		}
 
-    }
+		this.delay = (short) ticks;
+	}
 
-    /**
-     * A function executed when this {@code Task} throws an {@code Exception}.
-     *
-     * @param e The {@code Exception} thrown by this {@code Task}.
-     */
-    void onException(Exception e) {
+	/**
+	 * Stops this task.
+	 */
+	public final void stop() {
+		stopped = true;
+	}
 
-    }
+	/**
+	 * Determines if this task has stopped.
+	 */
+	public final boolean hasStopped() {
+		return stopped;
+	}
 
-    /**
-     * Attaches {@code newKey} to this {@code Task}. The equivalent of doing {@code Optional.ofNullable(newKey)}.
-     *
-     * @param newKey The new key to attach to this {@code Task}.
-     * @return An instance of this {@code Task} for method chaining.
-     */
-    public Task attach(Object newKey) {
-        key = Optional.ofNullable(newKey);
-        return this;
-    }
+	/**
+	 * Determines if this task should be interrupted.
+	 */
+	public boolean isInterrupt() {
+		return interrupt;
+	}
 
-    /**
-     * @return {@code true} if this {@code Task} executes upon being submitted, {@code false} otherwise.
-     */
-    public boolean isInstant() {
-        return instant;
-    }
-
-    /**
-     * @return The dynamic delay of this {@code Task}.
-     */
-    public int getDelay() {
-        return delay;
-    }
-
-    /**
-     * Sets the delay of this {@code Task} to {@code delay}.
-     */
-    public void setDelay(int delay) {
-        this.delay = delay;
-    }
-
-    /**
-     * @return {@code true} if this {@code Task} is running, {@code false} otherwise.
-     */
-    public boolean isRunning() {
-        return running;
-    }
-
-    /**
-     * @return The attachment for this {@code Task} instance.
-     */
-    public Optional<Object> getAttachment() {
-        return key;
-    }
+	/**
+	 * Sets to interrupt this task it the task doesn't execute.
+	 * 
+	 * @param interrupt
+	 * 		The flag that indicates to interrupt this task.
+	 */
+	public void setInterrupt(boolean interrupt) {
+		this.interrupt = interrupt;
+	}	
+	
 }

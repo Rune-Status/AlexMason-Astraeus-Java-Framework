@@ -14,7 +14,7 @@ public final class GameServiceSequencer extends GameService {
 		
 		World.world.dequeueLogin();
 		
-		World.world.getTasks().runTaskIteration();
+		World.world.getTasks().process();
 		
 		synchronizer.synchronize();
 		

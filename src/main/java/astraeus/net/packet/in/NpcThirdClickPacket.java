@@ -4,6 +4,7 @@ import astraeus.game.event.impl.NpcThirdClickEvent;
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.player.Player;
+import astraeus.game.task.impl.DistancedTask;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 
@@ -17,15 +18,20 @@ public final class NpcThirdClickPacket implements Receivable {
 		if (npc == null) {
 			return;
 		}
+		
+		player.startAction(new DistancedTask(player, npc.getPosition(), 2) {
 
-		player.getMovementListener().append(() -> {
-			if (player.getPosition().isWithinDistance(npc.getPosition().copy(), 1)) {
+			@Override
+			public void onReached() {
 				player.setInteractingEntity(npc);
 				npc.setInteractingEntity(player);
-
 				player.post(new NpcThirdClickEvent(npc));
+				stop();
+				
 			}
+
 		});
+		
 	}
 
 }

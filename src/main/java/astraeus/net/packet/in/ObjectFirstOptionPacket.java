@@ -4,6 +4,7 @@ import astraeus.game.event.impl.ObjectFirstClickEvent;
 import astraeus.game.model.Position;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.object.GameObject;
+import astraeus.game.task.impl.DistancedTask;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import astraeus.net.codec.game.GamePacketReader;
@@ -26,13 +27,17 @@ public final class ObjectFirstOptionPacket implements Receivable {
 		if (player == null || object == null) {
 			return;
 		}
+		
+		player.startAction(new DistancedTask(player, object.getPosition(), 2) {
 
-		player.getMovementListener().append(() -> {
-			if (player.getPosition().isWithinDistance(object.getPosition(), 1)) {
+			@Override
+			public void onReached() {
 				player.faceLocation(object.getPosition());
 				player.post(new ObjectFirstClickEvent(object));
 			}
+			
 		});
+		
 	}
 
 }

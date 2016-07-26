@@ -12,7 +12,7 @@ import astraeus.game.model.entity.mob.player.collect.Equipment;
 import astraeus.game.model.entity.mob.player.skill.SkillSet;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.entity.object.GameObject;
-
+import astraeus.game.task.Task;
 import java.util.*;
 
 /**
@@ -44,8 +44,6 @@ public abstract class Mob extends Entity {
 
 	protected final Movement movement = new Movement(this);
 
-	private final MovementQueueListener movementListener = new MovementQueueListener(this);
-
 	private ForceMovement forceMovement;
 
 	private MobAnimation mobAnimation = new MobAnimation();
@@ -53,6 +51,8 @@ public abstract class Mob extends Entity {
 	private final int[] bonuses = new int[Equipment.BONUS_NAMES.length];
 
 	private transient Mob interactingEntity;
+	
+	private Optional<Task> currentAction = Optional.empty();
 
 	private int antipoisonTimer = 0;
 	private int id;
@@ -114,6 +114,26 @@ public abstract class Mob extends Entity {
 	 * The method called when an entity walks or runs.
 	 */
 	public abstract void onMovement();
+	
+	public void startAction(Task currentAction) {
+		this.currentAction.ifPresent(it -> {			
+			if (it.equals(currentAction)) {
+				return;
+			}
+			stopAction();
+		});
+		
+		this.currentAction = Optional.of(currentAction);
+		World.world.submit(currentAction);
+	}
+	
+	public void stopAction() {
+		currentAction.ifPresent(it -> {
+			it.setInterrupt(true);
+			it.stop();
+			currentAction = Optional.empty();
+		});
+	}
 
 	/**
 	 * Determines if this {@link Player} can logout.
@@ -415,10 +435,6 @@ public abstract class Mob extends Entity {
 		this.following = following;
 	}
 
-	public MovementQueueListener getMovementListener() {
-		return movementListener;
-	}
-
 	/**
 	 * Gets the index of this entity in the entity list.
 	 * 
@@ -436,7 +452,15 @@ public abstract class Mob extends Entity {
 	 */
 	public void setSlot(int slot) {
 		this.slot = slot;
-	}	
+	}		
+
+	public Optional<Task> getCurrentAction() {
+		return currentAction;
+	}
+
+	public void setCurrentAction(Optional<Task> currentAction) {
+		this.currentAction = currentAction;
+	}
 
 	public SkillSet getSkills() {
 		return skills;

@@ -16,9 +16,9 @@ public final class Shops implements EventSubscriber<ShopEvent> {
 	public static final Map<String, Shop> shops = new HashMap<>();
 	
 	static {
-		new ShopParser().run();
-	}
-
+		//new ShopParser().run();
+	}	
+	
 	@Override
 	public void subscribe(EventContext context, Player player, ShopEvent event) {
 		shops.get(event.getName()).open(player);
@@ -29,12 +29,7 @@ public final class Shops implements EventSubscriber<ShopEvent> {
 	}
 	
 	public static Optional<Shop> search(Player player) {
-		for(Shop shop : shops.values()) {
-			if (shop.getPlayers().contains(player)) {
-				return Optional.of(shop);
-			}
-		}
-		return Optional.empty();
+		return shops.values().stream().filter(it -> it.getPlayers().contains(player)).findFirst();
 	}
 
 }
