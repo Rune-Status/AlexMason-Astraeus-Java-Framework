@@ -1,7 +1,11 @@
 package astraeus.game.model.entity.mob.combat;
 
 import astraeus.game.model.entity.mob.Mob;
+import astraeus.game.model.entity.mob.combat.attack.Attack;
+import astraeus.game.model.entity.mob.combat.attack.AttackBuilder;
 import astraeus.game.model.entity.mob.combat.attack.AttackType;
+import astraeus.game.model.entity.mob.combat.type.CombatClass;
+import astraeus.game.model.entity.mob.combat.type.CombatType;
 import astraeus.util.Stopwatch;
 
 public class CombatFields {
@@ -10,11 +14,20 @@ public class CombatFields {
 	private Mob defender;
 	private Mob attackedBy;	
 	private Mob lastAttacked;
+	private Mob entity;
+	
+	private boolean inCombat;
+	private boolean firstHit = false;
 	
 	private final Stopwatch combatDelay = new Stopwatch();
 	
+	private CombatType combatType;
+	private CombatClass combatClass;
+	
 	private AttackType attackType;
 	private AttackStyle attackStyle;
+	
+	private Attack attack;
 	
 	public CombatFields(Mob mob) {
 		this.mob = mob;
@@ -68,4 +81,49 @@ public class CombatFields {
 	public Stopwatch getCombatDelay() {
 		return combatDelay;
 	}
+	
+	public boolean inCombat() {
+		return inCombat;
+	}
+
+	public void setInCombat(boolean inCombat) {
+		this.inCombat = inCombat;
+	}
+	
+	public boolean isFirstHit() {
+		return firstHit;
+	}
+
+	public void setFirstHit(boolean firstHit) {
+		this.firstHit = firstHit;
+	}
+	
+	public Mob getEntity() {
+		return entity;
+	}
+	
+	public CombatType getCombatType() {
+		return combatType;
+	}
+	
+	public void setCombatType(CombatType combatType) {
+		this.combatType = combatType;
+	}
+	
+	public CombatClass getCombatClass() {
+		return combatClass;
+	}
+
+	public void setCombatClass(CombatClass combatClass) {
+		this.combatClass = combatClass;
+	}
+	
+	public Attack getAttack() {
+		return attack;
+	}
+
+	public void setAttack(AttackBuilder builder) {
+		this.attack = new Attack(builder);
+	}
+	
 }

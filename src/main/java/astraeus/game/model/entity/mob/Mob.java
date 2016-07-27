@@ -7,6 +7,7 @@ import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.combat.Combat;
 import astraeus.game.model.entity.mob.combat.dmg.Hit;
 import astraeus.game.model.entity.mob.combat.dmg.Poison.DamageTypes;
+import astraeus.game.model.entity.mob.combat.type.CombatType;
 import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.player.ForceMovement;
 import astraeus.game.model.entity.mob.player.Player;
@@ -152,6 +153,15 @@ public abstract class Mob extends Entity {
 	 * The method called when this mob is hit.
 	 */
 	public abstract void hit(Mob attacker, Hit hit);
+	
+	/**
+	 * The method called when the attacking entity hits this entity.
+	 */
+	public abstract void onDamage(Mob attacker, Hit hit);
+	
+	public abstract boolean canAttack(Mob defender, CombatType type);
+	
+	public abstract void buildAttack(CombatType type);
 	
 	public MobAnimation getMobAnimations() {
 		return mobAnimation;

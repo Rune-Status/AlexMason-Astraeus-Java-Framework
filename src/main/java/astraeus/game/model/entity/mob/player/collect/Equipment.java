@@ -355,5 +355,29 @@ public final class Equipment extends ItemContainer {
 		final boolean legs = player.getEquipment().containsAny(4722, 4898, 4899, 4900, 4901);
 		return weapon && helm && torso && legs;
 	}
+	
+	public static boolean isWearingGuthans(Player player) {
+		final boolean weapon = player.getEquipment().containsAny(4726, 4910, 4911, 4912, 4913);
+		final boolean helm = player.getEquipment().containsAny(4724, 4904, 4905, 4906, 4907);
+		final boolean chest = player.getEquipment().containsAny(4728, 4916, 4917, 4918, 4919);
+		final boolean legs = player.getEquipment().containsAny(4730, 4922, 4923, 4924, 4925);
+		return weapon && helm && chest && legs;
+	}
+	
+	public static boolean isWearingVeracs(Player player) {
+		final boolean weapon = player.getEquipment().containsAny(4755, 4982, 4983, 4984, 4985);
+		final boolean helm = player.getEquipment().containsAny(4753, 4976, 4977, 4978, 4979);
+		final boolean chest = player.getEquipment().containsAny(4757, 4988, 4989, 4990, 4991);
+		final boolean legs = player.getEquipment().containsAny(4759, 4994, 4995, 4996, 4997);
+		return weapon && helm && chest && legs;
+	}
+	
+	public static boolean isWearingAntiFire(Player player) {
+		return player.getEquipment().containsAny(1540, 11283, 11284);
+	}
+	
+	public boolean hasWeapon() {
+		return get(Equipment.WEAPON_SLOT) != null;
+	}
 
 }

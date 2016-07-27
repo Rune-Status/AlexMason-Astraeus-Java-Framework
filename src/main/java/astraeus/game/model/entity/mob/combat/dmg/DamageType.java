@@ -1,5 +1,7 @@
 package astraeus.game.model.entity.mob.combat.dmg;
 
+import astraeus.game.model.entity.mob.combat.type.CombatType;
+
 /**
  * Represents the enumerated types of damages that can be performed.
  *
@@ -18,6 +20,18 @@ public enum DamageType {
     private DamageType(int id) {
         this.id = id;
     }
+    
+	public static DamageType of(CombatType type) {
+		switch (type) {
+		case MAGIC:
+			return MAGIC;
+		case MELEE:
+			return MELEE;
+		case RANGE:
+			return RANGED;
+		}
+		return NONE;
+	}
 
     public int getId() {
         return id;

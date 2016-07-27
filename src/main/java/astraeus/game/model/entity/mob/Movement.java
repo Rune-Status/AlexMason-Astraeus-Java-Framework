@@ -181,6 +181,15 @@ public final class Movement {
 		this.unlockTime = 0;
 		mob.attr().put(Movement.LOCK_MOVEMENT, false);
 	}
+	
+	/**
+	 * Resets the movement variables of the entity.
+	 */
+	public final void stop() {
+		setRunningQueueEnabled(false);
+		getFocusPoints().clear();
+		getFocusPoints().add(new MovementPoint(getEntity().getX(), getEntity().getY(), -1));
+	}
 
 	public final void walk(Position location) {
 		reset();
