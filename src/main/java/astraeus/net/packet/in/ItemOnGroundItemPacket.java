@@ -7,7 +7,7 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.player.PlayerRights;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
-import astraeus.net.codec.game.GamePacketReader;
+import astraeus.net.codec.game.ByteBufReader;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 import astraeus.net.packet.out.ServerMessagePacket;
@@ -17,7 +17,7 @@ public final class ItemOnGroundItemPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
-		GamePacketReader reader = packet.getReader();
+		ByteBufReader reader = packet.getReader();
 
 		final int z = reader.readShort(ByteOrder.LITTLE);
 		final int used = reader.readShort(false, ByteModification.ADDITION);		

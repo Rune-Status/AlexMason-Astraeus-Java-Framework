@@ -6,7 +6,7 @@ import astraeus.game.model.entity.mob.player.PlayerRights;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 import astraeus.net.packet.out.ServerMessagePacket;
-import astraeus.net.codec.game.GamePacketReader;
+import astraeus.net.codec.game.ByteBufReader;
 
 /**
  * The {@link IncomingPacket} responsible for clicking buttons on the client.
@@ -18,7 +18,7 @@ public class ButtonClickPacket implements Receivable {
 
 	@Override
 	public void handlePacket(final Player player, IncomingPacket packet) {
-		GamePacketReader reader = packet.getReader();
+		ByteBufReader reader = packet.getReader();
 		
 		final int button = reader.readShort();
 		

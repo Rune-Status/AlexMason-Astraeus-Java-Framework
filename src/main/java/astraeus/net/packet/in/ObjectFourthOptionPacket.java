@@ -6,7 +6,7 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.task.impl.DistancedTask;
 import astraeus.net.codec.ByteModification;
-import astraeus.net.codec.game.GamePacketReader;
+import astraeus.net.codec.game.ByteBufReader;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 
@@ -15,7 +15,7 @@ public final class ObjectFourthOptionPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
-		GamePacketReader reader = packet.getReader();
+		ByteBufReader reader = packet.getReader();
 
 		int x = reader.readShort(ByteModification.ADDITION);
 		int y = reader.readShort(ByteModification.ADDITION);

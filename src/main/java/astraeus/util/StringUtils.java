@@ -2,6 +2,7 @@ package astraeus.util;
 
 import astraeus.Server;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,6 +27,10 @@ public final class StringUtils {
 	public static final char VALID_PLAYER_CHARACTERS[] = { '_', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
 			'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5',
 			'6', '7', '8', '9', '[', ']', '/', '-', ' ' };
+	
+	public static String format(int num) {
+		return NumberFormat.getInstance().format(num);
+	}
 
 	/**
 	 * Gets the elapsed time the server has been running for.

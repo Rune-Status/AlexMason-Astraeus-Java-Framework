@@ -1,7 +1,7 @@
 package astraeus.net.packet;
 
 import io.netty.buffer.ByteBuf;
-import astraeus.net.codec.game.GamePacketReader;
+import astraeus.net.codec.game.ByteBufReader;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -346,7 +346,7 @@ public final class IncomingPacket {
 	/**
 	 * The reader used to read the packet information.
 	 */
-	private final GamePacketReader reader;
+	private final ByteBufReader reader;
 	
 	/**
 	 * The size of this packet.
@@ -366,7 +366,7 @@ public final class IncomingPacket {
 	public IncomingPacket(final int opcode, final PacketHeader header, final ByteBuf payload) {
 		this.opcode = opcode;
 		this.header = header;		
-		this.reader = new GamePacketReader(payload);
+		this.reader = new ByteBufReader(payload);
 		size = payload.readableBytes();
 	}
 	
@@ -415,7 +415,7 @@ public final class IncomingPacket {
 	 * 
 	 * @return The reader.
 	 */
-	public GamePacketReader getReader() {
+	public ByteBufReader getReader() {
 		return reader;
 	}
 

@@ -5,7 +5,7 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.task.Task;
 
 /**
- * The {@link Task} implementation that involves a distance between two points.
+ * The {@link Task} implementation that involves a {@link Player} and a {@link Position}.
  * 
  * @author Vult-R
  */

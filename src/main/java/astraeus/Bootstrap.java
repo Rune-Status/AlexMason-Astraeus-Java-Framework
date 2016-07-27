@@ -106,8 +106,9 @@ public final class Bootstrap {
 			new NpcSpawnParser().run();
 			new IPBanParser().run();
 			new UUIDBanParser().run();
-			new EquipmentDefinitionParser().run();			
-		});
+			new EquipmentDefinitionParser().run();
+			//MapDecoder.load();
+		});		
 		
 		logger.info("Loading plugins");
 		serviceLoader.execute(() -> World.world.getPluginService().load());

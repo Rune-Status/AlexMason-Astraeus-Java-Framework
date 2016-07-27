@@ -5,6 +5,8 @@ import astraeus.game.model.Direction;
 import astraeus.game.model.Position;
 import astraeus.game.model.entity.EntityType;
 import astraeus.game.model.entity.mob.Mob;
+import astraeus.game.model.entity.mob.combat.dmg.Hit;
+import astraeus.game.model.entity.mob.combat.type.CombatType;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.location.Area;
 import astraeus.util.Stopwatch;
@@ -39,11 +41,6 @@ public class Npc extends Mob {
             super(GameConstants.DEFAULT_LOCATION);
             setId(id);
             size = NpcDefinition.get(id).getSize();
-      }
-
-      @Override
-      public void tick() {
-
       }
       
       @Override
@@ -129,9 +126,12 @@ public class Npc extends Mob {
 
       @Override
       public void preUpdate() {
+    	  
             movement.handleEntityMovement();
             
-			if (!isRandomWalk() && getInteractingEntity() == null) {
+            tick();
+            
+			if (!isRandomWalk() && getInteractingEntity() == null && tick % 5 == 4) {
 				Npcs.resetFacingDirection(this);
 			}
 
@@ -139,7 +139,7 @@ public class Npc extends Mob {
 				resetEntityInteraction();
 			}
 
-			if (isRandomWalk() && getInteractingEntity() == null) {
+			if (isRandomWalk() && getInteractingEntity() == null && tick % 5 == 4) {
 				Npcs.handleRandomWalk(this);
 			}
       }
@@ -262,6 +262,34 @@ public class Npc extends Mob {
 	@Override
 	public EntityType type() {
 		return EntityType.NPC;
+	}
+
+	@Override
+	public void hit(Mob attacker, Hit hit) {
+
+	}
+
+	@Override
+	public void onTick() {
+		
+	}
+
+	@Override
+	public void onDamage(Mob attacker, Hit hit) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean canAttack(Mob defender, CombatType type) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void buildAttack(CombatType type) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

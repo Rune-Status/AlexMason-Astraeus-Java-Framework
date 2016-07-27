@@ -6,15 +6,24 @@ import astraeus.game.model.entity.EntityType;
 import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.Mob;
 import astraeus.game.model.entity.mob.Movement;
+import astraeus.game.model.entity.mob.combat.Combat;
+import astraeus.game.model.entity.mob.combat.def.NpcCombatDefinition;
+import astraeus.game.model.entity.mob.combat.dmg.DamageType;
+import astraeus.game.model.entity.mob.combat.dmg.Hit;
+import astraeus.game.model.entity.mob.combat.type.CombatType;
+import astraeus.game.model.entity.mob.combat.type.PlayerCombat;
+import astraeus.game.model.entity.mob.combat.weapon.special.Special;
 import astraeus.game.model.entity.mob.npc.Npc;
+import astraeus.game.model.entity.mob.player.Prayer.PrayerType;
 import astraeus.game.model.entity.mob.player.attr.AttributeKey;
-import astraeus.game.model.entity.mob.player.attr.AttributeMap;
 import astraeus.game.model.entity.mob.player.collect.Bank;
 import astraeus.game.model.entity.mob.player.collect.Equipment;
 import astraeus.game.model.entity.mob.player.collect.Inventory;
 import astraeus.game.model.entity.mob.player.event.LogoutEvent;
 import astraeus.game.model.entity.mob.player.io.PlayerSerializer;
 import astraeus.game.model.entity.mob.player.skill.Skill;
+import astraeus.game.model.entity.mob.player.skill.impl.MagicSkill;
+import astraeus.game.model.entity.mob.player.skill.impl.MagicSkill.TeleportTypes;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.model.location.Area;
@@ -63,6 +72,10 @@ public class Player extends Mob {
 	private DialogueFactory dialogueFactory = new DialogueFactory(this);
 	private Optional<Dialogue> dialogue = Optional.empty();
 	private Optional<OptionDialogue> optionDialogue;
+	
+	private final PlayerCombat playerCombat = new PlayerCombat(this);	
+	private final Special special = new Special(this);	
+	private MagicSkill magic = new MagicSkill(this);
 	
 	private boolean insertItem;
 
@@ -151,10 +164,11 @@ public class Player extends Mob {
 		attr.put(NEW_PLAYER_KEY, false);
 		attr.put(Movement.RUNNING_KEY, true);
 		attr.put(Movement.LOCK_MOVEMENT, false);
+		attr.put(Combat.TELE_BLOCK_KEY, false);
 	}
 
 	@Override
-	public void tick() {
+	public void onTick() {
 		handleRunRestore();
 
 		prayer.drain();
@@ -301,7 +315,7 @@ public class Player extends Mob {
 		movement.handleEntityMovement();
 
 		// lastly anything else before the npc is updated
-		tick();
+		onTick();
 	}
 	
 	public void update() {
@@ -443,7 +457,15 @@ public class Player extends Mob {
 
 		return false;
 	}
+	
+	public MagicSkill getMagic() {
+		return magic;
+	}
 
+	public void setMagic(MagicSkill magic) {
+		this.magic = magic;
+	}
+	
 	public String getUsername() {
 		return username;
 	}
@@ -521,6 +543,10 @@ public class Player extends Mob {
 	private void flushPacket(final Sendable out) {
 		this.session.flush(out);
 	}
+	
+	public Special getSpecial() {
+		return special;
+	}
 
 	public void setAppearance(Appearance appearance) {
 		this.appearance = appearance;
@@ -586,10 +612,6 @@ public class Player extends Mob {
 
 	public WidgetSet getWidgets() {
 		return widgets;
-	}
-
-	public AttributeMap attr() {
-		return attr;
 	}
 	
 	public DialogueFactory getDialogueFactory() {
@@ -660,6 +682,141 @@ public class Player extends Mob {
 	@Override
 	public EntityType type() {
 		return EntityType.PLAYER;
+	}
+
+	@Override
+	public void hit(Mob attacker, Hit hit) {
+		int damage = hit.getDamage();
+		
+		if (getEquipment().hasShield()) {
+			if (getEquipment().get(Equipment.SHIELD_SLOT).getId() == 12817) {
+				if (Math.random() > 0.3) {
+					hit.setDamage((int) (hit.getDamage() * 0.75));
+					startGraphic(new Graphic(Priority.EXTRA_HIGH, 321));
+				}
+			}
+		}
+
+//		addHit(hit);
+//		
+//		if (damage > 0) {
+//			getCombat().getDamageQueue().addDamage(attacker == null ? this : attacker, damage);
+//		}
+
+		decrementHealth(damage);
+
+		if (!widgets.isEmpty()) {
+			widgets.close();
+		}
+
+//		if (getCurrentHealth() <= 0) {
+//			TaskQueue.queue(new EntityDeathTask(getCombat().getDamageQueue().getHighestDamager().orElse(attacker == null ? this : attacker), this));
+//		}
+	}
+
+	@Override
+	public void onDamage(Mob attacker, Hit hit) {
+		if (getPrayer().active(PrayerType.REDEMPTION)) {
+			int level = getSkills().getLevel(Skill.HITPOINTS) - hit.getDamage();
+			int max = getSkills().getMaxLevel(Skill.HITPOINTS);
+
+			if (level > 0 && level <= max * 0.10) {
+				int prayer = getSkills().getLevel(Skill.PRAYER);
+
+				getSkills().changeLevel(Skill.HITPOINTS, (int) (prayer * 0.25));
+				getSkills().setLevel(Skill.PRAYER, 0);
+				startGraphic(new Graphic(436));
+			}
+		}
+
+		if (getEquipment().contains(11090)) {
+			int level = getSkills().getLevel(Skill.HITPOINTS) - hit.getDamage();
+			int max = getSkills().getMaxLevel(Skill.HITPOINTS);
+
+			if (level > 0 && level <= max * 0.20) {
+				queuePacket(new ServerMessagePacket("The Phoenix necklace of life saves you but was destroyed in the process"));
+				getEquipment().remove(new Item(11090));
+				getSkills().changeLevel(Skill.HITPOINTS, (int) (max * 0.30));
+			}
+		}
+
+		if (getEquipment().contains(2570)) {
+			int level = getSkills().getLevel(Skill.HITPOINTS) - hit.getDamage();
+			int max = getSkills().getMaxLevel(Skill.HITPOINTS);
+
+			if (level > 0 && level <= max * 0.10) {
+				getMagic().teleport(new Position(3160, 3485), TeleportTypes.SPELL_BOOK, false);
+				getEquipment().remove(new Item(2570));
+				attacker.getCombat().reset();
+				queuePacket(new ServerMessagePacket("The Ring of life has saved you; but was destroyed in the process."));
+			}
+		}
+
+		if (getEquipment().get(Equipment.RING_SLOT) != null) {
+			Item ring = getEquipment().get(Equipment.RING_SLOT);
+			if (ring.getId() == 2550 && hit != null) {
+
+				if (hit.getDamage() > 0) {
+
+					int delt = (int) Math.ceil(hit.getDamage() * 0.10);
+
+					if (attacker != null) {
+						attacker.hit(this, new Hit(delt, DamageType.NONE));
+					}
+
+					playerCombat.setRecoil(playerCombat.getRecoil() + 1);
+
+					if (playerCombat.getRecoil() >= 40) {
+						playerCombat.setRecoil(0);
+						getEquipment().remove(new Item(2550));
+						queuePacket(new ServerMessagePacket("<col=9A289E>Your ring of recoil has shattered!"));
+					}
+				}
+			}
+		}
+		
+		if (getSkills().getLevel(Skill.HITPOINTS) <= 0 && attacker != null && !attacker.isDead() && !attacker.equals(this) && getPrayer().active(PrayerType.RETRIBUTION)) {
+			startGraphic(new Graphic(437));
+
+			attacker.hit(this, new Hit((int) (0.25 * getSkills().getMaxLevel(Skill.PRAYER))));
+
+			if (Area.inMultiCombat(this)) {
+				for (Player player : getLocalPlayers()) {
+					if (player != null && !player.equals(this) && !player.equals(attacker) && player.isRegistered()) {
+						if (!Area.inMultiCombat(player)) {
+							continue;
+						}
+
+						if (Position.getManhattanDistance(getPosition(), player.getPosition()) <= 3) {
+							player.hit(this, new Hit((int) (0.25 * getSkills().getLevel(Skill.PRAYER))));
+						}
+					}
+				}
+
+				for (Mob mob : getLocalNpcs()) {
+					if (mob != null && !mob.equals(this) && mob.isRegistered() && NpcCombatDefinition.get(mob.getId()) != null) {
+						if (Position.getManhattanDistance(this.getPosition(), mob.getPosition()) <= 3) {
+							mob.hit(this, new Hit((int) (0.25 * getSkills().getLevel(Skill.PRAYER))));
+						}
+					}
+				}
+			}
+		}
+
+		if (getCurrentHealth() <= 0) {
+			//TaskQueue.queue(new EntityDeathTask(getCombat().getDamageQueue().getHighestDamager().orElse(attacker == null ? this : attacker), this));
+		}		
+	}
+
+	@Override
+	public boolean canAttack(Mob defender, CombatType type) {
+		// TODO
+		return false;
+	}
+
+	@Override
+	public void buildAttack(CombatType type) {
+		// TODO
 	}
 
 }

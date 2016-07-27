@@ -7,7 +7,7 @@ import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
-import astraeus.net.codec.game.GamePacketReader;
+import astraeus.net.codec.game.ByteBufReader;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 
@@ -16,7 +16,7 @@ public final class ItemOnNpcPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
-		GamePacketReader reader = packet.getReader();
+		ByteBufReader reader = packet.getReader();
 		
 		final int itemId = reader.readShort(false, ByteModification.ADDITION);
 		final int npcSlot = reader.readShort(false, ByteModification.ADDITION);
