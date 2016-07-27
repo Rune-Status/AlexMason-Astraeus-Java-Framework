@@ -339,5 +339,21 @@ public final class Equipment extends ItemContainer {
 	public static boolean isWearingFullVoidMage(Player player) {
 		return player.getEquipment().containsAll(new Item(11663), new Item(8839), new Item(8840), new Item(8842));
 	}
+	
+	public static boolean isWearingFullVoidMelee(Player player) {
+		return player.getEquipment().containsAll(new Item(11665), new Item(8839), new Item(8840), new Item(8842));
+	}
+	
+	public static boolean isWearingFullVoidRange(Player player) {
+		return player.getEquipment().containsAll(new Item(11664), new Item(8839), new Item(8840), new Item(8842));
+	}
+	
+	public static boolean isWearingDharoks(Player player) {
+		final boolean weapon = player.getEquipment().containsAny(4718, 4886, 4887, 4888, 4889);
+		final boolean helm = player.getEquipment().containsAny(4716, 4880, 4881, 4882, 4883);
+		final boolean torso = player.getEquipment().containsAny(4720, 4892, 4893, 4894, 4895);
+		final boolean legs = player.getEquipment().containsAny(4722, 4898, 4899, 4900, 4901);
+		return weapon && helm && torso && legs;
+	}
 
 }
