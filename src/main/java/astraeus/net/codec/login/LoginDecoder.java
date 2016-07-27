@@ -160,9 +160,9 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 				ByteBuf buf = Unpooled.wrappedBuffer(rsaBuffer);
 
 				// universal unique identifier, rate of collision is so low its said to be unique.
-				String uuid = ByteBufUtils.readString(buf);
-				String username = ByteBufUtils.readString(buf);
-				String password = ByteBufUtils.readString(buf);
+				String uuid = ByteBufUtils.readJagString(buf);
+				String username = ByteBufUtils.readJagString(buf);
+				String password = ByteBufUtils.readJagString(buf);
 
 				if (password.length() < 6 || password.length() > 20 || username.isEmpty() || username.length() > 12) {
 					LoginUtils.sendResponseCode(ctx, LoginResponse.INVALID_CREDENTIALS);

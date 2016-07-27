@@ -5,7 +5,7 @@ import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 import astraeus.net.codec.ByteModification;
-import astraeus.net.codec.game.GamePacketReader;
+import astraeus.net.codec.game.ByteBufReader;
 
 /**
  * The {@link IncomingPacket} responsible for using magic on inventory items.
@@ -17,7 +17,7 @@ public final class MagicOnItemPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
-		GamePacketReader reader = packet.getReader();
+		ByteBufReader reader = packet.getReader();
 
 		final int slot = reader.readShort();
 		final int itemId = reader.readShort(ByteModification.ADDITION);

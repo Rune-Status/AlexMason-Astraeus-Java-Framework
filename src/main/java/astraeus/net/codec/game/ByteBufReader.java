@@ -3,13 +3,14 @@ package astraeus.net.codec.game;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 
 /**
- * Functions as a read-only {@link ByteBuf} for reading incoming packets.
+ * Functions as modified read-only {@link ByteBuf} for the rs2 protocol.
  * 
- * @author Seven
+ * @author Vult-R
  */
-public class GamePacketReader {
+public final class ByteBufReader {
 
 	/**
 	 * The underlying buffer that is being read.
@@ -17,10 +18,18 @@ public class GamePacketReader {
 	private final ByteBuf buf;
 
 	/**
-	 * Creates a new {@link GamePacketReader}.
+	 * Creates a new {@link ByteBufReader}.
 	 */
-	public GamePacketReader(ByteBuf buf) {
+	public ByteBufReader(ByteBuf buf) {
 		this.buf = buf;
+	}
+	
+	public ByteBufReader(byte[] data) {
+		this.buf = Unpooled.wrappedBuffer(data);
+	}
+	
+	public static ByteBufReader wrap(byte[] data) {
+		return new ByteBufReader(data);
 	}
 
 	/**
@@ -540,10 +549,30 @@ public class GamePacketReader {
 			bldr.append((char) b);
 		}
 		return bldr.toString();
+	}	
+	
+	/**
+	 * Sets the position of this buffer.
+	 * 
+	 * @param position
+	 * 		The position to set
+	 */
+	public void setPosition(int position) {
+		buf.readerIndex(position);
+	}
+	
+	/**
+	 * Skips a specified number of bytes
+	 * 
+	 * @param amount
+	 * 		The amount of bytes to skip.
+	 */
+	public void skipBytes(int amount) {
+		this.buf.skipBytes(amount);
 	}
 
 	/**
-	 * @return the payload
+	 * Gets the data in this buffer.
 	 */
 	public ByteBuf getPayload() {
 		return buf;

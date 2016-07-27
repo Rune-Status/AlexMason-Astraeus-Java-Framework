@@ -4,7 +4,7 @@ import astraeus.game.model.entity.mob.player.ChatMessage;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.net.codec.ByteModification;
-import astraeus.net.codec.game.GamePacketReader;
+import astraeus.net.codec.game.ByteBufReader;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 
@@ -22,7 +22,7 @@ public class ChatMessagePacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
-		GamePacketReader reader = packet.getReader();
+		ByteBufReader reader = packet.getReader();
 		
 		final int effects = reader.readByte(ByteModification.SUBTRACTION);		
 		final int color = reader.readByte(ByteModification.SUBTRACTION);

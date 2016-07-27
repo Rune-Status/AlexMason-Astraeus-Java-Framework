@@ -4,7 +4,7 @@ import astraeus.game.event.impl.ItemThirdClickEvent;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
-import astraeus.net.codec.game.GamePacketReader;
+import astraeus.net.codec.game.ByteBufReader;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 
@@ -13,7 +13,7 @@ public final class ItemThirdOptionPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {
-		final GamePacketReader reader = packet.getReader();
+		final ByteBufReader reader = packet.getReader();
 		final int itemId11 = reader.readShort(ByteOrder.LITTLE);
 		final int itemId1 = reader.readShort(ByteModification.ADDITION);	
 		final int itemId = reader.readShort(ByteModification.ADDITION);	

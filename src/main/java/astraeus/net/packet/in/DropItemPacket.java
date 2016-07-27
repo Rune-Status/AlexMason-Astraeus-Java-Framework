@@ -8,7 +8,7 @@ import astraeus.net.codec.ByteModification;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 import astraeus.net.packet.IncomingPacket.IncomingPacketOpcode;
-import astraeus.net.codec.game.GamePacketReader;
+import astraeus.net.codec.game.ByteBufReader;
 import astraeus.net.packet.out.AddGroundItemPacket;
 import astraeus.net.packet.out.ServerMessagePacket;
 
@@ -22,7 +22,7 @@ public final class DropItemPacket implements Receivable {
 
 	@Override
 	public void handlePacket(Player player, IncomingPacket packet) {	
-		GamePacketReader reader = packet.getReader();
+		ByteBufReader reader = packet.getReader();
 		
 		final int itemId = reader.readShort(false, ByteModification.ADDITION);
 		

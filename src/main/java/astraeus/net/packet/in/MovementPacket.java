@@ -5,7 +5,7 @@ import astraeus.game.model.entity.mob.Mob;
 import astraeus.game.model.entity.mob.player.Player;
 import astraeus.net.codec.ByteModification;
 import astraeus.net.codec.ByteOrder;
-import astraeus.net.codec.game.GamePacketReader;
+import astraeus.net.codec.game.ByteBufReader;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 
@@ -41,7 +41,7 @@ public class MovementPacket implements Receivable {
 			player.getWidgets().close();
 		}
 		
-		GamePacketReader reader = packet.getReader();
+		ByteBufReader reader = packet.getReader();
 
 		int steps = (size - 5) / 2;
 		int[][] path = new int[steps][2];

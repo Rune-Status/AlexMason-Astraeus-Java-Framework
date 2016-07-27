@@ -9,7 +9,7 @@ import astraeus.game.task.impl.DistancedTask;
 import astraeus.net.packet.IncomingPacket;
 import astraeus.net.packet.Receivable;
 import astraeus.net.codec.ByteOrder;
-import astraeus.net.codec.game.GamePacketReader;
+import astraeus.net.codec.game.ByteBufReader;
 import astraeus.net.packet.out.RemoveGroundItemPacket;
 import astraeus.net.packet.out.ServerMessagePacket;
 
@@ -23,7 +23,7 @@ public final class PickupGroundItemPacket implements Receivable {
 
 	@Override
 	public void handlePacket(final Player player, IncomingPacket packet) {
-		GamePacketReader reader = packet.getReader();
+		ByteBufReader reader = packet.getReader();
 
 		final int y = reader.readShort(ByteOrder.LITTLE);
 		final int id = reader.readShort(false);

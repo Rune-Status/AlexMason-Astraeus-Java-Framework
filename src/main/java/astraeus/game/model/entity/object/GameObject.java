@@ -55,6 +55,25 @@ public class GameObject extends Entity {
 	public GameObject(int id, Position location, Direction orientation) {
 		this(id, GameObjectType.INTERACTABLE, location, orientation);
 	}
+	
+	/**
+	 * Creates a new {@link GameObject}.
+	 * 
+	 * @param id
+	 *            The id of this object.
+	 * 
+	 * @param type
+	 *            The type of this object.
+	 * 
+	 * @param position
+	 *            The location of this object.
+	 * 
+	 * @param orientation
+	 *            The facing direction of this object.
+	 */
+	public GameObject(int id, int type, Position position, int orientation) {
+		this(id, GameObjectType.lookup(type).get(), position, Direction.of(orientation));		
+	}
 
 	/**
 	 * Creates a new {@link GameObject}.
