@@ -1,4 +1,4 @@
-package plugin.combat.dmg;
+package astraeus.game.model.entity.mob.combat.dmg;
 
 /**
  * Represents a type of hit splat

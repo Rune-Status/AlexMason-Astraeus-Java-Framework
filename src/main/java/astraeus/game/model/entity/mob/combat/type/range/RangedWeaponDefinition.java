@@ -1,4 +1,4 @@
-package plugin.combat.type.range;
+package astraeus.game.model.entity.mob.combat.type.range;
 
 public class RangedWeaponDefinition {
     private final AmmoType type;

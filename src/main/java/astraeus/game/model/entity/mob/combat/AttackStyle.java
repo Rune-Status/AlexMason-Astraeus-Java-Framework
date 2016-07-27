@@ -1,4 +1,4 @@
-package plugin.combat;
+package astraeus.game.model.entity.mob.combat;
 
 import astraeus.game.model.entity.mob.player.collect.Equipment;
 

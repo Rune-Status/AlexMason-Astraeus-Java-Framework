@@ -107,6 +107,7 @@ public final class Bootstrap {
 			new IPBanParser().run();
 			new UUIDBanParser().run();
 			new EquipmentDefinitionParser().run();
+			//MapDecoder.load();
 		});		
 		
 		logger.info("Loading plugins");

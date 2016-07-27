@@ -1,4 +1,4 @@
-package plugin.combat;
+package astraeus.game.model.entity.mob.combat;
 
 /**
  * Represents a stance in combat.

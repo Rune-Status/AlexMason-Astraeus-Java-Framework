@@ -4,6 +4,9 @@ import astraeus.game.model.*;
 import astraeus.game.model.entity.Entity;
 import astraeus.game.model.entity.EntityType;
 import astraeus.game.model.entity.item.Item;
+import astraeus.game.model.entity.mob.combat.Combat;
+import astraeus.game.model.entity.mob.combat.dmg.Hit;
+import astraeus.game.model.entity.mob.combat.dmg.Poison.DamageTypes;
 import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.player.ForceMovement;
 import astraeus.game.model.entity.mob.player.Player;
@@ -13,6 +16,8 @@ import astraeus.game.model.entity.mob.player.skill.SkillSet;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.task.Task;
+import astraeus.util.Stopwatch;
+
 import java.util.*;
 
 /**
@@ -37,6 +42,8 @@ public abstract class Mob extends Entity {
 	private SkillSet skills = new SkillSet(this);
 
 	private Position lastPosition = new Position(0, 0, 0);	
+	
+	private DamageTypes poisonType;
 
 	protected transient int slot;
 
@@ -51,6 +58,8 @@ public abstract class Mob extends Entity {
 	private final int[] bonuses = new int[Equipment.BONUS_NAMES.length];
 
 	private transient Mob interactingEntity;
+	
+	private final Combat combat = new Combat(this);
 	
 	private Optional<Task> currentAction = Optional.empty();
 
@@ -67,6 +76,8 @@ public abstract class Mob extends Entity {
 	 * The direction the entity is running.
 	 */
 	private int runningDirection = -1;
+	
+	private Stopwatch lastPoisoned = new Stopwatch();
 
 	private boolean registered;
 	private boolean poisoned;
@@ -77,6 +88,8 @@ public abstract class Mob extends Entity {
 	private boolean following;
 
 	private String forcedChat;
+	
+	private int immunity;
 
 	public Mob(Position position) {
 		this.position = position;
@@ -115,6 +128,19 @@ public abstract class Mob extends Entity {
 	 */
 	public abstract void onMovement();
 	
+	/**
+	 * The method called when this mob is hit.
+	 */
+	public abstract void hit(Mob attacker, Hit hit);
+	
+	public MobAnimation getMobAnimations() {
+		return mobAnimation;
+	}
+	
+	public Combat getCombat() {
+		return combat;
+	}
+	
 	public void startAction(Task currentAction) {
 		this.currentAction.ifPresent(it -> {			
 			if (it.equals(currentAction)) {
@@ -133,6 +159,29 @@ public abstract class Mob extends Entity {
 			it.stop();
 			currentAction = Optional.empty();
 		});
+	}
+	
+	public AttributeMap attr() {
+		return attr;
+	}
+	
+	/**
+	 * @return the poisonType
+	 */
+	public DamageTypes getPoisonType() {
+		return poisonType;
+	}
+	
+	/**
+	 * @param poisonType
+	 *            the poisonType to set
+	 */
+	public void setPoisonType(DamageTypes poisonType) {
+		this.poisonType = poisonType;
+	}
+	
+	public Stopwatch getLastPoisoned() {
+		return lastPoisoned;
 	}
 
 	/**
@@ -396,10 +445,23 @@ public abstract class Mob extends Entity {
 
 	public boolean isPoisoned() {
 		return poisoned;
-	}
+	}	
 
 	public void setPoisoned(boolean poisoned) {
 		this.poisoned = poisoned;
+	}
+	
+	/**
+	 * @param immunity
+	 *            the poisoned immunity (in seconds) to set
+	 */
+	public void setPoisonImmunity(int immunity) {
+		this.immunity = immunity;
+		lastPoisoned.reset();
+	}
+	
+	public int getImmunity() {
+		return immunity;
 	}
 
 	public int getAntipoisonTimer() {

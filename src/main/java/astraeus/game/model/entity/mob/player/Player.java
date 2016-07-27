@@ -6,15 +6,18 @@ import astraeus.game.model.entity.EntityType;
 import astraeus.game.model.entity.item.Item;
 import astraeus.game.model.entity.mob.Mob;
 import astraeus.game.model.entity.mob.Movement;
+import astraeus.game.model.entity.mob.combat.Combat;
+import astraeus.game.model.entity.mob.combat.dmg.Hit;
+import astraeus.game.model.entity.mob.combat.weapon.special.Special;
 import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.player.attr.AttributeKey;
-import astraeus.game.model.entity.mob.player.attr.AttributeMap;
 import astraeus.game.model.entity.mob.player.collect.Bank;
 import astraeus.game.model.entity.mob.player.collect.Equipment;
 import astraeus.game.model.entity.mob.player.collect.Inventory;
 import astraeus.game.model.entity.mob.player.event.LogoutEvent;
 import astraeus.game.model.entity.mob.player.io.PlayerSerializer;
 import astraeus.game.model.entity.mob.player.skill.Skill;
+import astraeus.game.model.entity.mob.player.skill.impl.MagicSkill;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.entity.object.GameObject;
 import astraeus.game.model.location.Area;
@@ -63,6 +66,10 @@ public class Player extends Mob {
 	private DialogueFactory dialogueFactory = new DialogueFactory(this);
 	private Optional<Dialogue> dialogue = Optional.empty();
 	private Optional<OptionDialogue> optionDialogue;
+	
+	private final Special special = new Special(this);
+	
+	private MagicSkill magic = new MagicSkill(this);
 	
 	private boolean insertItem;
 
@@ -151,6 +158,7 @@ public class Player extends Mob {
 		attr.put(NEW_PLAYER_KEY, false);
 		attr.put(Movement.RUNNING_KEY, true);
 		attr.put(Movement.LOCK_MOVEMENT, false);
+		attr.put(Combat.TELE_BLOCK_KEY, false);
 	}
 
 	@Override
@@ -443,7 +451,15 @@ public class Player extends Mob {
 
 		return false;
 	}
+	
+	public MagicSkill getMagic() {
+		return magic;
+	}
 
+	public void setMagic(MagicSkill magic) {
+		this.magic = magic;
+	}
+	
 	public String getUsername() {
 		return username;
 	}
@@ -521,6 +537,10 @@ public class Player extends Mob {
 	private void flushPacket(final Sendable out) {
 		this.session.flush(out);
 	}
+	
+	public Special getSpecial() {
+		return special;
+	}
 
 	public void setAppearance(Appearance appearance) {
 		this.appearance = appearance;
@@ -586,10 +606,6 @@ public class Player extends Mob {
 
 	public WidgetSet getWidgets() {
 		return widgets;
-	}
-
-	public AttributeMap attr() {
-		return attr;
 	}
 	
 	public DialogueFactory getDialogueFactory() {
@@ -660,6 +676,36 @@ public class Player extends Mob {
 	@Override
 	public EntityType type() {
 		return EntityType.PLAYER;
+	}
+
+	@Override
+	public void hit(Mob attacker, Hit hit) {
+		int damage = hit.getDamage();
+		
+		if (getEquipment().hasShield()) {
+			if (getEquipment().get(Equipment.SHIELD_SLOT).getId() == 12817) {
+				if (Math.random() > 0.3) {
+					hit.setDamage((int) (hit.getDamage() * 0.75));
+					startGraphic(new Graphic(Priority.EXTRA_HIGH, 321));
+				}
+			}
+		}
+
+//		addHit(hit);
+//		
+//		if (damage > 0) {
+//			getCombat().getDamageQueue().addDamage(attacker == null ? this : attacker, damage);
+//		}
+
+		decrementHealth(damage);
+
+		if (!widgets.isEmpty()) {
+			widgets.close();
+		}
+
+//		if (getCurrentHealth() <= 0) {
+//			TaskQueue.queue(new EntityDeathTask(getCombat().getDamageQueue().getHighestDamager().orElse(attacker == null ? this : attacker), this));
+//		}
 	}
 
 }

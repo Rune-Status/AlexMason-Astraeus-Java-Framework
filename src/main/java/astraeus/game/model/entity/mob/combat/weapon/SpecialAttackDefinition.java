@@ -1,4 +1,4 @@
-package plugin.combat.weapon;
+package astraeus.game.model.entity.mob.combat.weapon;
 
 /**
  * Represents a special attack definition

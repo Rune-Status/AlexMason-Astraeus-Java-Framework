@@ -1,4 +1,4 @@
-package plugin.combat.dmg;
+package astraeus.game.model.entity.mob.combat.dmg;
 
 import astraeus.game.model.entity.mob.Mob;
 

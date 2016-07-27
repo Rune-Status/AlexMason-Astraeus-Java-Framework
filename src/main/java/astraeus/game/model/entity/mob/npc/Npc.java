@@ -5,6 +5,7 @@ import astraeus.game.model.Direction;
 import astraeus.game.model.Position;
 import astraeus.game.model.entity.EntityType;
 import astraeus.game.model.entity.mob.Mob;
+import astraeus.game.model.entity.mob.combat.dmg.Hit;
 import astraeus.game.model.entity.mob.update.UpdateFlag;
 import astraeus.game.model.location.Area;
 import astraeus.util.Stopwatch;
@@ -262,6 +263,11 @@ public class Npc extends Mob {
 	@Override
 	public EntityType type() {
 		return EntityType.NPC;
+	}
+
+	@Override
+	public void hit(Mob attacker, Hit hit) {
+
 	}
 
 }

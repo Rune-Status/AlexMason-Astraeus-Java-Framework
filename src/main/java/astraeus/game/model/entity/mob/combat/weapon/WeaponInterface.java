@@ -1,4 +1,4 @@
-package plugin.combat.weapon;
+package astraeus.game.model.entity.mob.combat.weapon;
 
 /**
  * Represents the enumerated types of weapons.

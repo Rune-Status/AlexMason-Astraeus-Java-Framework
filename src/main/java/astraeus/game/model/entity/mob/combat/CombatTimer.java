@@ -1,6 +1,6 @@
-package plugin.combat;
+package astraeus.game.model.entity.mob.combat;
 
-import plugin.combat.type.CombatType;
+import astraeus.game.model.entity.mob.combat.type.CombatType;
 
 public final class CombatTimer {
 

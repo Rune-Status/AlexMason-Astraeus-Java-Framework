@@ -1,4 +1,4 @@
-package plugin.combat.type;
+package astraeus.game.model.entity.mob.combat.type;
 
 /**
  * Represents the enumerated types of combat

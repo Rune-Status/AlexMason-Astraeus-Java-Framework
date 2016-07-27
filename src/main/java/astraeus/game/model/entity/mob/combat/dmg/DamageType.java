@@ -1,4 +1,4 @@
-package plugin.combat.dmg;
+package astraeus.game.model.entity.mob.combat.dmg;
 
 /**
  * Represents the enumerated types of damages that can be performed.

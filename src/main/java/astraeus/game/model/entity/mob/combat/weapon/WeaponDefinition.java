@@ -1,10 +1,10 @@
-package plugin.combat.weapon;
-
-import plugin.combat.type.CombatType;
-import plugin.combat.type.range.RangedWeaponDefinition;
+package astraeus.game.model.entity.mob.combat.weapon;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import astraeus.game.model.entity.mob.combat.type.CombatType;
+import astraeus.game.model.entity.mob.combat.type.range.RangedWeaponDefinition;
 
 /**
  * The definition for all weapons.

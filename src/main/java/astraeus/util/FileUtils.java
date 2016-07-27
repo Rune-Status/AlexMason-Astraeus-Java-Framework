@@ -32,7 +32,7 @@ public class FileUtils {
 	 * @param file
 	 *            The file to uncompress.
 	 */
-	public static byte[] uncompressStoreEntry(File file) throws Exception {
+	public static byte[] decompressStoreEntry(File file) throws Exception {
 		if (!file.exists()) {
 			return null;
 		}

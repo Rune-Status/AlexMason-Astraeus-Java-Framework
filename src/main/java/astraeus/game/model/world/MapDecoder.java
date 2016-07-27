@@ -62,8 +62,8 @@ public final class MapDecoder {
 			
 			for (MapDefinition definition : definitions) {
 				
-				byte[] objectData = FileUtils.uncompressStoreEntry(new File("./data/map/mapdata/" + definition.getObjectFileId() + ".gz"));
-				byte[] terrainData = FileUtils.uncompressStoreEntry(new File("./data/map/mapdata/" + definition.getTerrainFileId() + ".gz"));
+				byte[] objectData = FileUtils.decompressStoreEntry(new File("./data/map/mapdata/" + definition.getObjectFileId() + ".gz"));
+				byte[] terrainData = FileUtils.decompressStoreEntry(new File("./data/map/mapdata/" + definition.getTerrainFileId() + ".gz"));
 				
 				if (objectData == null || terrainData == null) {
 					continue;
@@ -76,6 +76,12 @@ public final class MapDecoder {
 					e.printStackTrace();
 					System.out.println("Error loading map region: " + definition.getRegionId() + ", ids: " + definition.getObjectFileId() + " and " + definition.getTerrainFileId());
 				}				
+			}
+			
+			for(Region r : Region.getRegions()) {
+				
+				if (r.objects.size() > 0)				
+				System.out.println("region: " + r.getId() + " has: " + r.objects.size() + " objects");
 			}
 
 			logger.info(String.format("Unpacked: %s maps, %d map definitions", StringUtils.format(successfull), definitions.size()));
@@ -104,7 +110,7 @@ public final class MapDecoder {
 		int absX = (regionId >> 8) * 64;
 		int absY = (regionId & 0xff) * 64;
 		
-		int[][][] region = new int[4][64][64];		
+		int[][][] regions = new int[4][64][64];
 		
 		for (int plane = 0; plane < 4; plane++) {			
 			for (int x = 0; x < 64; x++) {				
@@ -121,7 +127,7 @@ public final class MapDecoder {
 						} else if (type <= 49) {
 							terrainData.skipBytes(1);
 						} else if (type <= 81) {
-							region[plane][x][y] = type - 49;							
+							regions[plane][x][y] = type - 49;							
 						}
 					}
 				}
@@ -130,9 +136,9 @@ public final class MapDecoder {
 		for (int plane = 0; plane < 4; plane++) {			
 			for (int x = 0; x < 64; x++) {				
 				for (int y = 0; y < 64; y++) {					
-					if ((region[plane][x][y] & 1) == 1) {
+					if ((regions[plane][x][y] & 1) == 1) {
 						int height = plane;
-						if ((region[1][x][y] & 2) == 2) {
+						if ((regions[1][x][y] & 2) == 2) {
 							height--;
 						}
 						if (height >= 0 && height <= 3) {
@@ -169,7 +175,7 @@ public final class MapDecoder {
 					continue;
 				}
 
-				if ((region[1][localX][localY] & 2) == 2) {
+				if ((regions[1][localX][localY] & 2) == 2) {
 					height--;
 				}
 

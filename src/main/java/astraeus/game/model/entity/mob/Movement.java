@@ -3,6 +3,7 @@ package astraeus.game.model.entity.mob;
 import astraeus.game.model.Position;
 import astraeus.game.model.entity.mob.player.attr.AttributeKey;
 import astraeus.net.packet.out.UpdateMapRegion;
+import astraeus.util.Stopwatch;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -29,7 +30,7 @@ public final class Movement {
 	/**
 	 * The entity performing the movement.
 	 */
-	private final Mob entity;
+	private final Mob mob;
 
 	/**
 	 * The points of focus.
@@ -45,6 +46,16 @@ public final class Movement {
 	 * The key that holds the entities frozen/ lock movement attribute.
 	 */
 	public static final AttributeKey<Boolean> LOCK_MOVEMENT = AttributeKey.valueOf("lock_movement", false);
+	
+	/**
+	 * The stop watch that will be used to time locking movement in seconds.
+	 */
+	private final Stopwatch lock = new Stopwatch();
+	
+	/**
+	 * The time in seconds until a player can move again.
+	 */	
+	private int unlockTime;
 
 	/**
 	 * If the entity running queue is enabled.
@@ -58,7 +69,7 @@ public final class Movement {
 	 *            The acting entity.
 	 */
 	public Movement(Mob entity) {
-		this.entity = entity;
+		this.mob = entity;
 	}
 
 	/**
@@ -74,7 +85,7 @@ public final class Movement {
 	 * @return The returned entity.
 	 */
 	public final Mob getEntity() {
-		return entity;
+		return mob;
 	}
 
 	/**
@@ -112,7 +123,7 @@ public final class Movement {
 	 * main procedure.
 	 */
 	public final void handleEntityMovement() {
-		if (entity.attr.get(Movement.LOCK_MOVEMENT)) {
+		if (mob.attr.get(Movement.LOCK_MOVEMENT) || lock.elapsed() <= unlockTime) {
 			return;
 		}
 
@@ -120,7 +131,7 @@ public final class Movement {
 
 		walkingPoint = getNextPoint();
 
-		if (entity.attr.get(Movement.RUNNING_KEY)) {			
+		if (mob.attr.get(Movement.RUNNING_KEY)) {			
 			runningPoint = getNextPoint();
 		}
 
@@ -128,17 +139,17 @@ public final class Movement {
 
 		getEntity().setRunningDirection(runningPoint == null ? -1 : runningPoint.getDirection());
 
-		int deltaX = entity.getPosition().getX() - entity.getLastLocation().getRegionalX() * 8;
+		int deltaX = mob.getPosition().getX() - mob.getLastLocation().getRegionalX() * 8;
 
-		int deltaY = entity.getPosition().getY() - entity.getLastLocation().getRegionalY() * 8;
+		int deltaY = mob.getPosition().getY() - mob.getLastLocation().getRegionalY() * 8;
 		
-		if (entity.isPlayer()) {
+		if (mob.isPlayer()) {
 			if (deltaX < 16 || deltaX >= 88 || deltaY < 16 || deltaY > 88) {
-				entity.getPlayer().queuePacket(new UpdateMapRegion());
+				mob.getPlayer().queuePacket(new UpdateMapRegion());
 			}
 
 			if (walkingPoint != null || runningPoint != null) {
-				entity.getMob().onMovement();
+				mob.getMob().onMovement();				
 			}
 		}
 	}
@@ -155,9 +166,20 @@ public final class Movement {
 		if (availableFocusPoint == null || availableFocusPoint.getDirection() == -1) {
 			return null;
 		} else {
-			entity.setPosition(entity.getPosition().transform(DIRECTION_DELTA_X[availableFocusPoint.getDirection()], DIRECTION_DELTA_Y[availableFocusPoint.getDirection()], getEntity().getPosition().getHeight()));
+			mob.setPosition(mob.getPosition().transform(DIRECTION_DELTA_X[availableFocusPoint.getDirection()], DIRECTION_DELTA_Y[availableFocusPoint.getDirection()], getEntity().getPosition().getHeight()));
 			return availableFocusPoint;
 		}
+	}
+	
+	public void lock(int seconds) {
+		this.unlockTime = seconds;
+		mob.attr().put(Movement.LOCK_MOVEMENT, true);
+		lock.reset();
+	}
+	
+	public void unlock() {
+		this.unlockTime = 0;
+		mob.attr().put(Movement.LOCK_MOVEMENT, false);
 	}
 
 	public final void walk(Position location) {

@@ -165,7 +165,7 @@ public final class Equipment extends ItemContainer {
 		/* 12 */ "Magic Strength",
 		/* 13 */ "Prayer"
 	};
-
+	
 	/**
 	 * The player that this container belongs to.
 	 */
@@ -326,6 +326,18 @@ public final class Equipment extends ItemContainer {
 
 	public static boolean isFullBody(int itemId) {
 		return EquipmentDefinition.get(itemId) != null ? EquipmentDefinition.get(itemId).isFullBody() : false;
+	}
+	
+	public boolean hasShield() {
+		return this.get(Equipment.SHIELD_SLOT) != null;
+	}
+	
+	public Item getWeapon() {
+		return get(Equipment.WEAPON_SLOT);
+	}
+	
+	public static boolean isWearingFullVoidMage(Player player) {
+		return player.getEquipment().containsAll(new Item(11663), new Item(8839), new Item(8840), new Item(8842));
 	}
 
 }
