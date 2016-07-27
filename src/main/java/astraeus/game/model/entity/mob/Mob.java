@@ -90,16 +90,36 @@ public abstract class Mob extends Entity {
 	private String forcedChat;
 	
 	private int immunity;
+	
+	protected int tick;
 
 	public Mob(Position position) {
 		this.position = position;
 	}
 
 	public abstract void decrementHealth(int damage);
+	
+	/**
+	 * The method called on a game tick.
+	 */
+	public abstract void onTick();
 
 	public abstract int getCurrentHealth();
 
-	public abstract void tick();
+	/**
+	 * The method that increments tick to time actions
+	 */
+	protected void tick() {		
+		tick++;
+		
+		onTick();
+		
+		boolean reset = tick % 1000 == 100;
+		
+		if (reset) {
+			tick = 0;
+		}
+	}
 
 	public abstract int getHashCode();
 

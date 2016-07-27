@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import astraeus.game.model.World;
 import astraeus.game.model.entity.mob.npc.Npc;
 import astraeus.game.model.entity.mob.npc.NpcDefinition;
@@ -368,8 +367,8 @@ public final class DialogueFactory {
 	 */
 	public final DialogueFactory sendNpcChat(Expression expression, String... lines) {
 		if (player.getInteractingEntity() != null) {
-			int index = player.getInteractingEntity().getId();
-			return append(new NpcDialogue(index, expression, lines));
+			int id = player.getInteractingEntity().getId();			
+			return append(new NpcDialogue(id, expression, lines));
 		}
 		return append(new NpcDialogue(expression, lines));
 	}
@@ -705,8 +704,7 @@ public final class DialogueFactory {
 		}
 		return this;
 	}
-
-
+	
 	/**
 	 * The method that validates the length of {@code text}.
 	 *
@@ -749,10 +747,19 @@ public final class DialogueFactory {
 		this.nextAction = nextAction;
 	}
 
+	/**
+	 * Determines if dialogues are currently open.
+	 */
 	public boolean isActive() {
 		return active;
 	}
 
+	/**
+	 * Sets the flag that indicates dialogues are present.
+	 * 
+	 * @param active
+	 * 		The flag to set.
+	 */
 	public void setActive(boolean active) {
 		this.active = active;
 	}	

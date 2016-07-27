@@ -162,7 +162,7 @@ public class Player extends Mob {
 	}
 
 	@Override
-	public void tick() {
+	public void onTick() {
 		handleRunRestore();
 
 		prayer.drain();
@@ -309,7 +309,7 @@ public class Player extends Mob {
 		movement.handleEntityMovement();
 
 		// lastly anything else before the npc is updated
-		tick();
+		onTick();
 	}
 	
 	public void update() {

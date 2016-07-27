@@ -1,4 +1,4 @@
-package astraeus.game.event.impl;
+package plugin.shops;
 
 import astraeus.game.event.Event;
 

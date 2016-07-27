@@ -41,11 +41,6 @@ public class Npc extends Mob {
             setId(id);
             size = NpcDefinition.get(id).getSize();
       }
-
-      @Override
-      public void tick() {
-
-      }
       
       @Override
       public void onDeath() {
@@ -130,9 +125,12 @@ public class Npc extends Mob {
 
       @Override
       public void preUpdate() {
+    	  
             movement.handleEntityMovement();
             
-			if (!isRandomWalk() && getInteractingEntity() == null) {
+            tick();
+            
+			if (!isRandomWalk() && getInteractingEntity() == null && tick % 5 == 4) {
 				Npcs.resetFacingDirection(this);
 			}
 
@@ -140,7 +138,7 @@ public class Npc extends Mob {
 				resetEntityInteraction();
 			}
 
-			if (isRandomWalk() && getInteractingEntity() == null) {
+			if (isRandomWalk() && getInteractingEntity() == null && tick % 5 == 4) {
 				Npcs.handleRandomWalk(this);
 			}
       }
@@ -268,6 +266,11 @@ public class Npc extends Mob {
 	@Override
 	public void hit(Mob attacker, Hit hit) {
 
+	}
+
+	@Override
+	public void onTick() {
+		
 	}
 
 }

@@ -325,11 +325,10 @@ public final class Prayer {
     }
 
     /**
-     * Determines if a button can be clicked.
+     * Toggles a button if the button is a prayer button.
      */
-    public boolean clickButton(int button) {        
+    public void clickButton(int button) {        
         search(button).ifPresent(it -> toggle(it));
-        return false;
     }
 
     /**
@@ -449,7 +448,7 @@ public final class Prayer {
      * Determines if a button is a prayer button.
      */
     public static boolean isPrayerButton(int buttonId) {        
-        return Prayer.VALUES.values().stream().anyMatch(it -> buttonId == it.getButtonId());
+        return Prayer.VALUES.containsKey(buttonId);        
     }
 
 }

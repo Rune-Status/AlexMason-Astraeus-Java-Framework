@@ -10,11 +10,10 @@ import astraeus.net.packet.out.ServerMessagePacket
 import astraeus.game.model.entity.mob.player.Player
 import astraeus.game.model.entity.mob.player.PlayerRights
 
-import astraeus.game.event.impl.ShopEvent
-
 import plugin.dialog.AppearanceDialogue
 import plugin.dialog.BankerDialogue
 import plugin.dialog.DefaultDialogue
+import plugin.dialog.GeneralStoreDialogue
 
 @SubscribesTo(NpcFirstClickEvent::class)
 class NpcFirstClick : EventSubscriber<NpcFirstClickEvent> {
@@ -31,7 +30,7 @@ class NpcFirstClick : EventSubscriber<NpcFirstClickEvent> {
 			
 			599 -> player.dialogueFactory.sendDialogue(AppearanceDialogue())
 			
-			528 -> player.post(ShopEvent("General Store"))
+			528 -> player.dialogueFactory.sendDialogue(GeneralStoreDialogue())
 			
 			else -> player.dialogueFactory.sendDialogue(DefaultDialogue(event.npc.id))
 		
